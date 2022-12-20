@@ -12,8 +12,8 @@ const TYPELIST = {
 export default function LoginInput({ type }: InputProps) {
   return (
     <input
-      type={TYPELIST[type].type}
-      placeholder={TYPELIST[type].content}
+      type={TYPELIST[type]?.type}
+      placeholder={TYPELIST[type]?.content}
       className="w-[314px] border-x-0 border-t-0 text-[#AEAEAE] text-[14px]"
     />
   );
