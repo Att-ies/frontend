@@ -1,12 +1,3 @@
----
-name: Feature request
-about: feature template
-title: ''
-labels: ''
-assignees: ''
-
----
-
 ## 🤷 이슈 내용
 
 무슨 이슈인가요?
