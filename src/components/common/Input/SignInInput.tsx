@@ -12,12 +12,16 @@ const TYPELIST = {
   number: { type: 'text', content: '예) 010-1234-5678' },
 };
 
+const SignInInputTag = tw.input`
+w-[312px] text-[#D8D8D8] text-[12px] rounded-[8px] border-[#D8D8D8]
+
+`;
+
 export default function SignInInput({ type }: InputProps) {
   return (
-    <input
+    <SignInInputTag
       type={TYPELIST[type]?.type}
       placeholder={TYPELIST[type]?.content}
-      className="w-[312px] text-[#D8D8D8] text-[12px] rounded-[8px] border-[#D8D8D8]"
     />
   );
 }
