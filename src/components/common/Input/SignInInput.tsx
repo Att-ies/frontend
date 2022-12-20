@@ -2,26 +2,31 @@ import tw from 'tailwind-styled-components';
 
 interface InputProps {
   type: string;
+  labelContent: string;
+  inputContent: string;
 }
 
-const TYPELIST = {
-  name: { type: 'text', content: '이름을 입력해주세요.' },
-  address: { type: 'text', content: '주소를 입력해주세요.' },
-  email: { type: 'text', content: 'id@naver.com' },
-  pw: { type: 'password', content: '영문+숫자 조합 8자리 이상 입력해주세요.' },
-  number: { type: 'text', content: '예) 010-1234-5678' },
-};
-
-const SignInInputTag = tw.input`
-w-[312px] text-[#D8D8D8] text-[12px] rounded-[8px] border-[#D8D8D8]
-
+const SignInInputBoxTag = tw.div`
 `;
 
-export default function SignInInput({ type }: InputProps) {
+const SignInLabel = tw.label`
+text-[14px] leading-8
+`;
+
+const SignInInput = tw.input`
+w-full h-[48px] text-[#D8D8D8] text-[12px] rounded-[8px] border-[#D8D8D8]
+indent-2;
+`;
+
+export default function SignInInputBox({
+  type,
+  labelContent,
+  inputContent,
+}: InputProps) {
   return (
-    <SignInInputTag
-      type={TYPELIST[type]?.type}
-      placeholder={TYPELIST[type]?.content}
-    />
+    <SignInInputBoxTag>
+      <SignInLabel>{labelContent}</SignInLabel>
+      <SignInInput type={type} placeholder={inputContent} />
+    </SignInInputBoxTag>
   );
 }

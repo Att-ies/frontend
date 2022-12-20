@@ -2,22 +2,13 @@ import tw from 'tailwind-styled-components';
 
 interface InputProps {
   type: string;
+  inputContent: string;
 }
 
-const TYPELIST = {
-  id: { type: 'text', content: '아이디 입력' },
-  pw: { type: 'password', content: '비밀번호 입력' },
-};
-
 const LogInInputTag = tw.input`
-w-[312px] border-x-0 border-t-0 text-[#AEAEAE] text-[14px]
+w-full border-x-0 border-t-0 text-[#AEAEAE] text-[14px] px-0
 `;
 
-export default function LoginInput({ type }: InputProps) {
-  return (
-    <LogInInputTag
-      type={TYPELIST[type]?.type}
-      placeholder={TYPELIST[type]?.content}
-    />
-  );
+export default function LoginInput({ type, inputContent }: InputProps) {
+  return <LogInInputTag type={type} placeholder={inputContent} />;
 }
