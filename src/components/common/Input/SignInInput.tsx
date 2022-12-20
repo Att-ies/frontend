@@ -6,7 +6,11 @@ interface InputProps {
   inputContent: string;
 }
 
-const SignInInputBoxTag = tw.div`
+interface defaultProps {
+  [key: string]: any;
+}
+
+const SignInInputBoxTag = tw.div<defaultProps>`
 `;
 
 const SignInLabel = tw.label`
