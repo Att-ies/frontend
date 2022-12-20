@@ -37,9 +37,7 @@ function Login() {
           <button className="w-full text-center text-sm font-light rounded-lg bg-gray-900 text-white py-2 hover:bg-gray-800">
             로그인
           </button>
-          <button className="w-full text-center text-sm font-light rounded-lg bg-gray-900 text-white py-2 hover:bg-gray-800">
-            회원가입
-          </button>
+
           <p className="w-full text-center">
             <Link href="/auth/id">아이디 찾기</Link> |{' '}
             <Link href="/auth/password">비밀번호 찾기</Link>
