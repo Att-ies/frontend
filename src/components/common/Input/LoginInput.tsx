@@ -14,7 +14,7 @@ export default function LoginInput({ type }: InputProps) {
     <input
       type={TYPELIST[type]?.type}
       placeholder={TYPELIST[type]?.content}
-      className="w-[314px] border-x-0 border-t-0 text-[#AEAEAE] text-[14px]"
+      className="w-[312px] border-x-0 border-t-0 text-[#AEAEAE] text-[14px]"
     />
   );
 }
