@@ -9,13 +9,13 @@ const TYPELIST = {
   pw: { type: 'password', content: '비밀번호 입력' },
 };
 
-const LoginInputTag = tw.input`
+const LogInInputTag = tw.input`
 w-[312px] border-x-0 border-t-0 text-[#AEAEAE] text-[14px]
 `;
 
 export default function LoginInput({ type }: InputProps) {
   return (
-    <LoginInputTag
+    <LogInInputTag
       type={TYPELIST[type]?.type}
       placeholder={TYPELIST[type]?.content}
     />
