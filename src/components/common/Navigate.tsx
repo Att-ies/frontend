@@ -2,8 +2,8 @@ import tw from 'tailwind-styled-components';
 import icon_back from '../../assets/icons/icon_back.svg';
 import icon_close from '../../assets/icons/icon_close.svg';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 interface NavigateProps {
+  left_message?: string;
   message: string;
   right_message?: string;
   handleLeftButton: () => {};
@@ -18,17 +18,18 @@ cursor-pointer z-10
 `;
 
 const CenterMessage = tw.div`
-text-[#191919] text-xs absolute left-0 right-0 m-auto text-center
+text-font-1 text-18 absolute left-0 right-0 m-auto text-center
 `;
 
-const Right_Message = tw.p`
-    text-xs cursor-pointer z-10
-`;
 const RightButton = tw.div`
-text-[#999999] z-10 cursor-pointer
+text-14 z-10 cursor-pointer 
+`;
+const Right_Message = tw.p`
+    cursor-pointer z-10  text-14 text-[#999999]
 `;
 
 export default function Navigate({
+  left_message,
   message,
   right_message,
   handleLeftButton,
@@ -36,15 +37,20 @@ export default function Navigate({
 }: NavigateProps) {
   return (
     <NavigateBox>
-      <LeftButton>
-        <Image src={icon_back} width={6} onClick={handleLeftButton} />
+      <LeftButton onClick={handleLeftButton}>
+        {left_message ? (
+          <Right_Message>{left_message}</Right_Message>
+        ) : (
+          <Image src={icon_back} width={10} />
+        )}
       </LeftButton>
+
       <CenterMessage>{message}</CenterMessage>
       <RightButton onClick={handleRightButton}>
         {right_message ? (
           <Right_Message>{right_message}</Right_Message>
         ) : (
-          <Image src={icon_close} width={12} />
+          <Image src={icon_close} width={20} />
         )}
       </RightButton>
     </NavigateBox>
