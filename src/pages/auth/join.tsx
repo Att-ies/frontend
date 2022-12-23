@@ -1,4 +1,4 @@
-import Layout from '@components/common/layout';
+import Layout from '@components/common/Layout';
 import { useForm } from 'react-hook-form';
 
 function Join() {
