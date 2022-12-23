@@ -1,4 +1,4 @@
-import Layout from '@components/common/layout';
+import Layout from '@components/common/Layout';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
