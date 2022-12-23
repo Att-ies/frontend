@@ -4,14 +4,14 @@ import check from '@public/svg/icons/icon_checked.svg';
 import uncheck from '@public/svg/icons/icon_unchecked.svg';
 import checkRadio from '@public/svg/icons/icon_radio_checked.svg';
 import unCheckRadio from '@public/svg/icons/icon_radio_unchecked.svg';
-import tw from 'tailwind-styled-components/dist/tailwind';
+import tw from 'tailwind-styled-components';
 interface defaultProps {
   [key: string]: any;
 }
 
-const Label = tw.label<defaultProps>`w-full flex items-center`;
+const Label = tw.label<defaultProps>`flex items-center`;
 const CheckBoxSpan = tw.span<defaultProps>`flex items-center justify-center rounded-sm mr-2`;
-const CheckBoxInnerSpan = tw.span`text-14`;
+const CheckBoxInnerSpan = tw.span`text-12`;
 const CheckBoxInput = tw.input`hidden`;
 interface CheckBoxProps {
   kind?: 'checkbox' | 'radio';
