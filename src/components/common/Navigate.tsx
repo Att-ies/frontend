@@ -5,28 +5,27 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 interface NavigateProps {
   message: string;
-  type: string;
   right_message?: string;
   handleLeftButton: () => {};
   handleRightButton: () => {};
 }
 
 const NavigateBox = tw.header`
-flex justify-between px-2 items-center font-semibold
+flex justify-between px-2 items-center font-semibold relative h-[64px] 
 `;
 const LeftButton = tw.div`
-cursor-pointer
+cursor-pointer z-10
 `;
 
 const CenterMessage = tw.div`
-text-[#191919] text-xs 
+text-[#191919] text-xs absolute left-0 right-0 m-auto text-center
 `;
 
 const Right_Message = tw.p`
-    text-xs cursor-pointer
+    text-xs cursor-pointer z-10
 `;
 const RightButton = tw.div`
-text-[#999999]
+text-[#999999] z-10 cursor-pointer
 `;
 
 export default function Navigate({
