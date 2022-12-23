@@ -22,7 +22,7 @@ w-full h-[52px] text-[#999999] text-sm rounded-[4px] border-[#D8D8D8]
 `;
 
 export default function Input({
-  type,
+  type = 'text',
   labelContent,
   inputContent,
 }: InputProps) {
