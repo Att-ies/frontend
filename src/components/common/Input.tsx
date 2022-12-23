@@ -21,7 +21,7 @@ text-14 leading-8
 `;
 
 const InputTag = tw.input<InputProps>`
-w-full h-13 text-[#999999] text-sm rounded-[4px] border-[#D8D8D8]
+w-full h-[52px] text-[#999999] text-sm rounded-[4px] border-[#D8D8D8] appearance-none
 `;
 
 export default function Input({
