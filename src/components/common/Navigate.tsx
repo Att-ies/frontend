@@ -24,8 +24,8 @@ text-font-1 text-18 absolute left-0 right-0 m-auto text-center
 const RightButton = tw.div`
 text-14 z-10 cursor-pointer 
 `;
-const Right_Message = tw.p`
-    cursor-pointer z-10  text-14 text-[#999999]
+const SideMessage = tw.p`
+    cursor-pointer z-10  text-14 
 `;
 
 export default function Navigate({
@@ -39,7 +39,7 @@ export default function Navigate({
     <NavigateBox>
       <LeftButton onClick={handleLeftButton}>
         {left_message ? (
-          <Right_Message>{left_message}</Right_Message>
+          <SideMessage>{left_message}</SideMessage>
         ) : (
           <Image src={icon_back} width={10} />
         )}
@@ -48,7 +48,7 @@ export default function Navigate({
       <CenterMessage>{message}</CenterMessage>
       <RightButton onClick={handleRightButton}>
         {right_message ? (
-          <Right_Message>{right_message}</Right_Message>
+          <SideMessage>{right_message}</SideMessage>
         ) : (
           <Image src={icon_close} width={20} />
         )}
