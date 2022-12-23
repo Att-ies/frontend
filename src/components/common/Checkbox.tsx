@@ -4,7 +4,15 @@ import check from '@public/svg/icons/icon_checked.svg';
 import uncheck from '@public/svg/icons/icon_unchecked.svg';
 import checkRadio from '@public/svg/icons/icon_radio_checked.svg';
 import unCheckRadio from '@public/svg/icons/icon_radio_unchecked.svg';
+import tw from 'tailwind-styled-components/dist/tailwind';
+interface defaultProps {
+  [key: string]: any;
+}
 
+const Label = tw.label<defaultProps>`w-full flex items-center`;
+const CheckBoxSpan = tw.span<defaultProps>`flex items-center justify-center rounded-sm mr-2`;
+const CheckBoxInnerSpan = tw.span`text-14`;
+const CheckBoxInput = tw.input`hidden`;
 interface CheckBoxProps {
   kind?: 'checkbox' | 'radio';
   label?: string;
@@ -19,52 +27,50 @@ export default function CheckBox({
   const [isCheck, setIsCheck] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   return kind === 'checkbox' ? (
-    <label className="w-full flex items-center">
-      <span
+    <Label>
+      <CheckBoxSpan
         onClick={() => {
           if (!inputRef) return;
           setIsCheck(!inputRef.current?.checked);
         }}
-        className="flex items-center justify-center rounded-sm mr-2"
       >
         {isCheck ? (
           <Image src={check} alt="checkd" width={20} height={20} />
         ) : (
           <Image src={uncheck} alt="uncheckd" width={20} height={20} />
         )}
-      </span>
-      <span className="text-14">{label}</span>
-      <input
+      </CheckBoxSpan>
+      <CheckBoxInnerSpan>{label}</CheckBoxInnerSpan>
+      <CheckBoxInput
         id="checkobx"
         ref={inputRef}
         type="checkbox"
         className="hidden"
         {...rest}
       />
-    </label>
+    </Label>
   ) : (
-    <label className="w-full flex items-center">
-      <span
+    <Label>
+      <CheckBoxSpan
         onClick={() => {
           if (!inputRef) return;
           setIsCheck(!inputRef.current?.checked);
         }}
-        className="flex items-center justify-center rounded-sm mr-2"
       >
         {isCheck ? (
           <Image src={checkRadio} alt="checkd" width={20} height={20} />
         ) : (
           <Image src={unCheckRadio} alt="uncheckd" width={20} height={20} />
         )}
-      </span>
-      <span className="text-14">{label}</span>
-      <input
+      </CheckBoxSpan>
+      <CheckBoxInnerSpan>{label}</CheckBoxInnerSpan>
+      <CheckBoxInput
         id="checkobx"
         ref={inputRef}
         type="checkbox"
         className="hidden"
         {...rest}
       />
-    </label>
+    </Label>
   );
 }
