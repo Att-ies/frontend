@@ -1,9 +1,12 @@
 import tw from 'tailwind-styled-components';
+import type { UseFormRegisterReturn } from 'react-hook-form';
 
 interface InputProps {
   type: string;
-  labelContent?: string;
-  inputContent?: string;
+  label?: string;
+  placeholder?: string;
+  register?: UseFormRegisterReturn;
+  [key: string]: any;
 }
 
 interface defaultProps {
@@ -13,23 +16,25 @@ interface defaultProps {
 const InputBox = tw.div<defaultProps>`
 `;
 
-const Label = tw.label`
-text-[14px] leading-8
+const Label = tw.label<defaultProps>`
+text-14 leading-8
 `;
 
-const InputTag = tw.input`
-w-full h-[52px] text-[#999999] text-sm rounded-[4px] border-[#D8D8D8]
+const InputTag = tw.input<InputProps>`
+w-full h-13 text-[#999999] text-sm rounded-[4px] border-[#D8D8D8]
 `;
 
 export default function Input({
   type = 'text',
-  labelContent,
-  inputContent,
+  label,
+  placeholder,
+  register,
+  ...rest
 }: InputProps) {
   return (
     <InputBox>
-      <Label>{labelContent}</Label>
-      <InputTag type={type} placeholder={inputContent} />
+      <Label>{label}</Label>
+      <InputTag type={type} placeholder={placeholder} {...register} {...rest} />
     </InputBox>
   );
 }
