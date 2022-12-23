@@ -7,7 +7,7 @@ interface ModalProps {
 }
 
 const ModalBackground = tw.div`
-  absolute inset-0 bg-[#767676] opacity-80 
+  absolute inset-0 bg-[#767676] opacity-80 backdrop-blur-3xl
 `;
 const ModalInner = tw.div`
   z-10 w-[327px] h-[156px] absolute inset-0 m-auto
