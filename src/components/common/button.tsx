@@ -7,7 +7,7 @@ interface buttonProps {
 }
 
 const ButtonTag = tw.button`
-w-full transition hover:cursor-pointer h-[52px] text-sm rounded-[32px] border border-transparent hover:[#F5535D]-2 bg-[#F5535D] px-0 text-white leading-3 font-normal
+w-full transition hover:cursor-pointer h-[52px] text-sm rounded-[4px] border border-transparent hover:[#F5535D]-2 bg-[#F5535D] px-0 text-white leading-3 font-normal
 `;
 
 export default function Button({
