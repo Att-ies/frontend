@@ -5,5 +5,9 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  return <div className="font-Pretendard w-full px-6 py-12">{children}</div>;
+  return (
+    <div className="font-Pretendard w-full px-6 py-12 border relative">
+      {children}
+    </div>
+  );
 }

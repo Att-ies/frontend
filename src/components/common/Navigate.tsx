@@ -39,7 +39,7 @@ export default function Navigate({
         {left_message ? (
           <SideMessage>{left_message}</SideMessage>
         ) : (
-          <Image src="/svg/icons/icon_back.svg" width={10} />
+          <Image src="/svg/icons/icon_back.svg" width={10} height={10} />
         )}
       </LeftButton>
 
@@ -48,7 +48,7 @@ export default function Navigate({
         {right_message ? (
           <SideMessage>{right_message}</SideMessage>
         ) : (
-          <Image src="/svg/icons/icon_close.svg" width={20} />
+          <Image src="/svg/icons/icon_close.svg" width={20} height={20} />
         )}
       </RightButton>
     </NavigateBox>
