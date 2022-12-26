@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import Layout from '@components/common/layout';
+import Layout from '@components/common/Layout';
 
 function Password() {
   const {
