@@ -4,10 +4,11 @@ import 'swiper/css';
 import { Navigation } from 'swiper';
 import Button from '@components/common/Button';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 function Join() {
   const [skipVisible, setSkipVisible] = useState(true);
-
+  const router = useRouter();
   return (
     <Layout>
       <div>
@@ -78,7 +79,11 @@ function Join() {
                 <div className="w-2 rounded-full aspect-square bg-[#D9D9D9]"></div>
                 <div className="w-2 rounded-full aspect-square bg-[#F5535D]"></div>
               </div>
-              <Button className="mt-11" text="작가 등록" />
+              <Button
+                className="mt-11"
+                text="작가 등록"
+                onClick={() => router.push('/auth/author/join02')}
+              />
             </div>
           </SwiperSlide>
         </Swiper>
