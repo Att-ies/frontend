@@ -59,11 +59,12 @@ function Password() {
           />
           <input {...register('age')} />
         </section>
+        {errors.password && <span className="">This field is required</span>}
         <section className="text-12 text-[#999999]">
           가입하신 이메일 주소를 입력해주시면 새로운 비밀번호를 설정 가능한
           링크를 보내드립니다.
         </section>
-        {errors.password && <span className="">This field is required</span>}
+
         <div className="h-[400px]" />
         <section>
           <Button text="확인" type="submit" />
