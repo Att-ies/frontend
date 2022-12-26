@@ -1,22 +1,27 @@
 import Layout from '@components/common/Layout';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useSwiper } from 'swiper/react';
 import 'swiper/css';
 import { Navigation } from 'swiper';
+import Button from '@components/common/Button';
+import { useState } from 'react';
 
 function Join() {
-  const swiper = useSwiper();
-  console.log(swiper);
+  const [skipVisible, setSkipVisible] = useState(true);
+
   return (
     <Layout>
       <div>
-        <div className="text-14 text-right text-[#999999]">건너뛰기</div>
+        <div className="text-14 text-right h-4 cursor-pointer text-[#999999]">
+          {skipVisible ? '건너뛰기' : ''}
+        </div>
         <Swiper
           navigation={true}
           modules={[Navigation]}
           className="mySwipe mt-4"
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
+          onReachEnd={() => setSkipVisible(false)}
+          onSlideChange={() => {
+            if (!skipVisible) setSkipVisible(true);
+          }}
         >
           <SwiperSlide>
             <div>
@@ -73,6 +78,7 @@ function Join() {
                 <div className="w-2 rounded-full aspect-square bg-[#D9D9D9]"></div>
                 <div className="w-2 rounded-full aspect-square bg-[#F5535D]"></div>
               </div>
+              <Button className="mt-11" text="작가 등록" />
             </div>
           </SwiperSlide>
         </Swiper>
