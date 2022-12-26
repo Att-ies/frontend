@@ -23,7 +23,7 @@ const ModalTag = tw.div`
 
 `;
 
-export default function Input({
+export default function Modal({
   message,
   isModal = false,
   onCloseModal,
