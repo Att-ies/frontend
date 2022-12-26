@@ -42,7 +42,7 @@ function Join02() {
       <div className="h-[400px]"></div>
       <Button text="완료" />
       <button
-        className="w-full trnsition h-[52px] text-xs underline border border-transparent hover:[#F5535D]-2 px-0 text-[#999999] leading-3 font-normal"
+        className="w-full transition h-[52px] text-xs underline border border-transparent hover:[#F5535D]-2 px-0 text-[#999999] leading-3 font-normal"
         onClick={handleCancleButton}
       >
         다음에 할래요
