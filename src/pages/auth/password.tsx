@@ -23,7 +23,6 @@ function Password() {
   const handleRightButton = () => {
     router.push('/auth/login');
   };
-  console.log(watch('password'), watch('age'));
   return (
     <Layout>
       <Navigate
@@ -43,7 +42,7 @@ function Password() {
           <Input
             placeholder="example@naver.com"
             className="placeholder:underline"
-            {...register('password', { required: true })}
+            register={register('password', { required: true })}
           />
           <input {...register('age')} />
         </section>
@@ -51,7 +50,7 @@ function Password() {
           가입하신 이메일 주소를 입력해주시면 새로운 비밀번호를 설정 가능한
           링크를 보내드립니다.
         </section>
-        {errors.id && <span className="">This field is required</span>}
+        {errors.password && <span className="">This field is required</span>}
         <div className="h-[400px]" />
         <section>
           <Button text="확인" type="submit" />
