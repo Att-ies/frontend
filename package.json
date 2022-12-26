@@ -19,7 +19,8 @@
     "react-hook-form": "^7.38.0",
     "react-query": "^3.39.2",
     "react-redux": "^8.0.5",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "swiper": "^8.4.5"
   },
   "devDependencies": {
     "@types/node": "18.11.7",
