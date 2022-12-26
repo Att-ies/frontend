@@ -4,7 +4,8 @@ import Navigate from '@components/common/Navigate';
 import Input from '@components/common/Input';
 import Button from '@components/common/Button';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
+import Modal from '@components/common/Modal';
 
 function Password() {
   const {
@@ -13,8 +14,10 @@ function Password() {
     formState: { errors },
     watch,
   } = useForm();
+  const [isModal, setIsModal] = useState(false);
   const onSubmit = () => {
     console.log(watch('password'));
+    setIsModal(true);
   };
   const router = useRouter();
   const handleLeftButton = () => {
@@ -23,8 +26,19 @@ function Password() {
   const handleRightButton = () => {
     router.push('/auth/login');
   };
+  const onCloseModal = () => {
+    setIsModal(false);
+  };
+
   return (
     <Layout>
+      {isModal && (
+        <Modal
+          isModal={isModal}
+          onCloseModal={onCloseModal}
+          message="비밀번호 재설정 링크가 발송되었습니다."
+        />
+      )}
       <Navigate
         message="비밀번호 찾기"
         handleLeftButton={handleLeftButton}
@@ -36,7 +50,6 @@ function Password() {
           <span className="text-[#F5535D]">본인확인</span>이 필요합니다.
         </p>
       </section>
-
       <form onSubmit={handleSubmit(onSubmit)}>
         <section className="py-2">
           <Input
