@@ -20,12 +20,14 @@
     "react-query": "^3.39.2",
     "react-redux": "^8.0.5",
     "redux-persist": "^6.0.0",
+    "styled-components": "^5.3.6",
     "swiper": "^8.4.5"
   },
   "devDependencies": {
     "@types/node": "18.11.7",
     "@types/react": "18.0.24",
     "@types/react-dom": "18.0.8",
+    "@types/styled-components": "^5",
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "autoprefixer": "^10.4.12",
     "eslint": "^8.26.0",

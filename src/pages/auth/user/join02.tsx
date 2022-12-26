@@ -32,7 +32,8 @@ function Join02() {
       <div className="flex flex-wrap py-10">
         {KEYWORDS.map((keyword) => (
           <div
-            id={keyword.id}
+            key={keyword.id}
+            id={keyword.id + ''}
             className=" h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5"
           >
             {keyword.name}

@@ -23,7 +23,7 @@ function Login() {
               type="text"
               id="id"
               placeholder="아이디 또는 이메일을 입력해 주세요."
-              {...register('id', { required: true })}
+              register={register('id', { required: true })}
             />
             {errors.id && <span className="">This field is required</span>}
           </div>
@@ -32,7 +32,7 @@ function Login() {
               type="text"
               id="password"
               placeholder="비밀번호를 입력해주세요."
-              {...register('password', { required: true })}
+              register={register('password', { required: true })}
             />
             {errors.id && <span className="">This field is required</span>}
           </div>

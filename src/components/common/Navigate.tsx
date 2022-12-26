@@ -1,18 +1,27 @@
 import tw from 'tailwind-styled-components';
 import Image from 'next/image';
+import styled from 'styled-components';
 interface NavigateProps {
   left_message?: string;
-  message: string;
+  message?: string;
   right_message?: string;
-  handleLeftButton: () => {};
-  handleRightButton: () => {};
+  handleLeftButton?: () => void;
+  handleRightButton?: () => void;
 }
 
-const NavigateBox = tw.header`
+interface defaultProps {
+  children: string | JSX.Element | JSX.Element[];
+}
+
+interface LeftButtonProps extends defaultProps {
+  $onClick?: () => void;
+}
+
+const NavigateBox = tw.header<defaultProps>`
 flex justify-between px-2 items-center font-semibold relative h-[64px] 
 `;
-const LeftButton = tw.div`
-cursor-pointer z-10
+
+const LeftButton = styled.button<LeftButtonProps>`cursor-pointer z-10
 `;
 
 const CenterMessage = tw.div`
@@ -35,11 +44,16 @@ export default function Navigate({
 }: NavigateProps) {
   return (
     <NavigateBox>
-      <LeftButton onClick={handleLeftButton}>
+      <LeftButton $onClick={handleLeftButton}>
         {left_message ? (
           <SideMessage>{left_message}</SideMessage>
         ) : (
-          <Image src="/svg/icons/icon_back.svg" width={10} height={10} />
+          <Image
+            src="/svg/icons/icon_back.svg"
+            width={10}
+            height={10}
+            alt="back"
+          />
         )}
       </LeftButton>
 
@@ -48,7 +62,12 @@ export default function Navigate({
         {right_message ? (
           <SideMessage>{right_message}</SideMessage>
         ) : (
-          <Image src="/svg/icons/icon_close.svg" width={20} height={20} />
+          <Image
+            src="/svg/icons/icon_close.svg"
+            width={20}
+            height={20}
+            alt="close"
+          />
         )}
       </RightButton>
     </NavigateBox>
