@@ -1,6 +1,4 @@
 import tw from 'tailwind-styled-components';
-import icon_back from '../../assets/icons/icon_back.svg';
-import icon_close from '../../assets/icons/icon_close.svg';
 import Image from 'next/image';
 interface NavigateProps {
   left_message?: string;
@@ -41,7 +39,7 @@ export default function Navigate({
         {left_message ? (
           <SideMessage>{left_message}</SideMessage>
         ) : (
-          <Image src={icon_back} width={10} />
+          <Image src="/svg/icons/icon_back.svg" width={10} />
         )}
       </LeftButton>
 
@@ -50,7 +48,7 @@ export default function Navigate({
         {right_message ? (
           <SideMessage>{right_message}</SideMessage>
         ) : (
-          <Image src={icon_close} width={20} />
+          <Image src="/svg/icons/icon_close.svg" width={20} />
         )}
       </RightButton>
     </NavigateBox>
