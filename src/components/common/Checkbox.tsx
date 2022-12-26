@@ -1,3 +1,4 @@
+import React from 'react';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import check from '@public/svg/icons/icon_checked.svg';
@@ -14,38 +15,40 @@ const CheckBoxSpan = tw.span<defaultProps>`flex items-center justify-center roun
 const CheckBoxInnerSpan = tw.span`text-12`;
 const CheckBoxInput = tw.input`hidden`;
 interface CheckBoxProps {
+  id?: string;
   kind?: 'checkbox' | 'radio';
   label?: string;
+  isChecked: boolean;
+  handler(e: React.ChangeEvent<HTMLInputElement>): void;
   [key: string]: any;
 }
 
 export default function CheckBox({
+  id,
   label,
   kind = 'checkbox',
+  isChecked,
+  handler,
   ...rest
 }: CheckBoxProps) {
   const [isCheck, setIsCheck] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   return kind === 'checkbox' ? (
     <Label>
-      <CheckBoxSpan
-        onClick={() => {
-          if (!inputRef) return;
-          setIsCheck(!inputRef.current?.checked);
-        }}
-      >
-        {isCheck ? (
-          <Image src={check} alt="checkd" width={20} height={20} />
+      <CheckBoxSpan>
+        {isChecked ? (
+          <Image src={check} alt="checked" width={20} height={20} />
         ) : (
-          <Image src={uncheck} alt="uncheckd" width={20} height={20} />
+          <Image src={uncheck} alt="unchecked" width={20} height={20} />
         )}
       </CheckBoxSpan>
       <CheckBoxInnerSpan>{label}</CheckBoxInnerSpan>
       <CheckBoxInput
-        id="checkobx"
         ref={inputRef}
-        type="checkbox"
-        className="hidden"
+        id={id}
+        type={kind}
+        checked={isChecked}
+        onChange={handler}
         {...rest}
       />
     </Label>
