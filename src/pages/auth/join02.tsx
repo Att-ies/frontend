@@ -23,8 +23,8 @@ export default function Join02() {
     watch,
   } = useForm();
 
-  const onSubmit = () => {
-    console.log(watch('id'));
+  const onSubmit = (form) => {
+    console.log(form);
   };
 
   return (
@@ -54,7 +54,7 @@ export default function Join02() {
             type="text"
             label="사용자 이름"
             placeholder="이름을 입력해주세요."
-            register={register('name', { required: true })}
+            register={register('username', { required: true })}
           />
           {errors.name && (
             <ErrorMessage message="최대 한글 25자 까지 입력 가능합니다." />
@@ -101,12 +101,16 @@ export default function Join02() {
           <Input
             type="text"
             label="휴대폰 번호"
-            placeholder="번호를 입력해주세요."
-            register={register('phoneNum', { required: true })}
+            placeholder="번호를 입력해주세요"
+            register={register('tel', {
+              required: true,
+              pattern: {
+                value: /^[0-9]{3}[0-9]{4}[0-9]{4}$/g,
+                message: '휴대폰번호를 정확히 입력해주세요.',
+              },
+            })}
           />
-          {errors.phoneNum && (
-            <ErrorMessage message="휴대폰번호를 정확히 입력해주세요." />
-          )}
+          {errors.tel && <ErrorMessage message={errors.tel.message} />}
         </section>
         <section className="mb-3">
           <Input
