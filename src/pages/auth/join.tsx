@@ -29,7 +29,11 @@ function Join() {
   };
 
   const handleButtonClick = () => {
-    if (isUser || isAuthor) router.push('/auth/join01');
+    if (isUser) {
+      router.push('/auth/join01');
+    } else if (isAuthor) {
+      router.push('/auth/author/join01');
+    }
   };
   return (
     <Layout>
