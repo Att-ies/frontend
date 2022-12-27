@@ -2,11 +2,11 @@ import Image from 'next/image';
 import CheckBox from '@components/common/Checkbox';
 import Layout from '@components/common/Layout';
 import Button from '@components/common/Button';
+import Navigate from '@components/common/Navigate';
 import tw from 'tailwind-styled-components';
 import arrowBtn from '@public/svg/icons/icon_arrow.svg';
-import backBtn from '@public/svg/icons/icon_back.svg';
-import closeBtn from '@public/svg/icons/icon_close.svg';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 interface defaultProps {
   [key: string]: any;
@@ -17,6 +17,15 @@ pb-[18px] flex justify-between
 `;
 
 export default function Join01() {
+  const router = useRouter();
+
+  const handleLeftButton = () => {
+    router.push('/auth/login');
+  };
+  const handleRightButton = () => {
+    router.push('/auth/login');
+  };
+
   const [checkedTerm, setCheckedTerm] = useState<string[]>([]);
 
   const onCheckedAll = (checked: boolean): void => {
@@ -43,17 +52,13 @@ export default function Join01() {
 
   return (
     <Layout>
-      <div className="flex justify-between pb-[44px]">
-        <button>
-          <Image src={backBtn} alt="back" width={10} height={12}></Image>
-        </button>
-        <h5 className="text-18 font-bold">회원가입</h5>
-        <button>
-          <Image src={closeBtn} alt="close" width={24} height={12}></Image>
-        </button>
-      </div>
+      <Navigate
+        message="회원가입"
+        handleLeftButton={handleLeftButton}
+        handleRightButton={handleRightButton}
+      />
       <form autoComplete="off">
-        <div className="pb-[18px]">
+        <div className="mt-8 pb-[18px]">
           <CheckBox
             id="selectAll"
             label="전체동의"
