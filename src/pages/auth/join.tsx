@@ -1,3 +1,4 @@
+import Button from '@components/common/Button';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import Image from 'next/image';
@@ -70,6 +71,7 @@ function Join() {
           작가로 가입하기
         </JoinAsAuthorTag>
       </section>
+      <Button className="absolute bottom-[83px] w-[325px]" text="가입하기" />
     </Layout>
   );
 }
