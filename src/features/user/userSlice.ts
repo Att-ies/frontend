@@ -1,14 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface userState {
+type userInfo = {
   id: string;
   password: string;
   email: string;
   username: string;
   tel: string;
+};
+interface userState extends userInfo {
   tastes: string[];
   isApprovePromotion: boolean;
+  iaAuthor: boolean;
 }
+
 const initialState: userState = {
   id: '',
   password: '',
@@ -17,13 +21,14 @@ const initialState: userState = {
   tel: '',
   tastes: [],
   isApprovePromotion: false,
+  iaAuthor: false,
 };
 
 const userSlice = createSlice({
   name: 'userReducer',
   initialState,
   reducers: {
-    setUserinfo: (state, action) => ({
+    setUserinfo: (state: userState, action: PayloadAction<userInfo>) => ({
       ...state,
       id: action.payload.id,
       password: action.payload.password,
@@ -31,13 +36,20 @@ const userSlice = createSlice({
       username: action.payload.username,
       tel: action.payload.tel,
     }),
-    setTastes: (state, action) => ({
+    setTastes: (state: userState, action: PayloadAction<string[]>) => ({
       ...state,
       tastes: action.payload,
     }),
-    setIsApprovePromotion: (state, action) => ({
+    setIsApprovePromotion: (
+      state: userState,
+      action: PayloadAction<boolean>,
+    ) => ({
       ...state,
       isApprovePromotion: action.payload,
+    }),
+    setIsAuthor: (state: userState, action: PayloadAction<boolean>) => ({
+      ...state,
+      isAuthor: action.payload,
     }),
   },
 });
