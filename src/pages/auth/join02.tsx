@@ -6,14 +6,8 @@ import Button from '@components/common/Button';
 import Navigate from '@components/common/Navigate';
 import ErrorMessage from '@components/common/ErrorMessage';
 import { useRouter } from 'next/router';
-import { useAppDispatch } from '@features/hooks';
-import {
-  setEmail,
-  setId,
-  setPassword,
-  setTel,
-  setUsername,
-} from '@features/user/userSlice';
+import { useAppDispatch, useAppSelector } from '@features/hooks';
+import { setUserinfo } from '@features/user/userSlice';
 interface JoinForm {
   id: string;
   username: string;
@@ -43,11 +37,16 @@ export default function Join02() {
 
   const onSubmit = (form: JoinForm) => {
     const { id, username, password, tel, email } = form;
-    dispatch(setId(id));
-    dispatch(setUsername(username));
-    dispatch(setPassword(password));
-    dispatch(setTel(tel));
-    dispatch(setEmail(email));
+    dispatch(
+      setUserinfo({
+        id,
+        username,
+        password,
+        tel,
+        email,
+      }),
+    );
+
     router.push('/auth/join03');
   };
 
