@@ -6,6 +6,22 @@ import Button from '@components/common/Button';
 import Navigate from '@components/common/Navigate';
 import ErrorMessage from '@components/common/ErrorMessage';
 import { useRouter } from 'next/router';
+import { useAppDispatch } from '@features/hooks';
+import {
+  setEmail,
+  setId,
+  setPassword,
+  setTel,
+  setUsername,
+} from '@features/user/userSlice';
+interface JoinForm {
+  id: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+  tel: string;
+  email: string;
+}
 
 export default function Join02() {
   const router = useRouter();
@@ -16,15 +32,23 @@ export default function Join02() {
     router.push('/auth/login');
   };
 
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm();
+  } = useForm<JoinForm>();
 
-  const onSubmit = (form) => {
-    console.log(form);
+  const onSubmit = (form: JoinForm) => {
+    const { id, username, password, tel, email } = form;
+    dispatch(setId(id));
+    dispatch(setUsername(username));
+    dispatch(setPassword(password));
+    dispatch(setTel(tel));
+    dispatch(setEmail(email));
+    router.push('/auth/join03');
   };
 
   return (
@@ -56,7 +80,7 @@ export default function Join02() {
             placeholder="이름을 입력해주세요."
             register={register('username', { required: true })}
           />
-          {errors.name && (
+          {errors.username && (
             <ErrorMessage message="최대 한글 25자 까지 입력 가능합니다." />
           )}
         </section>
