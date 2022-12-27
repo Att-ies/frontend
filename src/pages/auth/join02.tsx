@@ -7,7 +7,7 @@ import Navigate from '@components/common/Navigate';
 import ErrorMessage from '@components/common/ErrorMessage';
 import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
-import { setUserinfo } from '@features/user/userSlice';
+import { setUserInfo } from '@features/user/userSlice';
 interface JoinForm {
   id: string;
   username: string;
@@ -39,7 +39,7 @@ export default function Join02() {
   const onSubmit = (form: JoinForm) => {
     const { id, username, password, tel, email } = form;
     dispatch(
-      setUserinfo({
+      setUserInfo({
         id,
         username,
         password,

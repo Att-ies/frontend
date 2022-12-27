@@ -28,7 +28,7 @@ const userSlice = createSlice({
   name: 'userReducer',
   initialState,
   reducers: {
-    setUserinfo: (state: userState, action: PayloadAction<userInfo>) => ({
+    setUserInfo: (state: userState, action: PayloadAction<userInfo>) => ({
       ...state,
       id: action.payload.id,
       password: action.payload.password,
@@ -54,6 +54,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserinfo, setTastes, setIsApprovePromotion, setIsAuthor } =
+export const { setUserInfo, setTastes, setIsApprovePromotion, setIsAuthor } =
   userSlice.actions;
 export default userSlice.reducer;
