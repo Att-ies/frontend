@@ -16,7 +16,7 @@ function Id() {
   } = useForm();
   const [isModal, setIsModal] = useState(false);
   const onSubmit = () => {
-    console.log(watch('name'), watch('number'));
+    console.log(watch('name'), watch('email'));
     setIsModal(true);
   };
   const router = useRouter();
@@ -36,7 +36,7 @@ function Id() {
         <Modal
           isModal={isModal}
           onCloseModal={onCloseModal}
-          message="인증번호를 전송했습니다."
+          message="입력하신 주소로 확인 메일을 보내드렸습니다."
         />
       )}
       <Navigate
@@ -59,8 +59,13 @@ function Id() {
           />
 
           <Input
-            placeholder="휴대폰 번호를 입력해주세요."
-            register={register('number', { required: true })}
+            placeholder="이메일을 입력해주세요. (@포함)"
+            register={register('email', {
+              required: {
+                value: true,
+                message: '이메일을 확인해 주세요.',
+              },
+            })}
           />
         </section>
         {errors.password && <span className="">This field is required</span>}
