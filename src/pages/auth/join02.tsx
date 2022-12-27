@@ -27,6 +27,7 @@ export default function Join02() {
   };
 
   const dispatch = useAppDispatch();
+  const userState = useAppSelector((state) => state.user);
 
   const {
     register,
@@ -47,7 +48,8 @@ export default function Join02() {
       }),
     );
 
-    router.push('/auth/join03');
+    if (userState.isAuthor) router.push('/auth/author/join01');
+    else router.push('/auth/user/join01');
   };
 
   return (
@@ -70,8 +72,8 @@ export default function Join02() {
             placeholder="아이디를 입력해주세요."
             register={register('id', { required: true })}
           />
+          {errors.id && <ErrorMessage message="이미 사용중인 아이디입니다." />}
         </section>
-        {errors.id && <ErrorMessage message="이미 사용중인 아이디입니다." />}
         <section className="mb-3">
           <Input
             type="text"
