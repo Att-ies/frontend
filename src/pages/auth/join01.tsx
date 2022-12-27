@@ -20,7 +20,7 @@ export default function Join01() {
   const router = useRouter();
 
   const handleLeftButton = () => {
-    router.push('/auth/login');
+    router.back();
   };
   const handleRightButton = () => {
     router.push('/auth/login');
@@ -136,7 +136,7 @@ export default function Join01() {
           </ul>
         </div>
       </form>
-      <Button text="확인" className="mt-[300px]"></Button>
+      <Button className="absolute bottom-[83px] w-[325px]" text="확인" />
     </Layout>
   );
 }
