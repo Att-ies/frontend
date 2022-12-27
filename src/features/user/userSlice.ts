@@ -10,7 +10,7 @@ type userInfo = {
 interface userState extends userInfo {
   tastes: string[];
   isApprovePromotion: boolean;
-  iaAuthor: boolean;
+  isAuthor: boolean;
 }
 
 const initialState: userState = {
@@ -21,7 +21,7 @@ const initialState: userState = {
   tel: '',
   tastes: [],
   isApprovePromotion: false,
-  iaAuthor: false,
+  isAuthor: false,
 };
 
 const userSlice = createSlice({
@@ -54,6 +54,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserinfo, setTastes, setIsApprovePromotion } =
+export const { setUserinfo, setTastes, setIsApprovePromotion, setIsAuthor } =
   userSlice.actions;
 export default userSlice.reducer;
