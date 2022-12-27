@@ -72,6 +72,7 @@ export default function Join02() {
                 message: '비밀번호를 형식에 맞게 입력해주세요.',
               },
             })}
+            className="rounded-b-none focus:translate-y-[-1px]"
           />
           <Input
             type="password"
@@ -84,7 +85,7 @@ export default function Join02() {
                 }
               },
             })}
-            className="border-t-0"
+            className="rounded-t-none border-t-0 focus:border-t"
           />
           {errors.password && errors.confirmPassword ? (
             <ErrorMessage message={errors.password.message} />
