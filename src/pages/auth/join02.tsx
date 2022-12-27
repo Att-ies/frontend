@@ -130,7 +130,7 @@ export default function Join02() {
             register={register('tel', {
               required: true,
               pattern: {
-                value: /^[0-9]{3}[0-9]{4}[0-9]{4}$/g,
+                value: /^01([0|1|6|7|8|9])[0-9]{4}[0-9]{4}$/g,
                 message: '휴대폰번호를 정확히 입력해주세요.',
               },
             })}
