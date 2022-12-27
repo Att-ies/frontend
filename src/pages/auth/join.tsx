@@ -2,6 +2,7 @@ import Button from '@components/common/Button';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import tw from 'tailwind-styled-components';
 
@@ -22,10 +23,17 @@ w-full pl-3 h-[52px] cursor-pointer font-medium placeholder-[#999999] text-14 ro
 function Join() {
   const [isUser, setIsUser] = useState(false);
   const [isAuthor, setIsAuthor] = useState(false);
+  const router = useRouter();
+  const handleLeftButton = () => {
+    router.back();
+  };
 
+  const handleButtonClick = () => {
+    if (isUser || isAuthor) router.push('/auth/join01');
+  };
   return (
     <Layout>
-      <Navigate message="회원 가입" />
+      <Navigate handleLeftButton={handleLeftButton} message="회원 가입" />
       <section>
         <div className="text-18 mt-8">
           <span className="text-[#F5535D] font-bold ">아띠즈</span>에 오신 것을
@@ -71,7 +79,11 @@ function Join() {
           작가로 가입하기
         </JoinAsAuthorTag>
       </section>
-      <Button className="absolute bottom-[83px] w-[325px]" text="가입하기" />
+      <Button
+        onClick={handleButtonClick}
+        className="absolute bottom-[83px] w-[325px]"
+        text="가입하기"
+      />
     </Layout>
   );
 }
