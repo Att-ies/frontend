@@ -5,7 +5,7 @@ interface userState {
   password: string;
   email: string;
   username: string;
-  phone: string;
+  tel: string;
   tastes: string[];
   isApprovePromotion: boolean;
 }
@@ -14,7 +14,7 @@ const initialState: userState = {
   password: '',
   email: '',
   username: '',
-  phone: '',
+  tel: '',
   tastes: [],
   isApprovePromotion: false,
 };
@@ -39,9 +39,9 @@ const userSlice = createSlice({
       ...state,
       username: action.payload,
     }),
-    setPhone: (state, action) => ({
+    setTel: (state, action) => ({
       ...state,
-      phone: action.payload,
+      tel: action.payload,
     }),
     setTastes: (state, action) => ({
       ...state,
@@ -59,7 +59,7 @@ export const {
   setPassword,
   setEmail,
   setUsername,
-  setPhone,
+  setTel,
   setTastes,
   setIsApprovePromotion,
 } = userSlice.actions;
