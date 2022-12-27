@@ -9,7 +9,7 @@ const persistor = persistStore(store);
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <div className="mx-auto w-full max-w-[375px]">
+    <div className="mx-auto w-full max-w-[360px]">
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Component {...pageProps} />
