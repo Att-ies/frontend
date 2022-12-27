@@ -21,7 +21,7 @@ const NavigateBox = tw.header<defaultProps>`
 flex justify-between px-2 items-center font-semibold relative h-[64px] 
 `;
 
-const LeftButton = styled.button<LeftButtonProps>`cursor-pointer z-10
+const LeftButton = tw.button<LeftButtonProps>`cursor-pointer z-10
 `;
 
 const CenterMessage = tw.div`
