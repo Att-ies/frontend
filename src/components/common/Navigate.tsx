@@ -44,7 +44,7 @@ export default function Navigate({
 }: NavigateProps) {
   return (
     <NavigateBox>
-      <LeftButton $onClick={handleLeftButton}>
+      <LeftButton onClick={handleLeftButton}>
         {left_message ? (
           <SideMessage>{left_message}</SideMessage>
         ) : (
