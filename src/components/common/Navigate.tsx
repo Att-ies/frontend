@@ -18,7 +18,7 @@ interface LeftButtonProps extends defaultProps {
 }
 
 const NavigateBox = tw.header<defaultProps>`
-flex justify-between px-2 items-center font-semibold relative h-[64px] 
+flex justify-between items-center font-semibold relative h-[64px] 
 `;
 
 const LeftButton = styled.button<LeftButtonProps>`cursor-pointer z-10
