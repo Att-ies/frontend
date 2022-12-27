@@ -23,25 +23,13 @@ const userSlice = createSlice({
   name: 'userReducer',
   initialState,
   reducers: {
-    setId: (state, action) => ({
+    setUserinfo: (state, action) => ({
       ...state,
-      Id: action.payload,
-    }),
-    setPassword: (state, action) => ({
-      ...state,
-      password: action.payload,
-    }),
-    setEmail: (state, action) => ({
-      ...state,
-      email: action.payload,
-    }),
-    setUsername: (state, action) => ({
-      ...state,
-      username: action.payload,
-    }),
-    setTel: (state, action) => ({
-      ...state,
-      tel: action.payload,
+      id: action.payload.id,
+      password: action.payload.password,
+      email: action.payload.email,
+      username: action.payload.username,
+      tel: action.payload.tel,
     }),
     setTastes: (state, action) => ({
       ...state,
@@ -54,13 +42,6 @@ const userSlice = createSlice({
   },
 });
 
-export const {
-  setId,
-  setPassword,
-  setEmail,
-  setUsername,
-  setTel,
-  setTastes,
-  setIsApprovePromotion,
-} = userSlice.actions;
+export const { setUserinfo, setTastes, setIsApprovePromotion } =
+  userSlice.actions;
 export default userSlice.reducer;
