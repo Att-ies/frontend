@@ -5,7 +5,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import tw from 'tailwind-styled-components';
-
+import { useAppDispatch } from '@features/hooks';
+import { setIsAuthor as setIamAuthor } from '@features/user/userSlice';
 interface joinSelectProps {
   type: string;
   label?: string;
@@ -28,12 +29,12 @@ function Join() {
     router.back();
   };
 
+  const dispatch = useAppDispatch();
+
   const handleButtonClick = () => {
-    if (isUser) {
-      router.push('/auth/join01');
-    } else if (isAuthor) {
-      router.push('/auth/author/join01');
-    }
+    if (isUser) dispatch(setIamAuthor(false));
+    if (isAuthor) dispatch(setIamAuthor(true));
+    router.push('/auth/join01');
   };
   return (
     <Layout>
