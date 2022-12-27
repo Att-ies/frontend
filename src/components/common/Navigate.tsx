@@ -21,7 +21,7 @@ const NavigateBox = tw.header<defaultProps>`
 flex justify-between items-center font-semibold relative h-[64px] 
 `;
 
-const LeftButton = styled.button<LeftButtonProps>`cursor-pointer z-10
+const LeftButton = tw.button<LeftButtonProps>`cursor-pointer z-10
 `;
 
 const CenterMessage = tw.div`
@@ -44,7 +44,7 @@ export default function Navigate({
 }: NavigateProps) {
   return (
     <NavigateBox>
-      <LeftButton $onClick={handleLeftButton}>
+      <LeftButton onClick={handleLeftButton}>
         {left_message ? (
           <SideMessage>{left_message}</SideMessage>
         ) : (
