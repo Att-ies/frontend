@@ -7,7 +7,11 @@ interface buttonProps {
 }
 
 const ButtonTag = tw.button`
-w-full transition hover:cursor-pointer h-[52px] text-sm rounded-[4px] border border-transparent hover:[#F5535D]-2 bg-[#F5535D] px-0 text-white leading-3 font-normal absolute bottom-[83px] w-[325px]
+w-full transition hover:cursor-pointer h-[52px] text-sm rounded-[4px] border border-transparent hover:[#F5535D]-2 bg-[#F5535D] px-0 text-white leading-3 font-normal
+`;
+
+const DisabledButtonTag = tw.button`
+w-full transition hover:cursor-not-allowed opacity-50 h-[52px] text-sm rounded-[4px] border border-transparent hover:[#F5535D]-2 bg-[#F5535D] px-0 text-white leading-3 font-normal
 `;
 
 export default function Button({
@@ -16,13 +20,9 @@ export default function Button({
   ...rest
 }: buttonProps) {
   return disabled ? (
-    <ButtonTag
-      {...rest}
-      disabled
-      className="hover:cursor-not-allowed opacity-50"
-    >
+    <DisabledButtonTag {...rest} disabled>
       {text}
-    </ButtonTag>
+    </DisabledButtonTag>
   ) : (
     <ButtonTag {...rest}>{text}</ButtonTag>
   );
