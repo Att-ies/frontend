@@ -1,31 +1,59 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface userState {
-  university: string;
-  admissonYear: string;
+type userInfo = {
+  id: string;
+  password: string;
   email: string;
+  username: string;
+  tel: string;
+};
+interface userState extends userInfo {
+  tastes: string[];
+  isApprovePromotion: boolean;
+  isAuthor: boolean;
 }
+
 const initialState: userState = {
-  university: '',
-  admissonYear: '',
+  id: '',
+  password: '',
   email: '',
+  username: '',
+  tel: '',
+  tastes: [],
+  isApprovePromotion: false,
+  isAuthor: false,
 };
 
 const userSlice = createSlice({
   name: 'userReducer',
   initialState,
   reducers: {
-    setUniversity: (state, action) => ({
+    setUserInfo: (state: userState, action: PayloadAction<userInfo>) => ({
       ...state,
-      university: action.payload,
+      id: action.payload.id,
+      password: action.payload.password,
+      email: action.payload.email,
+      username: action.payload.username,
+      tel: action.payload.tel,
     }),
-    setAdmissionYear: (state, action) => ({
+    setTastes: (state: userState, action: PayloadAction<string[]>) => ({
       ...state,
-      admissonYear: action.payload,
+      tastes: action.payload,
     }),
-    setEmail: (state, action) => ({ ...state, email: action.payload }),
+    setIsApprovePromotion: (
+      state: userState,
+      action: PayloadAction<boolean>,
+    ) => ({
+      ...state,
+      isApprovePromotion: action.payload,
+    }),
+    setIsAuthor: (state: userState, action: PayloadAction<boolean>) => ({
+      ...state,
+      isAuthor: action.payload,
+    }),
   },
 });
 
-export const { setUniversity, setAdmissionYear, setEmail } = userSlice.actions;
+export const { setUserInfo, setTastes, setIsApprovePromotion, setIsAuthor } =
+  userSlice.actions;
 export default userSlice.reducer;

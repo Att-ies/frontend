@@ -7,7 +7,9 @@ import tw from 'tailwind-styled-components';
 import arrowBtn from '@public/svg/icons/icon_arrow.svg';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-
+import { useForm } from 'react-hook-form';
+import { useAppDispatch } from '@features/hooks';
+import { setIsApprovePromotion } from '@features/user/userSlice';
 interface defaultProps {
   [key: string]: any;
 }
@@ -39,14 +41,31 @@ export default function Join01() {
     ) {
       setCheckedTerm(() => []);
     }
-    console.log(checkedTerm);
   };
-
   const onChecked = (checked: boolean, id: string): void => {
     if (checked) {
       setCheckedTerm(() => [...checkedTerm, id]);
     } else if (!checked && checkedTerm.includes(id)) {
       setCheckedTerm(() => checkedTerm.filter((el: string) => el !== id));
+    }
+  };
+
+  const dispatch = useAppDispatch();
+
+  const { handleSubmit } = useForm();
+  const onSubmit = () => {
+    if (checkedTerm.includes('term4')) {
+      dispatch(setIsApprovePromotion(true));
+    } else {
+      dispatch(setIsApprovePromotion(false));
+    }
+
+    if (
+      checkedTerm.includes('term1') &&
+      checkedTerm.includes('term2') &&
+      checkedTerm.includes('term3')
+    ) {
+      router.push('/auth/join02');
     }
   };
 
@@ -57,7 +76,7 @@ export default function Join01() {
         handleLeftButton={handleLeftButton}
         handleRightButton={handleRightButton}
       />
-      <form autoComplete="off">
+      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <div className="mt-8 pb-[18px]">
           <CheckBox
             id="selectAll"
@@ -135,8 +154,8 @@ export default function Join01() {
             </CheckBoxList>
           </ul>
         </div>
+        <Button className="absolute bottom-[83px] w-[325px]" text="확인" />
       </form>
-      <Button className="absolute bottom-[83px] w-[325px]" text="확인" />
     </Layout>
   );
 }
