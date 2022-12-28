@@ -8,7 +8,7 @@ import arrowBtn from '@public/svg/icons/icon_arrow.svg';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import { useAppDispatch, useAppSelector } from '@features/hooks';
+import { useAppDispatch } from '@features/hooks';
 import { setIsApprovePromotion } from '@features/user/userSlice';
 interface defaultProps {
   [key: string]: any;
