@@ -6,6 +6,7 @@ import Button from '@components/common/Button';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Modal from '@components/common/Modal';
+import ErrorMessage from '@components/common/ErrorMessage';
 
 function Password() {
   const {
@@ -16,7 +17,7 @@ function Password() {
   } = useForm();
   const [isModal, setIsModal] = useState(false);
   const onSubmit = () => {
-    console.log(watch('password'));
+    console.log(watch('email'));
     setIsModal(true);
   };
   const router = useRouter();
@@ -55,11 +56,17 @@ function Password() {
           <Input
             placeholder="example@naver.com"
             className="placeholder:underline"
-            register={register('password', { required: true })}
+            register={register('email', {
+              required: true,
+              pattern: {
+                value:
+                  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+                message: '이메일을 형식에 맞게 입력해주세요.',
+              },
+            })}
           />
-          <input {...register('age')} />
+          {errors.email ? <ErrorMessage message={errors.email.message} /> : ''}
         </section>
-        {errors.password && <span className="">This field is required</span>}
         <section className="text-12 text-[#999999]">
           가입하신 이메일 주소를 입력해주시면 새로운 비밀번호를 설정 가능한
           링크를 보내드립니다.
