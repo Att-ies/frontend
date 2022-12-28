@@ -15,7 +15,7 @@ interface defaultProps {
 }
 
 const ProfilePicBox = tw.div<defaultProps>`
-border-[1px] w-[100px] h-[100px] mx-auto rounded-full text-center border-[#999999] mt-[40px] cursor-pointer
+w-[100px] h-[100px] mx-auto rounded-full text-center  mt-[40px] cursor-pointer
 `;
 
 const UserSNSBox = tw.div<defaultProps>`
@@ -30,6 +30,7 @@ interface ArtistProfileForm {
 
 export default function Join02() {
   const [avatarPreview, setAvatarPreview] = useState('');
+
   const { watch, register } = useForm<ArtistProfileForm>();
   const avatar = watch('avatar');
   useEffect(() => {
@@ -44,10 +45,16 @@ export default function Join02() {
       <Navigate message="작가프로필" right_message=" "></Navigate>
       <section>
         <label htmlFor="picture">
-          <ProfilePicBox className="relative">
+          <ProfilePicBox
+            className={`relative ${
+              avatarPreview
+                ? 'border-none overflow-hidden'
+                : 'border-[1.5px] border-[#999999]'
+            }`}
+          >
             {avatarPreview ? (
               <Image
-                className="m-auto w-[100px] h-[100px] rounded-full"
+                className="m-auto rounded-full "
                 src={avatarPreview}
                 alt="avatar_preview"
                 width={100}
@@ -57,9 +64,13 @@ export default function Join02() {
               <Image className="m-auto h-full" src={avartar} alt="avartar" />
             )}
 
-            <ProfilePicBox className="w-[26px] h-[26px] bg-[#575757] absolute bottom-1 right-0">
-              <Image className="m-auto h-full" src={camera} alt="camera" />
-            </ProfilePicBox>
+            {avatarPreview ? (
+              ''
+            ) : (
+              <ProfilePicBox className="w-[26px] h-[26px] z-10 bg-[#575757] absolute bottom-1 right-0">
+                <Image className="m-auto h-full" src={camera} alt="camera" />
+              </ProfilePicBox>
+            )}
           </ProfilePicBox>
           <input
             {...register('avatar')}
