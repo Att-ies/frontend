@@ -10,7 +10,7 @@ type userInfo = {
 interface userState extends userInfo {
   tastes: string[];
   isApprovePromotion: boolean;
-  isAuthor: boolean;
+  isArtist: boolean;
 }
 
 const initialState: userState = {
@@ -21,7 +21,7 @@ const initialState: userState = {
   tel: '',
   tastes: [],
   isApprovePromotion: false,
-  isAuthor: false,
+  isArtist: false,
 };
 
 const userSlice = createSlice({
@@ -47,13 +47,13 @@ const userSlice = createSlice({
       ...state,
       isApprovePromotion: action.payload,
     }),
-    setIsAuthor: (state: userState, action: PayloadAction<boolean>) => ({
+    setIsArtist: (state: userState, action: PayloadAction<boolean>) => ({
       ...state,
-      isAuthor: action.payload,
+      isArtist: action.payload,
     }),
   },
 });
 
-export const { setUserInfo, setTastes, setIsApprovePromotion, setIsAuthor } =
+export const { setUserInfo, setTastes, setIsApprovePromotion, setIsArtist } =
   userSlice.actions;
 export default userSlice.reducer;

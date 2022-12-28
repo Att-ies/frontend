@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import tw from 'tailwind-styled-components';
 import { useAppDispatch } from '@features/hooks';
-import { setIsAuthor as setIamAuthor } from '@features/user/userSlice';
+import { setIsArtist as setIamArtist } from '@features/user/userSlice';
 interface joinSelectProps {
   type: string;
   label?: string;
@@ -17,13 +17,13 @@ const JoinAsUserTag = tw.div<joinSelectProps>`
 ${(p) => (p.$isUser ? 'border-[#F5535D]' : 'border-[#D8D8D8]')}
 w-full pl-3 h-[52px] cursor-pointer font-medium placeholder-[#999999] text-14 rounded-[4px] flex items-center border-[1px]`;
 
-const JoinAsAuthorTag = tw.div<joinSelectProps>`
-${(p) => (p.$isAuthor ? 'border-[#F5535D]' : 'border-[#D8D8D8]')}
+const JoinAsArtistTag = tw.div<joinSelectProps>`
+${(p) => (p.$isArtist ? 'border-[#F5535D]' : 'border-[#D8D8D8]')}
 w-full pl-3 h-[52px] cursor-pointer font-medium placeholder-[#999999] text-14 rounded-[4px] flex items-center border-[1px]`;
 
 function Join() {
   const [isUser, setIsUser] = useState(false);
-  const [isAuthor, setIsAuthor] = useState(false);
+  const [isArtist, setIsArtist] = useState(false);
   const router = useRouter();
   const handleLeftButton = () => {
     router.back();
@@ -32,8 +32,8 @@ function Join() {
   const dispatch = useAppDispatch();
 
   const handleButtonClick = () => {
-    if (isUser) dispatch(setIamAuthor(false));
-    if (isAuthor) dispatch(setIamAuthor(true));
+    if (isUser) dispatch(setIamArtist(false));
+    if (isArtist) dispatch(setIamArtist(true));
     router.push('/auth/join01');
   };
   return (
@@ -55,7 +55,7 @@ function Join() {
           $isUser={isUser}
           onClick={() => {
             setIsUser(true);
-            setIsAuthor(false);
+            setIsArtist(false);
           }}
         >
           <Image
@@ -67,22 +67,22 @@ function Join() {
           />
           회원으로 가입하기
         </JoinAsUserTag>
-        <JoinAsAuthorTag
-          $isAuthor={isAuthor}
+        <JoinAsArtistTag
+          $isArtist={isArtist}
           onClick={() => {
-            setIsAuthor(true);
+            setIsArtist(true);
             setIsUser(false);
           }}
         >
           <Image
             className="mr-3"
-            src="/svg/icons/icon_author.svg"
+            src="/svg/icons/icon_Artist.svg"
             width={20}
             height={20}
             alt="user"
           />
           작가로 가입하기
-        </JoinAsAuthorTag>
+        </JoinAsArtistTag>
       </section>
       <Button
         onClick={handleButtonClick}
