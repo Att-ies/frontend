@@ -7,6 +7,8 @@ import Image from 'next/image';
 import tw from 'tailwind-styled-components';
 import Button from '@components/common/Button';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface defaultProps {
   [key: string]: any;
@@ -20,18 +22,53 @@ const UserSNSBox = tw.div<defaultProps>`
 flex cursor-pointer flex items-center text-12
 `;
 
+interface ArtistProfileForm {
+  record: string;
+  artist_profile: string;
+  avatar?: FileList;
+}
+
 export default function Join02() {
+  const [avatarPreview, setAvatarPreview] = useState('');
+  const { watch, register } = useForm<ArtistProfileForm>();
+  const avatar = watch('avatar');
+  useEffect(() => {
+    if (avatar && avatar.length > 0) {
+      const file = avatar[0];
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  }, [avatar]);
   const router = useRouter();
   return (
     <Layout>
       <Navigate message="작가프로필" right_message=" "></Navigate>
       <section>
-        <ProfilePicBox className="relative">
-          <Image className="m-auto h-full" src={avartar} alt="avartar" />
-          <ProfilePicBox className="w-[26px] h-[26px] bg-[#575757] absolute bottom-1 right-0">
-            <Image className="m-auto h-full" src={camera} alt="camera" />
+        <label htmlFor="picture">
+          <ProfilePicBox className="relative">
+            {avatarPreview ? (
+              <Image
+                className="m-auto w-[100px] h-[100px] rounded-full"
+                src={avatarPreview}
+                alt="avatar_preview"
+                width={100}
+                height={100}
+              />
+            ) : (
+              <Image className="m-auto h-full" src={avartar} alt="avartar" />
+            )}
+
+            <ProfilePicBox className="w-[26px] h-[26px] bg-[#575757] absolute bottom-1 right-0">
+              <Image className="m-auto h-full" src={camera} alt="camera" />
+            </ProfilePicBox>
           </ProfilePicBox>
-        </ProfilePicBox>
+          <input
+            {...register('avatar')}
+            id="picture"
+            type="file"
+            className="hidden"
+            accept="image/*"
+          />
+        </label>
       </section>
       <section className="mt-8 w-full flex flex-col justify-center items-center">
         <div className="font-bold">김영서</div>
