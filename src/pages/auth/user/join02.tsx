@@ -49,10 +49,6 @@ function Join02() {
     // router.push('/home');
   };
   const handleCompleteButton = () => {
-    if (!tasteSelected.length) {
-      setError(true);
-      return;
-    }
     const tasteSelectedArr = tasteSelected;
     tasteSelectedArr.sort((a: number, b: number) => +a - +b);
     dispatch(setTastes(tasteSelectedArr));
@@ -92,9 +88,12 @@ function Join02() {
           ),
         )}
       </div>
-      {error && <ErrorMessage message="키워드를 골라주세요." />}
       <div className="h-[400px]"></div>
-      <Button text="완료" onClick={handleCompleteButton} />
+      <Button
+        text="완료"
+        onClick={handleCompleteButton}
+        disabled={!tasteSelected.length}
+      />
       <button
         className="w-full transition h-[52px] text-xs underline border border-transparent hover:[#F5535D]-2 px-0 text-[#999999] leading-3 font-normal"
         onClick={handleCancleButton}
