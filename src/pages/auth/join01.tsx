@@ -163,6 +163,7 @@ export default function Join01() {
               : true
           }
           text="확인"
+          className="absolute bottom-[83px] w-[325px]"
         />
       </form>
     </Layout>
