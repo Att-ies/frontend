@@ -154,7 +154,16 @@ export default function Join01() {
             </CheckBoxList>
           </ul>
         </div>
-        <Button className="absolute bottom-[83px] w-[325px]" text="확인" />
+        <Button
+          disabled={
+            checkedTerm.includes('term1') &&
+            checkedTerm.includes('term2') &&
+            checkedTerm.includes('term3')
+              ? false
+              : true
+          }
+          text="확인"
+        />
       </form>
     </Layout>
   );
