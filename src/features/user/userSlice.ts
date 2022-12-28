@@ -1,66 +1,59 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface userState {
+type userInfo = {
   id: string;
   password: string;
   email: string;
   username: string;
-  phone: string;
+  tel: string;
+};
+interface userState extends userInfo {
   tastes: string[];
   isApprovePromotion: boolean;
+  isAuthor: boolean;
 }
+
 const initialState: userState = {
   id: '',
   password: '',
   email: '',
   username: '',
-  phone: '',
+  tel: '',
   tastes: [],
   isApprovePromotion: false,
+  isAuthor: false,
 };
 
 const userSlice = createSlice({
   name: 'userReducer',
   initialState,
   reducers: {
-    setId: (state, action) => ({
+    setUserInfo: (state: userState, action: PayloadAction<userInfo>) => ({
       ...state,
-      Id: action.payload,
+      id: action.payload.id,
+      password: action.payload.password,
+      email: action.payload.email,
+      username: action.payload.username,
+      tel: action.payload.tel,
     }),
-    setPassword: (state, action) => ({
-      ...state,
-      password: action.payload,
-    }),
-    setEmail: (state, action) => ({
-      ...state,
-      email: action.payload,
-    }),
-    setUsername: (state, action) => ({
-      ...state,
-      username: action.payload,
-    }),
-    setPhone: (state, action) => ({
-      ...state,
-      phone: action.payload,
-    }),
-    setTastes: (state, action) => ({
+    setTastes: (state: userState, action: PayloadAction<string[]>) => ({
       ...state,
       tastes: action.payload,
     }),
-    setIsApprovePromotion: (state, action) => ({
+    setIsApprovePromotion: (
+      state: userState,
+      action: PayloadAction<boolean>,
+    ) => ({
       ...state,
       isApprovePromotion: action.payload,
+    }),
+    setIsAuthor: (state: userState, action: PayloadAction<boolean>) => ({
+      ...state,
+      isAuthor: action.payload,
     }),
   },
 });
 
-export const {
-  setId,
-  setPassword,
-  setEmail,
-  setUsername,
-  setPhone,
-  setTastes,
-  setIsApprovePromotion,
-} = userSlice.actions;
+export const { setUserInfo, setTastes, setIsApprovePromotion, setIsAuthor } =
+  userSlice.actions;
 export default userSlice.reducer;

@@ -6,6 +6,16 @@ import Button from '@components/common/Button';
 import Navigate from '@components/common/Navigate';
 import ErrorMessage from '@components/common/ErrorMessage';
 import { useRouter } from 'next/router';
+import { useAppDispatch, useAppSelector } from '@features/hooks';
+import { setUserInfo } from '@features/user/userSlice';
+interface JoinForm {
+  id: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+  tel: string;
+  email: string;
+}
 
 export default function Join02() {
   const router = useRouter();
@@ -16,15 +26,30 @@ export default function Join02() {
     router.push('/auth/login');
   };
 
+  const dispatch = useAppDispatch();
+  const userState = useAppSelector((state) => state.user);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm();
+  } = useForm<JoinForm>();
 
-  const onSubmit = () => {
-    console.log(watch('id'));
+  const onSubmit = (form: JoinForm) => {
+    const { id, username, password, tel, email } = form;
+    dispatch(
+      setUserInfo({
+        id,
+        username,
+        password,
+        tel,
+        email,
+      }),
+    );
+
+    if (userState.isAuthor) router.push('/auth/author/join01');
+    else router.push('/auth/user/join01');
   };
 
   return (
@@ -47,16 +72,16 @@ export default function Join02() {
             placeholder="아이디를 입력해주세요."
             register={register('id', { required: true })}
           />
+          {errors.id && <ErrorMessage message="이미 사용중인 아이디입니다." />}
         </section>
-        {errors.id && <ErrorMessage message="이미 사용중인 아이디입니다." />}
         <section className="mb-3">
           <Input
             type="text"
             label="사용자 이름"
             placeholder="이름을 입력해주세요."
-            register={register('name', { required: true })}
+            register={register('username', { required: true })}
           />
-          {errors.name && (
+          {errors.username && (
             <ErrorMessage message="최대 한글 25자 까지 입력 가능합니다." />
           )}
         </section>
@@ -72,6 +97,7 @@ export default function Join02() {
                 message: '비밀번호를 형식에 맞게 입력해주세요.',
               },
             })}
+            className="rounded-b-none focus:translate-y-[-1px]"
           />
           <Input
             type="password"
@@ -84,7 +110,7 @@ export default function Join02() {
                 }
               },
             })}
-            className="border-t-0"
+            className="rounded-t-none border-t-0 focus:border-t"
           />
           {errors.password && errors.confirmPassword ? (
             <ErrorMessage message={errors.password.message} />
@@ -101,12 +127,16 @@ export default function Join02() {
           <Input
             type="text"
             label="휴대폰 번호"
-            placeholder="번호를 입력해주세요."
-            register={register('phoneNum', { required: true })}
+            placeholder="번호를 입력해주세요"
+            register={register('tel', {
+              required: true,
+              pattern: {
+                value: /^01([0|1|6|7|8|9])[0-9]{4}[0-9]{4}$/g,
+                message: '휴대폰번호를 정확히 입력해주세요.',
+              },
+            })}
           />
-          {errors.phoneNum && (
-            <ErrorMessage message="휴대폰번호를 정확히 입력해주세요." />
-          )}
+          {errors.tel && <ErrorMessage message={errors.tel.message} />}
         </section>
         <section className="mb-3">
           <Input
