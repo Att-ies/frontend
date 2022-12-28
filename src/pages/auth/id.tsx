@@ -6,6 +6,7 @@ import Button from '@components/common/Button';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Modal from '@components/common/Modal';
+import ErrorMessage from '@components/common/ErrorMessage';
 
 function Id() {
   const {
@@ -54,19 +55,29 @@ function Id() {
         <section className="py-2">
           <Input
             placeholder="성함을 입력해 주세요."
-            register={register('name', { required: true })}
+            register={register('name', {
+              required: true,
+              pattern: {
+                value: /^[가-힣]{2,4}$/,
+                message: '이름을 올바르게 입력해주세요.',
+              },
+            })}
             className="mb-2"
           />
+          {errors.name ? <ErrorMessage message={errors.name.message} /> : ''}
 
           <Input
             placeholder="이메일을 입력해주세요. (@포함)"
             register={register('email', {
-              required: {
-                value: true,
-                message: '이메일을 확인해 주세요.',
+              required: true,
+              pattern: {
+                value:
+                  /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i,
+                message: '이메일을 형식에 맞게 입력해주세요.',
               },
             })}
           />
+          {errors.email ? <ErrorMessage message={errors.email.message} /> : ''}
         </section>
         {errors.password && <span className="">This field is required</span>}
         <section className="text-12 text-[#999999]">
