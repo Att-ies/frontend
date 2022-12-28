@@ -48,7 +48,7 @@ export default function Join02() {
       }),
     );
 
-    if (userState.isAuthor) router.push('/auth/author/join01');
+    if (userState.isArtist) router.push('/auth/artist/join01');
     else router.push('/auth/user/join01');
   };
 

@@ -104,7 +104,7 @@ function Join() {
               <Button
                 className="mt-11"
                 text="작가 등록"
-                onClick={() => router.push('/auth/author/join02')}
+                onClick={() => router.push('/auth/artist/join02')}
               />
             </div>
           </SwiperSlide>
