@@ -1,14 +1,20 @@
 import Layout from '@components/common/Layout';
 import Button from '../../../components/common/Button';
 import { useRouter } from 'next/router';
+import { useAppSelector } from '@features/hooks';
 
 function Join01() {
   const router = useRouter();
+  const userState = useAppSelector((state) => state.user);
   const handleNextButton = () => {
     router.push('/auth/user/join02');
   };
   const handleCancleButton = () => {
-    router.push('/');
+    console.log({
+      ...userState,
+    });
+    // 회원가입 API전송
+    // router.push('/home');
   };
   return (
     <Layout>

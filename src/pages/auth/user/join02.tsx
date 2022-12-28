@@ -3,8 +3,11 @@ import Button from '../../../components/common/Button';
 import Navigate from '@components/common/Navigate';
 import { useRouter } from 'next/router';
 import react, { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@features/hooks';
+import userSlice, { setTastes } from '@features/user/userSlice';
+import ErrorMessage from '@components/common/ErrorMessage';
 
-const KEYWORDS = [
+const TASTES = [
   { id: 1, name: '심플한' },
   { id: 2, name: '세련된' },
   { id: 3, name: '모던한' },
@@ -23,52 +26,73 @@ function Join02() {
   const handleLeftButton = () => {
     router.push('/auth/user/join01');
   };
-  const handleCancleButton = () => {
-    router.push('/');
-  };
-  const [keywordSelected, setKeywordSelected] = useState([]);
-  const checkKeyword = (e: { target: { id: any } }) => {
+  const [error, setError] = useState(false);
+  const dispatch = useAppDispatch();
+  const [tasteSelected, setTasteSelected] = useState([]);
+  const userState = useAppSelector((state: { user: any }) => state.user);
+  const checkTaste = (e: { target: { id: any } }) => {
     const thisId = e.target.id;
-    if (keywordSelected.includes(thisId)) {
-      setKeywordSelected(
-        keywordSelected.filter((keyword: string) => keyword !== thisId + ''),
+    if (tasteSelected.includes(thisId)) {
+      setTasteSelected(
+        tasteSelected.filter((taste: string) => taste !== thisId + ''),
       );
     } else {
-      setKeywordSelected([...keywordSelected, thisId]);
+      setTasteSelected([...tasteSelected, thisId]);
     }
   };
+
+  const handleCancleButton = () => {
+    console.log({
+      ...userState,
+    });
+    // 회원가입 API전송
+    // router.push('/home');
+  };
   const handleCompleteButton = () => {
-    console.log(keywordSelected);
+    if (!tasteSelected.length) {
+      setError(true);
+      return;
+    }
+    const tasteSelectedArr = tasteSelected;
+    tasteSelectedArr.sort((a: number, b: number) => +a - +b);
+    dispatch(setTastes(tasteSelectedArr));
+    console.log({
+      ...userState,
+      tastes: tasteSelectedArr,
+    });
+    // 회원가입 API전송
+    // router.push('/home');
   };
   return (
     <Layout>
       <Navigate right_message=" " handleLeftButton={handleLeftButton} />
       <div className="text-18 font-semibold">관심있는 키워드를 골라주세요.</div>
       <div className="flex flex-wrap py-10">
-        {KEYWORDS.map((keyword: any) =>
-          keywordSelected.includes(keyword.id + '') ? (
+        {TASTES.map((taste: any) =>
+          tasteSelected.includes(taste.id + '') ? (
             <div
-              key={keyword.id}
-              id={keyword.id + ''}
+              key={taste.id}
+              id={taste.id + ''}
               className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer bg-[#F5535D] text-white"
-              onClick={checkKeyword}
+              onClick={checkTaste}
             >
-              {keyword.name}
+              {taste.name}
             </div>
           ) : (
             <>
               <div
-                key={keyword.id}
-                id={keyword.id + ''}
+                key={taste.id}
+                id={taste.id + ''}
                 className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer"
-                onClick={checkKeyword}
+                onClick={checkTaste}
               >
-                {keyword.name}
+                {taste.name}
               </div>
             </>
           ),
         )}
       </div>
+      {error && <ErrorMessage message="키워드를 골라주세요." />}
       <div className="h-[400px]"></div>
       <Button text="완료" onClick={handleCompleteButton} />
       <button
