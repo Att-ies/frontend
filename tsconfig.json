@@ -5,7 +5,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-     "noImplicitAny": false,                 /* 'any' 타입으로 구현된 표현식 혹은 정의 에러처리 여부 */
+    "noImplicitAny": false /* 'any' 타입으로 구현된 표현식 혹은 정의 에러처리 여부 */,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -14,7 +14,7 @@
     "resolveJsonModule": true,
     "jsx": "preserve",
     "incremental": true,
-    "isolatedModules": true, 
+    "isolatedModules": true,
     "baseUrl": "src",
     "paths": {
       "@components/*": ["./components/*"],
@@ -23,9 +23,10 @@
       "@features/*": ["./features/*"],
       "@hooks/*": ["./hooks/*"],
       "@utils/*": ["./utils/*"],
-      "@public/*": ["../public/*"]
+      "@public/*": ["../public/*"],
+      "@config": ["../config.ts"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx","src"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src"],
   "exclude": ["node_modules"]
 }
