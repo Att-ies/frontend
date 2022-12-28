@@ -101,15 +101,17 @@ function Join() {
                 <div className="w-2 rounded-full aspect-square bg-[#D9D9D9]"></div>
                 <div className="w-2 rounded-full aspect-square bg-[#F5535D]"></div>
               </div>
-              <Button
-                className="mt-11"
-                text="작가 등록"
-                onClick={() => router.push('/auth/artist/join02')}
-              />
             </div>
           </SwiperSlide>
         </Swiper>
       </div>
+      {!skipVisible && (
+        <Button
+          onClick={() => router.push('/auth/artist/join02')}
+          className="absolute bottom-[83px] w-[325px]"
+          text="가입하기"
+        />
+      )}
     </Layout>
   );
 }
