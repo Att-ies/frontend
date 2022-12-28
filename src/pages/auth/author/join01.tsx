@@ -1,10 +1,19 @@
 import Layout from '@components/common/Layout';
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import 'swiper/css';
 import { Navigation } from 'swiper';
 import Button from '@components/common/Button';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+
+interface SwiperSkipButtonProps {
+  children: React.ReactNode;
+}
+
+const SwiperSkipButton = ({ children }: SwiperSkipButtonProps) => {
+  const swiper = useSwiper();
+  return <button onClick={() => swiper.slideTo(2)}>{children}</button>;
+};
 
 function Join() {
   const [skipVisible, setSkipVisible] = useState(true);
@@ -12,13 +21,10 @@ function Join() {
   return (
     <Layout>
       <div>
-        <div className="text-14 text-right h-4 cursor-pointer text-[#999999]">
-          {skipVisible ? '건너뛰기' : ''}
-        </div>
         <Swiper
           navigation={true}
           modules={[Navigation]}
-          className="mySwipe mt-4"
+          className="mySwiper"
           onReachEnd={() => setSkipVisible(false)}
           onSlideChange={() => {
             if (!skipVisible) setSkipVisible(true);
@@ -26,7 +32,12 @@ function Join() {
         >
           <SwiperSlide>
             <div>
-              <div className="w-full h-96 bg-orange-400 aspect-square rounded-md"></div>
+              <div className="text-14 text-right h-4 cursor-pointer text-[#999999]">
+                <SwiperSkipButton>
+                  {skipVisible ? '건너뛰기' : ''}
+                </SwiperSkipButton>
+              </div>
+              <div className="mt-4 w-full h-96 bg-orange-400 aspect-square rounded-md"></div>
               <div className="pl-6">
                 <h1 className="text-20 font-medium mt-16">
                   버려지는 작품을 판매해보세요.
@@ -45,7 +56,12 @@ function Join() {
           </SwiperSlide>
           <SwiperSlide>
             <div>
-              <div className="w-full h-96 bg-cyan-500 aspect-square rounded-md"></div>
+              <div className="text-14 text-right h-4 cursor-pointer text-[#999999]">
+                <SwiperSkipButton>
+                  {skipVisible ? '건너뛰기' : ''}
+                </SwiperSkipButton>
+              </div>
+              <div className="mt-4 w-full h-96 bg-cyan-500 aspect-square rounded-md"></div>
               <div className="pl-6">
                 <h1 className="text-20 font-medium mt-16">
                   작품 외에 걱정은 NO
@@ -64,7 +80,13 @@ function Join() {
           </SwiperSlide>
           <SwiperSlide>
             <div>
-              <div className="w-full h-96 bg-lime-400 aspect-square rounded-md"></div>
+              <div className="text-14 text-right h-4 cursor-pointer text-[#999999]">
+                <SwiperSkipButton>
+                  {skipVisible ? '건너뛰기' : ''}
+                </SwiperSkipButton>
+              </div>
+
+              <div className="mt-4 w-full h-96 bg-lime-400 aspect-square rounded-md"></div>
               <div className="pl-6">
                 <h1 className="text-20 font-medium mt-16">
                   채팅으로 컬렉터와 소통해요
