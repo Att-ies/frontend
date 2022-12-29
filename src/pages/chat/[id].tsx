@@ -2,6 +2,7 @@ import Layout from '@components/common/Layout';
 import React from 'react';
 import { useRouter } from 'next/router';
 import Navigate from '@components/common/Navigate';
+import { useForm } from 'react-hook-form';
 import ChattingMessage from '@components/common/ChattingMessage';
 import Image from 'next/image';
 interface ChatRoomProps {
@@ -22,11 +23,28 @@ const DUMP_CHATTINGLIST = [
     sender: 'me',
   },
   { id: '3', time: '오전 10:33', text: '네 안녕하세요!', sender: 'you' },
+  { id: '4', time: '오전 10:33', text: '반갑습니다', sender: 'you' },
+  { id: '5', time: '오전 10:35', text: '반가워요', sender: 'me' },
 ];
+
+interface MessageForm {
+  message: string;
+}
 
 export default function ChatRoom({ params }: ChatRoomProps) {
   const router = useRouter();
   const { id } = router.query;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<MessageForm>();
+
+  const onSubmit = (form: MessageForm) => {
+    console.log(form.message);
+  };
+
   return (
     <Layout>
       <header className="absolute top-0 inset-x-0 w-full h-[145px] bg-[#F5535D]">
@@ -64,6 +82,35 @@ export default function ChatRoom({ params }: ChatRoomProps) {
           ))}
         </article>
       </section>
+      <form
+        className="absolute w-[327px] h-[50px] rounded-[24.5px] bg-[#EDEDED] bottom-[30px] flex items-center px-[20px]"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <input
+          type="text"
+          className="border-none bg-[#EDEDED] w-[200px] h-[23px] placeholder:text-[#999999] text-14 font-semibold"
+          placeholder="메세지를 입력해주세요."
+          {...register('message', { required: true })}
+        />
+        <Image
+          src="/svg/icons/icon_glasses.svg"
+          alt="glasses"
+          width="25"
+          height="0"
+          className="absolute right-14"
+        />
+        <Image
+          src="/svg/icons/icon_picture.svg"
+          alt="picture"
+          width="25"
+          height="0"
+          className="absolute right-6"
+        />
+        {/* 임시버튼 */}
+        <button type="submit" className="absolute right-[100px]">
+          제출
+        </button>
+      </form>
     </Layout>
   );
 }
