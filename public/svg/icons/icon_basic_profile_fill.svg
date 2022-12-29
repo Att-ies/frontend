@@ -1,0 +1,23 @@
+<svg width="111" height="102" viewBox="0 0 111 102" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="11" y="2" width="100" height="100" fill="white"/>
+<circle cx="60.5" cy="52.5" r="48.75" stroke="#999999" stroke-width="1.5"/>
+<mask id="mask0_323_2959" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100">
+<circle cx="50" cy="50" r="49.5" fill="#D9D9D9" stroke="black"/>
+</mask>
+<g mask="url(#mask0_323_2959)">
+<rect width="62" height="62" transform="translate(30 21)" fill="white"/>
+<path d="M79.0837 77.8334C79.0837 66.4195 70.9875 57.1667 61.0003 57.1667C51.0132 57.1667 42.917 66.4195 42.917 77.8334" stroke="#AEADB2" stroke-width="2"/>
+<circle cx="61.0003" cy="39.0833" r="10.3333" fill="#AEADB2" stroke="#AEADB2"/>
+<path d="M79.0837 77.8334H42.917C42.917 70.9445 46.5337 57.1667 61.0003 57.1667C75.467 57.1667 79.0837 70.9445 79.0837 77.8334Z" fill="#AEADB2"/>
+</g>
+<circle cx="98" cy="89" r="12.7" fill="#575757" stroke="#E0E0E0" stroke-width="0.6"/>
+<g clip-path="url(#clip0_323_2959)">
+<path d="M105.333 93.6667C105.333 94.0203 105.192 94.3594 104.942 94.6095C104.692 94.8595 104.353 95 103.999 95H91.9993C91.6457 95 91.3066 94.8595 91.0565 94.6095C90.8065 94.3594 90.666 94.0203 90.666 93.6667V86.3333C90.666 85.9797 90.8065 85.6406 91.0565 85.3905C91.3066 85.1405 91.6457 85 91.9993 85H94.666L95.9993 83H99.9993L101.333 85H103.999C104.353 85 104.692 85.1405 104.942 85.3905C105.192 85.6406 105.333 85.9797 105.333 86.3333V93.6667Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M97.9997 92.3333C99.4724 92.3333 100.666 91.1394 100.666 89.6667C100.666 88.1939 99.4724 87 97.9997 87C96.5269 87 95.333 88.1939 95.333 89.6667C95.333 91.1394 96.5269 92.3333 97.9997 92.3333Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<defs>
+<clipPath id="clip0_323_2959">
+<rect width="16" height="16" fill="white" transform="translate(90 81)"/>
+</clipPath>
+</defs>
+</svg>

@@ -109,7 +109,10 @@ export default function ChatRoom({ params }: ChatRoomProps) {
           height="0"
           className="absolute right-14 cursor-pointer"
         />
-        <label className="flex justify-center items-center" htmlFor="image">
+        <label
+          className="flex justify-center items-center"
+          htmlFor="profileImage"
+        >
           <Image
             src="/svg/icons/icon_picture.svg"
             alt="picture"
@@ -120,7 +123,7 @@ export default function ChatRoom({ params }: ChatRoomProps) {
         </label>
         <input
           type="file"
-          id="image"
+          id="profileImage"
           accept="image/*"
           className="hidden"
           onChange={handleImageSelect}

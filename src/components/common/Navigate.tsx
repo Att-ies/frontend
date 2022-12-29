@@ -46,7 +46,16 @@ export default function Navigate({
     <NavigateBox>
       <LeftButton onClick={handleLeftButton}>
         {left_message ? (
-          <SideMessage>{left_message}</SideMessage>
+          left_message === 'X' ? (
+            <Image
+              alt=""
+              src="/svg/icons/icon_close.svg"
+              width="20"
+              height="0"
+            />
+          ) : (
+            <SideMessage>{left_message}</SideMessage>
+          )
         ) : (
           <Image
             src="/svg/icons/icon_back.svg"
@@ -60,7 +69,9 @@ export default function Navigate({
       <CenterMessage>{message}</CenterMessage>
       <RightButton onClick={handleRightButton}>
         {right_message ? (
-          <SideMessage>{right_message}</SideMessage>
+          <SideMessage className="text-[#999999] text-[16px]">
+            {right_message}
+          </SideMessage>
         ) : (
           <Image
             src="/svg/icons/icon_close.svg"
