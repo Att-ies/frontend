@@ -44,7 +44,6 @@ export default function Tab() {
     const thisName = e.target.src.split('icon_')[1].split('.')[0];
     router.push(`/${thisName}`);
   };
-  console.log(router.pathname.split('/')[1]);
   return (
     <TabBox>
       <TabList>
