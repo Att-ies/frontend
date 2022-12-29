@@ -1,20 +1,25 @@
 import tw from 'tailwind-styled-components';
 import Image from 'next/image';
-import styled from 'styled-components';
 interface NavigateProps {
   left_message?: string;
   message?: string;
   right_message?: string;
+  isRightButton?: boolean;
+  isLeftButton?: boolean;
   handleLeftButton?: () => void;
   handleRightButton?: () => void;
 }
 
 interface defaultProps {
-  children: string | JSX.Element | JSX.Element[];
+  [key: string]: any;
 }
 
 interface LeftButtonProps extends defaultProps {
-  $onClick?: () => void;
+  onClick?: () => void;
+}
+
+interface RightButtonProps extends defaultProps {
+  onClick?: () => void;
 }
 
 const NavigateBox = tw.header<defaultProps>`
@@ -28,7 +33,7 @@ const CenterMessage = tw.div`
 text-font-1 text-18 absolute left-0 right-0 m-auto text-center
 `;
 
-const RightButton = tw.div`
+const RightButton = tw.div<RightButtonProps>`
 text-14 z-10 cursor-pointer 
 `;
 const SideMessage = tw.p`
@@ -39,48 +44,43 @@ export default function Navigate({
   left_message,
   message,
   right_message,
+  isRightButton = true,
+  isLeftButton = true,
   handleLeftButton,
   handleRightButton,
 }: NavigateProps) {
   return (
     <NavigateBox>
-      <LeftButton onClick={handleLeftButton}>
-        {left_message ? (
-          left_message === 'X' ? (
-            <Image
-              alt=""
-              src="/svg/icons/icon_close.svg"
-              width="20"
-              height="0"
-            />
-          ) : (
+      {isLeftButton && (
+        <LeftButton onClick={handleLeftButton}>
+          {left_message ? (
             <SideMessage>{left_message}</SideMessage>
-          )
-        ) : (
-          <Image
-            src="/svg/icons/icon_back.svg"
-            width={10}
-            height={10}
-            alt="back"
-          />
-        )}
-      </LeftButton>
+          ) : (
+            <Image
+              src="/svg/icons/icon_back.svg"
+              width={10}
+              height={10}
+              alt="back"
+            />
+          )}
+        </LeftButton>
+      )}
 
       <CenterMessage>{message}</CenterMessage>
-      <RightButton onClick={handleRightButton}>
-        {right_message ? (
-          <SideMessage className="text-[#999999] text-[16px]">
-            {right_message}
-          </SideMessage>
-        ) : (
-          <Image
-            src="/svg/icons/icon_close.svg"
-            width={20}
-            height={20}
-            alt="close"
-          />
-        )}
-      </RightButton>
+      {isRightButton && (
+        <RightButton onClick={handleRightButton}>
+          {right_message ? (
+            <SideMessage>{right_message}</SideMessage>
+          ) : (
+            <Image
+              src="/svg/icons/icon_close.svg"
+              width={20}
+              height={20}
+              alt="close"
+            />
+          )}
+        </RightButton>
+      )}
     </NavigateBox>
   );
 }
