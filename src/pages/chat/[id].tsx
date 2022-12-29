@@ -1,5 +1,5 @@
 import Layout from '@components/common/Layout';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import Navigate from '@components/common/Navigate';
 import { useForm } from 'react-hook-form';
@@ -34,15 +34,26 @@ interface MessageForm {
 export default function ChatRoom({ params }: ChatRoomProps) {
   const router = useRouter();
   const { id } = router.query;
+  const imgRef = useRef();
+  const [image, setImage] = useState(null);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm<MessageForm>();
 
   const onSubmit = (form: MessageForm) => {
-    console.log(form.message);
+    console.log(form.message, image);
+    // 채팅 API전송
+  };
+
+  const handleBack = () => {
+    router.back();
+  };
+  const handleOption = () => {};
+  const handleImageSelect = () => {
+    setImage(imgRef.current.files[0]);
   };
 
   return (
@@ -54,16 +65,18 @@ export default function ChatRoom({ params }: ChatRoomProps) {
             alt="back"
             width="11"
             height="0"
-            // className=""
+            onClick={handleBack}
+            className="cursor-pointer"
           />
           <div className="text-16 px-5 ">온주</div>
           <div className="text-12 flex items-center">응답시간 : 1시간 이내</div>
           <Image
-            src="/svg/icons/icon_dots.svg"
-            alt="back"
+            src="/svg/icons/icon_option.svg"
+            alt="option"
             width="3"
             height="0"
-            className="absolute right-5"
+            className="absolute right-5 cursor-pointer"
+            onClick={handleOption}
           />
         </article>
       </header>
@@ -82,13 +95,10 @@ export default function ChatRoom({ params }: ChatRoomProps) {
           ))}
         </article>
       </section>
-      <form
-        className="absolute w-[327px] h-[50px] rounded-[24.5px] bg-[#EDEDED] bottom-[30px] flex items-center px-[20px]"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <section className="absolute w-[327px] h-[50px] rounded-[24.5px] bg-[#EDEDED] bottom-[30px] flex items-center px-[20px]">
         <input
           type="text"
-          className="border-none bg-[#EDEDED] w-[200px] h-[23px] placeholder:text-[#999999] text-14 font-semibold"
+          className="border-none bg-[#EDEDED] w-[200px] h-[23px] placeholder:text-[#999999] text-14 font-semibold "
           placeholder="메세지를 입력해주세요."
           {...register('message', { required: true })}
         />
@@ -97,20 +107,34 @@ export default function ChatRoom({ params }: ChatRoomProps) {
           alt="glasses"
           width="25"
           height="0"
-          className="absolute right-14"
+          className="absolute right-14 cursor-pointer"
         />
-        <Image
-          src="/svg/icons/icon_picture.svg"
-          alt="picture"
-          width="25"
-          height="0"
-          className="absolute right-6"
+        <label className="flex justify-center items-center" htmlFor="image">
+          <Image
+            src="/svg/icons/icon_picture.svg"
+            alt="picture"
+            width="25"
+            height="0"
+            className="absolute right-6 cursor-pointer"
+          />
+        </label>
+        <input
+          type="file"
+          id="image"
+          accept="image/*"
+          className="hidden"
+          onChange={handleImageSelect}
+          ref={imgRef}
         />
         {/* 임시버튼 */}
-        <button type="submit" className="absolute right-[100px]">
+        <button
+          type="submit"
+          className="absolute right-[100px]"
+          onClick={handleSubmit(onSubmit)}
+        >
           제출
         </button>
-      </form>
+      </section>
     </Layout>
   );
 }
