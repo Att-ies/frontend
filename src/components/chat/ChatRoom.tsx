@@ -47,9 +47,11 @@ export default function Chatroom({ chatRoom }: chatRoomProps) {
           {chatRoom.message}
         </p>
       </article>
-      <article className="absolute right-0 bg-[#F5535D] w-[20px] h-[20px] flex justify-center items-center text-[#FFF] text-12 rounded-full">
-        {chatRoom.notifyCnt}
-      </article>
+      {!!chatRoom.notifyCnt && (
+        <article className="absolute right-0 bg-[#F5535D] w-[20px] h-[20px] flex justify-center items-center text-[#FFF] text-12 rounded-full">
+          {chatRoom.notifyCnt}
+        </article>
+      )}
     </section>
   );
 }

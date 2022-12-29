@@ -11,7 +11,7 @@ const DUMP_CHATTING_ROOM_LIST = [
     name: '온주',
     time: '오전 10:33',
     message: '작품에 대해 설명 드릴게요.',
-    notifyCnt: 2,
+    notifyCnt: 0,
   },
   {
     id: '2',
