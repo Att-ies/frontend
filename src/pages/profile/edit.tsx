@@ -10,9 +10,16 @@ import { useRouter } from 'next/router';
 interface MessageForm {
   name: string;
   email: string;
+  education: string;
+  recold: string;
+  introduce: string;
+  instagram: string;
+  bahance: string;
 }
 
-export default function EditUser() {
+let role = 'artist';
+
+export default function Edit() {
   const imgRef = useRef();
   const router = useRouter();
   const {
@@ -49,7 +56,7 @@ export default function EditUser() {
         handleRightButton={handleSubmit(onSubmit)}
       />
 
-      <label className="flex justify-center " htmlFor="profileImage">
+      <label className="flex justify-center h-[150px]" htmlFor="profileImage">
         {imageFile ? (
           <Image
             src={imageFile}
@@ -102,6 +109,76 @@ export default function EditUser() {
         />
         {errors.email ? <ErrorMessage message={errors.email.message} /> : ''}
       </section>
+
+      {role === 'artist' && (
+        <section>
+          <Input
+            label="학력"
+            placeholder="학교와 학위, 전공 등을 입력해 주세요."
+            register={register('education', {
+              required: true,
+              pattern: {
+                // value: /^[0-9]{10}$/,
+                message: '학교와 학위, 전공 등을 입력해 주세요.',
+              },
+            })}
+          />
+          {errors.education && (
+            <ErrorMessage message={errors.education.message} />
+          )}
+
+          <Input
+            label="이력"
+            placeholder="이력을 작성해 주세요."
+            register={register('recold', {
+              required: true,
+            })}
+          />
+          {errors.recold && <ErrorMessage message={errors.recold.message} />}
+          <Input
+            label="작가소개"
+            placeholder="소개를 작성해 주세요."
+            register={register('introduction', {
+              required: true,
+            })}
+          />
+          {errors.introduction && (
+            <ErrorMessage message={errors.introduction.message} />
+          )}
+
+          <article className="flex items-center mt-3">
+            <label htmlFor="instagram">
+              <Image
+                src="/svg/icons/icon_instagram.svg"
+                width="22"
+                height="10"
+                className="mx-1"
+              />
+            </label>
+            <input
+              placeholder="인스타그램 추가하기"
+              {...register('instagram')}
+              id="instagram"
+              className="h-[30px] placeholder:text-[#999] text-12 "
+            />
+
+            <label htmlFor="behance">
+              <Image
+                src="/svg/icons/icon_behance.svg"
+                width="20"
+                height="0"
+                className="mx-1"
+              />
+            </label>
+            <input
+              placeholder="비헨스 추가하기"
+              {...register('behance')}
+              id="behance"
+              className="h-[30px] placeholder:text-[#999] text-12"
+            />
+          </article>
+        </section>
+      )}
     </Layout>
   );
 }
