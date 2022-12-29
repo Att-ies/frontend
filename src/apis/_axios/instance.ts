@@ -20,7 +20,7 @@ const refreshToken = async () => {
   const refresh = getToken().refresh;
   // refresh token api 호출
   const token = await instance
-    .post('/v1/users/token/refresh', {
+    .post('/members/token', {
       refresh: refresh,
     })
     .then((res) => res.data);
