@@ -54,6 +54,7 @@ function Id() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <section className="py-2">
           <Input
+            type="text"
             placeholder="성함을 입력해 주세요."
             register={register('name', {
               required: true,
@@ -67,6 +68,7 @@ function Id() {
           {errors.name ? <ErrorMessage message={errors.name.message} /> : ''}
 
           <Input
+            type="email"
             placeholder="이메일을 입력해주세요. (@포함)"
             register={register('email', {
               required: true,
@@ -80,10 +82,6 @@ function Id() {
           {errors.email ? <ErrorMessage message={errors.email.message} /> : ''}
         </section>
         {errors.password && <span className="">This field is required</span>}
-        <section className="text-12 text-[#999999]">
-          휴대폰 번호를 입력 후 인증번호 받기를 눌러주세요.
-        </section>
-
         <div className="h-[400px]" />
         <section>
           <Button text="확인" type="submit" />
