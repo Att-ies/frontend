@@ -29,7 +29,7 @@ bg-[#F5535D] h-[52px] rounded-b-[4px] text-white flex items-center justify-cente
 `;
 
 const MainModalBackground = tw.div`
-  absolute inset-0 bg-[#767676] opacity-60 backdrop-blur-3xl
+  absolute inset-0 bg-[#767676] opacity-60 backdrop-blur-3xl z-10
 `;
 const MainModalInner = tw.div<defaultProps>`
 absolute z-10 w-[327px] h-[156px] bg-[#fff] inset-0 m-auto rounded-[4px]
@@ -39,10 +39,10 @@ h-[104px] text-[#191919] text-14 rounded-t-[4px] flex items-center justify-cente
 `;
 
 const MainModalDeny = tw.div`
-w-[126px] h-[34px] border border-[#DBDBDB] rounded-[4px] flex items-center justify-center 
+w-[126px] h-[34px] border border-[#DBDBDB] rounded-[4px] flex items-center justify-center cursor-pointer
 `;
 const MainModalAccept = tw.div`
-w-[126px] h-[34px]  bg-[#F5535D] rounded-[4px] text-[#FFF] flex items-center justify-center 
+w-[126px] h-[34px]  bg-[#F5535D] rounded-[4px] text-[#FFF] flex items-center justify-center cursor-pointer
 `;
 
 export default function Modal({

@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import ChattingMessage from '@components/chat/ChattingMessage';
 import Image from 'next/image';
+import Modal from '@components/common/Modal';
 interface ChatRoomProps {
   params: any;
 }
@@ -32,9 +33,9 @@ interface MessageForm {
 
 export default function ChatRoom({ params }: ChatRoomProps) {
   const router = useRouter();
-  const { id } = router.query;
-
   const { register, handleSubmit, watch } = useForm<MessageForm>();
+  const { id } = router.query;
+  const [isModal, setIsModal] = useState();
 
   const onSubmit = (form: MessageForm) => {
     console.log(form.message);
@@ -42,19 +43,40 @@ export default function ChatRoom({ params }: ChatRoomProps) {
   };
 
   const handleBack = () => {
-    router.back();
+    router.push('/chat');
   };
 
   const handleOption = () => {
     console.log('option');
+    setIsModal(true);
   };
+  const onCloseModal = () => {
+    setIsModal(false);
+  };
+  const onAccept = () => {
+    console.log('채팅방 나가기');
+    // 채팅방 나가기 API
+  };
+
   const image = watch('image');
   useEffect(() => {
-    console.log(image[0]);
+    if (image && image.length > 0) {
+      console.log(image[0]);
+      // 사진 API전송
+    }
   }, [image]);
 
   return (
     <Layout>
+      <Modal
+        isMain
+        message="채팅방을 나가면 채팅 목록 및 대화내용이 삭제 됩니다.
+채팅방에서 나가시겠어요?"
+        isModal={isModal}
+        onCloseModal={onCloseModal}
+        denyMessage="나가기"
+        onAccept={onAccept}
+      />
       <header className="absolute top-0 inset-x-0 w-full h-[145px] bg-[#F5535D]">
         <article className="relative flex w-full mt-[70px] px-5 text-white">
           <Image
