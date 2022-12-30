@@ -96,7 +96,30 @@ export default function PickDetail() {
               </div>
             </div>
           </Tab.Panel>
-          <Tab.Panel>Content 2</Tab.Panel>
+          <Tab.Panel className="space-y-6">
+            <div className="flex items-center">
+              <div className="bg-[#D9D9D9] w-[82px] aspect-square"></div>
+              <div className="ml-5">
+                <p className="text-14 font-medium">
+                  퓨처리즘 자연과 공생하는 미래
+                </p>
+                <span className="ml-[1px] px-2 text-white bg-[#4B9E77] py-[2.5px] text-[10px]">
+                  입찰중
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <div className="bg-[#D9D9D9] w-[82px] aspect-square"></div>
+              <div className="ml-5">
+                <p className="text-14 font-medium">
+                  퓨처리즘 자연과 공생하는 미래
+                </p>
+                <span className="ml-[1px] px-2 text-white bg-[#191919] py-[2.5px] text-[10px]">
+                  입찰완료
+                </span>
+              </div>
+            </div>
+          </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
     </Layout>
