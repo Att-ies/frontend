@@ -1,6 +1,5 @@
 import tw from 'tailwind-styled-components';
 import Image from 'next/image';
-import styled from 'styled-components';
 import { useRouter } from 'next/router';
 
 const TABLIST = [
@@ -25,34 +24,36 @@ const TABLIST = [
     name: 'profile',
   },
 ];
-const TabBox = tw.footer`
+
+interface defaultProps {
+  [key: string]: any;
+}
+
+const TabBox = tw.footer<defaultProps>`
   absolute bottom-[34px]
 `;
-const TabList = tw.div`flex w-[327px] `;
-const TabItem = tw.div`
-  m-auto cursor-pointer
-`;
+
+const TabList = tw.div<defaultProps>`flex w-[327px]`;
+
+interface TabItemProps {
+  id: number;
+  name: string;
+  [key: string]: any;
+}
 
 export default function Tab() {
   const router = useRouter();
-  const handleTabItem = (e: {
-    target: {
-      src: string;
-      name: string;
-    };
-  }) => {
-    const thisName = e.target.src.split('icon_')[1].split('.')[0];
-    router.push(`/${thisName}`);
+  const handleTabItem = (name) => {
+    router.push(`/${name}`);
   };
   return (
     <TabBox>
       <TabList>
-        {TABLIST.map((tabItem: any) => (
-          <TabItem
+        {TABLIST.map((tabItem: TabItemProps) => (
+          <div
+            className="m-auto cursor-pointer"
             key={tabItem.id}
-            onClick={handleTabItem}
-            name={tabItem.name}
-            id={tabItem.id}
+            onClick={() => handleTabItem(tabItem.name)}
           >
             <Image
               src={
@@ -64,7 +65,7 @@ export default function Tab() {
               height={28}
               alt={tabItem.name}
             />
-          </TabItem>
+          </div>
         ))}
       </TabList>
     </TabBox>
