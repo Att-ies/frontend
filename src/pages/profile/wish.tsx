@@ -2,7 +2,7 @@ import Layout from '@components/common/Layout';
 import React, { useState } from 'react';
 import Navigate from '@components/common/Navigate';
 import tw from 'tailwind-styled-components';
-import WishCard from '@components/wish/WishCard';
+import WishCard from '@components/profile/wish/WishCard';
 import { useRouter } from 'next/router';
 
 interface defaultProps {
