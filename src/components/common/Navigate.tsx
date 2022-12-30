@@ -1,9 +1,10 @@
 import tw from 'tailwind-styled-components';
 import Image from 'next/image';
+import { ReactElement } from 'react';
 interface NavigateProps {
-  left_message?: string;
+  left_message?: string | ReactElement;
   message?: string;
-  right_message?: string;
+  right_message?: string | ReactElement;
   isRightButton?: boolean;
   isLeftButton?: boolean;
   handleLeftButton?: () => void;
