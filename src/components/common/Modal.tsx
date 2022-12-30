@@ -9,10 +9,16 @@ interface ModalProps {
   onAccept: () => void;
 }
 
+interface defaultProps {
+  [key: string]: any;
+}
+
+const ModalTag = tw.div<defaultProps>``;
+
 const ModalBackground = tw.div`
   absolute inset-0 bg-[#767676] opacity-80 backdrop-blur-3xl
 `;
-const ModalInner = tw.div`
+const ModalInner = tw.div<defaultProps>`
   z-10 w-[327px] h-[156px] absolute inset-0 m-auto
 `;
 const ModalMessage = tw.div`
@@ -22,13 +28,10 @@ const ModalAccept = tw.div`
 bg-[#F5535D] h-[52px] rounded-b-[4px] text-white flex items-center justify-center cursor-pointer
 `;
 
-const ModalTag = tw.div`
-`;
-
 const MainModalBackground = tw.div`
   absolute inset-0 bg-[#767676] opacity-60 backdrop-blur-3xl
 `;
-const MainModalInner = tw.div`
+const MainModalInner = tw.div<defaultProps>`
 absolute z-10 w-[327px] h-[156px] bg-[#fff] inset-0 m-auto rounded-[4px]
 `;
 const MainModalMessage = tw.div`
@@ -50,9 +53,8 @@ export default function Modal({
   denyMessage,
   onAccept,
 }: ModalProps) {
-  return (
-    isModal &&
-    (isMain ? (
+  return isModal ? (
+    isMain ? (
       <ModalTag>
         <MainModalBackground onClick={onCloseModal}></MainModalBackground>
         <MainModalInner>
@@ -71,6 +73,8 @@ export default function Modal({
           <ModalAccept onClick={onCloseModal}>확인</ModalAccept>
         </ModalInner>
       </ModalTag>
-    ))
+    )
+  ) : (
+    <div></div>
   );
 }
