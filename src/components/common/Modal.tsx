@@ -3,10 +3,10 @@ import tw from 'tailwind-styled-components';
 interface ModalProps {
   message: string;
   isModal: boolean;
-  isMain: boolean;
-  denyMessage: string;
+  isMain?: boolean;
+  denyMessage?: string;
   onCloseModal: () => void;
-  onAccept: () => void;
+  onAccept?: () => void;
 }
 
 interface defaultProps {

@@ -18,8 +18,8 @@ interface CheckBoxProps {
   id?: string;
   kind?: 'checkbox' | 'radio';
   label?: string;
-  isChecked: boolean;
-  handler(e: React.ChangeEvent<HTMLInputElement>): void;
+  isChecked?: boolean;
+  handler?(e: React.ChangeEvent<HTMLInputElement>): void;
   [key: string]: any;
 }
 
