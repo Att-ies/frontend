@@ -2,7 +2,7 @@ import ErrorMessage from '@components/common/ErrorMessage';
 import Input from '@components/common/Input';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -20,30 +20,28 @@ interface MessageForm {
 let role = 'artist';
 
 export default function Edit() {
-  const imgRef = useRef();
   const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<MessageForm>();
   const [imageFile, setImageFile] = useState(null);
 
-  const saveImageFile = () => {
-    const file = imgRef.current.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImageFile(reader.result);
-    };
-  };
+  const profileImage = watch('image');
+  useEffect(() => {
+    if (profileImage && profileImage.length > 0) {
+      const file = profileImage[0];
+      setImageFile(URL.createObjectURL(file));
+    }
+  }, [profileImage]);
 
   const onLeftButton = () => {
     router.push('/profile');
   };
-
   const onSubmit = (form: MessageForm) => {
-    console.log(form, imgRef.current.files[0]);
+    console.log(watch('image')[0]);
     // 채팅 API전송
   };
 
@@ -55,7 +53,6 @@ export default function Edit() {
         handleLeftButton={onLeftButton}
         handleRightButton={handleSubmit(onSubmit)}
       />
-
       <label className="flex justify-center h-[150px]" htmlFor="profileImage">
         {imageFile ? (
           <Image
@@ -66,12 +63,23 @@ export default function Edit() {
             alt="profile"
           />
         ) : (
-          <Image
-            src="/svg/icons/icon_basic_profile_fill.svg"
-            width="120"
-            height="0"
-            alt="profile"
-          />
+          <div className=" flex justify-center items-center w-[99px] h-[99px] rounded-full border-2 border-[#999999] bg-[#FFFFFF] relative">
+            <Image
+              src="/svg/icons/icon_avartar.svg"
+              width="60"
+              height="0"
+              alt="profile"
+            />
+            <div className="w-[26px] h-[26px] rounded-full bg-[#575757] flex justify-center items-center absolute right-0 bottom-0">
+              <Image
+                src="/svg/icons/icon_camera.svg"
+                width="15"
+                height="0"
+                alt="profile"
+                className=""
+              />
+            </div>
+          </div>
         )}
       </label>
       <input
@@ -79,8 +87,7 @@ export default function Edit() {
         accept="image/*"
         id="profileImage"
         className="hidden"
-        ref={imgRef}
-        onChange={saveImageFile}
+        {...register('image')}
       />
       <section className="">
         <Input
@@ -117,10 +124,6 @@ export default function Edit() {
             placeholder="학교와 학위, 전공 등을 입력해 주세요."
             register={register('education', {
               required: true,
-              pattern: {
-                // value: /^[0-9]{10}$/,
-                message: '학교와 학위, 전공 등을 입력해 주세요.',
-              },
             })}
           />
           {errors.education && (
@@ -152,14 +155,14 @@ export default function Edit() {
                 src="/svg/icons/icon_instagram.svg"
                 width="22"
                 height="10"
-                className="mx-1"
+                className="mr-1"
               />
             </label>
             <input
               placeholder="인스타그램 추가하기"
               {...register('instagram')}
               id="instagram"
-              className="h-[30px] placeholder:text-[#999] text-12 "
+              className="h-[30px] placeholder:text-[#999] text-12 indent-1 "
             />
 
             <label htmlFor="behance">
@@ -167,14 +170,14 @@ export default function Edit() {
                 src="/svg/icons/icon_behance.svg"
                 width="20"
                 height="0"
-                className="mx-1"
+                className="mr-1"
               />
             </label>
             <input
               placeholder="비헨스 추가하기"
               {...register('behance')}
               id="behance"
-              className="h-[30px] placeholder:text-[#999] text-12"
+              className="h-[30px] placeholder:text-[#999] text-12 indent-1"
             />
           </article>
         </section>
