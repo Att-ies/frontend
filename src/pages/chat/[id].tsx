@@ -1,5 +1,5 @@
 import Layout from '@components/common/Layout';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import ChattingMessage from '@components/chat/ChattingMessage';
@@ -33,17 +33,11 @@ interface MessageForm {
 export default function ChatRoom({ params }: ChatRoomProps) {
   const router = useRouter();
   const { id } = router.query;
-  const imgRef = useRef<HTMLInputElement>(null);
-  const [image, setImage] = useState<File>();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<MessageForm>();
+  const { register, handleSubmit, watch } = useForm<MessageForm>();
 
   const onSubmit = (form: MessageForm) => {
-    console.log(form.message, image);
+    console.log(form.message);
     // 채팅 API전송
   };
 
@@ -54,12 +48,10 @@ export default function ChatRoom({ params }: ChatRoomProps) {
   const handleOption = () => {
     console.log('option');
   };
-
-  const handleImageSelect = () => {
-    if (imgRef.current && imgRef.current.files) {
-      setImage(imgRef.current.files[0]);
-    }
-  };
+  const image = watch('image');
+  useEffect(() => {
+    console.log(image[0]);
+  }, [image]);
 
   return (
     <Layout>
@@ -100,49 +92,57 @@ export default function ChatRoom({ params }: ChatRoomProps) {
           ))}
         </article>
       </section>
-      <section className="absolute w-[327px] h-[50px] rounded-[24.5px] bg-[#EDEDED] bottom-[30px] flex items-center px-[20px]">
+      <form
+        className="absolute w-[327px] h-[50px] rounded-[24.5px] bg-[#EDEDED] bottom-[30px] flex items-center px-[10px]"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <input
           type="text"
           className="border-none bg-[#EDEDED] w-[200px] h-[23px] placeholder:text-[#999999] text-14 font-semibold "
           placeholder="메세지를 입력해주세요."
           {...register('message', { required: true })}
         />
-        <Image
-          src="/svg/icons/icon_glasses.svg"
-          alt="glasses"
-          width="25"
-          height="0"
-          className="absolute right-14 cursor-pointer"
-        />
-        <label
-          className="flex justify-center items-center"
-          htmlFor="profileImage"
-        >
+        {watch('message') ? (
           <Image
-            src="/svg/icons/icon_picture.svg"
-            alt="picture"
-            width="25"
+            alt=""
+            src="/svg/icons/icon_send.svg"
+            width="22"
             height="0"
-            className="absolute right-6 cursor-pointer"
+            className="absolute right-[15px] cursor-pointer"
           />
-        </label>
-        <input
-          type="file"
-          id="profileImage"
-          accept="image/*"
-          className="hidden"
-          onChange={handleImageSelect}
-          ref={imgRef}
-        />
+        ) : (
+          <>
+            <Image
+              src="/svg/icons/icon_glasses.svg"
+              alt="glasses"
+              width="25"
+              height="0"
+              className="absolute right-14 cursor-pointer"
+            />
+            <label
+              className="flex justify-center items-center"
+              htmlFor="profileImage"
+            >
+              <Image
+                src="/svg/icons/icon_picture.svg"
+                alt="picture"
+                width="25"
+                height="0"
+                className="absolute right-6 cursor-pointer"
+              />
+            </label>
+            <input
+              type="file"
+              id="profileImage"
+              accept="image/*"
+              className="hidden"
+              {...register('image')}
+            />
+          </>
+        )}
+
         {/* 임시버튼 */}
-        <button
-          type="submit"
-          className="absolute right-[100px]"
-          onClick={handleSubmit(onSubmit)}
-        >
-          제출
-        </button>
-      </section>
+      </form>
     </Layout>
   );
 }
