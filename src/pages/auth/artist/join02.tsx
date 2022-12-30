@@ -107,7 +107,7 @@ export default function Join02() {
       <section className="mt-3 flex">
         <UserSNSBox>
           <Image
-            src="/svg/icons/icon_instagram.svg"
+            src="/svg/icons/icon_instagram_gray.svg"
             width={20}
             height={20}
             alt="instagram"
@@ -116,7 +116,7 @@ export default function Join02() {
         </UserSNSBox>
         <UserSNSBox className="ml-4">
           <Image
-            src="/svg/icons/icon_behance.svg"
+            src="/svg/icons/icon_behance_gray.svg"
             width={20}
             height={20}
             alt="behance"
