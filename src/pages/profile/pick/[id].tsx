@@ -7,6 +7,20 @@ import avatar from '@public/svg/icons/profile/icon_avatar.svg';
 import Image from 'next/image';
 import Button from '@components/common/Button';
 import { Tab } from '@headlessui/react';
+import PickArtistWork from '@components/profile/pick/PickArtistWork';
+
+const PICKARTIST_DATA = [
+  {
+    id: 1,
+    title: '퓨처리즘 자연과 공생하는 미래',
+    status: '입찰중',
+  },
+  {
+    id: 2,
+    title: '퓨처리즘 자연과 공생하는 미래',
+    status: '입찰 완료',
+  },
+];
 
 interface defaultProps {
   [key: string]: any;
@@ -21,7 +35,7 @@ w-[60px] mr-[10px] aspect-square flex justify-center items-center rounded-full b
 `;
 
 export default function PickDetail() {
-  const [pickList, setPickList] = useState([]);
+  const [pickList, setPickList] = useState(PICKARTIST_DATA);
   const router = useRouter();
   const handleClick = () => {
     // 채팅하러 가기
@@ -97,28 +111,13 @@ export default function PickDetail() {
             </div>
           </Tab.Panel>
           <Tab.Panel className="space-y-6">
-            <div className="flex items-center">
-              <div className="bg-[#D9D9D9] w-[82px] aspect-square"></div>
-              <div className="ml-5">
-                <p className="text-14 mb-[6px] font-medium">
-                  퓨처리즘 자연과 공생하는 미래
-                </p>
-                <div className="flex items-center justify-center w-[42px] text-white bg-[#4B9E77] h-[17px] text-[10px]">
-                  입찰중
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <div className="bg-[#D9D9D9] w-[82px] aspect-square"></div>
-              <div className="ml-5">
-                <p className="text-14 mb-[6px] font-medium">
-                  퓨처리즘 자연과 공생하는 미래
-                </p>
-                <div className="flex items-center justify-center  w-[42px] text-white bg-[#191919] h-[17px] text-[10px]">
-                  입찰완료
-                </div>
-              </div>
-            </div>
+            {pickList.map((work) => (
+              <PickArtistWork
+                key={work.id}
+                title={work.title}
+                status={work.status}
+              />
+            ))}
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
