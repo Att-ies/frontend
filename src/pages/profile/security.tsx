@@ -38,7 +38,7 @@ export default function security() {
       <Navigate
         isRightButton={false}
         handleLeftButton={onLeftButton}
-        message="개인/보완"
+        message="개인/보안"
       />
       <section>
         <article
