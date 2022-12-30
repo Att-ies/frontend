@@ -49,7 +49,14 @@ export default function Edit() {
     <Layout>
       <Navigate
         right_message="완료"
-        left_message="X"
+        left_message={
+          <Image
+            alt="X"
+            src="/svg/icons/icon_close.svg"
+            width="18"
+            height="0"
+          />
+        }
         handleLeftButton={onLeftButton}
         handleRightButton={handleSubmit(onSubmit)}
       />
