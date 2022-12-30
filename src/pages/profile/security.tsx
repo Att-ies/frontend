@@ -1,17 +1,12 @@
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import MaainModal from '@components/main/MainModal';
-
-interface selectItemType {
-  id: string;
-  message: string;
-  onClick: () => void;
-}
+import Modal from '@components/common/Modal';
 
 export default function security() {
+  const [isModal, setIsModal] = useState();
   const router = useRouter();
   const onLeftButton = () => {
     router.back();
@@ -21,11 +16,25 @@ export default function security() {
   };
 
   const handleWithdrawal = () => {
-    // Modal 띄우기
+    setIsModal(true);
   };
+  const handleCloseModal = () => {
+    setIsModal(false);
+  };
+  const handleAcceptWithdrawal = () => {
+    console.log('회원 탈퇴 진행');
+  };
+
   return (
     <Layout>
-      <MainModal />
+      <Modal
+        isModal={isModal}
+        isMain
+        message="아띠즈 탈퇴시 회원님의 사용정보가 모두 삭제됩니다."
+        denyMessage="탈퇴"
+        onCloseModal={handleCloseModal}
+        onAccept={handleAcceptWithdrawal}
+      />
       <Navigate
         isRightButton={false}
         handleLeftButton={onLeftButton}
