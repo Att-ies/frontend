@@ -1,9 +1,8 @@
 import Layout from '@components/common/Layout';
 import React, { useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import Navigate from '@components/common/Navigate';
 import { useForm } from 'react-hook-form';
-import ChattingMessage from '@components/common/ChattingMessage';
+import ChattingMessage from '@components/chat/ChattingMessage';
 import Image from 'next/image';
 interface ChatRoomProps {
   params: any;
@@ -34,8 +33,8 @@ interface MessageForm {
 export default function ChatRoom({ params }: ChatRoomProps) {
   const router = useRouter();
   const { id } = router.query;
-  const imgRef = useRef();
-  const [image, setImage] = useState(null);
+  const imgRef = useRef<HTMLInputElement>(null);
+  const [image, setImage] = useState<File>();
 
   const {
     register,
@@ -51,9 +50,15 @@ export default function ChatRoom({ params }: ChatRoomProps) {
   const handleBack = () => {
     router.back();
   };
-  const handleOption = () => {};
+
+  const handleOption = () => {
+    console.log('option');
+  };
+
   const handleImageSelect = () => {
-    setImage(imgRef.current.files[0]);
+    if (imgRef.current && imgRef.current.files) {
+      setImage(imgRef.current.files[0]);
+    }
   };
 
   return (

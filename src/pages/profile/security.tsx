@@ -1,12 +1,12 @@
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Modal from '@components/common/Modal';
 
-export default function security() {
-  const [isModal, setIsModal] = useState();
+export default function Security() {
+  const [isModal, setIsModal] = useState(false);
   const router = useRouter();
   const onLeftButton = () => {
     router.back();

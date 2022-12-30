@@ -1,29 +1,37 @@
 import tw from 'tailwind-styled-components';
 
 interface buttonProps {
+  kind?: 'filled' | 'outlined';
   text: string;
   disabled?: boolean;
+  onClick?: () => void;
   [key: string]: any;
 }
 
-const ButtonTag = tw.button`
-w-full transition hover:cursor-pointer h-[52px] text-sm rounded-[4px] border border-transparent hover:[#F5535D]-2 bg-[#F5535D] px-0 text-white leading-3 font-normal
+const FilledButton = tw.button<buttonProps>`
+${({ disabled }) => disabled && 'opacity-50 cursor-not-allowed'}
+w-full transition h-[52px] text-sm rounded-[4px] hover:opacity-90 border border-transparent hover:[#F5535D]-2 bg-[#F5535D] px-0 text-white leading-3 font-normal
 `;
 
-const DisabledButtonTag = tw.button`
-w-full transition hover:cursor-not-allowed opacity-50 h-[52px] text-sm rounded-[4px] border border-transparent hover:[#F5535D]-2 bg-[#F5535D] px-0 text-white leading-3 font-normal
+const OutlinedButton = tw.button<buttonProps>`
+${({ disabled }) => disabled && 'opacity-50 cursor-not-allowed'}
+w-full transition h-[52px] text-sm rounded-[4px] border border-[#F5535D] hover:[#F5535D]-2 bg-white px-0 text-[#F5535D] leading-3 font-normal
 `;
 
 export default function Button({
+  kind = 'filled',
   text,
   disabled = false,
+  onClick,
   ...rest
 }: buttonProps) {
-  return disabled ? (
-    <DisabledButtonTag {...rest} disabled>
+  return kind === 'filled' ? (
+    <FilledButton disabled={disabled} onClick={onClick} {...rest}>
       {text}
-    </DisabledButtonTag>
+    </FilledButton>
   ) : (
-    <ButtonTag {...rest}>{text}</ButtonTag>
+    <OutlinedButton disabled={disabled} onClick={onClick} {...rest}>
+      {text}
+    </OutlinedButton>
   );
 }

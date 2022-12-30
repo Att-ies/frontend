@@ -1,7 +1,7 @@
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import Input from '@components/common/Input';
-import avartar from '@public/svg/icons/icon_avartar.svg';
+import profile from '@public/svg/icons/icon_avatar.svg';
 import camera from '@public/svg/icons/icon_camera.svg';
 import Image from 'next/image';
 import tw from 'tailwind-styled-components';
@@ -15,7 +15,7 @@ interface defaultProps {
 }
 
 const ProfilePicBox = tw.div<defaultProps>`
-w-[100px] h-[100px] mx-auto rounded-full text-center  mt-[40px] cursor-pointer
+w-[100px] h-[100px] mx-auto rounded-full text-center mt-8 cursor-pointer
 `;
 
 const UserSNSBox = tw.div<defaultProps>`
@@ -61,7 +61,7 @@ export default function Join02() {
                 height={100}
               />
             ) : (
-              <Image className="m-auto h-full" src={avartar} alt="avartar" />
+              <Image className="m-auto h-full" src={profile} alt="profile" />
             )}
 
             {avatarPreview ? (
@@ -85,7 +85,13 @@ export default function Join02() {
         <div className="font-bold">김영서</div>
         <div className="text-[#999999]">noniuxui@naver.com</div>
       </section>
-      <section className="mt-[50px] mb-8">
+      <section className="mt-[30px]">
+        <Input
+          type="text"
+          label="학력"
+          placeholder="학교와 학위, 전공 등을 입력해주세요."
+        />
+
         <Input
           className="mb-2"
           type="text"
@@ -98,7 +104,7 @@ export default function Join02() {
           placeholder="한 줄 소개를 작성해주세요."
         />
       </section>
-      <section className="mt-8 flex">
+      <section className="mt-3 flex">
         <UserSNSBox>
           <Image
             src="/svg/icons/icon_instagram.svg"
@@ -122,7 +128,7 @@ export default function Join02() {
         onClick={() => router.push('/home')}
         className="absolute bottom-[83px] w-[325px]"
         text="완료"
-      />{' '}
+      />
     </Layout>
   );
 }

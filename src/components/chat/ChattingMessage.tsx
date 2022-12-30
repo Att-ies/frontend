@@ -1,5 +1,3 @@
-import tw from 'tailwind-styled-components';
-
 interface chattingProps {
   time: number | string;
   text: string;
