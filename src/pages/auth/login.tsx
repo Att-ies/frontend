@@ -22,7 +22,7 @@ function Login() {
             <Input
               type="text"
               id="id"
-              placeholder="아이디 또는 이메일을 입력해 주세요."
+              placeholder="아이디를 입력해 주세요."
               register={register('id', { required: true })}
             />
             {errors.id && <span className="">This field is required</span>}
