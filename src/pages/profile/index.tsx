@@ -30,8 +30,16 @@ export default function Profile() {
   const userTaste = useAppSelector((state) => state.user.tastes);
 
   const ActivityLists = [
-    { text: '찜 목록', icon: '/svg/icons/icon_archive.svg', path: '/zzim' },
-    { text: '나의 픽 작가', icon: '/svg/icons/icon_book.svg', path: '/pick' },
+    {
+      text: '찜 목록',
+      icon: '/svg/icons/icon_archive.svg',
+      path: '/profile/wish',
+    },
+    {
+      text: '나의 픽 작가',
+      icon: '/svg/icons/icon_book.svg',
+      path: '/profile/pick',
+    },
     { text: '진행 경매', icon: '/svg/icons/icon_dollar.svg', path: '/auction' },
   ];
 
