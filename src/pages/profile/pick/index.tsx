@@ -13,7 +13,7 @@ const PickContainer = tw.div<defaultProps>`
 w-full flex-col divide-y-[1px] divide-[#EDEDED]
 `;
 
-export default function Wish() {
+export default function Pick() {
   const [pickList, setPickList] = useState([]);
   const router = useRouter();
   return (
