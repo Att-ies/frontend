@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import avatar from '@public/svg/icons/profile/icon_avatar.svg';
 import Image from 'next/image';
 import Button from '@components/common/Button';
+import { Tab } from '@headlessui/react';
 
 interface defaultProps {
   [key: string]: any;
@@ -47,8 +48,57 @@ export default function PickDetail() {
         text="채팅하기"
         kind="outlined"
         onClick={handleClick}
-        className="mt-8"
+        className="mt-8 mb-5"
       />
+      <Tab.Group>
+        <Tab.List>
+          <Tab className="w-1/2 h-[52px] font-medium text-16 ui-selected:border-b-2 border-[#191919] ui-selected:text-[#191919] ui-not-selected:border-[#EDEDED] ui-not-selected:border-b ui-not-selected:text-[#999999]">
+            작가소개
+          </Tab>
+          <Tab className="w-1/2 h-[52px] font-medium text-16 ui-selected:border-b-2 border-[#191919] ui-selected:text-[#191919] ui-not-selected:border-[#EDEDED] ui-not-selected:border-b ui-not-selected:text-[#999999]">
+            작품
+          </Tab>
+        </Tab.List>
+        <Tab.Panels className="pt-8">
+          <Tab.Panel className="space-y-8">
+            <div className="text-14 space-y-3">
+              <p className="font-semibold">소개</p>
+              <p className="leading-5">
+                자연과 공생하는 미래를 꿈꾸며, 자연의 모습을 모티브로
+                작업합니다.
+              </p>
+            </div>
+            <div className="text-14 space-y-3">
+              <p className="font-semibold">이력</p>
+              <p className="leading-5">2022 조형예술학과 졸업전시</p>
+            </div>
+            <div className="text-14">
+              <p className="font-semibold">SNS</p>
+              <div className="flex mt-3">
+                <div className="w-1/2 flex items-center">
+                  <Image
+                    src="/svg/icons/icon_instagram_black.svg"
+                    width={20}
+                    height={20}
+                    alt="instagram"
+                  />
+                  <p className="leading-5 ml-[6px]">ara__22</p>
+                </div>
+                <div className="w-1/2 flex items-center">
+                  <Image
+                    src="/svg/icons/icon_behance_black.svg"
+                    width={20}
+                    height={20}
+                    alt="instagram"
+                  />
+                  <p className="leading-5 ml-[6px]">ara__22</p>
+                </div>
+              </div>
+            </div>
+          </Tab.Panel>
+          <Tab.Panel>Content 2</Tab.Panel>
+        </Tab.Panels>
+      </Tab.Group>
     </Layout>
   );
 }
