@@ -52,10 +52,10 @@ export default function PickDetail() {
       />
       <Tab.Group>
         <Tab.List>
-          <Tab className="w-1/2 h-[52px] font-medium text-16 ui-selected:border-b-2 border-[#191919] ui-selected:text-[#191919] ui-not-selected:border-[#EDEDED] ui-not-selected:border-b ui-not-selected:text-[#999999]">
+          <Tab className="w-1/2 h-[52px] font-medium text-16 ui-selected:border-b-[1.5px] border-[#191919] ui-selected:text-[#191919] ui-not-selected:border-[#EDEDED] ui-not-selected:border-b ui-not-selected:text-[#999999]">
             작가소개
           </Tab>
-          <Tab className="w-1/2 h-[52px] font-medium text-16 ui-selected:border-b-2 border-[#191919] ui-selected:text-[#191919] ui-not-selected:border-[#EDEDED] ui-not-selected:border-b ui-not-selected:text-[#999999]">
+          <Tab className="w-1/2 h-[52px] font-medium text-16 ui-selected:border-b-[1.5px] border-[#191919] ui-selected:text-[#191919] ui-not-selected:border-[#EDEDED] ui-not-selected:border-b ui-not-selected:text-[#999999]">
             작품
           </Tab>
         </Tab.List>
@@ -100,23 +100,23 @@ export default function PickDetail() {
             <div className="flex items-center">
               <div className="bg-[#D9D9D9] w-[82px] aspect-square"></div>
               <div className="ml-5">
-                <p className="text-14 font-medium">
+                <p className="text-14 mb-[6px] font-medium">
                   퓨처리즘 자연과 공생하는 미래
                 </p>
-                <span className="ml-[1px] px-2 text-white bg-[#4B9E77] py-[2.5px] text-[10px]">
+                <div className="flex items-center justify-center w-[42px] text-white bg-[#4B9E77] h-[17px] text-[10px]">
                   입찰중
-                </span>
+                </div>
               </div>
             </div>
             <div className="flex items-center">
               <div className="bg-[#D9D9D9] w-[82px] aspect-square"></div>
               <div className="ml-5">
-                <p className="text-14 font-medium">
+                <p className="text-14 mb-[6px] font-medium">
                   퓨처리즘 자연과 공생하는 미래
                 </p>
-                <span className="ml-[1px] px-2 text-white bg-[#191919] py-[2.5px] text-[10px]">
+                <div className="flex items-center justify-center  w-[42px] text-white bg-[#191919] h-[17px] text-[10px]">
                   입찰완료
-                </span>
+                </div>
               </div>
             </div>
           </Tab.Panel>
