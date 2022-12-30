@@ -3,6 +3,7 @@ import Navigate from '@components/common/Navigate';
 import React from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import MaainModal from '@components/main/MainModal';
 
 interface selectItemType {
   id: string;
@@ -24,6 +25,7 @@ export default function security() {
   };
   return (
     <Layout>
+      <MainModal />
       <Navigate
         isRightButton={false}
         handleLeftButton={onLeftButton}
