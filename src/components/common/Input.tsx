@@ -32,7 +32,7 @@ export default function Input({
   ...rest
 }: InputProps) {
   return (
-    <InputBox>
+    <InputBox className="my-1">
       <Label>{label}</Label>
       <InputTag type={type} placeholder={placeholder} {...register} {...rest} />
     </InputBox>
