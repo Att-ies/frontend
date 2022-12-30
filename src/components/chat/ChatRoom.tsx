@@ -2,15 +2,17 @@ import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
+type ChatRoom = {
+  id: string;
+  profileImage: string;
+  name: string;
+  time: string;
+  message: string;
+  notifyCnt: number;
+};
+
 interface chatRoomProps {
-  chatRoom: {
-    id: string;
-    profileImage: string;
-    name: string;
-    time: string;
-    message: string;
-    notifyCnt: number;
-  };
+  chatRoom: ChatRoom;
   [key: string]: any;
 }
 
@@ -21,7 +23,7 @@ export default function Chatroom({ chatRoom }: chatRoomProps) {
   const router = useRouter();
   return (
     <section
-      className="h-[64px] flex items-center relative border-b "
+      className="h-[64px] flex items-center relative border-b cursor-pointer"
       onClick={handleChattingRoom}
     >
       <article>
