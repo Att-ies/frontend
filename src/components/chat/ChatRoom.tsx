@@ -16,7 +16,7 @@ interface chatRoomProps {
 
 export default function Chatroom({ chatRoom }: chatRoomProps) {
   const handleChattingRoom = () => {
-    router.push(chatRoom.id);
+    router.push(`/chat/${chatRoom.id}`);
   };
   const router = useRouter();
   return (
