@@ -34,10 +34,22 @@ export default function Join02() {
     handleSubmit,
     formState: { errors },
     watch,
+    setError,
   } = useForm<JoinForm>();
 
   const onSubmit = (form: JoinForm) => {
-    const { id, username, password, tel, email } = form;
+    const { id, username, password, confirmPassword, tel, email } = form;
+    if (password !== confirmPassword) {
+      setError(
+        'confirmPassword',
+        {
+          type: 'password inCorrect',
+          message: '비밀번호가 일치하지 않습니다.',
+        },
+        { shouldFocus: true },
+      );
+      return;
+    }
     dispatch(
       setUserInfo({
         id,
@@ -51,7 +63,7 @@ export default function Join02() {
     if (userState.isArtist) router.push('/auth/artist/join01');
     else router.push('/auth/user/join01');
   };
-
+  console.log(errors);
   return (
     <Layout>
       <Navigate
@@ -69,20 +81,32 @@ export default function Join02() {
           <Input
             type="text"
             label="ID"
-            placeholder="아이디를 입력해주세요."
-            register={register('id', { required: true })}
+            placeholder="영문+숫자 조합 5자리 이상 입력해주세요."
+            register={register('id', {
+              required: true,
+              pattern: {
+                value: /^[a-z]+[a-z0-9]{5,19}$/g,
+                message: '아이디 형식에 맞게 입력해주세요.',
+              },
+            })}
           />
-          {errors.id && <ErrorMessage message="이미 사용중인 아이디입니다." />}
+          {errors.id && <ErrorMessage message={errors.id.message} />}
         </section>
         <section className="mb-3">
           <Input
             type="text"
             label="사용자 이름"
             placeholder="이름을 입력해주세요."
-            register={register('username', { required: true })}
+            register={register('username', {
+              required: true,
+              pattern: {
+                value: /^[가-힣]{2,25}$/g,
+                message: '최대 한글25자까지 입력 가능합니다.',
+              },
+            })}
           />
           {errors.username && (
-            <ErrorMessage message="최대 한글 25자 까지 입력 가능합니다." />
+            <ErrorMessage message={errors.username.message} />
           )}
         </section>
         <section className="mb-3">
@@ -99,28 +123,23 @@ export default function Join02() {
             })}
             className="rounded-b-none focus:translate-y-[-1px]"
           />
+          {errors.password && (
+            <ErrorMessage message={errors.password.message} />
+          )}
           <Input
             type="password"
             placeholder="비밀번호 재입력"
             register={register('confirmPassword', {
               required: true,
-              validate: (value: string) => {
-                if (watch('password') !== value) {
-                  return '비밀번호가 일치하지 않습니다.';
-                }
+              pattern: {
+                value: /^[A-Za-z0-9]{8,15}$/,
+                message: '비밀번호를 형식에 맞게 입력해주세요.',
               },
             })}
             className="rounded-t-none border-t-0 focus:border-t"
           />
-          {errors.password && errors.confirmPassword ? (
-            <ErrorMessage message={errors.password.message} />
-          ) : (
-            ''
-          )}
-          {errors.confirmPassword && !errors.password ? (
+          {errors.confirmPassword && (
             <ErrorMessage message={errors.confirmPassword.message} />
-          ) : (
-            ''
           )}
         </section>
         <section className="mb-3">
