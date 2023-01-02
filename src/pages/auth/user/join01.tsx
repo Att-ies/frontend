@@ -14,7 +14,6 @@ function Join01() {
       ...userState,
     });
     // 회원가입 API전송
-    // router.push('/home');
   };
   return (
     <Layout>

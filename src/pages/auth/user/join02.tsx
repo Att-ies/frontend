@@ -6,6 +6,7 @@ import react, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import userSlice, { setTastes } from '@features/user/userSlice';
 import ErrorMessage from '@components/common/ErrorMessage';
+import Modal from '@components/common/Modal';
 
 const TASTES = [
   { id: 1, name: '심플한' },
@@ -26,7 +27,7 @@ function Join02() {
   const handleLeftButton = () => {
     router.push('/auth/user/join01');
   };
-  const [error, setError] = useState(false);
+  const [isModal, setIsModal] = useState(false);
   const dispatch = useAppDispatch();
   const [tasteSelected, setTasteSelected] = useState([]);
   const userState = useAppSelector((state: { user: any }) => state.user);
@@ -49,27 +50,40 @@ function Join02() {
     // router.push('/home');
   };
   const handleCompleteButton = () => {
-    const tasteSelectedArr = tasteSelected;
+    setIsModal(true);
+  };
+  const onCloseModal = () => {
+    setIsModal(false);
+  };
+  const handleAccept = () => {
+    const tasteSelectedArr = [...tasteSelected];
     tasteSelectedArr.sort((a: number, b: number) => +a - +b);
     dispatch(setTastes(tasteSelectedArr));
     console.log({
       ...userState,
       tastes: tasteSelectedArr,
     });
+    console.log(tasteSelectedArr);
     // 회원가입 API전송
     // router.push('/home');
   };
   return (
     <Layout>
+      <Modal
+        message="취향 분석이 완료 되었습니다."
+        isModal={isModal}
+        onCloseModal={onCloseModal}
+        onAccept={handleAccept}
+      />
       <Navigate right_message=" " handleLeftButton={handleLeftButton} />
       <div className="text-18 font-semibold">관심있는 키워드를 골라주세요.</div>
-      <div className="flex flex-wrap py-10">
+      <div className="flex flex-wrap py-10 text-[#767676]">
         {TASTES.map((taste: any) =>
           tasteSelected.includes(taste.id + '') ? (
             <div
               key={taste.id}
               id={taste.id + ''}
-              className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer bg-[#F5535D] text-white"
+              className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer bg-[white] border-[#F5535D]"
               onClick={checkTaste}
             >
               {taste.name}
