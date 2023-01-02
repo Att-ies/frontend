@@ -5,14 +5,38 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import Button from '@components/common/Button';
+import AuthApi from '@apis/auth/authApi';
+import ErrorMessage from '@components/common/ErrorMessage';
 
 function Login() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: any) => {
+    const { id, password } = data;
+    console.log(id, password);
+    if (false) {
+      // 비밀번호 일치하지 않을 경우
+      setError(
+        'password',
+        {
+          type: 'incorrect',
+          message: '비밀번호가 일치하지 않습니다.',
+        },
+        { shouldFocus: true },
+      );
+    }
+    // 로그인 API
+  };
+  const handleNaverLogin = async () => {
+    // Naver 로그인 API
+  };
+  const handleKakaoLogin = async () => {
+    // Kakao 로그인 API
+  };
   return (
     <Layout>
       <div className="mx-auto w-full">
@@ -25,16 +49,20 @@ function Login() {
               placeholder="아이디를 입력해 주세요."
               register={register('id', { required: true })}
             />
-            {errors.id && <span className="">This field is required</span>}
+            {errors.id && <ErrorMessage message={errors.id.message} />}
           </div>
           <div className="flex flex-col mt-[10px] justify-start">
             <Input
-              type="text"
+              type="password"
               id="password"
               placeholder="비밀번호를 입력해주세요."
-              register={register('password', { required: true })}
+              register={register('password', {
+                required: true,
+              })}
             />
-            {errors.id && <span className="">This field is required</span>}
+            {errors.password && (
+              <ErrorMessage message={errors.password.message} />
+            )}
           </div>
           <div className="flex space-x-[22px] mt-[14px]">
             <CheckBox kind="radio" label="자동 로그인" />
@@ -44,7 +72,10 @@ function Login() {
             <Button text="로그인" />
           </div>
           <div className="flex justify-around items-center mt-[29px] text-12">
-            <div className="flex justify-center items-center">
+            <div
+              className="flex justify-center items-center cursor-pointer"
+              onClick={handleNaverLogin}
+            >
               <Image
                 src="/svg/social/naver_logo.svg"
                 alt="kakao"
@@ -53,7 +84,10 @@ function Login() {
               />
               <span className="ml-[10px]">네이버</span>
             </div>
-            <div className="flex justify-center items-center">
+            <div
+              className="flex justify-center items-center cursor-pointer"
+              onClick={handleKakaoLogin}
+            >
               <Image
                 src="/svg/social/kakao_logo.svg"
                 alt="kakao"
