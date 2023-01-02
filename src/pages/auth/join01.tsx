@@ -81,7 +81,7 @@ export default function Join01() {
           <CheckBox
             id="selectAll"
             label="전체동의"
-            isChecked={checkedTerm.length === 4 ? true : false}
+            isChecked={checkedTerm.length === 4}
             handler={(e) => onCheckedAll(e.target.checked)}
           />
         </div>
@@ -92,7 +92,7 @@ export default function Join01() {
                 kind="checkbox"
                 id="term1"
                 label="아띠즈 이용약관 동의(필수)"
-                isChecked={checkedTerm.includes('term1') ? true : false}
+                isChecked={checkedTerm.includes('term1')}
                 handler={(e) => onChecked(e.target.checked, e.target.id)}
               />
               <button>
@@ -108,7 +108,7 @@ export default function Join01() {
               <CheckBox
                 id="term2"
                 label="개인정보 수집과 이용에 동의(필수)"
-                isChecked={checkedTerm.includes('term2') ? true : false}
+                isChecked={checkedTerm.includes('term2')}
                 handler={(e) => onChecked(e.target.checked, e.target.id)}
               />
               <button>
@@ -124,7 +124,7 @@ export default function Join01() {
               <CheckBox
                 id="term3"
                 label="위치정보 이용약관에 동의(필수)"
-                isChecked={checkedTerm.includes('term3') ? true : false}
+                isChecked={checkedTerm.includes('term3')}
                 handler={(e) => onChecked(e.target.checked, e.target.id)}
               />
               <button>
@@ -140,7 +140,7 @@ export default function Join01() {
               <CheckBox
                 id="term4"
                 label="아띠즈 이벤트와 프로모션 수신 동의(선택)"
-                isChecked={checkedTerm.includes('term4') ? true : false}
+                isChecked={checkedTerm.includes('term4')}
                 handler={(e) => onChecked(e.target.checked, e.target.id)}
               />
               <button>
