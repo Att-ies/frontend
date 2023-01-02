@@ -97,8 +97,8 @@ export default function Join02() {
           />
           {errors.id && <ErrorMessage message={errors.id.message} />}
           <div
-            className="w-[55px] h-[25px] text-[#767676] text-12 radius border border-[#767676] rounded flex justify-center
-           items-center absolute right-[10px] top-[45px] cursor-pointer"
+            className="w-[58px] h-[25px] text-[#767676] text-12 radius border-2 rounded flex justify-center
+           items-center absolute right-[8px] top-[45px] cursor-pointer font-bold"
             onClick={handleDoubleCheckID}
           >
             중복확인
@@ -148,7 +148,7 @@ export default function Join02() {
                 message: '비밀번호를 형식에 맞게 입력해주세요.',
               },
             })}
-            className="rounded-t-none border-t-0 focus:border-t"
+            className="rounded-t-none  focus:border-t "
           />
           {errors.confirmPassword && (
             <ErrorMessage message={errors.confirmPassword.message} />
@@ -186,8 +186,8 @@ export default function Join02() {
             <ErrorMessage message={errors.email.message} />
           )}{' '}
           <div
-            className="w-[55px] h-[25px] text-[#767676] text-12 radius border border-[#767676] rounded flex justify-center
-         items-center absolute right-[10px] top-[45px] cursor-pointer"
+            className="w-[58px] h-[25px] text-[#767676] text-12 radius border-2 border-[#767676] rounded flex justify-center
+         items-center absolute right-[8px] top-[45px] cursor-pointer font-bold"
             onClick={handleDoubleCheckEmail}
           >
             중복확인
