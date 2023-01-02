@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type userInfo = {
-  id: string;
+  userId: string;
   password: string;
   email: string;
   username: string;
-  tel: string;
+  telephone: string;
 };
 interface userState extends userInfo {
   tastes: string[];
@@ -14,11 +14,11 @@ interface userState extends userInfo {
 }
 
 const initialState: userState = {
-  id: '',
+  userId: '',
   password: '',
   email: '',
   username: '',
-  tel: '',
+  telephone: '',
   tastes: [],
   isApprovePromotion: false,
   isArtist: false,
@@ -30,11 +30,11 @@ const userSlice = createSlice({
   reducers: {
     setUserInfo: (state: userState, action: PayloadAction<userInfo>) => ({
       ...state,
-      id: action.payload.id,
+      id: action.payload.userId,
       password: action.payload.password,
       email: action.payload.email,
       username: action.payload.username,
-      tel: action.payload.tel,
+      tel: action.payload.telephone,
     }),
     setTastes: (state: userState, action: PayloadAction<string[]>) => ({
       ...state,
