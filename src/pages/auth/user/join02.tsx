@@ -56,7 +56,7 @@ function Join02() {
     setIsModal(false);
   };
   const handleAccept = () => {
-    const tasteSelectedArr = tasteSelected;
+    const tasteSelectedArr = [...tasteSelected];
     tasteSelectedArr.sort((a: number, b: number) => +a - +b);
     dispatch(setTastes(tasteSelectedArr));
     console.log({
