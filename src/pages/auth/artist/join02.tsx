@@ -40,6 +40,11 @@ export default function Join02() {
     }
   }, [avatar]);
   const router = useRouter();
+  const handleComplete = () => {
+    console.log();
+    // 회원가입 API 전송
+    // router.push('/home')
+  };
   return (
     <Layout>
       <Navigate message="작가프로필" right_message=" "></Navigate>
@@ -64,9 +69,7 @@ export default function Join02() {
               <Image className="m-auto h-full" src={profile} alt="profile" />
             )}
 
-            {avatarPreview ? (
-              ''
-            ) : (
+            {!avatarPreview && (
               <ProfilePicBox className="w-[26px] h-[26px] z-10 bg-[#575757] absolute bottom-1 right-0">
                 <Image className="m-auto h-full" src={camera} alt="camera" />
               </ProfilePicBox>
@@ -85,25 +88,34 @@ export default function Join02() {
         <div className="font-bold">김영서</div>
         <div className="text-[#999999]">noniuxui@naver.com</div>
       </section>
-      <section className="mt-[30px]">
+      <form className="mt-[30px]">
         <Input
           type="text"
           label="학력"
           placeholder="학교와 학위, 전공 등을 입력해주세요."
+          register={register('education', {
+            required: true,
+          })}
         />
 
         <Input
-          className="mb-2"
           type="text"
+          className="mb-2"
           label="이력"
           placeholder="이력을 작성해주세요."
+          register={register('recold', {
+            required: true,
+          })}
         />
         <Input
           type="text"
           label="작가소개"
           placeholder="한 줄 소개를 작성해주세요."
+          register={register('introduction', {
+            required: true,
+          })}
         />
-      </section>
+      </form>
       <section className="mt-3 flex">
         <UserSNSBox>
           <Image
@@ -125,7 +137,7 @@ export default function Join02() {
         </UserSNSBox>
       </section>
       <Button
-        onClick={() => router.push('/home')}
+        onClick={handleComplete}
         className="absolute bottom-[83px] w-[325px]"
         text="완료"
       />
