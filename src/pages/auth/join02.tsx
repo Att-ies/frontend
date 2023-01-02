@@ -38,8 +38,8 @@ export default function Join02() {
   } = useForm<JoinForm>();
 
   const onSubmit = (form: JoinForm) => {
-
-    const { userId, username, password, confirmPassword, tel, email } = form;
+    const { userId, username, password, confirmPassword, telephone, email } =
+      form;
     if (password !== confirmPassword) {
       setError(
         'confirmPassword',
@@ -87,9 +87,8 @@ export default function Join02() {
           <Input
             type="text"
             label="ID"
-
             placeholder="영문+숫자 조합 5자리 이상 입력해주세요."
-            register={register('id', {
+            register={register('userId', {
               required: true,
               pattern: {
                 value: /^[a-z]+[a-z0-9]{5,19}$/g,
@@ -97,10 +96,10 @@ export default function Join02() {
               },
             })}
           />
-          {errors.id && <ErrorMessage message={errors.id.message} />}
+          {errors.userId && <ErrorMessage message={errors.userId.message} />}
           <div
             className="w-[58px] h-[25px] text-[#767676] text-12 radius border-2 rounded flex justify-center
-           items-center absolute right-[8px] top-[45px] cursor-pointer font-bold"
+            items-center absolute right-[8px] top-[45px] cursor-pointer font-bold"
             onClick={handleDoubleCheckID}
           >
             중복확인
@@ -191,7 +190,7 @@ export default function Join02() {
           )}{' '}
           <div
             className="w-[58px] h-[25px] text-[#767676] text-12 radius border-2 border-[#767676] rounded flex justify-center
-         items-center absolute right-[8px] top-[45px] cursor-pointer font-bold"
+          items-center absolute right-[8px] top-[45px] cursor-pointer font-bold"
             onClick={handleDoubleCheckEmail}
           >
             중복확인
