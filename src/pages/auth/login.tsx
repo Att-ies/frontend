@@ -7,6 +7,8 @@ import { useForm } from 'react-hook-form';
 import Button from '@components/common/Button';
 import AuthApi from '@apis/auth/authApi';
 import ErrorMessage from '@components/common/ErrorMessage';
+import instance from '@apis/_axios/instance';
+import React, { useState } from 'react';
 
 function Login() {
   const {
@@ -15,6 +17,15 @@ function Login() {
     formState: { errors },
     setError,
   } = useForm();
+  const [checkedTerm, setCheckedTerm] = useState<string[]>([]);
+  const onChecked = (checked: boolean, id: string): void => {
+    if (checked) {
+      setCheckedTerm([...checkedTerm, id]);
+    } else if (!checked && checkedTerm.includes(id)) {
+      setCheckedTerm(checkedTerm.filter((el: string) => el !== id));
+    }
+  };
+
   const onSubmit = (data: any) => {
     const { id, password } = data;
     console.log(id, password);
@@ -32,6 +43,8 @@ function Login() {
     // 로그인 API
   };
   const handleNaverLogin = async () => {
+    const response = await instance.get('/oauth2/authorization/kakao');
+    console.log(response);
     // Naver 로그인 API
   };
   const handleKakaoLogin = async () => {
@@ -65,8 +78,20 @@ function Login() {
             )}
           </div>
           <div className="flex space-x-[22px] mt-[14px]">
-            <CheckBox kind="radio" label="자동 로그인" />
-            <CheckBox kind="radio" label="아이디 저장" />
+            <CheckBox
+              kind="radio"
+              id="term1"
+              label="자동 로그인"
+              isChecked={checkedTerm.includes('term1')}
+              handler={(e) => onChecked(e.target.checked, e.target.id)}
+            />
+            <CheckBox
+              kind="radio"
+              label="아이디 저장"
+              id="term2"
+              isChecked={checkedTerm.includes('term2')}
+              handler={(e) => onChecked(e.target.checked, e.target.id)}
+            />
           </div>
           <div className="mt-[34px]">
             <Button text="로그인" />
