@@ -70,7 +70,7 @@ export default function Modal({
         <ModalBackground onClick={onCloseModal}></ModalBackground>
         <ModalInner>
           <ModalMessage>{message}</ModalMessage>
-          <ModalAccept onClick={onCloseModal}>확인</ModalAccept>
+          <ModalAccept onClick={onAccept || onCloseModal}>확인</ModalAccept>
         </ModalInner>
       </ModalTag>
     )
