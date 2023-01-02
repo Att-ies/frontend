@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Layout from '@components/common/Layout';
 import Input from '@components/common/Input';
@@ -25,9 +25,9 @@ export default function Join02() {
   const handleRightButton = () => {
     router.push('/auth/login');
   };
-
   const dispatch = useAppDispatch();
   const userState = useAppSelector((state) => state.user);
+  const [isDoubleChecked, setIsDoubleChecked] = useState([]);
 
   const {
     register,
@@ -35,20 +35,35 @@ export default function Join02() {
     formState: { errors },
     watch,
     setError,
+    clearErrors,
   } = useForm<JoinForm>();
 
   const onSubmit = (form: JoinForm) => {
     const { userId, username, password, confirmPassword, telephone, email } =
       form;
+<<<<<<< Updated upstream
+=======
+    // 비밀번호 불일치 시
+>>>>>>> Stashed changes
     if (password !== confirmPassword) {
-      setError(
-        'confirmPassword',
-        {
-          type: 'password inCorrect',
-          message: '비밀번호가 일치하지 않습니다.',
-        },
-        { shouldFocus: true },
-      );
+      setError('confirmPassword', {
+        type: 'password inCorrect',
+        message: '비밀번호가 일치하지 않습니다.',
+      });
+      return;
+    }
+    // id 중복확인 미확인시
+    if (!isDoubleChecked.includes('id')) {
+      setError('id', {
+        message: '아이디 중복확인을 해주세요',
+      });
+      return;
+    }
+    // email 중복확인 미확인시
+    if (!isDoubleChecked.includes('email')) {
+      setError('email', {
+        message: '아이디 중복확인을 해주세요',
+      });
       return;
     }
     dispatch(
@@ -64,11 +79,50 @@ export default function Join02() {
     if (userState.isArtist) router.push('/auth/artist/join01');
     else router.push('/auth/user/join01');
   };
+  console.log(isDoubleChecked);
   const handleDoubleCheckID = () => {
     // ID 중복확인 API
+    if (false) {
+      // ID 중복 시
+      setError(
+        'id',
+        {
+          type: 'id using',
+          message: '이미 사용 중인 아이디입니다.',
+        },
+        { shouldFocus: true },
+      );
+    } else {
+      clearErrors('id');
+      if (isDoubleChecked.includes('id')) {
+        setIsDoubleChecked(isDoubleChecked.filter((it: string) => it != 'id'));
+      } else {
+        setIsDoubleChecked([...isDoubleChecked, 'id']);
+      }
+    }
   };
   const handleDoubleCheckEmail = () => {
     // Email 중복확인 API
+    if (false) {
+      // Email 중복 시
+      setError(
+        'email',
+        {
+          type: 'id using',
+          message: '이미 사용 중인 이메일입니다.',
+        },
+        { shouldFocus: true },
+      );
+    } else {
+      clearErrors('email');
+      if (isDoubleChecked.includes('email')) {
+        setIsDoubleChecked(
+          isDoubleChecked.filter((it: string) => it != 'email'),
+        );
+      } else {
+        setIsDoubleChecked([...isDoubleChecked, 'email']);
+      }
+    }
   };
   return (
     <Layout>
@@ -159,7 +213,7 @@ export default function Join02() {
           <Input
             type="text"
             label="휴대폰 번호"
-            placeholder="번호를 입력해주세요"
+            placeholder="-를 제외하고 입력해주세요."
             register={register('telephone', {
               required: true,
               pattern: {
@@ -176,7 +230,7 @@ export default function Join02() {
           <Input
             type="email"
             label="이메일"
-            placeholder="이메일을 입력해주세요."
+            placeholder="ATTIES@naver.com"
             register={register('email', {
               required: true,
               pattern: {

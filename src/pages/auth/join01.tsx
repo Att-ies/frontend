@@ -22,7 +22,7 @@ export default function Join01() {
   const router = useRouter();
 
   const handleLeftButton = () => {
-    router.back();
+    router.push('/auth/join');
   };
   const handleRightButton = () => {
     router.push('/auth/login');
