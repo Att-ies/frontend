@@ -63,7 +63,12 @@ export default function Join02() {
     if (userState.isArtist) router.push('/auth/artist/join01');
     else router.push('/auth/user/join01');
   };
-  console.log(errors);
+  const handleDoubleCheckID = () => {
+    // ID 중복확인 API
+  };
+  const handleDoubleCheckEmail = () => {
+    // Email 중복확인 API
+  };
   return (
     <Layout>
       <Navigate
@@ -77,7 +82,7 @@ export default function Join02() {
         </p>
       </section>
       <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
-        <section className="mb-3">
+        <section className="mb-3 relative">
           <Input
             type="text"
             label="ID"
@@ -91,8 +96,15 @@ export default function Join02() {
             })}
           />
           {errors.id && <ErrorMessage message={errors.id.message} />}
+          <div
+            className="w-[55px] h-[25px] text-[#767676] text-12 radius border border-[#767676] rounded flex justify-center
+           items-center absolute right-[10px] top-[45px] cursor-pointer"
+            onClick={handleDoubleCheckID}
+          >
+            중복확인
+          </div>
         </section>
-        <section className="mb-3">
+        <section className="mb-3 relative">
           <Input
             type="text"
             label="사용자 이름"
@@ -157,7 +169,7 @@ export default function Join02() {
           />
           {errors.tel && <ErrorMessage message={errors.tel.message} />}
         </section>
-        <section className="mb-3">
+        <section className="mb-3 relative">
           <Input
             type="email"
             label="이메일"
@@ -172,7 +184,14 @@ export default function Join02() {
           />
           {errors.email && errors.email.message && (
             <ErrorMessage message={errors.email.message} />
-          )}
+          )}{' '}
+          <div
+            className="w-[55px] h-[25px] text-[#767676] text-12 radius border border-[#767676] rounded flex justify-center
+         items-center absolute right-[10px] top-[45px] cursor-pointer"
+            onClick={handleDoubleCheckEmail}
+          >
+            중복확인
+          </div>
         </section>
         <div className="h-[30px]" />
         <section>
