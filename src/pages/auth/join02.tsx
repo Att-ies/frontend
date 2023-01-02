@@ -9,11 +9,11 @@ import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { setUserInfo } from '@features/user/userSlice';
 interface JoinForm {
-  id: string;
+  userId: string;
   username: string;
   password: string;
   confirmPassword: string;
-  tel: string;
+  telephone: string;
   email: string;
 }
 
@@ -37,13 +37,13 @@ export default function Join02() {
   } = useForm<JoinForm>();
 
   const onSubmit = (form: JoinForm) => {
-    const { id, username, password, tel, email } = form;
+    const { userId, username, password, telephone, email } = form;
     dispatch(
       setUserInfo({
-        id,
+        userId,
         username,
         password,
-        tel,
+        telephone,
         email,
       }),
     );
@@ -70,9 +70,11 @@ export default function Join02() {
             type="text"
             label="ID"
             placeholder="아이디를 입력해주세요."
-            register={register('id', { required: true })}
+            register={register('userId', { required: true })}
           />
-          {errors.id && <ErrorMessage message="이미 사용중인 아이디입니다." />}
+          {errors.userId && (
+            <ErrorMessage message="이미 사용중인 아이디입니다." />
+          )}
         </section>
         <section className="mb-3">
           <Input
@@ -128,7 +130,7 @@ export default function Join02() {
             type="text"
             label="휴대폰 번호"
             placeholder="번호를 입력해주세요"
-            register={register('tel', {
+            register={register('telephone', {
               required: true,
               pattern: {
                 value: /^01([0|1|6|7|8|9])[0-9]{4}[0-9]{4}$/g,
@@ -136,7 +138,9 @@ export default function Join02() {
               },
             })}
           />
-          {errors.tel && <ErrorMessage message={errors.tel.message} />}
+          {errors.telephone && (
+            <ErrorMessage message={errors.telephone.message} />
+          )}
         </section>
         <section className="mb-3">
           <Input
