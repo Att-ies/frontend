@@ -28,22 +28,6 @@ export class AuthApi {
     return data;
   }
 
-  async getNaverLogin(): Promise<AuthDTOType> {
-    const { data } = await this.axios({
-      method: 'GET',
-      url: `/oauth2/authorization/naver`,
-    });
-    return data;
-  }
-
-  async getKakaoLogin(): Promise<AuthDTOType> {
-    const { data } = await this.axios({
-      method: 'GET',
-      url: `/oauth2/authorization/kakao`,
-    });
-    return data;
-  }
-
   async postAccessToken(body: AuthDTOType): Promise<AuthDTOType> {
     const { data } = await this.axios({
       method: 'POST',

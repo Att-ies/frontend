@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import Button from '@components/common/Button';
 import { CONFIG } from '@config';
+import ErrorMessage from '@components/common/ErrorMessage';
+import React, { useState } from 'react';
 
 const randomString = (length: number) => {
   let result = '';
@@ -25,8 +27,34 @@ function Login() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
-  const onSubmit = (data: any) => console.log(data);
+  const [checkedTerm, setCheckedTerm] = useState<string[]>([]);
+  const onChecked = (checked: boolean, id: string): void => {
+    if (checked) {
+      setCheckedTerm([...checkedTerm, id]);
+    } else if (!checked && checkedTerm.includes(id)) {
+      setCheckedTerm(checkedTerm.filter((el: string) => el !== id));
+    }
+  };
+
+  const onSubmit = (data: any) => {
+    const { id, password } = data;
+    console.log(id, password);
+    if (false) {
+      // 비밀번호 일치하지 않을 경우
+      setError(
+        'password',
+        {
+          type: 'incorrect',
+          message: '비밀번호가 일치하지 않습니다.',
+        },
+        { shouldFocus: true },
+      );
+    }
+    // 로그인 API
+  };
+
   return (
     <Layout>
       <div className="mx-auto w-full">
@@ -39,20 +67,36 @@ function Login() {
               placeholder="아이디를 입력해 주세요."
               register={register('id', { required: true })}
             />
-            {errors.id && <span className="">This field is required</span>}
+            {errors.id && <ErrorMessage message={errors.id.message} />}
           </div>
           <div className="flex flex-col mt-[10px] justify-start">
             <Input
-              type="text"
+              type="password"
               id="password"
               placeholder="비밀번호를 입력해주세요."
-              register={register('password', { required: true })}
+              register={register('password', {
+                required: true,
+              })}
             />
-            {errors.id && <span className="">This field is required</span>}
+            {errors.password && (
+              <ErrorMessage message={errors.password.message} />
+            )}
           </div>
           <div className="flex space-x-[22px] mt-[14px]">
-            <CheckBox kind="radio" label="자동 로그인" />
-            <CheckBox kind="radio" label="아이디 저장" />
+            <CheckBox
+              kind="radio"
+              id="term1"
+              label="자동 로그인"
+              isChecked={checkedTerm.includes('term1')}
+              handler={(e) => onChecked(e.target.checked, e.target.id)}
+            />
+            <CheckBox
+              kind="radio"
+              label="아이디 저장"
+              id="term2"
+              isChecked={checkedTerm.includes('term2')}
+              handler={(e) => onChecked(e.target.checked, e.target.id)}
+            />
           </div>
           <div className="mt-[34px]">
             <Button text="로그인" />

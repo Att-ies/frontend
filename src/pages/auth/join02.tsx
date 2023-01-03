@@ -9,11 +9,11 @@ import { useRouter } from 'next/router';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { setUserInfo } from '@features/user/userSlice';
 interface JoinForm {
-  id: string;
+  userId: string;
   username: string;
   password: string;
   confirmPassword: string;
-  tel: string;
+  telephone: string;
   email: string;
 }
 
@@ -38,7 +38,8 @@ export default function Join02() {
   } = useForm<JoinForm>();
 
   const onSubmit = (form: JoinForm) => {
-    const { id, username, password, confirmPassword, tel, email } = form;
+    const { userId, username, password, confirmPassword, telephone, email } =
+      form;
     if (password !== confirmPassword) {
       setError(
         'confirmPassword',
@@ -52,10 +53,10 @@ export default function Join02() {
     }
     dispatch(
       setUserInfo({
-        id,
+        userId,
         username,
         password,
-        tel,
+        telephone,
         email,
       }),
     );
@@ -87,7 +88,7 @@ export default function Join02() {
             type="text"
             label="ID"
             placeholder="영문+숫자 조합 5자리 이상 입력해주세요."
-            register={register('id', {
+            register={register('userId', {
               required: true,
               pattern: {
                 value: /^[a-z]+[a-z0-9]{5,19}$/g,
@@ -95,10 +96,10 @@ export default function Join02() {
               },
             })}
           />
-          {errors.id && <ErrorMessage message={errors.id.message} />}
+          {errors.userId && <ErrorMessage message={errors.userId.message} />}
           <div
             className="w-[58px] h-[25px] text-[#767676] text-12 radius border-2 rounded flex justify-center
-           items-center absolute right-[8px] top-[45px] cursor-pointer font-bold"
+            items-center absolute right-[8px] top-[45px] cursor-pointer font-bold"
             onClick={handleDoubleCheckID}
           >
             중복확인
@@ -159,7 +160,7 @@ export default function Join02() {
             type="text"
             label="휴대폰 번호"
             placeholder="번호를 입력해주세요"
-            register={register('tel', {
+            register={register('telephone', {
               required: true,
               pattern: {
                 value: /^01([0|1|6|7|8|9])[0-9]{4}[0-9]{4}$/g,
@@ -167,7 +168,9 @@ export default function Join02() {
               },
             })}
           />
-          {errors.tel && <ErrorMessage message={errors.tel.message} />}
+          {errors.telephone && (
+            <ErrorMessage message={errors.telephone.message} />
+          )}
         </section>
         <section className="mb-3 relative">
           <Input
@@ -187,7 +190,7 @@ export default function Join02() {
           )}{' '}
           <div
             className="w-[58px] h-[25px] text-[#767676] text-12 radius border-2 border-[#767676] rounded flex justify-center
-         items-center absolute right-[8px] top-[45px] cursor-pointer font-bold"
+          items-center absolute right-[8px] top-[45px] cursor-pointer font-bold"
             onClick={handleDoubleCheckEmail}
           >
             중복확인

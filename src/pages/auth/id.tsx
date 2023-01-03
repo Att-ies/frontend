@@ -65,7 +65,7 @@ function Id() {
             })}
             className="mb-2"
           />
-          {errors.name ? <ErrorMessage message={errors.name.message} /> : ''}
+          {errors.name && <ErrorMessage message={errors.name.message} />}
 
           <Input
             type="email"
@@ -79,9 +79,8 @@ function Id() {
               },
             })}
           />
-          {errors.email ? <ErrorMessage message={errors.email.message} /> : ''}
+          {errors.email && <ErrorMessage message={errors.email.message} />}
         </section>
-        {errors.password && <span className="">This field is required</span>}
         <div className="h-[400px]" />
         <section>
           <Button text="확인" type="submit" />
