@@ -5,10 +5,22 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import Button from '@components/common/Button';
-import AuthApi from '@apis/auth/authApi';
+import { CONFIG } from '@config';
 import ErrorMessage from '@components/common/ErrorMessage';
-import instance from '@apis/_axios/instance';
 import React, { useState } from 'react';
+
+const randomString = (length: number) => {
+  let result = '';
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+};
+
+const STATESTRING = randomString(20);
 
 function Login() {
   const {
@@ -42,14 +54,7 @@ function Login() {
     }
     // 로그인 API
   };
-  const handleNaverLogin = async () => {
-    const response = await instance.get('/oauth2/authorization/kakao');
-    console.log(response);
-    // Naver 로그인 API
-  };
-  const handleKakaoLogin = async () => {
-    // Kakao 로그인 API
-  };
+
   return (
     <Layout>
       <div className="mx-auto w-full">
@@ -97,30 +102,32 @@ function Login() {
             <Button text="로그인" />
           </div>
           <div className="flex justify-around items-center mt-[29px] text-12">
-            <div
-              className="flex justify-center items-center cursor-pointer"
-              onClick={handleNaverLogin}
+            <Link
+              href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CONFIG.API_KEYS.NAVER}&state=${STATESTRING}&redirect_uri=http://localhost:3000/auth/naver/callback`}
             >
-              <Image
-                src="/svg/social/naver_logo.svg"
-                alt="kakao"
-                width={18}
-                height={18}
-              />
-              <span className="ml-[10px]">네이버</span>
-            </div>
-            <div
-              className="flex justify-center items-center cursor-pointer"
-              onClick={handleKakaoLogin}
+              <div className="flex justify-center items-center">
+                <Image
+                  src="/svg/social/naver_logo.svg"
+                  alt="kakao"
+                  width={18}
+                  height={18}
+                />
+                <span className="ml-[10px]">네이버</span>
+              </div>
+            </Link>
+            <Link
+              href={`https://kauth.kakao.com/oauth/authorize?client_id=${CONFIG.API_KEYS.KAKAO}&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code`}
             >
-              <Image
-                src="/svg/social/kakao_logo.svg"
-                alt="kakao"
-                width={18}
-                height={18}
-              />
-              <span className="ml-[10px]">카카오톡</span>
-            </div>
+              <div className="flex justify-center items-center">
+                <Image
+                  src="/svg/social/kakao_logo.svg"
+                  alt="kakao"
+                  width={18}
+                  height={18}
+                />
+                <span className="ml-[10px]">카카오톡</span>
+              </div>
+            </Link>
           </div>
           <p className="w-full text-center text-12 mt-[29px]">
             계정을 잊으셨나요?&nbsp;

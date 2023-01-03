@@ -5,15 +5,15 @@ import { setToken } from '@utils/localStorage/token';
 import { Token } from '@utils/localStorage/token';
 import { useRouter } from 'next/router';
 
-export default function KakaoCallback() {
+export default function NaverCallback() {
   const router = useRouter();
 
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code');
+    const state = new URL(window.location.href).searchParams.get('state');
     instance
-      .get(`/oauth2/kakao?code=${code}`)
+      .get(`/oauth2/naver?code=${code}&state=${state}`)
       .then((res) => {
-        console.log(res.data);
         const token: Token = {
           access: res.data.accessToken,
           refresh: res.data.refreshToken,
