@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { setArtistInfo } from '@features/user/userSlice';
+import ErrorMessage from '@components/common/ErrorMessage';
 
 interface defaultProps {
   [key: string]: any;
@@ -24,22 +25,20 @@ flex cursor-pointer flex items-center text-12
 `;
 
 interface ArtistProfileForm {
+  profile?: FileList;
   history: string;
   education: string;
   description: string;
-
   instagram: string;
   behance: string;
-
-  profile?: FileList;
 }
 
 export default function Join02() {
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const [profilePreview, setProfilePreview] = useState('');
   const { handleSubmit, formState, watch, register } =
     useForm<ArtistProfileForm>();
+  const [isProfileError, setIsProfileError] = useState<boolean>(false);
   const profile = watch('profile');
   const userState = useAppSelector((state: { user: any }) => state.user);
 
@@ -51,11 +50,36 @@ export default function Join02() {
   }, [profile]);
 
   const onSubmit = (form: ArtistProfileForm) => {
-    dispatch(setArtistInfo({}));
-    const { education, history, description, profile } = form;
-    console.log(education, history, description, profile[0]);
+    const { userId, username, password, telephone, email } = userState;
+    const { profile, education, history, description, instagram, behance } =
+      form;
+    if (!profile.length) {
+      setIsProfileError(true);
+      return;
+    } else {
+      setIsProfileError(false);
+    }
 
-    // 회원가입 API 전송
+    const formData = new FormData();
+    formData.append('userId', userId);
+    formData.append('username', username);
+    formData.append('password', password);
+    formData.append('telephone', telephone);
+    formData.append('email', email);
+
+    formData.append('image', profile[0]);
+    formData.append('education', education);
+    formData.append('history', history);
+    formData.append('description', description);
+    formData.append('instagram', instagram || '');
+    formData.append('behance', behance || '');
+
+    console.log('회원가입 API');
+    // 아래처럼 multipart형식으로 회원가입 API 전송
+    // headers: {
+    //   'Content-Type': 'multipart/form-data',
+    // },
+    // data: formData,
   };
   return (
     <Layout>
@@ -105,6 +129,11 @@ export default function Join02() {
             className="hidden"
             accept="image/*"
           />
+          {isProfileError && (
+            <span className="text-14 text-[#FF3120] absolute left-[100px] top-[250px]">
+              프로필 사진을 추가해주세요
+            </span>
+          )}
         </label>
       </section>
       <section className="mt-8 w-full flex flex-col justify-center items-center">
@@ -152,6 +181,9 @@ export default function Join02() {
               type="text"
               placeholder="인스타그램 추가하기"
               className="ml-1 text-12 border-none h-[20px] w-[120px] p-0 flex items-center placeholder:text-[#999]"
+              {...register('instagram', {
+                required: false,
+              })}
             />
             {/* <span >인스타그램 추가하기</span> */}
           </UserSNSBox>
@@ -166,6 +198,9 @@ export default function Join02() {
               type="text"
               placeholder="비헨스 추가하기"
               className="ml-1 text-12 border-none h-[20px] w-[120px] p-0 flex items-center placeholder:text-[#999]"
+              {...register('behance', {
+                required: false,
+              })}
             />
           </UserSNSBox>
         </section>
