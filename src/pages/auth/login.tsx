@@ -53,15 +53,17 @@ function Login() {
               />
               <span className="ml-[10px]">네이버</span>
             </div>
-            <div className="flex justify-center items-center">
-              <Image
-                src="/svg/social/kakao_logo.svg"
-                alt="kakao"
-                width={18}
-                height={18}
-              />
-              <span className="ml-[10px]">카카오톡</span>
-            </div>
+            <Link href="https://kauth.kakao.com/oauth/authorize?client_id=b5b9faf3a6925894eef87a665c2cb072&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code">
+              <div className="flex justify-center items-center">
+                <Image
+                  src="/svg/social/kakao_logo.svg"
+                  alt="kakao"
+                  width={18}
+                  height={18}
+                />
+                <span className="ml-[10px]">카카오톡</span>
+              </div>
+            </Link>
           </div>
           <p className="w-full text-center text-12 mt-[29px]">
             계정을 잊으셨나요?&nbsp;
