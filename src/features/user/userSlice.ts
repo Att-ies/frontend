@@ -8,7 +8,14 @@ type userInfo = {
   telephone: string;
 };
 interface userState extends userInfo {
-  tastes: string[];
+  tastes: string[]; //user
+
+  education: string; //artist
+  history: string;
+  description: string;
+  instagram: string;
+  behance: string;
+
   isApprovePromotion: boolean;
   isArtist: boolean;
 }
@@ -19,7 +26,15 @@ const initialState: userState = {
   email: '',
   username: '',
   telephone: '',
-  tastes: [],
+
+  tastes: [], //user
+
+  education: '', //artist
+  history: '',
+  description: '',
+  instagram: '',
+  behance: '',
+
   isApprovePromotion: false,
   isArtist: false,
 };
@@ -30,15 +45,23 @@ const userSlice = createSlice({
   reducers: {
     setUserInfo: (state: userState, action: PayloadAction<userInfo>) => ({
       ...state,
-      id: action.payload.userId,
+      userId: action.payload.userId,
       password: action.payload.password,
       email: action.payload.email,
       username: action.payload.username,
-      tel: action.payload.telephone,
+      telephone: action.payload.telephone,
     }),
     setTastes: (state: userState, action: PayloadAction<string[]>) => ({
       ...state,
       tastes: action.payload,
+    }),
+    setArtistInfo: (state: userState, action: PayloadAction<string>) => ({
+      ...state,
+      education: action.payload.education,
+      history: action.payload.history,
+      description: action.payload.description,
+      instagram: action.payload.instagram,
+      behance: action.payload.behance,
     }),
     setIsApprovePromotion: (
       state: userState,
@@ -54,6 +77,11 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserInfo, setTastes, setIsApprovePromotion, setIsArtist } =
-  userSlice.actions;
+export const {
+  setUserInfo,
+  setTastes,
+  setIsApprovePromotion,
+  setArtistInfo,
+  setIsArtist,
+} = userSlice.actions;
 export default userSlice.reducer;

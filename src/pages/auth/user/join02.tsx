@@ -8,18 +8,23 @@ import userSlice, { setTastes } from '@features/user/userSlice';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Modal from '@components/common/Modal';
 
-const TASTES = [
-  { id: 1, name: '심플한' },
-  { id: 2, name: '세련된' },
-  { id: 3, name: '모던한' },
-  { id: 4, name: '서양화' },
-  { id: 5, name: '유화' },
-  { id: 6, name: '변화의' },
-  { id: 7, name: '비판적인' },
-  { id: 8, name: '동양화' },
-  { id: 9, name: '미디어아트' },
-  { id: 10, name: '풍경화' },
-  { id: 11, name: '화려한' },
+interface TasteForm {
+  id: string;
+  name: string;
+}
+
+const TASTES: TasteForm[] = [
+  { id: '1', name: '심플한' },
+  { id: '2', name: '세련된' },
+  { id: '3', name: '모던한' },
+  { id: '4', name: '서양화' },
+  { id: '6', name: '변화의' },
+  { id: '5', name: '유화' },
+  { id: '7', name: '비판적인' },
+  { id: '8', name: '동양화' },
+  { id: '9', name: '미디어아트' },
+  { id: '10', name: '풍경화' },
+  { id: '11', name: '화려한' },
 ];
 
 function Join02() {
@@ -27,9 +32,9 @@ function Join02() {
   const handleLeftButton = () => {
     router.push('/auth/user/join01');
   };
-  const [isModal, setIsModal] = useState(false);
+  const [isModal, setIsModal] = useState<boolean>(false);
+  const [tasteSelected, setTasteSelected] = useState<string[]>([]);
   const dispatch = useAppDispatch();
-  const [tasteSelected, setTasteSelected] = useState([]);
   const userState = useAppSelector((state: { user: any }) => state.user);
   const checkTaste = (e: { target: { id: any } }) => {
     const thisId = e.target.id;
@@ -63,7 +68,6 @@ function Join02() {
       ...userState,
       tastes: tasteSelectedArr,
     });
-    console.log(tasteSelectedArr);
     // 회원가입 API전송
     // router.push('/home');
   };
@@ -78,12 +82,12 @@ function Join02() {
       <Navigate right_message=" " handleLeftButton={handleLeftButton} />
       <div className="text-18 font-semibold">관심있는 키워드를 골라주세요.</div>
       <div className="flex flex-wrap py-10 text-[#767676]">
-        {TASTES.map((taste: any) =>
-          tasteSelected.includes(taste.id + '') ? (
+        {TASTES.map((taste: TasteForm) =>
+          tasteSelected.includes(taste.id) ? (
             <div
               key={taste.id}
-              id={taste.id + ''}
-              className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer bg-[white] border-[#F5535D]"
+              id={taste.id}
+              className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer bg-[white] border-[#F5535D] font-bold"
               onClick={checkTaste}
             >
               {taste.name}
@@ -92,8 +96,8 @@ function Join02() {
             <>
               <div
                 key={taste.id}
-                id={taste.id + ''}
-                className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer"
+                id={taste.id}
+                className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer font-bold"
                 onClick={checkTaste}
               >
                 {taste.name}
