@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Layout from '@components/common/Layout';
 import Input from '@components/common/Input';
@@ -25,30 +25,41 @@ export default function Join02() {
   const handleRightButton = () => {
     router.push('/auth/login');
   };
-
   const dispatch = useAppDispatch();
   const userState = useAppSelector((state) => state.user);
+  const [isDoubleChecked, setIsDoubleChecked] = useState([]);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
     setError,
+    clearErrors,
   } = useForm<JoinForm>();
-
+  console.log(errors);
   const onSubmit = (form: JoinForm) => {
     const { userId, username, password, confirmPassword, telephone, email } =
       form;
+    // 비밀번호 불일치 시
     if (password !== confirmPassword) {
-      setError(
-        'confirmPassword',
-        {
-          type: 'password inCorrect',
-          message: '비밀번호가 일치하지 않습니다.',
-        },
-        { shouldFocus: true },
-      );
+      setError('confirmPassword', {
+        message: '비밀번호가 일치하지 않습니다.',
+      });
+      return;
+    }
+    // userId 중복확인 미확인시
+    if (!isDoubleChecked.includes('userId')) {
+      setError('userId', {
+        message: '아이디 중복확인을 해주세요',
+      });
+      return;
+    }
+    // email 중복확인 미확인시
+    console.log(isDoubleChecked);
+    if (!isDoubleChecked.includes('email')) {
+      setError('email', {
+        message: '이메일 중복확인을 해주세요',
+      });
       return;
     }
     dispatch(
@@ -65,10 +76,45 @@ export default function Join02() {
     else router.push('/auth/user/join01');
   };
   const handleDoubleCheckID = () => {
-    // ID 중복확인 API
+    // userId 중복확인 API
+    if (false) {
+      // userId 중복 시
+      setError('userId', {
+        message: '이미 사용 중인 아이디입니다.',
+      });
+    } else {
+      clearErrors('userId');
+      if (isDoubleChecked.includes('userId')) {
+        setIsDoubleChecked(
+          isDoubleChecked.filter((it: string) => it != 'userId'),
+        );
+      } else {
+        setIsDoubleChecked([...isDoubleChecked, 'userId']);
+      }
+    }
   };
   const handleDoubleCheckEmail = () => {
     // Email 중복확인 API
+    if (false) {
+      // Email 중복 시
+      setError(
+        'email',
+        {
+          type: 'email using',
+          message: '이미 사용 중인 이메일입니다.',
+        },
+        { shouldFocus: true },
+      );
+    } else {
+      clearErrors('email');
+      if (isDoubleChecked.includes('email')) {
+        setIsDoubleChecked(
+          isDoubleChecked.filter((it: string) => it != 'email'),
+        );
+      } else {
+        setIsDoubleChecked([...isDoubleChecked, 'email']);
+      }
+    }
   };
   return (
     <Layout>
@@ -95,11 +141,15 @@ export default function Join02() {
                 message: '아이디 형식에 맞게 입력해주세요.',
               },
             })}
+            defaultValue="abcd1234" //테스트를 위한 코드
           />
           {errors.userId && <ErrorMessage message={errors.userId.message} />}
           <div
-            className="w-[58px] h-[25px] text-[#767676] text-12 radius border-2 rounded flex justify-center
-            items-center absolute right-[8px] top-[45px] cursor-pointer font-bold"
+            className={`w-[58px] h-[25px] border ${
+              isDoubleChecked.includes('userId')
+                ? 'text-[#FF3120] border-[#FF3120]'
+                : 'text-[#767676] border[#767676]'
+            } text-12 rounded flex justify-centeritems-center absolute right-[8px] top-[45px] cursor-pointer font-bold justify-center items-center`}
             onClick={handleDoubleCheckID}
           >
             중복확인
@@ -117,6 +167,7 @@ export default function Join02() {
                 message: '최대 한글25자까지 입력 가능합니다.',
               },
             })}
+            defaultValue="박규성" //테스트를 위한 코드
           />
           {errors.username && (
             <ErrorMessage message={errors.username.message} />
@@ -135,6 +186,7 @@ export default function Join02() {
               },
             })}
             className="rounded-b-none focus:translate-y-[-1px]"
+            defaultValue="abcd1234" //테스트를 위한 코드
           />
           {errors.password && (
             <ErrorMessage message={errors.password.message} />
@@ -150,6 +202,7 @@ export default function Join02() {
               },
             })}
             className="rounded-t-none  focus:border-t "
+            defaultValue="abcd1234" //테스트를 위한 코드
           />
           {errors.confirmPassword && (
             <ErrorMessage message={errors.confirmPassword.message} />
@@ -159,7 +212,7 @@ export default function Join02() {
           <Input
             type="text"
             label="휴대폰 번호"
-            placeholder="번호를 입력해주세요"
+            placeholder="-를 제외하고 입력해주세요."
             register={register('telephone', {
               required: true,
               pattern: {
@@ -167,6 +220,7 @@ export default function Join02() {
                 message: '휴대폰번호를 정확히 입력해주세요.',
               },
             })}
+            defaultValue="01012345678" //테스트를 위한 코드
           />
           {errors.telephone && (
             <ErrorMessage message={errors.telephone.message} />
@@ -176,7 +230,7 @@ export default function Join02() {
           <Input
             type="email"
             label="이메일"
-            placeholder="이메일을 입력해주세요."
+            placeholder="ATTIES@naver.com"
             register={register('email', {
               required: true,
               pattern: {
@@ -184,13 +238,17 @@ export default function Join02() {
                 message: '이메일 형식이 올바르지 않습니다.',
               },
             })}
+            defaultValue="gueit214@naver.com" //테스트를 위한 코드
           />
           {errors.email && errors.email.message && (
             <ErrorMessage message={errors.email.message} />
-          )}{' '}
+          )}
           <div
-            className="w-[58px] h-[25px] text-[#767676] text-12 radius border-2 border-[#767676] rounded flex justify-center
-          items-center absolute right-[8px] top-[45px] cursor-pointer font-bold"
+            className={`w-[58px] h-[25px] border ${
+              isDoubleChecked.includes('email')
+                ? 'text-[#FF3120] border-[#FF3120]'
+                : 'text-[#767676] border[#767676]'
+            } text-12 rounded flex justify-centeritems-center absolute right-[8px] top-[45px] cursor-pointer font-bold justify-center items-center`}
             onClick={handleDoubleCheckEmail}
           >
             중복확인
