@@ -32,9 +32,9 @@ function Join02() {
   const handleLeftButton = () => {
     router.push('/auth/user/join01');
   };
-  const [isModal, setIsModal] = useState(false);
+  const [isModal, setIsModal] = useState<boolean>(false);
+  const [tasteSelected, setTasteSelected] = useState<string[]>([]);
   const dispatch = useAppDispatch();
-  const [tasteSelected, setTasteSelected] = useState([]);
   const userState = useAppSelector((state: { user: any }) => state.user);
   const checkTaste = (e: { target: { id: any } }) => {
     const thisId = e.target.id;
