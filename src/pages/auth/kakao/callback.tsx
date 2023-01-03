@@ -7,20 +7,19 @@ import { Token } from '@utils/localStorage/token';
 export default function Callback() {
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code');
-    // kakao login with code and if token save token at localStorage
-    // instance
-    //   .post('/auth/kakao', { code })
-    //   .then((res) => {
-    //     const token: Token = {
-    //       access: res.data.accessToken,
-    //       refresh: res.data.refreshToken,
-    //       isRegister: res.data.isRegister,
-    //     };
-    //     if (token) setToken(token);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    instance
+      .get(`/oauth2/kakao?code=${code}`)
+      .then((res) => {
+        console.log(res.data);
+        const token: Token = {
+          access: res.data.accessToken,
+          refresh: res.data.refreshToken,
+        };
+        if (token) setToken(token);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
