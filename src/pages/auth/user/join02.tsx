@@ -50,7 +50,6 @@ function Join02() {
   const handleCancleButton = () => {
     console.log({
       ...userState,
-      tastes: [],
     });
     // 회원가입 API전송
     // router.push('/home');
@@ -69,7 +68,6 @@ function Join02() {
       ...userState,
       tastes: tasteSelectedArr,
     });
-    console.log(tasteSelectedArr);
     // 회원가입 API전송
     // router.push('/home');
   };
@@ -89,7 +87,7 @@ function Join02() {
             <div
               key={taste.id}
               id={taste.id}
-              className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer bg-[white] border-[#F5535D]"
+              className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer bg-[white] border-[#F5535D] font-bold"
               onClick={checkTaste}
             >
               {taste.name}
@@ -99,7 +97,7 @@ function Join02() {
               <div
                 key={taste.id}
                 id={taste.id}
-                className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer"
+                className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer font-bold"
                 onClick={checkTaste}
               >
                 {taste.name}
