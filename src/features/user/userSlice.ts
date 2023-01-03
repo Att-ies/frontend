@@ -9,13 +9,11 @@ type userInfo = {
 };
 interface userState extends userInfo {
   tastes: string[]; //user
-
   education: string; //artist
   history: string;
   description: string;
   instagram: string;
   behance: string;
-
   isApprovePromotion: boolean;
   isArtist: boolean;
 }
@@ -55,7 +53,7 @@ const userSlice = createSlice({
       ...state,
       tastes: action.payload,
     }),
-    setArtistInfo: (state: userState, action: PayloadAction<string>) => ({
+    setArtistInfo: (state: userState, action: PayloadAction<userState>) => ({
       ...state,
       education: action.payload.education,
       history: action.payload.history,
