@@ -1,7 +1,6 @@
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import Input from '@components/common/Input';
-import profile from '@public/svg/icons/icon_profile.svg';
 import camera from '@public/svg/icons/icon_camera.svg';
 import Image from 'next/image';
 import tw from 'tailwind-styled-components';
@@ -85,9 +84,14 @@ export default function Join02() {
                 height={100}
               />
             ) : (
-              <Image className="m-auto h-full" src={profile} alt="profile" />
+              <Image
+                className="m-auto h-full"
+                src="/svg/icons/profile/icon_avatar.svg"
+                alt="profile"
+                width="50"
+                height="0"
+              />
             )}
-
             {!profilePreview && (
               <ProfilePicBox className="w-[26px] h-[26px] z-10 bg-[#575757] absolute bottom-1 right-0">
                 <Image className="m-auto h-full" src={camera} alt="camera" />
@@ -144,7 +148,12 @@ export default function Join02() {
               height={20}
               alt="instagram"
             />
-            <span className="text-[#999999] ml-1">인스타그램 추가하기</span>
+            <input
+              type="text"
+              placeholder="인스타그램 추가하기"
+              className="ml-1 text-12 border-none h-[20px] w-[120px] p-0 flex items-center placeholder:text-[#999]"
+            />
+            {/* <span >인스타그램 추가하기</span> */}
           </UserSNSBox>
           <UserSNSBox className="ml-4">
             <Image
@@ -153,7 +162,11 @@ export default function Join02() {
               height={20}
               alt="behance"
             />
-            <span className="text-[#999999] ml-1">비헨스 추가하기</span>
+            <input
+              type="text"
+              placeholder="비헨스 추가하기"
+              className="ml-1 text-12 border-none h-[20px] w-[120px] p-0 flex items-center placeholder:text-[#999]"
+            />
           </UserSNSBox>
         </section>
         <Button className="absolute bottom-[83px] w-[325px]" text="완료" />
