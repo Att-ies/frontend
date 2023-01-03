@@ -10,13 +10,11 @@ const TOKEN_KEY = CONFIG.AUTH_TOKEN_KEY || '@token';
 export type Token = {
   access: string | null;
   refresh: string | null;
-  isRegister: boolean;
 };
 
 export const getToken = () => {
   const token = getLocalStorage<Token>(TOKEN_KEY, {
     access: null,
-    isRegister: false,
     refresh: null,
   });
   return token;
