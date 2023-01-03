@@ -30,11 +30,11 @@ const userSlice = createSlice({
   reducers: {
     setUserInfo: (state: userState, action: PayloadAction<userInfo>) => ({
       ...state,
-      id: action.payload.userId,
+      userId: action.payload.userId,
       password: action.payload.password,
       email: action.payload.email,
       username: action.payload.username,
-      tel: action.payload.telephone,
+      telephone: action.payload.telephone,
     }),
     setTastes: (state: userState, action: PayloadAction<string[]>) => ({
       ...state,
