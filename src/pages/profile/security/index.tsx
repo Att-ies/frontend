@@ -12,7 +12,7 @@ export default function Security() {
     router.back();
   };
   const handlePassword = () => {
-    router.push('password');
+    router.push('/profile/security/password');
   };
 
   const handleWithdrawal = () => {
