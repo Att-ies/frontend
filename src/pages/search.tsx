@@ -6,7 +6,7 @@ import tw from 'tailwind-styled-components';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-
+import { useForm } from 'react-hook-form';
 interface defaultProps {
   [key: string]: any;
 }
@@ -15,18 +15,117 @@ const SearchBox = tw.header<defaultProps>`
 flex justify-between items-center font-semibold relative h-[64px]
 `;
 
-const KeywordBox = tw.li<defaultProps>`
+const RecentKeywordBox = tw.li<defaultProps>`
 border-b-[1px] border-[#EDEDED] text-[#767676] flex px-2 justify-between basis-[48.6%] p-0 cursor-pointer odd:mr-2 pb-1 mt-2
 `;
 
+interface RecentKeywordForm {
+  id?: string;
+  word: string;
+}
+
+const DUMP_RECENT_KEYWORD = [
+  {
+    id: '1',
+    word: '유화',
+  },
+  {
+    id: '2',
+    word: '화유',
+  },
+  {
+    id: '3',
+    word: '졸업',
+  },
+  {
+    id: '4',
+    word: '작품',
+  },
+  {
+    id: '5',
+    word: '거래',
+  },
+];
+const DUMP_RECOMMEND_KEYWORD = [
+  {
+    id: '1',
+    word: '유화',
+  },
+  {
+    id: '2',
+    word: '심플한',
+  },
+  {
+    id: '3',
+    word: '세련된',
+  },
+  {
+    id: '4',
+    word: '모던한',
+  },
+  {
+    id: '5',
+    word: '서양화',
+  },
+  {
+    id: '6',
+    word: '변화의',
+  },
+  {
+    id: '7',
+    word: '비판적인',
+  },
+  {
+    id: '8',
+    word: '동양화',
+  },
+  {
+    id: '9',
+    word: '미디어아트',
+  },
+  {
+    id: '10',
+    word: '풍경화',
+  },
+  {
+    id: '11',
+    word: '화려한',
+  },
+];
+
 export default function Search() {
   const router = useRouter();
+  const [recentKeywordList, setRecentKeywordList] =
+    useState<RecentKeywordForm[]>(DUMP_RECENT_KEYWORD);
+
+  const { register, handleSubmit, watch } = useForm<RecentKeywordForm>();
 
   const handleBackBtn = () => {
     router.back();
   };
-
-  const [keywords, setKeywords] = useState<string[]>(['유화', 'dbghk']);
+  const onSubmit = (form: { searchWord: string }) => {
+    console.log(form.searchWord);
+    // 검색 API
+  };
+  const handleRecentKeyword = (e: { target: { id: string } }) => {
+    console.log(e.target.id, 'Search');
+    // 검색 API
+  };
+  const handleDelete = (e: { target: { id: string } }) => {
+    e.stopPropagation();
+    setRecentKeywordList(
+      recentKeywordList.filter(
+        (recentKeyword: RecentKeywordForm) => recentKeyword.id !== e.target.id,
+      ),
+    );
+  };
+  const handleDeleteAll = () => {
+    setRecentKeywordList([]);
+  };
+  // console.log(recentKeywordList);
+  const handleRecommendKeyword = (e: { target: { id: string } }) => {
+    console.log(e.target.id);
+  };
 
   return (
     <Layout>
@@ -34,40 +133,70 @@ export default function Search() {
         <div className="grow-[1]" onClick={() => handleBackBtn()}>
           <Image src={back} alt="back" />
         </div>
-        <form className="grow-[5]">
+        <form className="grow-[5]" onSubmit={handleSubmit(onSubmit)}>
           <Input
             className="h-[42px] bg-[#F1F1F5] border-none"
             type="text"
             placeholder="검색어를 입력해주세요"
+            register={register('searchWord')}
           />
         </form>
       </SearchBox>
       <section className="mt-[38px]">
         <div className="flex justify-between">
           <span className="text-base font-semibold">최근 검색어</span>
-          {keywords.length ? (
-            <span className="text-xs leading-6 text-[#999999]">
+          {!!recentKeywordList.length && (
+            <span
+              className="text-xs leading-6 text-[#999999] cursor-pointer"
+              onClick={handleDeleteAll}
+            >
               모두 지우기
             </span>
-          ) : (
-            <span className="text-xs leading-6 text-[#999999]"></span>
           )}
         </div>
         <div className="mt-[15px]">
           <ul className="flex m-auto flex-wrap">
-            {keywords.length ? (
-              keywords.map((keyword) => (
-                <KeywordBox key={keyword}>
-                  <span>{keyword}</span>
+            {recentKeywordList.length ? (
+              recentKeywordList.map((recentKeyword: RecentKeywordForm) => (
+                <RecentKeywordBox
+                  key={recentKeyword.id}
+                  id={recentKeyword.word}
+                  onClick={handleRecentKeyword}
+                >
+                  <span>{recentKeyword.word}</span>
                   <span className="flex align-middle ml-2">
-                    <Image src={close} alt="close" width={20} height={20} />
+                    <Image
+                      src={close}
+                      alt="close"
+                      width={20}
+                      height={20}
+                      id={recentKeyword.id}
+                      onClick={handleDelete}
+                    />
                   </span>
-                </KeywordBox>
+                </RecentKeywordBox>
               ))
             ) : (
               <div>최근 검색어가 없습니다.</div>
             )}
           </ul>
+        </div>
+      </section>
+      <section>
+        <div className="flex justify-between mt-6 flex-col">
+          <div className="text-base font-semibold ">취향 분석 맞춤 키워드</div>
+          <div className="flex flex-wrap mt-2">
+            {DUMP_RECOMMEND_KEYWORD.map((keyword) => (
+              <div
+                key={keyword.id}
+                id={keyword.word}
+                className="py-1 px-3 border rounded-[19px] mr-3 my-[6px] cursor-pointer"
+                onClick={handleRecommendKeyword}
+              >
+                {keyword.word}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </Layout>

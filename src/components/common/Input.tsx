@@ -5,6 +5,7 @@ interface InputProps {
   type: string;
   label?: string;
   placeholder?: string;
+  $error?: boolean;
   register?: UseFormRegisterReturn;
   [key: string]: any;
 }
@@ -21,7 +22,8 @@ text-14 leading-8
 `;
 
 const InputTag = tw.input<InputProps>`
-w-full h-[52px] placeholder-[#999999] text-sm rounded-[4px] border-[#D8D8D8] appearance-none
+w-full h-[52px] placeholder-[#999999] text-[13px] rounded-[4px] ${(p) =>
+  p.$error ? 'border-[#FF3120]' : 'border-[#D8D8D8]'} appearance-none
 `;
 
 export default function Input({

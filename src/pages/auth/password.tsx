@@ -37,7 +37,7 @@ function Password() {
         <Modal
           isModal={isModal}
           onCloseModal={onCloseModal}
-          message="비밀번호 재설정 링크가 발송되었습니다."
+          message="임시 비밀번호를 전송했습니다."
         />
       )}
       <Navigate
@@ -54,6 +54,7 @@ function Password() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <section className="py-2">
           <Input
+            type="email"
             placeholder="example@naver.com"
             className="placeholder:underline"
             register={register('email', {
@@ -68,8 +69,7 @@ function Password() {
           {errors.email ? <ErrorMessage message={errors.email.message} /> : ''}
         </section>
         <section className="text-12 text-[#999999]">
-          가입하신 이메일 주소를 입력해주시면 새로운 비밀번호를 설정 가능한
-          링크를 보내드립니다.
+          이메일 주소를 입력해주시면 임시 비밀번호를 보내드립니다.
         </section>
 
         <div className="h-[400px]" />

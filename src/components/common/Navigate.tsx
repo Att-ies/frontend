@@ -38,7 +38,7 @@ const RightButton = tw.div<RightButtonProps>`
 text-14 z-10 cursor-pointer 
 `;
 const SideMessage = tw.p`
-    cursor-pointer z-10  text-14 
+    cursor-pointer z-10  text-14 text-[#999999]
 `;
 
 export default function Navigate({

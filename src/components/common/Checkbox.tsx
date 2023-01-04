@@ -18,8 +18,8 @@ interface CheckBoxProps {
   id?: string;
   kind?: 'checkbox' | 'radio';
   label?: string;
-  isChecked: boolean;
-  handler(e: React.ChangeEvent<HTMLInputElement>): void;
+  isChecked?: boolean;
+  handler?(e: React.ChangeEvent<HTMLInputElement>): void;
   [key: string]: any;
 }
 
@@ -34,7 +34,7 @@ export default function CheckBox({
   const [isCheck, setIsCheck] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   return kind === 'checkbox' ? (
-    <Label>
+    <Label className="cursor-pointer">
       <CheckBoxSpan>
         {isChecked ? (
           <Image src={check} alt="checked" width={20} height={20} />
@@ -53,25 +53,21 @@ export default function CheckBox({
       />
     </Label>
   ) : (
-    <Label>
-      <CheckBoxSpan
-        onClick={() => {
-          if (!inputRef) return;
-          setIsCheck(!inputRef.current?.checked);
-        }}
-      >
-        {isCheck ? (
-          <Image src={checkRadio} alt="checkd" width={20} height={20} />
+    <Label className="cursor-pointer">
+      <CheckBoxSpan>
+        {isChecked ? (
+          <Image src={checkRadio} alt="checked" width={20} height={20} />
         ) : (
-          <Image src={unCheckRadio} alt="uncheckd" width={20} height={20} />
+          <Image src={unCheckRadio} alt="unchecked" width={20} height={20} />
         )}
       </CheckBoxSpan>
       <CheckBoxInnerSpan>{label}</CheckBoxInnerSpan>
       <CheckBoxInput
-        id="checkobx"
         ref={inputRef}
+        id={id}
         type="checkbox"
-        className="hidden"
+        checked={isChecked}
+        onChange={handler}
         {...rest}
       />
     </Label>

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import avatar from '@public/svg/icons/profile/icon_avatar.svg';
 import tw from 'tailwind-styled-components';
+import { useRouter } from 'next/router';
 
 interface defaultProps {
   [key: string]: any;
@@ -15,8 +16,9 @@ w-[50px] mr-[10px] aspect-square flex justify-center items-center rounded-full b
 `;
 
 export default function PickArtist() {
+  const router = useRouter();
   return (
-    <PickArtistContainer>
+    <PickArtistContainer onClick={() => router.push(`/profile/pick/1`)}>
       <PickAritstProfile>
         <Image src={avatar} alt="avatar" width={28} height={28} />
       </PickAritstProfile>

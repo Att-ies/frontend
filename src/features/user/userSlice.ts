@@ -1,25 +1,38 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type userInfo = {
-  id: string;
+  userId: string;
   password: string;
   email: string;
   username: string;
-  tel: string;
+  telephone: string;
 };
 interface userState extends userInfo {
-  tastes: string[];
+  tastes: string[]; //user
+  education: string; //artist
+  history: string;
+  description: string;
+  instagram: string;
+  behance: string;
   isApprovePromotion: boolean;
   isArtist: boolean;
 }
 
 const initialState: userState = {
-  id: '',
+  userId: '',
   password: '',
   email: '',
   username: '',
-  tel: '',
-  tastes: [],
+  telephone: '',
+
+  tastes: [], //user
+
+  education: '', //artist
+  history: '',
+  description: '',
+  instagram: '',
+  behance: '',
+
   isApprovePromotion: false,
   isArtist: false,
 };
@@ -30,15 +43,23 @@ const userSlice = createSlice({
   reducers: {
     setUserInfo: (state: userState, action: PayloadAction<userInfo>) => ({
       ...state,
-      id: action.payload.id,
+      userId: action.payload.userId,
       password: action.payload.password,
       email: action.payload.email,
       username: action.payload.username,
-      tel: action.payload.tel,
+      telephone: action.payload.telephone,
     }),
     setTastes: (state: userState, action: PayloadAction<string[]>) => ({
       ...state,
       tastes: action.payload,
+    }),
+    setArtistInfo: (state: userState, action: PayloadAction<userState>) => ({
+      ...state,
+      education: action.payload.education,
+      history: action.payload.history,
+      description: action.payload.description,
+      instagram: action.payload.instagram,
+      behance: action.payload.behance,
     }),
     setIsApprovePromotion: (
       state: userState,
@@ -54,6 +75,11 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserInfo, setTastes, setIsApprovePromotion, setIsArtist } =
-  userSlice.actions;
+export const {
+  setUserInfo,
+  setTastes,
+  setIsApprovePromotion,
+  setArtistInfo,
+  setIsArtist,
+} = userSlice.actions;
 export default userSlice.reducer;

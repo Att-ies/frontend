@@ -1,10 +1,19 @@
 import Layout from '@components/common/Layout';
 import Tab from '@components/common/Tab';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Chatroom from '@components/chat/ChatRoom';
 
-const DUMP_CHATTING_ROOM_LIST = [
+interface chatRoomListForm {
+  id: string;
+  profileImage: string;
+  name: string;
+  time: string;
+  message: string;
+  notifyCnt: number;
+}
+
+const DUMP_CHAT_ROOM_LIST: chatRoomListForm[] = [
   {
     id: '1',
     profileImage: '/svg/icons/icon_basic_profile.svg',
@@ -32,15 +41,23 @@ const DUMP_CHATTING_ROOM_LIST = [
 ];
 
 export default function Chat() {
-  const [chatRoomList, setChatRoomList] = useState(DUMP_CHATTING_ROOM_LIST);
+  const [chatRoomList, setChatRoomList] =
+    useState<chatRoomListForm[]>(DUMP_CHAT_ROOM_LIST);
+
+  useEffect(() => {
+    // 채팅방 GET API
+  }, []);
 
   return (
     <Layout>
       <section className="font-bold text-16">채팅</section>
+
       {chatRoomList.length ? (
-        chatRoomList.map((chatRoom) => (
-          <Chatroom chatRoom={chatRoom} key={chatRoom.id} />
-        ))
+        <div className="mt-5 absolute w-full inset-x-0 ">
+          {chatRoomList.map((chatRoom: chatRoomListForm) => (
+            <Chatroom chatRoom={chatRoom} key={chatRoom.id} />
+          ))}
+        </div>
       ) : (
         <section className="flex justify-center items-center h-[650px]">
           <Image
@@ -51,7 +68,6 @@ export default function Chat() {
           />
         </section>
       )}
-
       <Tab />
     </Layout>
   );
