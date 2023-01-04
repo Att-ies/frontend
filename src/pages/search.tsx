@@ -190,7 +190,7 @@ export default function Search() {
               <div
                 key={keyword.id}
                 id={keyword.word}
-                className="py-1 px-3 border rounded-[19px] mr-3 my-[6px] cursor-pointer"
+                className="py-1 px-3 border  rounded-[19px] mr-3 my-[6px] cursor-pointer text-14 text-[#767676] font-bold"
                 onClick={handleRecommendKeyword}
               >
                 {keyword.word}
