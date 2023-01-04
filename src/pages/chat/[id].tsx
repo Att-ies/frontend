@@ -2,14 +2,25 @@ import Layout from '@components/common/Layout';
 import React, { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
-import ChattingMessage from '@components/chat/ChattingMessage';
+import ChattingMessage from '@components/chat/ChatMessage';
 import Image from 'next/image';
 import Modal from '@components/common/Modal';
 interface ChatRoomProps {
   params: any;
 }
 
-const DUMP_CHATTINGLIST = [
+interface ChatRoomForm {
+  id: string;
+  time: string;
+  text: string;
+  sender: 'me' | 'you';
+}
+
+interface MessageForm {
+  message: string;
+}
+
+const DUMP_CHATLIST: ChatRoomForm[] = [
   {
     id: '1',
     time: '오전 10:30',
@@ -27,15 +38,12 @@ const DUMP_CHATTINGLIST = [
   { id: '5', time: '오전 10:35', text: '반가워요', sender: 'me' },
 ];
 
-interface MessageForm {
-  message: string;
-}
-
 export default function ChatRoom({ params }: ChatRoomProps) {
   const router = useRouter();
   const { register, handleSubmit, watch } = useForm<MessageForm>();
   const { id } = router.query;
   const [isModal, setIsModal] = useState();
+  const [chatList, setChatList] = useState<ChatRoomForm>(DUMP_CHATLIST);
 
   const onSubmit = (form: MessageForm) => {
     console.log(form.message);
@@ -103,13 +111,13 @@ export default function ChatRoom({ params }: ChatRoomProps) {
         <article className="flex items-center justify-center text-center text-[#767676] text-14 h-[40px] font-bold">
           2022년 12월 23일
         </article>
-        <article className="  ">
-          {DUMP_CHATTINGLIST.map((chattingItem) => (
+        <article className="mt-4">
+          {chatList.map((chatItem: ChatRoomForm) => (
             <ChattingMessage
-              key={chattingItem.id}
-              time={chattingItem.time}
-              text={chattingItem.text}
-              sender={chattingItem.sender}
+              key={chatItem.id}
+              time={chatItem.time}
+              text={chatItem.text}
+              sender={chatItem.sender}
             />
           ))}
         </article>
