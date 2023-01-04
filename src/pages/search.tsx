@@ -15,16 +15,16 @@ const SearchBox = tw.header<defaultProps>`
 flex justify-between items-center font-semibold relative h-[64px]
 `;
 
-const KeywordBox = tw.li<defaultProps>`
+const RecentKeywordBox = tw.li<defaultProps>`
 border-b-[1px] border-[#EDEDED] text-[#767676] flex px-2 justify-between basis-[48.6%] p-0 cursor-pointer odd:mr-2 pb-1 mt-2
 `;
 
-interface KeywordForm {
+interface RecentKeywordForm {
   id?: string;
   word: string;
 }
 
-const DUMP_KEYWORDS = [
+const DUMP_RECENT_KEYWORD = [
   {
     id: '1',
     word: '유화',
@@ -46,13 +46,59 @@ const DUMP_KEYWORDS = [
     word: '거래',
   },
 ];
+const DUMP_RECOMMEND_KEYWORD = [
+  {
+    id: '1',
+    word: '유화',
+  },
+  {
+    id: '2',
+    word: '심플한',
+  },
+  {
+    id: '3',
+    word: '세련된',
+  },
+  {
+    id: '4',
+    word: '모던한',
+  },
+  {
+    id: '5',
+    word: '서양화',
+  },
+  {
+    id: '6',
+    word: '변화의',
+  },
+  {
+    id: '7',
+    word: '비판적인',
+  },
+  {
+    id: '8',
+    word: '동양화',
+  },
+  {
+    id: '9',
+    word: '미디어아트',
+  },
+  {
+    id: '10',
+    word: '풍경화',
+  },
+  {
+    id: '11',
+    word: '화려한',
+  },
+];
 
 export default function Search() {
   const router = useRouter();
+  const [recentKeywordList, setRecentKeywordList] =
+    useState<RecentKeywordForm[]>(DUMP_RECENT_KEYWORD);
 
-  const [keywordList, setKeywordList] = useState<KeywordForm[]>(DUMP_KEYWORDS);
-
-  const { register, handleSubmit, watch } = useForm<KeywordForm>();
+  const { register, handleSubmit, watch } = useForm<RecentKeywordForm>();
 
   const handleBackBtn = () => {
     router.back();
@@ -61,20 +107,22 @@ export default function Search() {
     console.log(form.searchWord);
     // 검색 API
   };
-  const handleKeyword = (e: { target: { id: string } }) => {
+  const handleRecentKeyword = (e: { target: { id: string } }) => {
     console.log(e.target.id, 'Search');
     // 검색 API
   };
   const handleDelete = (e: { target: { id: string } }) => {
     e.stopPropagation();
-    setKeywordList(
-      keywordList.filter((keyword: KeywordForm) => keyword.id !== e.target.id),
+    setRecentKeywordList(
+      recentKeywordList.filter(
+        (recentKeyword: RecentKeywordForm) => recentKeyword.id !== e.target.id,
+      ),
     );
   };
   const handleDeleteAll = () => {
-    setKeywordList([]);
+    setRecentKeywordList([]);
   };
-  // console.log(keywordList);
+  // console.log(recentKeywordList);
 
   return (
     <Layout>
@@ -94,43 +142,56 @@ export default function Search() {
       <section className="mt-[38px]">
         <div className="flex justify-between">
           <span className="text-base font-semibold">최근 검색어</span>
-          {keywordList.length ? (
+          {!!recentKeywordList.length && (
             <span
               className="text-xs leading-6 text-[#999999] cursor-pointer"
               onClick={handleDeleteAll}
             >
               모두 지우기
             </span>
-          ) : (
-            <span className="text-xs leading-6 text-[#999999]"></span>
           )}
         </div>
         <div className="mt-[15px]">
           <ul className="flex m-auto flex-wrap">
-            {keywordList.length ? (
-              keywordList.map((keyword: KeywordForm) => (
-                <KeywordBox
-                  key={keyword.id}
-                  id={keyword.word}
-                  onClick={handleKeyword}
+            {recentKeywordList.length ? (
+              recentKeywordList.map((recentKeyword: RecentKeywordForm) => (
+                <RecentKeywordBox
+                  key={recentKeyword.id}
+                  id={recentKeyword.word}
+                  onClick={handleRecentKeyword}
                 >
-                  <span>{keyword.word}</span>
+                  <span>{recentKeyword.word}</span>
                   <span className="flex align-middle ml-2">
                     <Image
                       src={close}
                       alt="close"
                       width={20}
                       height={20}
-                      id={keyword.id}
+                      id={recentKeyword.id}
                       onClick={handleDelete}
                     />
                   </span>
-                </KeywordBox>
+                </RecentKeywordBox>
               ))
             ) : (
               <div>최근 검색어가 없습니다.</div>
             )}
           </ul>
+        </div>
+      </section>
+      <section>
+        <div className="flex justify-between mt-6 flex-col">
+          <div className="text-base font-semibold ">취향 분석 맞춤 키워드</div>
+          <div className="flex flex-wrap mt-2">
+            {DUMP_RECOMMEND_KEYWORD.map((keyword) => (
+              <div
+                key={keyword.id}
+                className="py-1 px-3 border rounded-[19px] mr-3 my-[6px]"
+              >
+                {keyword.word}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </Layout>
