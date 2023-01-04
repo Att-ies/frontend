@@ -7,7 +7,6 @@ interface NoticeItemProps {
 }
 
 export default function NoticeItem({ noticeList, handler }: NoticeItemProps) {
-  console.log(noticeList);
   return (
     <ul>
       {noticeList.map((notice, idx) => (
@@ -16,18 +15,18 @@ export default function NoticeItem({ noticeList, handler }: NoticeItemProps) {
           className="text-medium flex flex-col last:border-none border-b-[1px]"
         >
           <div className="flex justify-between pt-4">
-            <span className="font-bold">{notice.text}</span>
+            <span className="font-bold text-15">{notice.text}</span>
             <button onClick={() => handler(notice.id)}>
               <Image
                 src="/svg/icons/icon_grayClose.svg"
                 alt="close"
                 width={20}
                 height={20}
-                className="ml-3"
+                className="ml-2"
               />
             </button>
           </div>
-          <span className="text-xs text-[#999999] mt-[6px] mb-4">
+          <span className="text-10 text-[#999999] mt-[6px] mb-4">
             {notice.date}
           </span>
         </li>
