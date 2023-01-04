@@ -9,8 +9,33 @@ interface defaultProps {
 const WishCardContainer = tw.div<defaultProps>`
 rounded-lg hover:ring-1 hover:ring-blue-500 cursor-pointer
 `;
+interface WishForm {
+  id: string;
+  image: string;
+  name: string;
+  description: string;
+  price: number;
+  status1: string;
+  status2: string;
+}
 
-export default function WishCard() {
+interface StatusForm {
+  id: string;
+  status: string;
+}
+
+export default function WishCard({ wish }: WishForm) {
+  const statusList: StatusForm[] = [
+    {
+      id: '1',
+      status: wish.status1,
+    },
+    {
+      id: '2',
+      status: wish.status2,
+    },
+  ];
+  console.log(statusList);
   return (
     <WishCardContainer>
       <div className="h-28 bg-gray-300 rounded-t-lg relative">
@@ -20,19 +45,33 @@ export default function WishCard() {
           alt="favoirte"
         />
       </div>
-      <div className="h-28 p-3 rounded-b-lg border-x-[1px] border-[#ededed] border-b-[1px]">
+      <div className="h-30 p-3 rounded-b-lg border-x-[1px] border-[#ededed] border-b-[1px]">
         <div className="flex text-white w-[84px] text-[10px]">
-          <div className="w-1/2 h-[17px] bg-[#4B9E77]  flex justify-center items-center">
-            입찰중
-          </div>
-          <div className="w-1/2 h-[17px] bg-[#F5535D]  flex justify-center items-center">
-            HOT
-          </div>
+          {statusList.map((statusItem) => (
+            <div
+              className={`w-1/2 h-[17px] bg-[${
+                statusItem.status === '입찰중'
+                  ? '#4B9E77'
+                  : statusItem.status === 'HOT'
+                  ? '#F5535D'
+                  : statusItem.status === '입찰완료'
+                  ? '#191919'
+                  : statusItem.status === 'NEW'
+                  ? '#7B61FF'
+                  : ''
+              }]  flex justify-center items-center text-10`}
+              key={statusItem.id}
+            >
+              {statusItem.status}
+            </div>
+          ))}
         </div>
         <div className="pt-[6px]">
-          <div className="text-14 leading-4">퓨처리즘</div>
-          <div className="text-14 leading-6">자연과 공생하는 미래</div>
-          <div className="text-14 leading-6 font-medium">250,000원</div>
+          <div className="text-14 leading-4">{wish.name}</div>
+          <div className="text-12 leading-6">{wish.description}</div>
+          <div className="text-14 leading-6 font-bold ">
+            {wish.price.toLocaleString()}원
+          </div>
         </div>
       </div>
     </WishCardContainer>
