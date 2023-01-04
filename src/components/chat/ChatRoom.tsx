@@ -2,17 +2,17 @@ import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-type ChatRoom = {
+interface ChatRoomForm {
   id: string;
   profileImage: string;
   name: string;
   time: string;
   message: string;
   notifyCnt: number;
-};
+}
 
 interface chatRoomProps {
-  chatRoom: ChatRoom;
+  chatRoom: ChatRoomForm;
   [key: string]: any;
 }
 
@@ -23,7 +23,7 @@ export default function Chatroom({ chatRoom }: chatRoomProps) {
   const router = useRouter();
   return (
     <section
-      className="h-[64px] flex items-center relative border-b cursor-pointer"
+      className="h-[64px] flex items-center relative border-b cursor-pointer p-5 first:border-t"
       onClick={handleChattingRoom}
     >
       <article>
@@ -41,16 +41,16 @@ export default function Chatroom({ chatRoom }: chatRoomProps) {
           <p className="text-[#191919] text-14 flex items-center justify-center font-bold px-2">
             {chatRoom.name}
           </p>
-          <p className="text-[#767676] text-12 flex items-center justify-center">
+          <p className="text-[#767676] text-10 flex items-center justify-center">
             {chatRoom.time}
           </p>
         </div>
-        <p className="text-[#191919] text-12 flex items-center justify-center px-2">
+        <p className="text-[#191919] text-12 flex items-center justify-center px-2 mt-1">
           {chatRoom.message}
         </p>
       </article>
       {!!chatRoom.notifyCnt && (
-        <article className="absolute right-0 bg-[#F5535D] w-[20px] h-[20px] flex justify-center items-center text-[#FFF] text-12 rounded-full">
+        <article className="absolute right-5 bg-[#F5535D] w-[20px] h-[20px] flex justify-center items-center text-[#FFF] text-12 rounded-full">
           {chatRoom.notifyCnt}
         </article>
       )}
