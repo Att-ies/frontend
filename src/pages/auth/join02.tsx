@@ -219,7 +219,7 @@ export default function Join02() {
           <Input
             type="email"
             label="이메일"
-            placeholder="이메일을 입력해주세요."
+            placeholder="ATTIES@naver.com"
             $error={errors.email ? true : false}
             register={register('email', {
               required: true,
