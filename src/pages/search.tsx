@@ -123,6 +123,9 @@ export default function Search() {
     setRecentKeywordList([]);
   };
   // console.log(recentKeywordList);
+  const handleRecommendKeyword = (e: { target: { id: string } }) => {
+    console.log(e.target.id);
+  };
 
   return (
     <Layout>
@@ -186,7 +189,9 @@ export default function Search() {
             {DUMP_RECOMMEND_KEYWORD.map((keyword) => (
               <div
                 key={keyword.id}
-                className="py-1 px-3 border rounded-[19px] mr-3 my-[6px]"
+                id={keyword.word}
+                className="py-1 px-3 border rounded-[19px] mr-3 my-[6px] cursor-pointer"
+                onClick={handleRecommendKeyword}
               >
                 {keyword.word}
               </div>
