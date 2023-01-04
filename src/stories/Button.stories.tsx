@@ -1,41 +1,54 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-
-import { Button } from './Button';
-
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+import Button from './Button';
+import { Story, Meta } from '@storybook/react';
+import { ButtonProps } from './Button';
 export default {
-  title: 'Example/Button',
+  title: 'Button',
   component: Button,
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-  argTypes: {
-    backgroundColor: { control: 'color' },
+  args: {
+    kind: {
+      control: {
+        type: 'select',
+        options: ['filled', 'outlined'],
+      },
+    },
+    text: {
+      control: {
+        type: 'text',
+      },
+    },
+    disabled: {
+      control: {
+        type: 'boolean',
+      },
+    },
   },
-} as ComponentMeta<typeof Button>;
+} as Meta;
 
-// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
-
-export const Primary = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-Primary.args = {
-  primary: true,
-  label: 'Button',
+const Template: Story<ButtonProps> = (args) => <Button {...args} />;
+export const Filled = Template.bind({});
+Filled.args = {
+  kind: 'filled',
+  text: 'Filled Button',
+  disabled: false,
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-  label: 'Button',
+export const Outlined = Template.bind({});
+Outlined.args = {
+  kind: 'outlined',
+  text: 'Outlined Button',
+  disabled: false,
 };
 
-export const Large = Template.bind({});
-Large.args = {
-  size: 'large',
-  label: 'Button',
+export const Disabled = Template.bind({});
+Disabled.args = {
+  kind: 'filled',
+  text: 'Disabled Button',
+  disabled: true,
 };
 
-export const Small = Template.bind({});
-Small.args = {
-  size: 'small',
-  label: 'Button',
+export const DisabledOutlined = Template.bind({});
+DisabledOutlined.args = {
+  kind: 'outlined',
+  text: 'Disabled Button',
+  disabled: true,
 };

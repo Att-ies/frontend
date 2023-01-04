@@ -1,48 +1,37 @@
-import React from 'react';
-import './button.css';
+import tw from 'tailwind-styled-components';
 
-interface ButtonProps {
-  /**
-   * Is this the principal call to action on the page?
-   */
-  primary?: boolean;
-  /**
-   * What background color to use
-   */
-  backgroundColor?: string;
-  /**
-   * How large should the button be?
-   */
-  size?: 'small' | 'medium' | 'large';
-  /**
-   * Button contents
-   */
-  label: string;
-  /**
-   * Optional click handler
-   */
+export interface ButtonProps {
+  kind?: 'filled' | 'outlined';
+  text: string;
+  disabled?: boolean;
   onClick?: () => void;
+  [key: string]: any;
 }
 
-/**
- * Primary UI component for user interaction
- */
-export const Button = ({
-  primary = false,
-  size = 'medium',
-  backgroundColor,
-  label,
-  ...props
-}: ButtonProps) => {
-  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
-  return (
-    <button
-      type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
-      style={{ backgroundColor }}
-      {...props}
-    >
-      {label}
-    </button>
+const FilledButton = tw.button<ButtonProps>`
+${({ disabled }) => disabled && 'opacity-50 cursor-not-allowed'}
+w-full transition h-[52px] text-sm rounded-[4px] hover:opacity-90 border border-transparent hover:[#F5535D]-2 bg-[#F5535D] px-0 text-white leading-3 font-normal shadow-xl shadow-gray
+`;
+
+const OutlinedButton = tw.button<ButtonProps>`
+${({ disabled }) => disabled && 'opacity-50 cursor-not-allowed'}
+w-full transition h-[52px] text-sm rounded-[4px] border border-[#F5535D] hover:[#F5535D]-2 bg-white px-0 text-[#F5535D] leading-3 font-normal
+`;
+
+export default function Button({
+  kind = 'filled',
+  text,
+  disabled = false,
+  onClick,
+  ...rest
+}: ButtonProps) {
+  return kind === 'filled' ? (
+    <FilledButton disabled={disabled} onClick={onClick} {...rest}>
+      {text}
+    </FilledButton>
+  ) : (
+    <OutlinedButton disabled={disabled} onClick={onClick} {...rest}>
+      {text}
+    </OutlinedButton>
   );
-};
+}
