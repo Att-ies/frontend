@@ -2,8 +2,8 @@ import Image from 'next/image';
 import React from 'react';
 
 interface NoticeItemProps {
-  noticeList: { text: string; date: string; id: number }[];
-  handler: (e: number) => void;
+  noticeList: { text: string; date: string; id: string }[];
+  handler: (e: string) => void;
 }
 
 export default function NoticeItem({ noticeList, handler }: NoticeItemProps) {
