@@ -51,6 +51,7 @@
     "eslint-config-next": "13.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-storybook": "^0.6.8",
+    "msw": "^0.49.2",
     "postcss": "^8.4.18",
     "prettier": "^2.7.1",
     "tailwind-styled-components": "^2.2.0",
@@ -60,5 +61,8 @@
   "packageManager": "yarn@3.3.0",
   "resolutions": {
     "@storybook/{app}/webpack": "^5"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
