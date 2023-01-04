@@ -42,7 +42,7 @@ export default function Join02() {
     watch,
     setError,
     clearErrors,
-  } = useForm<JoinForm>({ mode: 'onChange' });
+  } = useForm<JoinForm>({ mode: 'onTouched' });
 
   const onSubmit = async (form: JoinForm) => {
     const { userId, username, password, telephone, email } = form;
