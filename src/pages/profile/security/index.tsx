@@ -12,7 +12,7 @@ export default function Security() {
     router.back();
   };
   const handlePassword = () => {
-    router.push('password');
+    router.push('/profile/security/password');
   };
 
   const handleWithdrawal = () => {
@@ -42,7 +42,7 @@ export default function Security() {
       />
       <section>
         <article
-          className="border-b h-[60px] flex items-center font-bold relative text-14"
+          className="border-b h-[60px] flex items-center font-bold relative text-14 cursor-pointer"
           onClick={handlePassword}
         >
           <p>비밀번호 변경</p>
@@ -55,7 +55,7 @@ export default function Security() {
           />
         </article>
         <article
-          className="border-b h-[60px] flex items-center font-bold relative text-14"
+          className="border-b h-[60px] flex items-center font-bold relative text-14 cursor-pointer"
           onClick={handleWithdrawal}
         >
           <p>회원 탈퇴</p>
