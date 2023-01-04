@@ -5,25 +5,27 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import ErrorMessage from '@components/common/ErrorMessage';
+import { useRouter } from 'next/router';
+
 interface passwordForm {
   password: string;
   passwordConfirm: string;
 }
 
 export default function Password() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
     setError,
-  } = useForm<passwordForm>();
+  } = useForm<passwordForm>({ mode: 'onTouched' });
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showPasswordConfirm, setShowPasswordConfirm] =
     useState<boolean>(false);
   const onSubmit = () => {
-    console.log(watch('password'));
     if (watch('password') !== watch('passwordConfirm')) {
       setError(
         'passwordConfirm',
@@ -34,6 +36,11 @@ export default function Password() {
         { shouldFocus: true },
       );
     }
+    // 비밀번호 변경 API
+    console.log(watch('password'));
+  };
+  const handleLeftButton = () => {
+    router.push('/profile');
   };
   return (
     <Layout>
@@ -41,6 +48,7 @@ export default function Password() {
         message="비밀번호 변경"
         right_message="완료"
         handleRightButton={handleSubmit(onSubmit)}
+        handleLeftButton={handleLeftButton}
       />
       <div className="relative   ">
         <Input
