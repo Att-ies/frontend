@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios';
 
 import instance from '@apis/_axios/instance';
 
-import { AuthDTOType } from './authApi.type';
+import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
 
 export class AuthApi {
   axios: AxiosInstance = instance;
@@ -46,7 +46,7 @@ export class AuthApi {
     return data;
   }
 
-  async postNesPassword(body: AuthDTOType): Promise<AuthDTOType> {
+  async postNewPassword(body: AuthDTOType): Promise<AuthDTOType> {
     const { data } = await this.axios({
       method: 'POST',
       url: `/members/new-password`,
@@ -63,20 +63,18 @@ export class AuthApi {
     return data;
   }
 
-  async postCheckEmail(body: AuthDTOType): Promise<AuthDTOType> {
+  async getCheckEmail(email): Promise<DoubleCheckDTOType> {
     const { data } = await this.axios({
-      method: 'POST',
-      url: `/members/check-email`,
-      data: body,
+      method: 'GET',
+      url: `/members/check-email?email=${email}`,
     });
     return data;
   }
 
-  async postChcekId(body: AuthDTOType): Promise<AuthDTOType> {
+  async getCheckId(userId): Promise<DoubleCheckDTOType> {
     const { data } = await this.axios({
-      method: 'POST',
-      url: `/members/check-id`,
-      data: body,
+      method: 'GET',
+      url: `/members/check-id?userId=${userId}`,
     });
     return data;
   }

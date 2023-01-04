@@ -8,3 +8,6 @@ export type AuthParamPatchType = {
   id: string;
   data: Partial<AuthDTOType>;
 };
+export type DoubleCheckDTOType = {
+  duplicate: boolean;
+};
