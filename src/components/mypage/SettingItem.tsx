@@ -1,16 +1,23 @@
 import Image from 'next/image';
 import arrow from '@public/svg/icons/icon_arrow.svg';
-
+import { useRouter } from 'next/router';
 interface SettingBoxProps {
   text: string;
-  handler(): void;
+  path: string;
 }
 
-export default function SettingItem({ text, handler }: SettingBoxProps) {
+export default function SettingItem({ text, path }: SettingBoxProps) {
+  const router = useRouter();
+  const handleNavigate = () => {
+    router.push(`/profile/${path}`);
+  };
   return (
-    <div className="flex justify-between text-sm mb-8">
+    <div
+      className="flex justify-between text-sm mb-6 cursor-pointer font-bold text-14"
+      onClick={handleNavigate}
+    >
       <span>{text}</span>
-      <button onClick={handler}>
+      <button>
         <Image src={arrow} alt="arrow" />
       </button>
     </div>
