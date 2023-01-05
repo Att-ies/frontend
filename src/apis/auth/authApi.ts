@@ -19,6 +19,24 @@ export class AuthApi {
     return data;
   }
 
+  async postArtistAuth(body: AuthDTOType) {
+    try {
+      const { data } = await this.axios({
+        method: 'POST',
+        url: `/members/id`,
+        data: body,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return data;
+    } catch (error: any) {
+      if (error) {
+        return error.response.data;
+      }
+    }
+  }
+
   async postLogin(body: AuthDTOType): Promise<AuthDTOType> {
     const { data } = await this.axios({
       method: 'POST',
