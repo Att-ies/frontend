@@ -47,7 +47,23 @@ instance.interceptors.response.use(
     const { response: res, config: reqData } = error || {};
     const { status } = res || {};
     const isUnAuthError = status === 401;
+    const isNotFoundError = status === 404;
+    const isDuplicateError = status === 409;
     const isExpiredToken = status === 444;
+
+    if (isNotFoundError) {
+      return Promise.reject(error);
+    }
+
+    if (isDuplicateError) {
+      return Promise.reject(error);
+    }
+
+    if (isUnAuthError) {
+      deleteToken();
+      window.location.href = '/auth/login';
+      return Promise.reject(error);
+    }
 
     if (isExpiredToken) {
       const token = await refreshToken();
@@ -57,12 +73,6 @@ instance.interceptors.response.use(
         reqData.headers.Authorization = `Bearer ${token?.access}`;
         return instance(reqData);
       }
-    }
-
-    if (isUnAuthError) {
-      deleteToken();
-      window.location.href = '/auth/login';
-      return Promise.reject(error);
     }
   },
 );
