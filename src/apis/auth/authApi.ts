@@ -37,22 +37,34 @@ export class AuthApi {
     return data;
   }
 
-  async postFindId(body: AuthDTOType): Promise<AuthDTOType> {
-    const { data } = await this.axios({
-      method: 'POST',
-      url: `/members/id`,
-      data: body,
-    });
-    return data;
+  async postFindId(body: AuthDTOType) {
+    try {
+      const { data } = await this.axios({
+        method: 'POST',
+        url: `/members/id`,
+        data: body,
+      });
+      return data;
+    } catch (error: any) {
+      if (error) {
+        return error.response.data;
+      }
+    }
   }
 
-  async postNewPassword(body: AuthDTOType): Promise<AuthDTOType> {
-    const { data } = await this.axios({
-      method: 'POST',
-      url: `/members/new-password`,
-      data: body,
-    });
-    return data;
+  async postNewPassword(body: AuthDTOType) {
+    try {
+      const { data } = await this.axios({
+        method: 'POST',
+        url: `/members/new-password`,
+        data: body,
+      });
+      return data;
+    } catch (error: any) {
+      if (error) {
+        return error.response.data;
+      }
+    }
   }
 
   async patchLogout(): Promise<AuthDTOType> {
