@@ -50,7 +50,7 @@ export default function Join02() {
   }, [profile]);
 
   const onSubmit = (form: ArtistProfileForm) => {
-    const { userId, username, password, telephone, email } = userState;
+    const { userId, nickname, password, telephone, email } = userState;
     const { profile, education, history, description, instagram, behance } =
       form;
     if (!profile.length) {
@@ -62,7 +62,7 @@ export default function Join02() {
 
     const formData = new FormData();
     formData.append('userId', userId);
-    formData.append('username', username);
+    formData.append('nickname', nickname);
     formData.append('password', password);
     formData.append('telephone', telephone);
     formData.append('email', email);

@@ -13,7 +13,7 @@ import authApi from '@apis/auth/authApi';
 
 interface JoinForm {
   userId: string;
-  username: string;
+  nickname: string;
   password: string;
   confirmPassword: string;
   telephone: string;
@@ -45,7 +45,7 @@ export default function Join02() {
   } = useForm<JoinForm>({ mode: 'onTouched' });
 
   const onSubmit = async (form: JoinForm) => {
-    const { userId, username, password, telephone, email } = form;
+    const { userId, nickname, password, telephone, email } = form;
     if (!idValidation) {
       setError('userId', {
         type: 'id doublecheck',
@@ -62,7 +62,7 @@ export default function Join02() {
     dispatch(
       setUserInfo({
         userId,
-        username,
+        nickname,
         password,
         telephone,
         email,
@@ -144,8 +144,8 @@ export default function Join02() {
             type="text"
             label="사용자 이름"
             placeholder="이름을 입력해주세요."
-            $error={errors.username ? true : false}
-            register={register('username', {
+            $error={errors.nickname ? true : false}
+            register={register('nickname', {
               required: true,
               pattern: {
                 value: /^[가-힣]{2,25}$/g,
@@ -153,8 +153,8 @@ export default function Join02() {
               },
             })}
           />
-          {errors.username && (
-            <ErrorMessage message={errors.username.message} />
+          {errors.nickname && (
+            <ErrorMessage message={errors.nickname.message} />
           )}
         </section>
 
