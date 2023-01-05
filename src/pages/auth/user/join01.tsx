@@ -2,6 +2,11 @@ import Layout from '@components/common/Layout';
 import Button from '../../../components/common/Button';
 import { useRouter } from 'next/router';
 import { useAppSelector } from '@features/hooks';
+import authApi from '@apis/auth/authApi';
+import axios from 'axios';
+import instance from '@apis/_axios/instance';
+
+// interface;
 
 function Join01() {
   const router = useRouter();
@@ -9,10 +14,23 @@ function Join01() {
   const handleNextButton = () => {
     router.push('/auth/user/join02');
   };
-  const handleCancleButton = () => {
+
+  const handleSkipButton = async () => {
+    // const { nickname };
+    console.log(1);
     console.log({
       ...userState,
     });
+    const response = await authApi.postAuth({
+      // nickname: 'test13',
+      userId: 'abcd22',
+      email: 'test@naver.com22',
+      password: 'qwer',
+      telephone: '01012341234',
+      keywords: ['유화', '심플한', '세련된'],
+    });
+    console.log(response);
+
     // 회원가입 API전송
   };
   return (
@@ -27,7 +45,7 @@ function Join01() {
       <Button text="분석 시작" className="" onClick={handleNextButton} />
       <button
         className="w-full transition h-[52px] text-xs underline border border-transparent hover:[#F5535D]-2 px-0 text-[#999999] leading-3 font-normal"
-        onClick={handleCancleButton}
+        onClick={handleSkipButton}
       >
         다음에 할래요
       </button>
