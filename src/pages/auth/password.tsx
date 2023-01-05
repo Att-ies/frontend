@@ -7,19 +7,28 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Modal from '@components/common/Modal';
 import ErrorMessage from '@components/common/ErrorMessage';
+import authApi from '@apis/auth/authApi';
+
+interface NewPasswordForm {
+  email: string;
+}
 
 function Password() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-  } = useForm();
+  } = useForm<NewPasswordForm>();
   const [isModal, setIsModal] = useState(false);
-  const onSubmit = () => {
-    console.log(watch('email'));
-    setIsModal(true);
+  const onSubmit = async ({ email }: NewPasswordForm) => {
+    if (email) {
+      const data = await authApi.postNewPassword({
+        email,
+      });
+      console.log(data);
+    }
   };
+
   const router = useRouter();
   const handleLeftButton = () => {
     router.push('/auth/login');

@@ -7,19 +7,30 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Modal from '@components/common/Modal';
 import ErrorMessage from '@components/common/ErrorMessage';
+import authApi from '@apis/auth/authApi';
+interface FindIdForm {
+  name: string;
+  email: string;
+}
 
 function Id() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
-  } = useForm();
+  } = useForm<FindIdForm>();
   const [isModal, setIsModal] = useState(false);
-  const onSubmit = () => {
-    console.log(watch('name'), watch('email'));
-    setIsModal(true);
+
+  const onSubmit = async ({ name, email }: FindIdForm) => {
+    if (name && email) {
+      const data = await authApi.postFindId({
+        name,
+        email,
+      });
+      console.log(data);
+    }
   };
+
   const router = useRouter();
   const handleLeftButton = () => {
     router.push('/auth/login');
