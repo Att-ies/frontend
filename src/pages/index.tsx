@@ -1,6 +1,11 @@
 import Layout from '@components/common/Layout';
 import authApi from '@apis/auth/authApi';
 import axios from 'axios';
+
+if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
+  import('../mocks');
+}
+
 const apiTest = async () => {
   const data = await authApi.postAuth({
     username: 'test',
@@ -13,21 +18,10 @@ const apiTest = async () => {
   console.log(data);
 };
 
-const mockingText = async () => {
-  const response = await axios({
-    method: 'post',
-    url: 'https://backend.dev/friends',
-    data: {
-      firstName: 'Fred',
-      lastName: 'Flintstone',
-    },
-  });
-};
-
 export default function Home() {
   return (
     <Layout>
-      <button onClick={apiTest}>ss</button>
+      <button onClick={apiTest}>Test</button>
     </Layout>
   );
 }
