@@ -9,7 +9,7 @@ import Modal from '@components/common/Modal';
 import ErrorMessage from '@components/common/ErrorMessage';
 import authApi from '@apis/auth/authApi';
 interface FindIdForm {
-  name: string;
+  nickname: string;
   email: string;
 }
 
@@ -17,17 +17,30 @@ function Id() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<FindIdForm>();
   const [isModal, setIsModal] = useState(false);
 
-  const onSubmit = async ({ name, email }: FindIdForm) => {
-    if (name && email) {
+  const onSubmit = async ({ nickname, email }: FindIdForm) => {
+    if (nickname && email) {
       const data = await authApi.postFindId({
-        name,
+        nickname,
         email,
       });
-      console.log(data);
+      if (data.status === 200) {
+        setIsModal(true);
+      } else if (data.status === 404 && data.error === 'NOT_FOUND') {
+        setError('email', {
+          type: 'not found',
+          message: data.detail,
+        });
+      } else if (data.status === 404 && data.error === 'NOT_MATCH_USERNAME') {
+        setError('nickname', {
+          type: 'not match username',
+          message: data.detail,
+        });
+      }
     }
   };
 
@@ -67,7 +80,7 @@ function Id() {
           <Input
             type="text"
             placeholder="성함을 입력해 주세요."
-            register={register('name', {
+            register={register('nickname', {
               required: true,
               pattern: {
                 value: /^[가-힣]{2,4}$/,
@@ -76,7 +89,9 @@ function Id() {
             })}
             className="mb-2"
           />
-          {errors.name && <ErrorMessage message={errors.name.message} />}
+          {errors.nickname && (
+            <ErrorMessage message={errors.nickname.message} />
+          )}
 
           <Input
             type="email"

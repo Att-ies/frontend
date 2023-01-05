@@ -17,6 +17,7 @@ function Password() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<NewPasswordForm>();
   const [isModal, setIsModal] = useState(false);
@@ -25,6 +26,15 @@ function Password() {
       const data = await authApi.postNewPassword({
         email,
       });
+
+      if (data.status === 200) {
+        setIsModal(true);
+      } else if (data.status === 404 && data.error === 'NOT_FOUND') {
+        setError('email', {
+          type: 'not found',
+          message: data.detail,
+        });
+      }
       console.log(data);
     }
   };
