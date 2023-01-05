@@ -81,7 +81,7 @@ export default function Join02() {
         message: '이미 사용중인 아이디 입니다.',
       });
       return;
-    } else if (!data.duplicate) {
+    } else {
       setIdValidation(true);
       clearErrors('userId');
     }
@@ -96,7 +96,7 @@ export default function Join02() {
         message: '이미 가입된 이메일 입니다.',
       });
       return;
-    } else if (!data.duplicate) {
+    } else {
       setEmailValidation(true);
       clearErrors('email');
     }

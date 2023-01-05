@@ -1,13 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { userInfoForm } from 'types/userInfo';
 
-type userInfo = {
-  userId: string;
-  password: string;
-  email: string;
-  nickname: string;
-  telephone: string;
-};
-interface userState extends userInfo {
+interface userState extends userInfoForm {
   tastes: string[]; //user
   education: string; //artist
   history: string;

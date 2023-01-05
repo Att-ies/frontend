@@ -7,6 +7,7 @@ import axios from 'axios';
 import instance from '@apis/_axios/instance';
 
 // interface;
+import { memberInfoForm } from 'types/userInfo';
 
 function Join01() {
   const router = useRouter();
@@ -16,22 +17,28 @@ function Join01() {
   };
 
   const handleSkipButton = async () => {
-    // const { nickname };
-    console.log(1);
-    console.log({
-      ...userState,
-    });
+    // const memberInfo: memberInfoForm = {
+    //   userId: userState.userId,
+    //   nickname: userState.nickname,
+    //   password: userState.password,
+    //   telephone: userState.telephone,
+    //   email: userState.email,
+    //   keywords: userState.keywords,
+    // };
+    // EXIST_USER_ID, EXIST_USER_EMAIL
+    //
     const response = await authApi.postAuth({
-      // nickname: 'test13',
-      userId: 'abcd22',
-      email: 'test@naver.com22',
+      nickname: 'test40',
+      userId: 'abcd40',
+      email: 'test@naver.com40',
       password: 'qwer',
       telephone: '01012341234',
       keywords: ['유화', '심플한', '세련된'],
     });
+    if (response.status === 200) {
+      console.log('회원가입 성공');
+    }
     console.log(response);
-
-    // 회원가입 API전송
   };
   return (
     <Layout>
