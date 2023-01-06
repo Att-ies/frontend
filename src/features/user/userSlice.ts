@@ -1,22 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { userInfoForm } from 'types/userInfo';
+import { Artist, User } from 'types/user';
 
-type userInfo = {
-  userId: string;
-  password: string;
-  email: string;
-  nickname: string;
-  telephone: string;
-};
-type artistInfo = {
-  education: string; //artist
-  history: string;
-  description: string;
-  instagram: string;
-  behance: string;
-};
-
-interface userState extends userInfo, artistInfo {
+interface userState extends User, Artist {
   isApprovePromotion: boolean;
   isArtist: boolean;
   keywords: string[]; //user
@@ -45,7 +30,7 @@ const userSlice = createSlice({
   name: 'userReducer',
   initialState,
   reducers: {
-    setUserInfo: (state: userState, action: PayloadAction<userInfo>) => ({
+    setUserInfo: (state: userState, action: PayloadAction<User>) => ({
       ...state,
       userId: action.payload.userId,
       password: action.payload.password,
@@ -57,7 +42,7 @@ const userSlice = createSlice({
       ...state,
       keywords: action.payload,
     }),
-    setArtistInfo: (state: userState, action: PayloadAction<artistInfo>) => ({
+    setArtistInfo: (state: userState, action: PayloadAction<Artist>) => ({
       ...state,
       education: action.payload.education,
       history: action.payload.history,

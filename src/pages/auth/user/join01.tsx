@@ -4,20 +4,18 @@ import { useRouter } from 'next/router';
 import { useAppSelector } from '@features/hooks';
 import authApi from '@apis/auth/authApi';
 import { useState } from 'react';
-
-// interface;
-import { memberInfoForm } from 'types/userInfo';
 import ErrorMessage from '@components/common/ErrorMessage';
+import { Member } from 'types/user';
 
 function Join01() {
   const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState<string>();
   const userState = useAppSelector((state) => state.user);
   const handleNextButton = () => {
     router.push('/auth/user/join02');
   };
   const handleSkipButton = async () => {
-    const memberInfo: memberInfoForm = {
+    const memberInfo: Member = {
       userId: userState.userId,
       nickname: userState.nickname,
       password: userState.password,
@@ -25,11 +23,11 @@ function Join01() {
       email: userState.email,
       keywords: [],
     };
-    const response = await authApi.postAuth(memberInfo);
-    if (response.status === 200) {
+    const res = await authApi.postAuth(memberInfo);
+    if (res.status === 200) {
       router.push('/auth/login');
-    } else if (response.status === 409) {
-      switch (response.data.code) {
+    } else if (res.status === 409) {
+      switch (res.data.code) {
         case 'EXIST_USER_ID':
           setErrorMessage('존재하는 아이디입니다.');
           break;
@@ -47,7 +45,7 @@ function Join01() {
       {errorMessage && (
         <ErrorMessage
           message={errorMessage}
-          moreClassName="absolute left-[100px] top-[620px]"
+          className="absolute left-[100px] top-[620px]"
         />
       )}
       <div className="text-18 ">

@@ -6,8 +6,8 @@ import { useState } from 'react';
 import { useAppSelector } from '@features/hooks';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Modal from '@components/common/Modal';
-import { memberInfoForm } from 'types/userInfo';
 import authApi from '@apis/auth/authApi';
+import { Member } from 'types/user';
 
 interface KeywordForm {
   id: string;
@@ -32,7 +32,7 @@ function Join02() {
   const [errorMessage, setErrorMessage] = useState<string>();
   const router = useRouter();
   const handleLeftButton = () => {
-    router.push('/auth/user/join01');
+    router.back();
   };
   const [isModal, setIsModal] = useState<boolean>(false);
   const [keywords, setKeywords] = useState<string[]>([]);
@@ -50,7 +50,7 @@ function Join02() {
 
   const handleSubmit = async () => {
     const tasteSelectedArr = [...keywords];
-    const memberInfo: memberInfoForm = {
+    const memberInfo: Member = {
       userId: userState.userId,
       nickname: userState.nickname,
       password: userState.password,
@@ -58,11 +58,11 @@ function Join02() {
       email: userState.email,
       keywords: tasteSelectedArr,
     };
-    const response = await authApi.postAuth(memberInfo);
-    if (response.status === 200) {
+    const res = await authApi.postAuth(memberInfo);
+    if (res.status === 200) {
       router.push('/auth/login');
-    } else if (response.status === 409) {
-      switch (response.data.code) {
+    } else if (res.status >= 400) {
+      switch (res.data.code) {
         case 'EXIST_USER_ID':
           setErrorMessage('존재하는 아이디입니다.');
           break;
