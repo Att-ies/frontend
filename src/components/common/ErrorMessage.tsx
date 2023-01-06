@@ -1,7 +1,13 @@
 interface ErrorMessageProps {
-  message: any;
+  message: string;
+  moreClassName: string;
 }
 
-export default function ErrorMessage({ message }: ErrorMessageProps) {
-  return <span className="text-14 text-[#FF3120]">{message}</span>;
+export default function ErrorMessage({
+  message,
+  moreClassName,
+}: ErrorMessageProps) {
+  return (
+    <span className={`text-14 text-[#FF3120] ${moreClassName}`}>{message}</span>
+  );
 }
