@@ -5,43 +5,54 @@ import { useAppSelector } from '@features/hooks';
 import authApi from '@apis/auth/authApi';
 import axios from 'axios';
 import instance from '@apis/_axios/instance';
+import { useState } from 'react';
 
 // interface;
 import { memberInfoForm } from 'types/userInfo';
+import ErrorMessage from '@components/common/ErrorMessage';
 
 function Join01() {
   const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState();
   const userState = useAppSelector((state) => state.user);
   const handleNextButton = () => {
     router.push('/auth/user/join02');
   };
 
   const handleSkipButton = async () => {
-    // const memberInfo: memberInfoForm = {
-    //   userId: userState.userId,
-    //   nickname: userState.nickname,
-    //   password: userState.password,
-    //   telephone: userState.telephone,
-    //   email: userState.email,
-    //   keywords: userState.keywords,
-    // };
-    // EXIST_USER_ID, EXIST_USER_EMAIL
-    //
-    const response = await authApi.postAuth({
-      nickname: 'test40',
-      userId: 'abcd40',
-      email: 'test@naver.com40',
-      password: 'qwer',
-      telephone: '01012341234',
-      keywords: ['유화', '심플한', '세련된'],
-    });
+    const memberInfo: memberInfoForm = {
+      userId: userState.userId,
+      nickname: userState.nickname,
+      password: userState.password,
+      telephone: userState.telephone,
+      email: userState.email,
+      keywords: userState.keywords,
+    };
+    const response = await authApi.postAuth(memberInfo);
     if (response.status === 200) {
-      console.log('회원가입 성공');
+      router('/auth/login');
+    } else if (response.status === 409) {
+      switch (response.code) {
+        case 'EXIST_USER_ID':
+          setErrorMessage('존재하는 아이디입니다.');
+          break;
+        case 'EXIST_USER_EMAIL':
+          setErrorMessage('존재하는 이메일입니다.');
+          break;
+        case 'EXIST_NICKNAME':
+          setErrorMessage('존재하는 닉네임입니다.');
+          break;
+      }
     }
-    console.log(response);
   };
   return (
     <Layout>
+      {errorMessage && (
+        <ErrorMessage
+          message={errorMessage}
+          moreClassName="absolute left-[100px] top-[620px]"
+        />
+      )}
       <div className="text-18 ">
         <span className="text-[#F5535D] font-bold ">취향 분석</span>을 통해
         <br />
