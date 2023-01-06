@@ -3,8 +3,6 @@ import Button from '../../../components/common/Button';
 import { useRouter } from 'next/router';
 import { useAppSelector } from '@features/hooks';
 import authApi from '@apis/auth/authApi';
-import axios from 'axios';
-import instance from '@apis/_axios/instance';
 import { useState } from 'react';
 
 // interface;
