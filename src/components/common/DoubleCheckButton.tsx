@@ -7,7 +7,7 @@ interface buttonProps {
   [key: string]: any;
 }
 
-const DoubleCheckButton = tw.button<buttonProps>`
+const DoubleCheckButton = tw.div<buttonProps>`
 w-[58px] h-[25px] text-[12px] radius border-[1px] rounded flex justify-center ${(
   p,
 ) => (p.$valid ? 'border-[#DBDBDB]' : 'border-[#0099FF]')}
