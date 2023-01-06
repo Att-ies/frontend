@@ -12,7 +12,7 @@ interface defaultProps {
 
 const Label = tw.label<defaultProps>`flex items-center`;
 const CheckBoxSpan = tw.span<defaultProps>`flex items-center justify-center rounded-sm mr-2`;
-const CheckBoxInnerSpan = tw.span`text-12`;
+const CheckBoxInnerSpan = tw.span`text-14`;
 const CheckBoxInput = tw.input`hidden`;
 interface CheckBoxProps {
   id?: string;
