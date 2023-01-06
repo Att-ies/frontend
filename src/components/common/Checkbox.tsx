@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import check from '@public/svg/icons/icon_checked.svg';
 import uncheck from '@public/svg/icons/icon_unchecked.svg';
 import checkRadio from '@public/svg/icons/icon_radio_checked.svg';
@@ -31,7 +31,6 @@ export default function CheckBox({
   handler,
   ...rest
 }: CheckBoxProps) {
-  const [isCheck, setIsCheck] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   return kind === 'checkbox' ? (
     <Label className="cursor-pointer">
