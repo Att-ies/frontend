@@ -8,9 +8,9 @@ import Button from '@components/common/Button';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import authApi from '@apis/auth/authApi';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { setArtistInfo } from '@features/user/userSlice';
-import ErrorMessage from '@components/common/ErrorMessage';
 
 interface defaultProps {
   [key: string]: any;
@@ -25,7 +25,7 @@ flex cursor-pointer flex items-center text-12
 `;
 
 interface ArtistProfileForm {
-  profile?: FileList;
+  profile?: any;
   history: string;
   education: string;
   description: string;
@@ -36,11 +36,10 @@ interface ArtistProfileForm {
 export default function Join02() {
   const router = useRouter();
   const [profilePreview, setProfilePreview] = useState('');
-  const { handleSubmit, formState, watch, register } =
-    useForm<ArtistProfileForm>();
-  const [isProfileError, setIsProfileError] = useState<boolean>(false);
+  const { handleSubmit, watch, register } = useForm<ArtistProfileForm>();
   const profile = watch('profile');
-  const userState = useAppSelector((state: { user: any }) => state.user);
+  const dispatch = useAppDispatch();
+  const userState = useAppSelector((state) => state.user);
 
   useEffect(() => {
     if (profile && profile.length > 0) {
@@ -49,16 +48,14 @@ export default function Join02() {
     }
   }, [profile]);
 
-  const onSubmit = (form: ArtistProfileForm) => {
+  const onSubmit = async (form: ArtistProfileForm) => {
     const { userId, nickname, password, telephone, email } = userState;
     const { profile, education, history, description, instagram, behance } =
       form;
-    if (!profile.length) {
-      setIsProfileError(true);
-      return;
-    } else {
-      setIsProfileError(false);
-    }
+
+    dispatch(
+      setArtistInfo({ education, history, description, instagram, behance }),
+    );
 
     const formData = new FormData();
     formData.append('userId', userId);
@@ -74,12 +71,14 @@ export default function Join02() {
     formData.append('instagram', instagram || '');
     formData.append('behance', behance || '');
 
-    console.log('회원가입 API');
-    // 아래처럼 multipart형식으로 회원가입 API 전송
-    // headers: {
-    //   'Content-Type': 'multipart/form-data',
-    // },
-    // data: formData,
+    const data = await authApi.postArtistAuth(formData);
+    console.log(data);
+    // 완료 & 에러처리
+    // if(data.status === 200) {
+    //   router.push('/login')
+    // } else if(data.status === 404) {
+
+    // }
   };
   return (
     <Layout>
@@ -129,16 +128,11 @@ export default function Join02() {
             className="hidden"
             accept="image/*"
           />
-          {isProfileError && (
-            <span className="text-14 text-[#FF3120] absolute left-[100px] top-[250px]">
-              프로필 사진을 추가해주세요
-            </span>
-          )}
         </label>
       </section>
       <section className="mt-8 w-full flex flex-col justify-center items-center">
-        <div className="font-bold">김영서</div>
-        <div className="text-[#999999]">noniuxui@naver.com</div>
+        <div className="font-bold">{userState.nickname}</div>
+        <div className="text-[#999999]">{userState.email}</div>
       </section>
       <form onSubmit={handleSubmit(onSubmit)}>
         <section className="mt-[30px]">
@@ -157,7 +151,7 @@ export default function Join02() {
             label="이력"
             placeholder="이력을 작성해주세요."
             register={register('history', {
-              required: true,
+              required: false,
             })}
           />
           <Input
@@ -165,7 +159,7 @@ export default function Join02() {
             label="작가소개"
             placeholder="한 줄 소개를 작성해주세요."
             register={register('description', {
-              required: true,
+              required: false,
             })}
           />
         </section>

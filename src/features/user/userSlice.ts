@@ -1,15 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { userInfoForm } from 'types/userInfo';
 
-interface userState extends userInfoForm {
-  tastes: string[]; //user
+type userInfo = {
+  userId: string;
+  password: string;
+  email: string;
+  nickname: string;
+  telephone: string;
+};
+type artistInfo = {
   education: string; //artist
   history: string;
   description: string;
   instagram: string;
   behance: string;
+};
+
+interface userState extends userInfo, artistInfo {
   isApprovePromotion: boolean;
   isArtist: boolean;
+  tastes: string[]; //user
 }
 
 const initialState: userState = {
@@ -47,7 +57,7 @@ const userSlice = createSlice({
       ...state,
       tastes: action.payload,
     }),
-    setArtistInfo: (state: userState, action: PayloadAction<userState>) => ({
+    setArtistInfo: (state: userState, action: PayloadAction<artistInfo>) => ({
       ...state,
       education: action.payload.education,
       history: action.payload.history,
@@ -76,4 +86,5 @@ export const {
   setArtistInfo,
   setIsArtist,
 } = userSlice.actions;
+
 export default userSlice.reducer;
