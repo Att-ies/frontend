@@ -81,7 +81,7 @@ export default function Join02() {
         message: '이미 사용중인 아이디 입니다.',
       });
       return;
-    } else if (!data.duplicate) {
+    } else {
       setIdValidation(true);
       clearErrors('userId');
     }
@@ -89,14 +89,13 @@ export default function Join02() {
 
   const handleDoubleCheckEmail = async () => {
     const data = await authApi.getCheckEmail(watch('email'));
-    console.log('Email 중복이면 true 아니면 false : ', data.duplicate);
     if (data.duplicate) {
       setError('email', {
         type: 'email duplicate',
         message: '이미 가입된 이메일 입니다.',
       });
       return;
-    } else if (!data.duplicate) {
+    } else {
       setEmailValidation(true);
       clearErrors('email');
     }
@@ -142,14 +141,14 @@ export default function Join02() {
         <section className="mb-3 relative">
           <Input
             type="text"
-            label="사용자 이름"
-            placeholder="이름을 입력해주세요."
+            label="닉네임"
+            placeholder="닉네임을 입력해주세요."
             $error={errors.nickname ? true : false}
             register={register('nickname', {
               required: true,
               pattern: {
-                value: /^[가-힣]{2,25}$/g,
-                message: '최대 한글25자까지 입력 가능합니다.',
+                value: /^[가-힣A-Za-z0-9]{1,5}$/g,
+                message: '최대 5자 까지 입력 가능합니다.',
               },
             })}
           />

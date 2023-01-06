@@ -11,12 +11,16 @@ export class AuthApi {
   }
 
   async postAuth(body: AuthDTOType): Promise<AuthDTOType> {
-    const { data } = await this.axios({
-      method: 'POST',
-      url: `/members/join`,
-      data: body,
-    });
-    return data;
+    try {
+      const response = await this.axios({
+        method: 'POST',
+        url: `/members/join`,
+        data: body,
+      });
+      return response;
+    } catch (error) {
+      return error.response;
+    }
   }
 
   async postArtistAuth(body: AuthDTOType) {
