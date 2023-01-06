@@ -1,5 +1,5 @@
 interface ErrorMessageProps {
-  message: string | undefined;
+  message: any;
   className?: string;
 }
 

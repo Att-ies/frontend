@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import Button from '@components/common/Button';
-import { CONFIG } from '@config';
 import ErrorMessage from '@components/common/ErrorMessage';
 import React, { useState } from 'react';
 import SocialLoginButton from '@components/login/SocialLoginButton';

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Chatroom from '@components/chat/ChatRoom';
 
-interface chatRoomListForm {
+interface ChatRoomListForm {
   id: string;
   profileImage: string;
   name: string;
@@ -13,7 +13,7 @@ interface chatRoomListForm {
   notifyCnt: number;
 }
 
-const DUMP_CHAT_ROOM_LIST: chatRoomListForm[] = [
+const DUMP_CHAT_ROOM_LIST: ChatRoomListForm[] = [
   {
     id: '1',
     profileImage: '/svg/icons/icon_basic_profile.svg',
@@ -42,7 +42,7 @@ const DUMP_CHAT_ROOM_LIST: chatRoomListForm[] = [
 
 export default function Chat() {
   const [chatRoomList, setChatRoomList] =
-    useState<chatRoomListForm[]>(DUMP_CHAT_ROOM_LIST);
+    useState<ChatRoomListForm[]>(DUMP_CHAT_ROOM_LIST);
 
   useEffect(() => {
     // 채팅방 GET API
@@ -54,7 +54,7 @@ export default function Chat() {
 
       {chatRoomList.length ? (
         <div className="mt-5 absolute w-full inset-x-0 ">
-          {chatRoomList.map((chatRoom: chatRoomListForm) => (
+          {chatRoomList.map((chatRoom: ChatRoomListForm) => (
             <Chatroom chatRoom={chatRoom} key={chatRoom.id} />
           ))}
         </div>

@@ -7,7 +7,7 @@ interface AuctionNavigateProps {
   [key: string]: any;
 }
 
-const AuctionNavigateTag = tw.div``;
+const AuctionNavigateTag = tw.div<AuctionNavigateProps>``;
 
 export default function AuctionNavigate({ ...rest }: AuctionNavigateProps) {
   const router = useRouter();

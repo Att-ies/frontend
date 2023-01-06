@@ -7,15 +7,15 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-interface defaultProps {
+interface DefaultProps {
   [key: string]: any;
 }
 
-const SearchBox = tw.header<defaultProps>`
+const SearchBox = tw.header<DefaultProps>`
 flex justify-between items-center font-semibold relative h-[64px]
 `;
 
-const RecentKeywordBox = tw.li<defaultProps>`
+const RecentKeywordBox = tw.li<DefaultProps>`
 border-b-[1px] border-[#EDEDED] text-[#767676] flex px-2 justify-between basis-[48.6%] p-0 cursor-pointer odd:mr-2 pb-1 mt-2
 `;
 

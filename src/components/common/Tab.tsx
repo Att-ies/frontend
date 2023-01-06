@@ -25,15 +25,15 @@ const TABLIST = [
   },
 ];
 
-interface defaultProps {
+interface DefaultProps {
   [key: string]: any;
 }
 
-const TabBox = tw.footer<defaultProps>`
+const TabBox = tw.footer<DefaultProps>`
   absolute bottom-[34px]
 `;
 
-const TabList = tw.div<defaultProps>`flex w-[327px]`;
+const TabList = tw.div<DefaultProps>`flex w-[327px]`;
 
 interface TabItemProps {
   id: number;

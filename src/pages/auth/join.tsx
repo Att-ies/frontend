@@ -7,17 +7,17 @@ import { useState } from 'react';
 import tw from 'tailwind-styled-components';
 import { useAppDispatch } from '@features/hooks';
 import { setIsArtist as setIamArtist } from '@features/user/userSlice';
-interface joinSelectProps {
+interface JoinSelectProps {
   type: string;
   label?: string;
   placeholder?: string;
   [key: string]: any;
 }
-const JoinAsUserTag = tw.div<joinSelectProps>`
+const JoinAsUserTag = tw.div<JoinSelectProps>`
 ${(p) => (p.$isUser ? 'border-[#F5535D]' : 'border-[#D8D8D8]')}
 w-full pl-3 h-[52px] cursor-pointer font-medium placeholder-[#999999] text-14 rounded-[4px] flex items-center border-[1px]`;
 
-const JoinAsArtistTag = tw.div<joinSelectProps>`
+const JoinAsArtistTag = tw.div<JoinSelectProps>`
 ${(p) => (p.$isArtist ? 'border-[#F5535D]' : 'border-[#D8D8D8]')}
 w-full pl-3 h-[52px] cursor-pointer font-medium placeholder-[#999999] text-14 rounded-[4px] flex items-center border-[1px]`;
 

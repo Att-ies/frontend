@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Artist, User } from 'types/user';
 
-interface userState extends User, Artist {
+interface UserState extends User, Artist {
   isApprovePromotion: boolean;
   isArtist: boolean;
   keywords: string[]; //user
 }
 
-const initialState: userState = {
+const initialState: UserState = {
   userId: '',
   password: '',
   email: '',
@@ -30,7 +30,7 @@ const userSlice = createSlice({
   name: 'userReducer',
   initialState,
   reducers: {
-    setUserInfo: (state: userState, action: PayloadAction<User>) => ({
+    setUserInfo: (state: UserState, action: PayloadAction<User>) => ({
       ...state,
       userId: action.payload.userId,
       password: action.payload.password,
@@ -38,11 +38,11 @@ const userSlice = createSlice({
       nickname: action.payload.nickname,
       telephone: action.payload.telephone,
     }),
-    setKeywords: (state: userState, action: PayloadAction<string[]>) => ({
+    setKeywords: (state: UserState, action: PayloadAction<string[]>) => ({
       ...state,
       keywords: action.payload,
     }),
-    setArtistInfo: (state: userState, action: PayloadAction<Artist>) => ({
+    setArtistInfo: (state: UserState, action: PayloadAction<Artist>) => ({
       ...state,
       education: action.payload.education,
       history: action.payload.history,
@@ -51,13 +51,13 @@ const userSlice = createSlice({
       behance: action.payload.behance,
     }),
     setIsApprovePromotion: (
-      state: userState,
+      state: UserState,
       action: PayloadAction<boolean>,
     ) => ({
       ...state,
       isApprovePromotion: action.payload,
     }),
-    setIsArtist: (state: userState, action: PayloadAction<boolean>) => ({
+    setIsArtist: (state: UserState, action: PayloadAction<boolean>) => ({
       ...state,
       isArtist: action.payload,
     }),

@@ -12,15 +12,15 @@ import authApi from '@apis/auth/authApi';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { setArtistInfo } from '@features/user/userSlice';
 
-interface defaultProps {
+interface DefaultProps {
   [key: string]: any;
 }
 
-const ProfilePicBox = tw.div<defaultProps>`
+const ProfilePicBox = tw.div<DefaultProps>`
 w-[100px] h-[100px] mx-auto rounded-full text-center mt-8 cursor-pointer
 `;
 
-const UserSNSBox = tw.div<defaultProps>`
+const UserSNSBox = tw.div<DefaultProps>`
 flex cursor-pointer flex items-center text-12
 `;
 

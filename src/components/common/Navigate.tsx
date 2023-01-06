@@ -11,19 +11,19 @@ interface NavigateProps {
   handleRightButton?: () => void;
 }
 
-interface defaultProps {
+interface DefaultProps {
   [key: string]: any;
 }
 
-interface LeftButtonProps extends defaultProps {
+interface LeftButtonProps extends DefaultProps {
   onClick?: () => void;
 }
 
-interface RightButtonProps extends defaultProps {
+interface RightButtonProps extends DefaultProps {
   onClick?: () => void;
 }
 
-const NavigateBox = tw.header<defaultProps>`
+const NavigateBox = tw.header<DefaultProps>`
 flex justify-between items-center font-semibold relative h-[64px] 
 `;
 

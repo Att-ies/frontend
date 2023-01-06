@@ -2,11 +2,11 @@ import Image from 'next/image';
 import favorite from '@public/svg/icons/icon_favorite.svg';
 import tw from 'tailwind-styled-components';
 
-interface defaultProps {
+interface DefaultProps {
   [key: string]: any;
 }
 
-const WishCardContainer = tw.div<defaultProps>`
+const WishCardContainer = tw.div<DefaultProps>`
 rounded-lg hover:ring-1 hover:ring-blue-500 cursor-pointer
 `;
 interface WishForm {
