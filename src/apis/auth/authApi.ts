@@ -19,6 +19,14 @@ export class AuthApi {
     return data;
   }
 
+  postAuthForQuery(body: AuthDTOType) {
+    this.axios({
+      method: 'POST',
+      url: `http://44.193.163.114:8080/members/join`,
+      data: body,
+    });
+  }
+
   async postArtistAuth(body: AuthDTOType) {
     try {
       const { data } = await this.axios({

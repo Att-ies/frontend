@@ -1,7 +1,8 @@
 import Layout from '@components/common/Layout';
-import authApi from '@apis/auth/authApi';
+import authApi, { AuthApi } from '@apis/auth/authApi';
 import axios from 'axios';
-import { useQuery } from 'react-query';
+import { useMutation } from 'react-query';
+import { loginMutation } from '@hooks/queries/useAuthApi';
 
 if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
   import('../mocks');
@@ -22,20 +23,40 @@ const apiTest = async () => {
 };
 
 export default function Home() {
-  // const { isLoading, isError, data, error } = useQuery('todos', userInfo, {
-  //   refetchOnWindowFocus: false,
-  //   retry: 0, // 실패시 재호출 몇번 할지
-  //   onSuccess: (data) => {
-  //     console.log(data);
-  //   },
-  //   onError: (e) => {
-  //     console.log(e.message);
-  //   },
-  // });
+  // console.log(loginMutation);
+  const loginMutation = useMutation(
+    () => {
+      // axios({
+      //   method: 'POST',
+      //   url: `http://44.193.163.114:8080/members/join`,
+      //   data: userInfo,
+      // });
+      AuthApi.postAuthForQuery(userInfo);
+    },
+    {
+      onMutate: (variable) => {
+        // console.log('onMutate', variable);
+        // variable : {loginId: 'xxx', password; 'xxx'}
+      },
+      onError: (error, variable, context) => {
+        console.log(error, variable, context);
+        // error
+      },
+      onSuccess: (data, variables, context) => {
+        console.log('success', data, variables, context);
+      },
+      onSettled: () => {
+        console.log('end');
+      },
+    },
+  );
 
+  const handleSubmit = () => {
+    loginMutation.mutate(userInfo);
+  };
   return (
     <Layout>
-      <button onClick={apiTest}>Test</button>
+      <button onClick={handleSubmit}>Test</button>
     </Layout>
   );
 }
