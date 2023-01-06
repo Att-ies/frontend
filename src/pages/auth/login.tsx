@@ -8,19 +8,7 @@ import Button from '@components/common/Button';
 import { CONFIG } from '@config';
 import ErrorMessage from '@components/common/ErrorMessage';
 import React, { useState } from 'react';
-
-const randomString = (length: number) => {
-  let result = '';
-  const characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-};
-
-const STATESTRING = randomString(20);
+import SocialLoginButton from '@components/login/SocialLoginButton';
 
 function Login() {
   const {
@@ -101,35 +89,15 @@ function Login() {
           <div className="mt-[34px]">
             <Button text="로그인" />
           </div>
-          <div className="flex justify-around items-center mt-[29px] text-12">
-            <Link
-              href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CONFIG.API_KEYS.NAVER}&state=${STATESTRING}&redirect_uri=http://localhost:3000/auth/naver/callback`}
-            >
-              <div className="flex justify-center items-center">
-                <Image
-                  src="/svg/social/naver_logo.svg"
-                  alt="kakao"
-                  width={18}
-                  height={18}
-                />
-                <span className="ml-[10px]">네이버</span>
-              </div>
-            </Link>
-            <Link
-              href={`https://kauth.kakao.com/oauth/authorize?client_id=${CONFIG.API_KEYS.KAKAO}&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code`}
-            >
-              <div className="flex justify-center items-center">
-                <Image
-                  src="/svg/social/kakao_logo.svg"
-                  alt="kakao"
-                  width={18}
-                  height={18}
-                />
-                <span className="ml-[10px]">카카오톡</span>
-              </div>
-            </Link>
+          <div className="mt-6 space-y-3">
+            <div>
+              <SocialLoginButton kind="kakao" />
+            </div>
+            <div>
+              <SocialLoginButton kind="naver" />
+            </div>
           </div>
-          <p className="w-full text-center text-12 mt-[29px]">
+          <p className="w-full text-center text-12 mt-3">
             계정을 잊으셨나요?&nbsp;
             <Link className="text-[#0099FF]" href="/auth/id">
               ID찾기
