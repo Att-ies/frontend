@@ -1,6 +1,6 @@
 interface ErrorMessageProps {
   message: string;
-  moreClassName: string;
+  moreClassName?: string;
 }
 
 export default function ErrorMessage({
