@@ -7,7 +7,7 @@ import { useAppSelector } from '@features/hooks';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Modal from '@components/common/Modal';
 import { memberInfoForm } from 'types/userInfo';
-import useUserJoin from './hooks/useUserJoin';
+import useUserJoin from '../../../hooks/queries/useUserJoin';
 
 interface TasteForm {
   id: string;

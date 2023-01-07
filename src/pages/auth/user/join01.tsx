@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useAppSelector } from '@features/hooks';
 import { memberInfoForm } from 'types/userInfo';
 import ErrorMessage from '@components/common/ErrorMessage';
-import useUserJoin from './hooks/useUserJoin';
+import useUserJoin from '../../../hooks/queries/useUserJoin';
 
 function Join01() {
   const router = useRouter();
