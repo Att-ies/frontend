@@ -1,4 +1,3 @@
-import useJWTValidate from 'hooks/queries/useJWTValidate';
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 import authApi from '@apis/auth/authApi';
@@ -11,7 +10,7 @@ const useUserJoin = () => {
     onSuccess: (res) => {
       router.push('/auth/login');
     },
-    onError: (error, variable, context) => {
+    onError: (error) => {
       const response = error.response;
       if (response.status === 200) {
         router.push('/auth/login');

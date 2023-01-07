@@ -7,7 +7,7 @@ import { useAppSelector } from '@features/hooks';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Modal from '@components/common/Modal';
 import { memberInfoForm } from 'types/userInfo';
-import authApi from '@apis/auth/authApi';
+import useUserJoin from './hooks/useUserJoin';
 
 interface TasteForm {
   id: string;
@@ -29,7 +29,6 @@ const TASTES: TasteForm[] = [
 ];
 
 function Join02() {
-  const [errorMessage, setErrorMessage] = useState();
   const router = useRouter();
   const handleLeftButton = () => {
     router.push('/auth/user/join01');
@@ -47,6 +46,7 @@ function Join02() {
       setTasteSelected([...tasteSelected, thisId]);
     }
   };
+  const { mutation, errorMessage } = useUserJoin();
 
   const handleSubmit = async () => {
     const tasteSelectedArr = [...tasteSelected];
@@ -59,22 +59,7 @@ function Join02() {
       email: userState.email,
       keywords: tasteSelectedArr,
     };
-    const response = await authApi.postAuth(memberInfo);
-    if (response.status === 200) {
-      router('/auth/login');
-    } else if (response.status === 409) {
-      switch (response.data.code) {
-        case 'EXIST_USER_ID':
-          setErrorMessage('존재하는 아이디입니다.');
-          break;
-        case 'EXIST_USER_EMAIL':
-          setErrorMessage('존재하는 이메일입니다.');
-          break;
-        case 'EXIST_NICKNAME':
-          setErrorMessage('존재하는 닉네임입니다.');
-          break;
-      }
-    }
+    mutation.mutate(memberInfo);
     setIsModal(false);
   };
   const handleCompleteButton = () => {
