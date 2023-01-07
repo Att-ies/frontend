@@ -3,7 +3,7 @@ import instance from '@apis/_axios/instance';
 import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
 import { useMutation } from 'react-query';
 import axios from 'axios';
-import initialInstance from '@apis/_axios/initialInstance';
+import authInstance from '@apis/_axios/authInstance';
 export class AuthApi {
   axios: AxiosInstance = instance;
   constructor(axios?: AxiosInstance) {
@@ -11,7 +11,7 @@ export class AuthApi {
   }
 
   async postUserAuth(body: AuthDTOType) {
-    await initialInstance.post(`/members/join`, body);
+    await authInstance.post(`/members/join`, body);
   }
 
   async postArtistAuth(body: AuthDTOType) {
