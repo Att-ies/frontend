@@ -10,14 +10,14 @@ interface InputProps {
   [key: string]: any;
 }
 
-interface defaultProps {
+interface DefaultProps {
   [key: string]: any;
 }
 
-const InputBox = tw.div<defaultProps>`
+const InputBox = tw.div<DefaultProps>`
 `;
 
-const Label = tw.label<defaultProps>`
+const Label = tw.label<DefaultProps>`
 text-14 leading-8
 `;
 

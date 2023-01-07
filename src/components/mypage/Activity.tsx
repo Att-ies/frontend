@@ -8,11 +8,11 @@ interface ActivityBoxProps {
   icon: string;
 }
 
-interface defaultProps {
+interface DefaultProps {
   [key: string]: any;
 }
 
-const ActivityBox = tw.div<defaultProps>`
+const ActivityBox = tw.div<DefaultProps>`
 bg-[#F8F8FA] rounded-lg w-[98px] h-[90px] mt-8 flex flex-col justify-center items-center cursor-pointer
 `;
 
