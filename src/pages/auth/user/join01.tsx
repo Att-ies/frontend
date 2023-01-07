@@ -2,20 +2,17 @@ import Layout from '@components/common/Layout';
 import Button from '../../../components/common/Button';
 import { useRouter } from 'next/router';
 import { useAppSelector } from '@features/hooks';
-import authApi from '@apis/auth/authApi';
-import { useState } from 'react';
-
-// interface;
 import { memberInfoForm } from 'types/userInfo';
 import ErrorMessage from '@components/common/ErrorMessage';
+import useUserJoin from './hooks/useUserJoin';
 
 function Join01() {
   const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState();
   const userState = useAppSelector((state) => state.user);
   const handleNextButton = () => {
     router.push('/auth/user/join02');
   };
+  const { mutation, errorMessage } = useUserJoin();
   const handleSkipButton = async () => {
     const memberInfo: memberInfoForm = {
       userId: userState.userId,
@@ -25,22 +22,7 @@ function Join01() {
       email: userState.email,
       keywords: [],
     };
-    const response = await authApi.postAuth(memberInfo);
-    if (response.status === 200) {
-      router.push('/auth/login');
-    } else if (response.status === 409) {
-      switch (response.data.code) {
-        case 'EXIST_USER_ID':
-          setErrorMessage('존재하는 아이디입니다.');
-          break;
-        case 'EXIST_USER_EMAIL':
-          setErrorMessage('존재하는 이메일입니다.');
-          break;
-        case 'EXIST_NICKNAME':
-          setErrorMessage('존재하는 닉네임입니다.');
-          break;
-      }
-    }
+    mutation.mutate(memberInfo);
   };
   return (
     <Layout>
