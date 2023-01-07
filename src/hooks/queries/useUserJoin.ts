@@ -27,7 +27,6 @@ const useUserJoin = () => {
             break;
         }
       }
-      //에러 페이지 이동
     },
   });
   return { mutation, errorMessage };
