@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { userInfoForm } from 'types/userInfo';
 
 type userInfo = {
   userId: string;
@@ -18,7 +19,7 @@ type artistInfo = {
 interface userState extends userInfo, artistInfo {
   isApprovePromotion: boolean;
   isArtist: boolean;
-  tastes: string[]; //user
+  keywords: string[]; //user
 }
 
 const initialState: userState = {
@@ -28,7 +29,7 @@ const initialState: userState = {
   nickname: '',
   telephone: '',
 
-  tastes: [], //user
+  keywords: [], //user
 
   education: '', //artist
   history: '',
@@ -52,9 +53,9 @@ const userSlice = createSlice({
       nickname: action.payload.nickname,
       telephone: action.payload.telephone,
     }),
-    setTastes: (state: userState, action: PayloadAction<string[]>) => ({
+    setKeywords: (state: userState, action: PayloadAction<string[]>) => ({
       ...state,
-      tastes: action.payload,
+      keywords: action.payload,
     }),
     setArtistInfo: (state: userState, action: PayloadAction<artistInfo>) => ({
       ...state,
@@ -80,7 +81,7 @@ const userSlice = createSlice({
 
 export const {
   setUserInfo,
-  setTastes,
+  setKeywords,
   setIsApprovePromotion,
   setArtistInfo,
   setIsArtist,

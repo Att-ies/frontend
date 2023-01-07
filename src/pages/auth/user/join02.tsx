@@ -3,10 +3,11 @@ import Button from '../../../components/common/Button';
 import Navigate from '@components/common/Navigate';
 import { useRouter } from 'next/router';
 import react, { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@features/hooks';
-import userSlice, { setTastes } from '@features/user/userSlice';
+import { useAppSelector } from '@features/hooks';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Modal from '@components/common/Modal';
+import { memberInfoForm } from 'types/userInfo';
+import authApi from '@apis/auth/authApi';
 
 interface TasteForm {
   id: string;
@@ -28,13 +29,13 @@ const TASTES: TasteForm[] = [
 ];
 
 function Join02() {
+  const [errorMessage, setErrorMessage] = useState();
   const router = useRouter();
   const handleLeftButton = () => {
     router.push('/auth/user/join01');
   };
   const [isModal, setIsModal] = useState<boolean>(false);
   const [tasteSelected, setTasteSelected] = useState<string[]>([]);
-  const dispatch = useAppDispatch();
   const userState = useAppSelector((state: { user: any }) => state.user);
   const checkTaste = (e: { target: { id: any } }) => {
     const thisId = e.target.id;
@@ -47,12 +48,34 @@ function Join02() {
     }
   };
 
-  const handleCancleButton = () => {
-    console.log({
-      ...userState,
-    });
-    // 회원가입 API전송
-    // router.push('/home');
+  const handleSubmit = async () => {
+    const tasteSelectedArr = [...tasteSelected];
+    tasteSelectedArr.sort((a: number, b: number) => +a - +b);
+    const memberInfo: memberInfoForm = {
+      userId: userState.userId,
+      nickname: userState.nickname,
+      password: userState.password,
+      telephone: userState.telephone,
+      email: userState.email,
+      keywords: tasteSelectedArr,
+    };
+    const response = await authApi.postAuth(memberInfo);
+    if (response.status === 200) {
+      router('/auth/login');
+    } else if (response.status === 409) {
+      switch (response.data.code) {
+        case 'EXIST_USER_ID':
+          setErrorMessage('존재하는 아이디입니다.');
+          break;
+        case 'EXIST_USER_EMAIL':
+          setErrorMessage('존재하는 이메일입니다.');
+          break;
+        case 'EXIST_NICKNAME':
+          setErrorMessage('존재하는 닉네임입니다.');
+          break;
+      }
+    }
+    setIsModal(false);
   };
   const handleCompleteButton = () => {
     setIsModal(true);
@@ -60,24 +83,20 @@ function Join02() {
   const onCloseModal = () => {
     setIsModal(false);
   };
-  const handleAccept = () => {
-    const tasteSelectedArr = [...tasteSelected];
-    tasteSelectedArr.sort((a: number, b: number) => +a - +b);
-    dispatch(setTastes(tasteSelectedArr));
-    console.log({
-      ...userState,
-      tastes: tasteSelectedArr,
-    });
-    // 회원가입 API전송
-    // router.push('/home');
-  };
+
   return (
     <Layout>
+      {errorMessage && (
+        <ErrorMessage
+          message={errorMessage}
+          moreClassName="absolute left-[100px] top-[850px]"
+        />
+      )}
       <Modal
         message="취향 분석이 완료 되었습니다."
         isModal={isModal}
         onCloseModal={onCloseModal}
-        onAccept={handleAccept}
+        onAccept={handleSubmit}
       />
       <Navigate right_message=" " handleLeftButton={handleLeftButton} />
       <div className="text-18 font-semibold">관심있는 키워드를 골라주세요.</div>
@@ -114,7 +133,7 @@ function Join02() {
       />
       <button
         className="w-full transition h-[52px] text-xs underline border border-transparent hover:[#F5535D]-2 px-0 text-[#999999] leading-3 font-normal"
-        onClick={handleCancleButton}
+        onClick={handleSubmit}
       >
         다음에 할래요
       </button>

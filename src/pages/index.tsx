@@ -22,6 +22,18 @@ const apiTest = async () => {
   console.log(data);
 };
 
+// const mockingText = async () => {
+//   const response = await axios({
+//     method: 'post',
+//     url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/members/join`,
+//     data: {
+//       firstName: 'Fred',
+//       lastName: 'Flintstone',
+//     },
+//   });
+//   console.log(response?.data);
+// };
+
 export default function Home() {
   // console.log(loginMutation);
   const loginMutation = useMutation(

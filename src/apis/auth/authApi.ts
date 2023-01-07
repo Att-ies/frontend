@@ -10,13 +10,19 @@ export class AuthApi {
     if (axios) this.axios = axios;
   }
 
-  async postAuth(body: AuthDTOType): Promise<AuthDTOType> {
-    const { data } = await this.axios({
-      method: 'POST',
-      url: `/members/join`,
-      data: body,
-    });
-    return data;
+  async postAuth(body: AuthDTOType) {
+    try {
+      const response = await this.axios({
+        method: 'POST',
+        url: `/members/join`,
+        data: body,
+      });
+      return response;
+    } catch (error: any) {
+      if (error) {
+        return error.response;
+      }
+    }
   }
 
   postAuthForQuery(body: AuthDTOType) {
@@ -31,7 +37,7 @@ export class AuthApi {
     try {
       const { data } = await this.axios({
         method: 'POST',
-        url: `/members/id`,
+        url: `/artists/join`,
         data: body,
         headers: {
           'Content-Type': 'multipart/form-data',

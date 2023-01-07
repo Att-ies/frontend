@@ -68,17 +68,16 @@ export default function Join02() {
     formData.append('education', education);
     formData.append('history', history);
     formData.append('description', description);
-    formData.append('instagram', instagram || '');
-    formData.append('behance', behance || '');
+    formData.append('instagram', instagram);
+    formData.append('behance', behance);
 
-    const data = await authApi.postArtistAuth(formData);
-    console.log(data);
-    // 완료 & 에러처리
-    // if(data.status === 200) {
-    //   router.push('/login')
-    // } else if(data.status === 404) {
-
-    // }
+    const response = await authApi.postArtistAuth(formData);
+    console.log(response);
+    if (response.status === 201) {
+      router.push('/auth/login');
+    } else if (response.status === 409) {
+      router.push('/auth/join');
+    }
   };
   return (
     <Layout>
