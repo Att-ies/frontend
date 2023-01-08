@@ -6,11 +6,22 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { useEffect } from 'react';
+import { getToken } from '@utils/localStorage/token';
+import { useRouter } from 'next/router';
 
 const queryClient = new QueryClient();
 const persistor = persistStore(store);
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.pathname.includes('auth')) return;
+    const token = getToken();
+    if (!token.access) router.replace('/auth/login');
+  }, [router]);
+
   return (
     <div className="mx-auto w-full max-w-[375px]">
       <Provider store={store}>

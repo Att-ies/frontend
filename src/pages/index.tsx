@@ -1,5 +1,6 @@
 import Layout from '@components/common/Layout';
-import authApi, { AuthApi } from '@apis/auth/authApi';
+import authApi from '@apis/auth/authApi';
+
 
 if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
   import('../mocks');

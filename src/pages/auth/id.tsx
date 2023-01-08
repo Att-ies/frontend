@@ -24,22 +24,27 @@ function Id() {
 
   const onSubmit = async ({ nickname, email }: FindIdForm) => {
     if (nickname && email) {
-      const data = await authApi.postFindId({
+      const res = await authApi.postFindId({
         nickname,
         email,
       });
-      if (data.status === 200) {
+      if (res.status === 200) {
         setIsModal(true);
-      } else if (data.status === 404 && data.error === 'NOT_FOUND') {
-        setError('email', {
-          type: 'not found',
-          message: data.detail,
-        });
-      } else if (data.status === 404 && data.error === 'NOT_MATCH_USERNAME') {
-        setError('nickname', {
-          type: 'not match username',
-          message: data.detail,
-        });
+      } else if (res.status >= 400) {
+        switch (res.data.code) {
+          case 'NOT_FOUND':
+            setError('email', {
+              type: 'not found',
+              message: res.data.detail,
+            });
+            break;
+          case 'NOT_MATCH_NICKNAME':
+            setError('nickname', {
+              type: 'not match',
+              message: res.data.detail,
+            });
+            break;
+        }
       }
     }
   };
@@ -76,7 +81,7 @@ function Id() {
         </p>
       </section>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <section className="py-2">
+        <section className="py-2 space-y-2">
           <Input
             type="text"
             placeholder="성함을 입력해 주세요."
@@ -87,7 +92,6 @@ function Id() {
                 message: '이름을 올바르게 입력해주세요.',
               },
             })}
-            className="mb-2"
           />
           {errors.nickname && (
             <ErrorMessage message={errors.nickname.message} />

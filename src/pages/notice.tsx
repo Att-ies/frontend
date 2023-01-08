@@ -11,7 +11,7 @@ interface NoticeForm {
   date: string;
 }
 
-const noticeLists: NoticeForm[] = [
+const NOTICELIST: NoticeForm[] = [
   { text: '노니님의 작품을 관심 등록 하였습니다.', date: '어제', id: '1' },
   { text: '라미님의 작품을 관심 등록 하였습니다.', date: '어제', id: '2' },
   {
@@ -23,7 +23,7 @@ const noticeLists: NoticeForm[] = [
 ];
 
 export default function Notice() {
-  const [notice, setNotice] = useState<NoticeForm[]>(noticeLists);
+  const [notice, setNotice] = useState<NoticeForm[]>(NOTICELIST);
 
   const onRemove = (targetId: string): void => {
     const newNoticeList = notice.filter((notice: NoticeForm) => {

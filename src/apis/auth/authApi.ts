@@ -10,13 +10,13 @@ export class AuthApi {
     if (axios) this.axios = axios;
   }
 
+
   async postUserAuth(body: AuthDTOType) {
     await authInstance.post(`/members/join`, body);
-  }
 
   async postArtistAuth(body: AuthDTOType) {
     try {
-      const { data } = await this.axios({
+      const res = await this.axios({
         method: 'POST',
         url: `/artists/join`,
         data: body,
@@ -24,10 +24,10 @@ export class AuthApi {
           'Content-Type': 'multipart/form-data',
         },
       });
-      return data;
+      return res;
     } catch (error: any) {
       if (error) {
-        return error.response.data;
+        return error.response;
       }
     }
   }
@@ -52,30 +52,30 @@ export class AuthApi {
 
   async postFindId(body: AuthDTOType) {
     try {
-      const { data } = await this.axios({
+      const res = await this.axios({
         method: 'POST',
         url: `/members/id`,
         data: body,
       });
-      return data;
+      return res;
     } catch (error: any) {
       if (error) {
-        return error.response.data;
+        return error.response;
       }
     }
   }
 
   async postNewPassword(body: AuthDTOType) {
     try {
-      const { data } = await this.axios({
+      const res = await this.axios({
         method: 'POST',
         url: `/members/new-password`,
         data: body,
       });
-      return data;
+      return res;
     } catch (error: any) {
       if (error) {
-        return error.response.data;
+        return error.response;
       }
     }
   }

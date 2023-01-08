@@ -2,19 +2,20 @@ import Layout from '@components/common/Layout';
 import Button from '../../../components/common/Button';
 import Navigate from '@components/common/Navigate';
 import { useRouter } from 'next/router';
-import react, { useState } from 'react';
+import { useState } from 'react';
 import { useAppSelector } from '@features/hooks';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Modal from '@components/common/Modal';
-import { memberInfoForm } from 'types/userInfo';
 import useUserJoin from '../../../hooks/queries/useUserJoin';
 
-interface TasteForm {
+import { Member } from 'types/user';
+
+interface KeywordForm {
   id: string;
   name: string;
 }
 
-const TASTES: TasteForm[] = [
+const KEYWORDS: KeywordForm[] = [
   { id: '1', name: '심플한' },
   { id: '2', name: '세련된' },
   { id: '3', name: '모던한' },
@@ -31,27 +32,26 @@ const TASTES: TasteForm[] = [
 function Join02() {
   const router = useRouter();
   const handleLeftButton = () => {
-    router.push('/auth/user/join01');
+    router.back();
   };
   const [isModal, setIsModal] = useState<boolean>(false);
-  const [tasteSelected, setTasteSelected] = useState<string[]>([]);
-  const userState = useAppSelector((state: { user: any }) => state.user);
-  const checkTaste = (e: { target: { id: any } }) => {
-    const thisId = e.target.id;
-    if (tasteSelected.includes(thisId)) {
-      setTasteSelected(
-        tasteSelected.filter((taste: string) => taste !== thisId + ''),
-      );
+  const [keywords, setKeywords] = useState<string[]>([]);
+  const userState = useAppSelector((state) => state.user);
+
+  const handleKeywordClick = (name) => {
+    const tasteSelectedArr = [...keywords];
+    if (tasteSelectedArr.includes(name)) {
+      tasteSelectedArr.splice(tasteSelectedArr.indexOf(name), 1);
     } else {
-      setTasteSelected([...tasteSelected, thisId]);
+      tasteSelectedArr.push(name);
     }
+    setKeywords(tasteSelectedArr);
   };
   const { mutation, errorMessage } = useUserJoin();
 
   const handleSubmit = async () => {
-    const tasteSelectedArr = [...tasteSelected];
-    tasteSelectedArr.sort((a: number, b: number) => +a - +b);
-    const memberInfo: memberInfoForm = {
+    const tasteSelectedArr = [...keywords];
+    const memberInfo: Member = {
       userId: userState.userId,
       nickname: userState.nickname,
       password: userState.password,
@@ -74,7 +74,7 @@ function Join02() {
       {errorMessage && (
         <ErrorMessage
           message={errorMessage}
-          moreClassName="absolute left-[100px] top-[850px]"
+          className="absolute left-[100px] top-[850px]"
         />
       )}
       <Modal
@@ -85,36 +85,27 @@ function Join02() {
       />
       <Navigate right_message=" " handleLeftButton={handleLeftButton} />
       <div className="text-18 font-semibold">관심있는 키워드를 골라주세요.</div>
-      <div className="flex flex-wrap py-10 text-[#767676]">
-        {TASTES.map((taste: TasteForm) =>
-          tasteSelected.includes(taste.id) ? (
-            <div
-              key={taste.id}
-              id={taste.id}
-              className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer bg-[white] border-[#F5535D] font-bold"
-              onClick={checkTaste}
-            >
-              {taste.name}
-            </div>
-          ) : (
-            <>
-              <div
-                key={taste.id}
-                id={taste.id}
-                className="h-[28px] text-[14px] flex justify-center items-center border rounded-[14px] my-2 mx-1 px-2.5 cursor-pointer font-bold"
-                onClick={checkTaste}
-              >
-                {taste.name}
-              </div>
-            </>
-          ),
-        )}
+      <div className="flex flex-wrap py-4 text-[#767676]">
+        {KEYWORDS.map((keyword) => (
+          <div
+            key={keyword.id}
+            id={keyword.id}
+            className={`${
+              keywords.includes(keyword.name)
+                ? 'border-[#F5535D] text-[#767676]'
+                : 'border-[#CECECE] text-[#767676]'
+            } w rounded-full flex justify-center items-center px-2 py-1 border mr-2 mb-2 cursor-pointer`}
+            onClick={() => handleKeywordClick(keyword.name)}
+          >
+            {keyword.name}
+          </div>
+        ))}
       </div>
       <div className="h-[400px]"></div>
       <Button
         text="완료"
         onClick={handleCompleteButton}
-        disabled={!tasteSelected.length}
+        disabled={keywords.length === 0}
       />
       <button
         className="w-full transition h-[52px] text-xs underline border border-transparent hover:[#F5535D]-2 px-0 text-[#999999] leading-3 font-normal"

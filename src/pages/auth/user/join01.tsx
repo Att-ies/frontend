@@ -2,10 +2,13 @@ import Layout from '@components/common/Layout';
 import Button from '../../../components/common/Button';
 import { useRouter } from 'next/router';
 import { useAppSelector } from '@features/hooks';
-import { memberInfoForm } from 'types/userInfo';
+
+
 import ErrorMessage from '@components/common/ErrorMessage';
 import useUserJoin from '../../../hooks/queries/useUserJoin';
-
+import authApi from '@apis/auth/authApi';
+import { useState } from 'react';
+import { Member } from 'types/user';
 function Join01() {
   const router = useRouter();
   const userState = useAppSelector((state) => state.user);
@@ -14,7 +17,7 @@ function Join01() {
   };
   const { mutation, errorMessage } = useUserJoin();
   const handleSkipButton = async () => {
-    const memberInfo: memberInfoForm = {
+    const memberInfo: Member = {
       userId: userState.userId,
       nickname: userState.nickname,
       password: userState.password,
@@ -23,13 +26,14 @@ function Join01() {
       keywords: [],
     };
     mutation.mutate(memberInfo);
+
   };
   return (
     <Layout>
       {errorMessage && (
         <ErrorMessage
           message={errorMessage}
-          moreClassName="absolute left-[100px] top-[620px]"
+          className="absolute left-[100px] top-[620px]"
         />
       )}
       <div className="text-18 ">

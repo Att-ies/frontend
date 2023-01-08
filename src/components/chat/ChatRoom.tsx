@@ -11,12 +11,12 @@ interface ChatRoomForm {
   notifyCnt: number;
 }
 
-interface chatRoomProps {
+interface ChatRoomProps {
   chatRoom: ChatRoomForm;
   [key: string]: any;
 }
 
-export default function Chatroom({ chatRoom }: chatRoomProps) {
+export default function Chatroom({ chatRoom }: ChatRoomProps) {
   const handleChattingRoom = () => {
     router.push(`/chat/${chatRoom.id}`);
   };

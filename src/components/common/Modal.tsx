@@ -9,16 +9,16 @@ interface ModalProps {
   onAccept?: () => void;
 }
 
-interface defaultProps {
+interface DefaultProps {
   [key: string]: any;
 }
 
-const ModalTag = tw.div<defaultProps>``;
+const ModalTag = tw.div<DefaultProps>``;
 
 const ModalBackground = tw.div`
   absolute inset-0 bg-[#767676] opacity-80 backdrop-blur-3xl
 `;
-const ModalInner = tw.div<defaultProps>`
+const ModalInner = tw.div<DefaultProps>`
   z-10 w-[327px] h-[156px] absolute inset-0 m-auto
 `;
 const ModalMessage = tw.div`
@@ -31,7 +31,7 @@ bg-[#F5535D] h-[52px] rounded-b-[4px] text-white flex items-center justify-cente
 const MainModalBackground = tw.div`
   absolute inset-0 bg-[#767676] opacity-60 backdrop-blur-3xl z-10
 `;
-const MainModalInner = tw.div<defaultProps>`
+const MainModalInner = tw.div<DefaultProps>`
 absolute z-10 w-[327px] h-[156px] bg-[#fff] inset-0 m-auto rounded-[4px]
 `;
 const MainModalMessage = tw.div`

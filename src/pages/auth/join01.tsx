@@ -10,11 +10,11 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '@features/hooks';
 import { setIsApprovePromotion } from '@features/user/userSlice';
-interface defaultProps {
+interface DefaultProps {
   [key: string]: any;
 }
 
-const CheckBoxList = tw.li<defaultProps>`
+const CheckBoxList = tw.li<DefaultProps>`
 pb-[18px] flex justify-between
 `;
 

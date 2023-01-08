@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Layout from '@components/common/Layout';
 import Input from '@components/common/Input';
@@ -23,6 +23,24 @@ interface JoinForm {
 export default function Join02() {
   const [emailValidation, setEmailValidation] = useState<boolean>(false);
   const [idValidation, setIdValidation] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setError,
+    clearErrors,
+  } = useForm<JoinForm>({ mode: 'onTouched' });
+
+  const id = watch('userId');
+  const email = watch('email');
+
+  useEffect(() => {
+    setIdValidation(false);
+  }, [id]);
+  useEffect(() => {
+    setEmailValidation(false);
+  }, [email]);
 
   const router = useRouter();
   const handleLeftButton = () => {
@@ -34,16 +52,6 @@ export default function Join02() {
 
   const dispatch = useAppDispatch();
   const userState = useAppSelector((state) => state.user);
-  // console.log(userState.isArtist);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    setError,
-    clearErrors,
-  } = useForm<JoinForm>({ mode: 'onTouched' });
-
   const onSubmit = async (form: JoinForm) => {
     const { userId, nickname, password, telephone, email } = form;
     if (!idValidation) {
@@ -73,8 +81,15 @@ export default function Join02() {
   };
 
   const handleDoubleCheckID = async () => {
-    const data = await authApi.getCheckId(watch('userId'));
-    console.log('ID 중복이면 true 아니면 false : ', data.duplicate);
+    if (!id || id === '') {
+      setError('userId', {
+        type: 'userId is null',
+        message: '아이디를 입력해주세요.',
+      });
+      return;
+    }
+
+    const data = await authApi.getCheckId(id);
     if (data.duplicate) {
       setError('userId', {
         type: 'id duplicate',
@@ -88,7 +103,15 @@ export default function Join02() {
   };
 
   const handleDoubleCheckEmail = async () => {
-    const data = await authApi.getCheckEmail(watch('email'));
+    if (!email || email === '') {
+      setError('email', {
+        type: 'email is null',
+        message: '이메일을 입력해주세요.',
+      });
+      return;
+    }
+
+    const data = await authApi.getCheckEmail(email);
     if (data.duplicate) {
       setError('email', {
         type: 'email duplicate',
