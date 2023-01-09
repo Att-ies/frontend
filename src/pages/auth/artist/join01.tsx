@@ -1,10 +1,11 @@
-import Layout from '@components/common/Layout';
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 import 'swiper/css';
-import { Navigation } from 'swiper';
+
 import Button from '@components/common/Button';
-import { useState } from 'react';
+import Layout from '@components/common/Layout';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { Navigation } from 'swiper';
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 
 interface SwiperSkipButtonProps {
   children: React.ReactNode;

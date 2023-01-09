@@ -7,8 +7,8 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Member } from 'types/user';
 
-import Button from '../../../components/common/Button';
-import useUserJoin from '../../../hooks/queries/useUserJoin';
+import Button from '../../components/common/Button';
+import useUserJoin from '../../hooks/queries/useUserJoin';
 
 interface KeywordForm {
   id: string;
@@ -47,7 +47,7 @@ const KEYWORDS: KeywordForm[] = [
   { id: '29', name: '서양적인' },
 ];
 
-function Join02() {
+export default function Join04() {
   const router = useRouter();
   const handleLeftButton = () => {
     router.back();
@@ -135,5 +135,3 @@ function Join02() {
     </Layout>
   );
 }
-
-export default Join02;

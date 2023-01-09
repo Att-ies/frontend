@@ -1,6 +1,7 @@
 import authInstance from '@apis/_axios/authInstance';
 import instance from '@apis/_axios/instance';
 import { AxiosInstance } from 'axios';
+
 import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
 
 export class AuthApi {
@@ -109,6 +110,7 @@ export class AuthApi {
       const { data } = await this.axios.get(
         `/members/check-id?userId=${userId}`,
       );
+      console.log(data);
       return data;
     } catch (err) {
       return err.response;

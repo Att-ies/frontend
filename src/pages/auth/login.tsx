@@ -1,16 +1,16 @@
-import Layout from '@components/common/Layout';
-import Input from '@components/common/Input';
-import CheckBox from '@components/common/Checkbox';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useForm } from 'react-hook-form';
-import Button from '@components/common/Button';
-import ErrorMessage from '@components/common/ErrorMessage';
-import React, { useState } from 'react';
-import SocialLoginButton from '@components/login/SocialLoginButton';
 import authApi from '@apis/auth/authApi';
-import { useRouter } from 'next/router';
+import Button from '@components/common/Button';
+import CheckBox from '@components/common/Checkbox';
+import ErrorMessage from '@components/common/ErrorMessage';
+import Input from '@components/common/Input';
+import Layout from '@components/common/Layout';
+import SocialLoginButton from '@components/login/SocialLoginButton';
 import { setToken, Token } from '@utils/localStorage/token';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface LoginForm {
   userId: string;
@@ -42,7 +42,6 @@ function Login() {
         password,
       });
       if (res.status === 200) {
-        console.log(res.data);
         const token: Token = {
           access: res.data.accessToken,
           refresh: res.data.refreshToken,
@@ -133,7 +132,7 @@ function Login() {
           </p>
           <p className="flex justify-center items-center w-full text-12 mt-44">
             <span className="text-[#999999]">아직 회원이 아니신가요?</span>
-            <Link className="ml-[2px]" href="/auth/join">
+            <Link className="ml-[2px]" href="/auth/join01">
               회원가입
             </Link>
             <Image
