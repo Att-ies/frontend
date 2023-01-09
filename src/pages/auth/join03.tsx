@@ -1,19 +1,18 @@
-import Layout from '@components/common/Layout';
-import Button from '../../../components/common/Button';
-import { useRouter } from 'next/router';
-import { useAppSelector } from '@features/hooks';
-
-
 import ErrorMessage from '@components/common/ErrorMessage';
-import useUserJoin from '../../../hooks/queries/useUserJoin';
-import authApi from '@apis/auth/authApi';
+import Layout from '@components/common/Layout';
+import { useAppSelector } from '@features/hooks';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { Member } from 'types/user';
-function Join01() {
+
+import Button from '../../components/common/Button';
+import useUserJoin from '../../hooks/queries/useUserJoin';
+
+function Join03() {
   const router = useRouter();
   const userState = useAppSelector((state) => state.user);
   const handleNextButton = () => {
-    router.push('/auth/user/join02');
+    router.push('/auth/join04');
   };
   const { mutation, errorMessage } = useUserJoin();
   const handleSkipButton = async () => {
@@ -26,7 +25,6 @@ function Join01() {
       keywords: [],
     };
     mutation.mutate(memberInfo);
-
   };
   return (
     <Layout>
@@ -54,4 +52,4 @@ function Join01() {
   );
 }
 
-export default Join01;
+export default Join03;

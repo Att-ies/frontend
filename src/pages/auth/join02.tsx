@@ -44,7 +44,7 @@ export default function Join02() {
 
   const router = useRouter();
   const handleLeftButton = () => {
-    router.push('/auth/join01');
+    router.back();
   };
   const handleRightButton = () => {
     router.push('/auth/login');
@@ -52,6 +52,7 @@ export default function Join02() {
 
   const dispatch = useAppDispatch();
   const userState = useAppSelector((state) => state.user);
+
   const onSubmit = async (form: JoinForm) => {
     const { userId, nickname, password, telephone, email } = form;
     if (!idValidation) {
@@ -76,8 +77,7 @@ export default function Join02() {
         email,
       }),
     );
-    if (userState.isArtist) router.push('/auth/artist/join01');
-    else router.push('/auth/user/join01');
+    router.push('/auth/join03');
   };
 
   const handleDoubleCheckID = async () => {
@@ -89,6 +89,7 @@ export default function Join02() {
       return;
     }
     const data = await authApi.getCheckId(id);
+    console.log(data);
     if (data?.status === 409) {
       setError('userId', {
         type: 'id duplicate',
