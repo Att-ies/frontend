@@ -9,6 +9,14 @@ export class AuthApi {
     if (axios) this.axios = axios;
   }
 
+  async getUserProfile() {
+    const { data } = await this.axios({
+      method: 'GET',
+      url: `/members/me`,
+    });
+    return data;
+  }
+
   async postUserAuth(body: AuthDTOType) {
     await authInstance.post(`/members/join`, body);
   }
@@ -99,8 +107,8 @@ export class AuthApi {
         `/members/check-email?email=${email}`,
       );
       return data;
-    } catch (err) {
-      return err.response;
+    } catch (error: any) {
+      return error.response;
     }
   }
 
@@ -110,8 +118,8 @@ export class AuthApi {
         `/members/check-id?userId=${userId}`,
       );
       return data;
-    } catch (err) {
-      return err.response;
+    } catch (error: any) {
+      return error.response;
     }
   }
 }
