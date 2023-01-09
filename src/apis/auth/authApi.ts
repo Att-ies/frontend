@@ -31,7 +31,7 @@ export class AuthApi {
     }
   }
 
-  async postLogin(body: AuthDTOType): Promise<AuthDTOType> {
+  async postLogin(body: AuthDTOType) {
     const { data } = await this.axios({
       method: 'POST',
       url: `/members/login`,

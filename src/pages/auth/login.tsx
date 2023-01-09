@@ -8,6 +8,8 @@ import Button from '@components/common/Button';
 import ErrorMessage from '@components/common/ErrorMessage';
 import React, { useState } from 'react';
 import SocialLoginButton from '@components/login/SocialLoginButton';
+import authApi from '@apis/auth/authApi';
+import { useRouter } from 'next/router';
 
 function Login() {
   const {
@@ -25,21 +27,34 @@ function Login() {
     }
   };
 
-  const onSubmit = (data: any) => {
+  const router = useRouter();
+
+  const onSubmit = async (data: any) => {
     const { id, password } = data;
-    console.log(id, password);
-    if (false) {
-      // 비밀번호 일치하지 않을 경우
-      setError(
-        'password',
-        {
-          type: 'incorrect',
-          message: '비밀번호가 일치하지 않습니다.',
-        },
-        { shouldFocus: true },
-      );
+
+    console.log(data);
+
+    const res = await authApi.postLogin({
+      id,
+      password,
+    });
+
+    if (res.status === 200) {
+      router.push('/home');
+    } else if (res.status === 401 && res.data.code === 'UNAUTHORIZED_ID') {
+      setError('id', {
+        type: 'unauthorized',
+        message: '존재하지 않는 아이디입니다.',
+      });
+    } else if (
+      res.status === 401 &&
+      res.data.code === 'UNAUTHORIZED_PASSWORD'
+    ) {
+      setError('password', {
+        type: 'unauthorized',
+        message: '비밀번호가 일치하지 않습니다.',
+      });
     }
-    // 로그인 API
   };
 
   return (
