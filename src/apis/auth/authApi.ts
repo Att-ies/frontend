@@ -32,12 +32,18 @@ export class AuthApi {
   }
 
   async postLogin(body: AuthDTOType) {
-    const { data } = await this.axios({
-      method: 'POST',
-      url: `/members/login`,
-      data: body,
-    });
-    return data;
+    try {
+      const res = await this.axios({
+        method: 'POST',
+        url: `/members/login`,
+        data: body,
+      });
+      return res;
+    } catch (error: any) {
+      if (error) {
+        return error.response;
+      }
+    }
   }
 
   async postAccessToken(body: AuthDTOType): Promise<AuthDTOType> {
