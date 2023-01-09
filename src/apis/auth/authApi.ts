@@ -1,7 +1,6 @@
 import authInstance from '@apis/_axios/authInstance';
 import instance from '@apis/_axios/instance';
-import axios, { AxiosInstance } from 'axios';
-
+import { AxiosInstance } from 'axios';
 import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
 
 export class AuthApi {
@@ -32,13 +31,19 @@ export class AuthApi {
     }
   }
 
-  async postLogin(body: AuthDTOType): Promise<AuthDTOType> {
-    const { data } = await this.axios({
-      method: 'POST',
-      url: `/members/login`,
-      data: body,
-    });
-    return data;
+  async postLogin(body: AuthDTOType) {
+    try {
+      const res = await this.axios({
+        method: 'POST',
+        url: `/members/login`,
+        data: body,
+      });
+      return res;
+    } catch (error: any) {
+      if (error) {
+        return error.response;
+      }
+    }
   }
 
   async postAccessToken(body: AuthDTOType): Promise<AuthDTOType> {

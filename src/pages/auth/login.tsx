@@ -8,6 +8,14 @@ import Button from '@components/common/Button';
 import ErrorMessage from '@components/common/ErrorMessage';
 import React, { useState } from 'react';
 import SocialLoginButton from '@components/login/SocialLoginButton';
+import authApi from '@apis/auth/authApi';
+import { useRouter } from 'next/router';
+import { setToken, Token } from '@utils/localStorage/token';
+
+interface LoginForm {
+  userId: string;
+  password: string;
+}
 
 function Login() {
   const {
@@ -15,7 +23,7 @@ function Login() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm();
+  } = useForm<LoginForm>();
   const [checkedTerm, setCheckedTerm] = useState<string[]>([]);
   const onChecked = (checked: boolean, id: string): void => {
     if (checked) {
@@ -25,21 +33,38 @@ function Login() {
     }
   };
 
-  const onSubmit = (data: any) => {
-    const { id, password } = data;
-    console.log(id, password);
-    if (false) {
-      // 비밀번호 일치하지 않을 경우
-      setError(
-        'password',
-        {
-          type: 'incorrect',
+  const router = useRouter();
+
+  const onSubmit = async ({ userId, password }: LoginForm) => {
+    if (userId && password) {
+      const res = await authApi.postLogin({
+        userId,
+        password,
+      });
+      if (res.status === 200) {
+        console.log(res.data);
+        const token: Token = {
+          access: res.data.accessToken,
+          refresh: res.data.refreshToken,
+          role: res.data.roles,
+        };
+        if (token) setToken(token);
+        router.push('/home');
+      } else if (res.status === 401 && res.data.code === 'UNAUTHORIZED_ID') {
+        setError('userId', {
+          type: 'unauthorized',
+          message: '존재하지 않는 아이디입니다.',
+        });
+      } else if (
+        res.status === 401 &&
+        res.data.code === 'UNAUTHORIZED_PASSWORD'
+      ) {
+        setError('password', {
+          type: 'unauthorized',
           message: '비밀번호가 일치하지 않습니다.',
-        },
-        { shouldFocus: true },
-      );
+        });
+      }
     }
-    // 로그인 API
   };
 
   return (
@@ -52,9 +77,9 @@ function Login() {
               type="text"
               id="id"
               placeholder="아이디를 입력해 주세요."
-              register={register('id', { required: true })}
+              register={register('userId', { required: true })}
             />
-            {errors.id && <ErrorMessage message={errors.id.message} />}
+            {errors.userId && <ErrorMessage message={errors.userId.message} />}
           </div>
           <div className="flex flex-col mt-[10px] justify-start">
             <Input

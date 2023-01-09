@@ -4,7 +4,6 @@ import kakao from '@public/svg/social/kakao_logo.svg';
 import naver from '@public/svg/social/naver_logo.svg';
 import Link from 'next/link';
 import { CONFIG } from '@config';
-
 export interface SocialLoginButtonProps {
   kind: 'kakao' | 'naver';
   [key: string]: any;
@@ -37,7 +36,7 @@ export default function SocialLoginButton({
 }: SocialLoginButtonProps) {
   return kind === 'kakao' ? (
     <Link
-      href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CONFIG.API_KEYS.NAVER}&state=${STATESTRING}&redirect_uri=http://localhost:3000/auth/naver/callback`}
+      href={`https://kauth.kakao.com/oauth/authorize?client_id=${CONFIG.API_KEYS.KAKAO}&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code`}
     >
       <KaKaoButton {...rest}>
         <Image src={kakao} width={20} height={20} alt="kakao" />
@@ -46,7 +45,7 @@ export default function SocialLoginButton({
     </Link>
   ) : (
     <Link
-      href={`https://kauth.kakao.com/oauth/authorize?client_id=${CONFIG.API_KEYS.KAKAO}&redirect_uri=http://localhost:3000/auth/kakao/callback&response_type=code`}
+      href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${CONFIG.API_KEYS.NAVER}&state=${STATESTRING}&redirect_uri=http://localhost:3000/auth/naver/callback`}
     >
       <NaverButton {...rest}>
         <Image src={naver} width={20} height={20} alt="kakao" />
