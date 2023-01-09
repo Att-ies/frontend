@@ -9,22 +9,13 @@ interface DefaultProps {
 const WishCardContainer = tw.div<DefaultProps>`
 rounded-lg hover:ring-1 hover:ring-blue-500 cursor-pointer
 `;
-interface WishForm {
-  id: string;
-  image: string;
-  name: string;
-  description: string;
-  price: number;
-  status1: string;
-  status2: string;
-}
 
 interface StatusForm {
   id: string;
   status: string;
 }
 
-export default function WishCard({ wish }: WishForm) {
+export default function WishCard({ wish }) {
   const statusList: StatusForm[] = [
     {
       id: '1',
