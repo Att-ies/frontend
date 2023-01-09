@@ -9,7 +9,6 @@ import Modal from '@components/common/Modal';
 import ErrorMessage from '@components/common/ErrorMessage';
 import authApi from '@apis/auth/authApi';
 interface FindIdForm {
-  nickname: string;
   email: string;
 }
 
@@ -22,29 +21,18 @@ function Id() {
   } = useForm<FindIdForm>();
   const [isModal, setIsModal] = useState(false);
 
-  const onSubmit = async ({ nickname, email }: FindIdForm) => {
-    if (nickname && email) {
+  const onSubmit = async ({ email }: FindIdForm) => {
+    if (email) {
       const res = await authApi.postFindId({
-        nickname,
         email,
       });
       if (res.status === 200) {
         setIsModal(true);
-      } else if (res.status >= 400) {
-        switch (res.data.code) {
-          case 'NOT_FOUND':
-            setError('email', {
-              type: 'not found',
-              message: res.data.detail,
-            });
-            break;
-          case 'NOT_MATCH_NICKNAME':
-            setError('nickname', {
-              type: 'not match',
-              message: res.data.detail,
-            });
-            break;
-        }
+      } else if (res.status === 404 && res.data.code === 'NOT_FOUND_EMAIL') {
+        setError('email', {
+          type: 'not found',
+          message: res.data.detail,
+        });
       }
     }
   };
@@ -74,29 +62,14 @@ function Id() {
         handleLeftButton={handleLeftButton}
         handleRightButton={handleRightButton}
       />
-      <section className="py-7">
-        <p className="text-16">
+      <section className="py-5">
+        <p className="text-16 font-semibold">
           소중한 개인정보를 위하여 <br />
           <span className="text-[#F5535D]">본인확인</span>이 필요합니다.
         </p>
       </section>
       <form onSubmit={handleSubmit(onSubmit)}>
         <section className="py-2 space-y-2">
-          <Input
-            type="text"
-            placeholder="성함을 입력해 주세요."
-            register={register('nickname', {
-              required: true,
-              pattern: {
-                value: /^[가-힣]{2,4}$/,
-                message: '이름을 올바르게 입력해주세요.',
-              },
-            })}
-          />
-          {errors.nickname && (
-            <ErrorMessage message={errors.nickname.message} />
-          )}
-
           <Input
             type="email"
             placeholder="이메일을 입력해주세요. (@포함)"
