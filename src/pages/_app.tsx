@@ -5,6 +5,7 @@ import store from '@features/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { useEffect } from 'react';
 import { getToken } from '@utils/localStorage/token';
 import { useRouter } from 'next/router';
@@ -26,6 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <PersistGate loading={null} persistor={persistor}>
+            <ReactQueryDevtools initialIsOpen={true} />
             <Component {...pageProps} />
           </PersistGate>
         </QueryClientProvider>

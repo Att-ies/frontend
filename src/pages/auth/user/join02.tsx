@@ -6,7 +6,8 @@ import { useState } from 'react';
 import { useAppSelector } from '@features/hooks';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Modal from '@components/common/Modal';
-import authApi from '@apis/auth/authApi';
+import useUserJoin from '../../../hooks/queries/useUserJoin';
+
 import { Member } from 'types/user';
 
 interface KeywordForm {
@@ -29,7 +30,6 @@ const KEYWORDS: KeywordForm[] = [
 ];
 
 function Join02() {
-  const [errorMessage, setErrorMessage] = useState<string>();
   const router = useRouter();
   const handleLeftButton = () => {
     router.back();
@@ -47,6 +47,7 @@ function Join02() {
     }
     setKeywords(tasteSelectedArr);
   };
+  const { mutation, errorMessage } = useUserJoin();
 
   const handleSubmit = async () => {
     const tasteSelectedArr = [...keywords];
@@ -58,22 +59,7 @@ function Join02() {
       email: userState.email,
       keywords: tasteSelectedArr,
     };
-    const res = await authApi.postAuth(memberInfo);
-    if (res.status === 200) {
-      router.push('/auth/login');
-    } else if (res.status >= 400) {
-      switch (res.data.code) {
-        case 'EXIST_USER_ID':
-          setErrorMessage('존재하는 아이디입니다.');
-          break;
-        case 'EXIST_USER_EMAIL':
-          setErrorMessage('존재하는 이메일입니다.');
-          break;
-        case 'EXIST_NICKNAME':
-          setErrorMessage('존재하는 닉네임입니다.');
-          break;
-      }
-    }
+    mutation.mutate(memberInfo);
     setIsModal(false);
   };
   const handleCompleteButton = () => {
