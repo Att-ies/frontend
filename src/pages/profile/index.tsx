@@ -1,17 +1,17 @@
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
+import Tab from '@components/common/Tab';
 import Activity from '@components/mypage/Activity';
 import SettingItem from '@components/mypage/SettingItem';
 import TasteAnalyze from '@components/mypage/TasteAnalyze';
-import Tab from '@components/common/Tab';
-import notification from '@public/svg/icons/icon_notification.svg';
-import user from '@public/svg/icons/icon_user.svg';
-import setting from '@public/svg/icons/icon_setting.svg';
-import arrow from '@public/svg/icons/icon_arrow.svg';
-import tw from 'tailwind-styled-components';
-import Image from 'next/image';
 import { useAppSelector } from '@features/hooks';
+import arrow from '@public/svg/icons/icon_arrow.svg';
+import notification from '@public/svg/icons/icon_notification.svg';
+import setting from '@public/svg/icons/icon_setting.svg';
+import user from '@public/svg/icons/icon_user.svg';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
+import tw from 'tailwind-styled-components';
 
 interface defaultProps {
   [key: string]: any;
@@ -132,7 +132,7 @@ export default function Profile() {
           onClick={handleTaste}
         >
           <span className="font-semibold">나의 취향분석</span>
-          {userTaste.length === 0 ? (
+          {userTaste?.length === 0 ? (
             <button>
               <Image src={arrow} alt="arrow" />
             </button>
@@ -140,7 +140,7 @@ export default function Profile() {
             ''
           )}
         </div>
-        {userTaste.length === 0 ? (
+        {userTaste?.length === 0 ? (
           <div className="mt-6 text-center mb-[35px]">
             <div className="font-semibold text-sm" onClick={handleTaste}>
               취향분석을 통해
