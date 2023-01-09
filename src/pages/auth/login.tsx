@@ -42,10 +42,11 @@ function Login() {
         password,
       });
       if (res.status === 200) {
+        console.log(res.data);
         const token: Token = {
           access: res.data.accessToken,
           refresh: res.data.refreshToken,
-          role: 'ROLE_USER',
+          role: res.data.roles,
         };
         if (token) setToken(token);
         router.push('/home');
