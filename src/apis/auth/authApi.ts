@@ -1,7 +1,6 @@
 import authInstance from '@apis/_axios/authInstance';
 import instance from '@apis/_axios/instance';
-import axios, { AxiosInstance } from 'axios';
-
+import { AxiosInstance } from 'axios';
 import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
 
 export class AuthApi {
