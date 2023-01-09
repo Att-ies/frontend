@@ -9,8 +9,9 @@ import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { isUser } from '@utils/isUser';
 
-interface MessageForm {
+interface EditForm {
   nickname: string;
   email: string;
   education: string;
@@ -18,10 +19,8 @@ interface MessageForm {
   description: string;
   instagram: string;
   behance: string;
-  image: string;
+  image?: FileList;
 }
-
-const role = 'artist';
 
 export default function Edit() {
   const [nickNameValidation, setNickNameValidation] = useState<boolean>(false);
@@ -34,7 +33,7 @@ export default function Edit() {
     watch,
     setError,
     clearErrors,
-  } = useForm<MessageForm>();
+  } = useForm<EditForm>();
 
   const handleDoubleCheckNickName = async () => {
     // 닉네임 중복확인 API
@@ -60,7 +59,7 @@ export default function Edit() {
     router.push('/profile');
   };
 
-  const [imageFile, setImageFile] = useState<string>('');
+  const [imageFile, setImageFile] = useState('');
 
   const profileImage = watch('image');
   useEffect(() => {
@@ -70,7 +69,7 @@ export default function Edit() {
     }
   }, [profileImage]);
 
-  const onSubmit = (form: MessageForm) => {
+  const onSubmit = (form: EditForm) => {
     console.log(form);
     // 프로필 수정 API전송 (PATCH)
   };
@@ -130,6 +129,7 @@ export default function Edit() {
         className="hidden"
         {...register('image')}
       />
+
       <section className="relative">
         <Input
           type="text"
@@ -178,7 +178,7 @@ export default function Edit() {
         {errors.email ? <ErrorMessage message={errors.email.message} /> : ''}
       </section>
 
-      {role === 'artist' && (
+      {!isUser && (
         <section>
           <Input
             type="text"
