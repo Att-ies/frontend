@@ -94,19 +94,25 @@ export class AuthApi {
   }
 
   async getCheckEmail(email): Promise<DoubleCheckDTOType> {
-    const { data } = await this.axios({
-      method: 'GET',
-      url: `/members/check-email?email=${email}`,
-    });
-    return data;
+    try {
+      const { data } = await this.axios.get(
+        `/members/check-email?email=${email}`,
+      );
+      return data;
+    } catch (err) {
+      return err.response;
+    }
   }
 
   async getCheckId(userId): Promise<DoubleCheckDTOType> {
-    const { data } = await this.axios({
-      method: 'GET',
-      url: `/members/check-id?userId=${userId}`,
-    });
-    return data;
+    try {
+      const { data } = await this.axios.get(
+        `/members/check-id?userId=${userId}`,
+      );
+      return data;
+    } catch (err) {
+      return err.response;
+    }
   }
 }
 

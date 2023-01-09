@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import Layout from '@components/common/Layout';
-import Input from '@components/common/Input';
+import authApi from '@apis/auth/authApi';
 import Button from '@components/common/Button';
-import Navigate from '@components/common/Navigate';
-import ErrorMessage from '@components/common/ErrorMessage';
 import DoubleCheckButton from '@components/common/DoubleCheckButton';
-import { useRouter } from 'next/router';
+import ErrorMessage from '@components/common/ErrorMessage';
+import Input from '@components/common/Input';
+import Layout from '@components/common/Layout';
+import Navigate from '@components/common/Navigate';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { setUserInfo } from '@features/user/userSlice';
-import authApi from '@apis/auth/authApi';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface JoinForm {
   userId: string;
@@ -88,9 +88,8 @@ export default function Join02() {
       });
       return;
     }
-
     const data = await authApi.getCheckId(id);
-    if (data.duplicate) {
+    if (data?.status === 409) {
       setError('userId', {
         type: 'id duplicate',
         message: '이미 사용중인 아이디 입니다.',
@@ -112,7 +111,7 @@ export default function Join02() {
     }
 
     const data = await authApi.getCheckEmail(email);
-    if (data.duplicate) {
+    if (data?.status === 409) {
       setError('email', {
         type: 'email duplicate',
         message: '이미 가입된 이메일 입니다.',
