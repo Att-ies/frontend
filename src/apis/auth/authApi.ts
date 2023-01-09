@@ -1,18 +1,18 @@
-import { AxiosInstance } from 'axios';
-import instance from '@apis/_axios/instance';
-import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
-import { useMutation } from 'react-query';
-import axios from 'axios';
 import authInstance from '@apis/_axios/authInstance';
+import instance from '@apis/_axios/instance';
+import axios, { AxiosInstance } from 'axios';
+
+import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
+
 export class AuthApi {
   axios: AxiosInstance = instance;
   constructor(axios?: AxiosInstance) {
     if (axios) this.axios = axios;
   }
 
-
   async postUserAuth(body: AuthDTOType) {
     await authInstance.post(`/members/join`, body);
+  }
 
   async postArtistAuth(body: AuthDTOType) {
     try {
