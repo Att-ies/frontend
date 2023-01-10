@@ -5,7 +5,7 @@ import ErrorMessage from '@components/common/ErrorMessage';
 import Input from '@components/common/Input';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
-import { useAppDispatch, useAppSelector } from '@features/hooks';
+import { useAppDispatch } from '@features/hooks';
 import { setUserInfo } from '@features/user/userSlice';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -21,8 +21,11 @@ interface JoinForm {
 }
 
 export default function Join02() {
-  const [emailValidation, setEmailValidation] = useState<boolean>(false);
-  const [idValidation, setIdValidation] = useState<boolean>(false);
+  const [isValidate, setIsValidate] = useState<boolean[]>({
+    id: false,
+    nickname: false,
+    email: false,
+  });
   const {
     register,
     handleSubmit,
@@ -34,12 +37,16 @@ export default function Join02() {
 
   const id = watch('userId');
   const email = watch('email');
+  const nickname = watch('nickname');
 
   useEffect(() => {
-    setIdValidation(false);
+    setIsValidate({ ...isValidate, id: false });
   }, [id]);
   useEffect(() => {
-    setEmailValidation(false);
+    setIsValidate({ ...isValidate, nickname: false });
+  }, [nickname]);
+  useEffect(() => {
+    setIsValidate({ ...isValidate, email: false });
   }, [email]);
 
   const router = useRouter();
@@ -51,17 +58,22 @@ export default function Join02() {
   };
 
   const dispatch = useAppDispatch();
-  const userState = useAppSelector((state) => state.user);
 
   const onSubmit = async (form: JoinForm) => {
     const { userId, nickname, password, telephone, email } = form;
-    if (!idValidation) {
+    if (!isValidate.id) {
       setError('userId', {
         type: 'id doublecheck',
         message: '아이디 중복확인을 해주세요.',
       });
       return;
-    } else if (!emailValidation) {
+    } else if (!isValidate.nickname) {
+      setError('password', {
+        type: 'password doublecheck',
+        message: '닉네임 중복확인을 해주세요.',
+      });
+      return;
+    } else if (!isValidate.email) {
       setError('email', {
         type: 'email doublecheck',
         message: '이메일 중복확인을 해주세요.',
@@ -80,47 +92,72 @@ export default function Join02() {
     router.push('/auth/join03');
   };
 
-  const handleDoubleCheckID = async () => {
-    if (!id || id === '') {
-      setError('userId', {
-        type: 'userId is null',
-        message: '아이디를 입력해주세요.',
-      });
-      return;
-    }
-    const data = await authApi.getCheckId(id);
-    console.log(data);
-    if (data?.status === 409) {
-      setError('userId', {
-        type: 'id duplicate',
-        message: '이미 사용중인 아이디 입니다.',
-      });
-      return;
-    } else {
-      setIdValidation(true);
-      clearErrors('userId');
-    }
-  };
-
-  const handleDoubleCheckEmail = async () => {
-    if (!email || email === '') {
-      setError('email', {
-        type: 'email is null',
-        message: '이메일을 입력해주세요.',
-      });
-      return;
-    }
-
-    const data = await authApi.getCheckEmail(email);
-    if (data?.status === 409) {
-      setError('email', {
-        type: 'email duplicate',
-        message: '이미 가입된 이메일 입니다.',
-      });
-      return;
-    } else {
-      setEmailValidation(true);
-      clearErrors('email');
+  const handleValidateCheck = async (e) => {
+    let data;
+    switch (e.target.id) {
+      case 'id':
+        if (!id || id === '') {
+          setError('userId', {
+            type: 'userId is null',
+            message: '아이디를 입력해주세요.',
+          });
+          return;
+        }
+        data = await authApi.getCheckId(id);
+        if (data?.status === 409) {
+          setError('userId', {
+            type: 'id duplicate',
+            message: '이미 사용중인 아이디 입니다.',
+          });
+          setIsValidate({ ...isValidate, id: false });
+          return;
+        } else {
+          setIsValidate({ ...isValidate, id: true });
+          clearErrors('userId');
+        }
+        break;
+      case 'nickname':
+        if (!nickname || nickname === '') {
+          setError('Nickname', {
+            type: 'nickname is null',
+            message: '닉네임을 입력해주세요.',
+          });
+          return;
+        }
+        data = await authApi.getCheckNickname(nickname);
+        if (data?.status === 409) {
+          setError('nickname', {
+            type: 'nickname duplicate',
+            message: '이미 사용중인 닉네임 입니다.',
+          });
+          setIsValidate({ ...isValidate, nickname: false });
+          return;
+        } else {
+          setIsValidate({ ...isValidate, nickname: true });
+          clearErrors('userId');
+        }
+        break;
+      case 'email':
+        if (!email || email === '') {
+          setError('Email', {
+            type: 'Email is null',
+            message: '이메일을 입력해주세요.',
+          });
+          return;
+        }
+        data = await authApi.getCheckEmail(email);
+        if (data?.status === 409) {
+          setError('email', {
+            type: 'email duplicate',
+            message: '이미 사용중인 이메일 입니다.',
+          });
+          setIsValidate({ ...isValidate, email: false });
+          return;
+        } else {
+          setIsValidate({ ...isValidate, email: true });
+          clearErrors('email');
+        }
+        break;
     }
   };
 
@@ -137,7 +174,6 @@ export default function Join02() {
         </p>
       </section>
       <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
-        {/* 유저 아이디 */}
         <section className="mb-3 relative">
           <Input
             type="text"
@@ -153,14 +189,13 @@ export default function Join02() {
             })}
           />
           <DoubleCheckButton
-            $valid={!idValidation}
-            onClick={handleDoubleCheckID}
-            text={idValidation ? '사용가능' : '중복확인'}
+            $valid={!isValidate.id}
+            onClick={handleValidateCheck}
+            id="id"
+            text={isValidate.id ? '사용가능' : '중복확인'}
           />
           {errors.userId && <ErrorMessage message={errors.userId.message} />}
         </section>
-
-        {/* 유저이름 */}
         <section className="mb-3 relative">
           <Input
             type="text"
@@ -175,12 +210,16 @@ export default function Join02() {
               },
             })}
           />
+          <DoubleCheckButton
+            $valid={!isValidate.nickname}
+            onClick={handleValidateCheck}
+            id="nickname"
+            text={isValidate.nicknaame ? '사용가능' : '중복확인'}
+          />
           {errors.nickname && (
             <ErrorMessage message={errors.nickname.message} />
           )}
         </section>
-
-        {/* 비밀번호 */}
         <section className="mb-3">
           <Input
             type="password"
@@ -215,8 +254,6 @@ export default function Join02() {
             <ErrorMessage message={errors.confirmPassword.message} />
           )}
         </section>
-
-        {/* 휴대폰 번호 */}
         <section className="mb-3">
           <Input
             type="text"
@@ -235,8 +272,6 @@ export default function Join02() {
             <ErrorMessage message={errors.telephone.message} />
           )}
         </section>
-
-        {/* 이메일 */}
         <section className="mb-3 relative">
           <Input
             type="email"
@@ -253,11 +288,12 @@ export default function Join02() {
           />
           {errors.email && errors.email.message && (
             <ErrorMessage message={errors.email.message} />
-          )}{' '}
+          )}
           <DoubleCheckButton
-            $valid={!emailValidation}
-            onClick={handleDoubleCheckEmail}
-            text={emailValidation ? '사용가능' : '중복확인'}
+            $valid={!isValidate.email}
+            onClick={handleValidateCheck}
+            id="email"
+            text={isValidate.email ? '사용가능' : '중복확인'}
           />
         </section>
 
