@@ -9,8 +9,11 @@ import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { isUser } from '@utils/isUser';
+import { useQuery } from 'react-query';
+import { Member } from 'types/user';
 
-interface MessageForm {
+interface EditForm {
   nickname: string;
   email: string;
   education: string;
@@ -18,14 +21,25 @@ interface MessageForm {
   description: string;
   instagram: string;
   behance: string;
-  image: string;
+  image?: FileList;
 }
-
-const role = 'artist';
 
 export default function Edit() {
   const [nickNameValidation, setNickNameValidation] = useState<boolean>(false);
   const [emailValidation, setEmailValidation] = useState<boolean>(false);
+
+  const { isLoading, error, data } = useQuery<Member>(
+    'user',
+    () => authApi.getUserProfile(),
+    {
+      onSuccess: (data) => {
+        console.log('data : ', data);
+      },
+      onError: (error) => {
+        console.log('error : ', error);
+      },
+    },
+  );
 
   const {
     register,
@@ -34,7 +48,7 @@ export default function Edit() {
     watch,
     setError,
     clearErrors,
-  } = useForm<MessageForm>();
+  } = useForm<EditForm>();
 
   const handleDoubleCheckNickName = async () => {
     // 닉네임 중복확인 API
@@ -60,7 +74,7 @@ export default function Edit() {
     router.push('/profile');
   };
 
-  const [imageFile, setImageFile] = useState<string>('');
+  const [imageFile, setImageFile] = useState('');
 
   const profileImage = watch('image');
   useEffect(() => {
@@ -70,7 +84,7 @@ export default function Edit() {
     }
   }, [profileImage]);
 
-  const onSubmit = (form: MessageForm) => {
+  const onSubmit = (form: EditForm) => {
     console.log(form);
     // 프로필 수정 API전송 (PATCH)
   };
@@ -78,6 +92,8 @@ export default function Edit() {
   const dispatch = useAppDispatch();
   const { education, history, description, instagram, behance } =
     useAppSelector((state) => state.user);
+
+  if (isLoading) return <div>로딩중</div>;
 
   return (
     <Layout>
@@ -130,11 +146,13 @@ export default function Edit() {
         className="hidden"
         {...register('image')}
       />
+
       <section className="relative">
         <Input
           type="text"
           label="닉네임"
           placeholder="닉네임을 입력해 주세요."
+          defaultValue={data?.nickname}
           $error={errors.nickname ? true : false}
           register={register('nickname', {
             required: true,
@@ -159,6 +177,7 @@ export default function Edit() {
         <Input
           type="text"
           label="이메일"
+          defaultValue={data?.email}
           placeholder="이메일을 입력해 주세요."
           $error={errors.email ? true : false}
           register={register('email', {
@@ -178,11 +197,12 @@ export default function Edit() {
         {errors.email ? <ErrorMessage message={errors.email.message} /> : ''}
       </section>
 
-      {role === 'artist' && (
+      {isUser && (
         <section>
           <Input
             type="text"
             label="학력"
+            defaultValue={data?.education}
             placeholder="학교와 학위, 전공 등을 입력해 주세요."
             value={education}
             $error={errors.education ? true : false}

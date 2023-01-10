@@ -1,4 +1,4 @@
-export interface Member extends User {
+export interface Member extends User, Artist {
   keywords: string[];
 }
 
