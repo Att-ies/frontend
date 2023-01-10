@@ -11,8 +11,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { isUser } from '@utils/isUser';
 import { useQuery } from 'react-query';
-import { Member } from 'types/user';
 import Loader from '@components/common/Loader';
+import { Member } from 'types/user';
 
 interface EditForm {
   nickname: string;
@@ -29,7 +29,7 @@ export default function Edit() {
   const [nickNameValidation, setNickNameValidation] = useState<boolean>(false);
   const [emailValidation, setEmailValidation] = useState<boolean>(false);
 
-  const { isLoading, error, data } = useQuery<Member>(
+  const { isLoading, data } = useQuery<Member>(
     'user',
     () => authApi.getUserProfile(),
     {
@@ -56,10 +56,12 @@ export default function Edit() {
 
   useEffect(() => {
     setEmailValidation(false);
-  }, [email]);
+    clearErrors('email');
+  }, [email, clearErrors]);
   useEffect(() => {
     setNickNameValidation(false);
-  }, [nickname]);
+    clearErrors('nickname');
+  }, [nickname, clearErrors]);
 
   const handleDoubleCheckNickName = async () => {
     const data = await authApi.getCheckNickname(nickname);
