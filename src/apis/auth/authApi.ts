@@ -101,6 +101,20 @@ export class AuthApi {
     return data;
   }
 
+  async deleteUser() {
+    try {
+      const res = await this.axios({
+        method: 'DELETE',
+        url: `/members`,
+      });
+      return res;
+    } catch (error: any) {
+      if (error) {
+        return error.response;
+      }
+    }
+  }
+
   async getCheckEmail(email): Promise<DoubleCheckDTOType> {
     try {
       const { data } = await this.axios.get(
@@ -129,8 +143,8 @@ export class AuthApi {
         `/members/check-nickname?nickname=${nickname}`,
       );
       return data;
-    } catch (err) {
-      return err.response;
+    } catch (error: any) {
+      return error.response;
     }
   }
 }
