@@ -10,7 +10,7 @@ const useUserJoin = () => {
     onSuccess: (res) => {
       router.push('/auth/login');
     },
-    onError: (error) => {
+    onError: (error: any) => {
       const response = error.response;
       if (response.status === 200) {
         router.push('/auth/login');

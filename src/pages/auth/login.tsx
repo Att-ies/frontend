@@ -1,13 +1,21 @@
-import Layout from '@components/common/Layout';
-import Input from '@components/common/Input';
-import CheckBox from '@components/common/Checkbox';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useForm } from 'react-hook-form';
+import authApi from '@apis/auth/authApi';
 import Button from '@components/common/Button';
+import CheckBox from '@components/common/Checkbox';
 import ErrorMessage from '@components/common/ErrorMessage';
-import React, { useState } from 'react';
+import Input from '@components/common/Input';
+import Layout from '@components/common/Layout';
 import SocialLoginButton from '@components/login/SocialLoginButton';
+import { setToken, Token } from '@utils/localStorage/token';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
+interface LoginForm {
+  userId: string;
+  password: string;
+}
 
 function Login() {
   const {
@@ -15,7 +23,7 @@ function Login() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm();
+  } = useForm<LoginForm>();
   const [checkedTerm, setCheckedTerm] = useState<string[]>([]);
   const onChecked = (checked: boolean, id: string): void => {
     if (checked) {
@@ -25,21 +33,37 @@ function Login() {
     }
   };
 
-  const onSubmit = (data: any) => {
-    const { id, password } = data;
-    console.log(id, password);
-    if (false) {
-      // 비밀번호 일치하지 않을 경우
-      setError(
-        'password',
-        {
-          type: 'incorrect',
+  const router = useRouter();
+
+  const onSubmit = async ({ userId, password }: LoginForm) => {
+    if (userId && password) {
+      const res = await authApi.postLogin({
+        userId,
+        password,
+      });
+      if (res.status === 200) {
+        const token: Token = {
+          access: res.data.accessToken,
+          refresh: res.data.refreshToken,
+          role: res.data.roles,
+        };
+        if (token) setToken(token);
+        router.push('/home');
+      } else if (res.status === 401 && res.data.code === 'UNAUTHORIZED_ID') {
+        setError('userId', {
+          type: 'unauthorized',
+          message: '존재하지 않는 아이디입니다.',
+        });
+      } else if (
+        res.status === 401 &&
+        res.data.code === 'UNAUTHORIZED_PASSWORD'
+      ) {
+        setError('password', {
+          type: 'unauthorized',
           message: '비밀번호가 일치하지 않습니다.',
-        },
-        { shouldFocus: true },
-      );
+        });
+      }
     }
-    // 로그인 API
   };
 
   return (
@@ -52,9 +76,9 @@ function Login() {
               type="text"
               id="id"
               placeholder="아이디를 입력해 주세요."
-              register={register('id', { required: true })}
+              register={register('userId', { required: true })}
             />
-            {errors.id && <ErrorMessage message={errors.id.message} />}
+            {errors.userId && <ErrorMessage message={errors.userId.message} />}
           </div>
           <div className="flex flex-col mt-[10px] justify-start">
             <Input
@@ -108,7 +132,7 @@ function Login() {
           </p>
           <p className="flex justify-center items-center w-full text-12 mt-44">
             <span className="text-[#999999]">아직 회원이 아니신가요?</span>
-            <Link className="ml-[2px]" href="/auth/join">
+            <Link className="ml-[2px]" href="/auth/join01">
               회원가입
             </Link>
             <Image

@@ -13,10 +13,10 @@ export default function KakaoCallback() {
     instance
       .get(`/oauth2/kakao?code=${code}`)
       .then((res) => {
-        console.log(res.data);
         const token: Token = {
           access: res.data.accessToken,
           refresh: res.data.refreshToken,
+          role: 'ROLE_USER',
         };
         if (token) setToken(token);
       })

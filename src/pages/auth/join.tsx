@@ -1,12 +1,13 @@
 import Button from '@components/common/Button';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
+import { useAppDispatch } from '@features/hooks';
+import { setIsArtist as setIamArtist } from '@features/user/userSlice';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import tw from 'tailwind-styled-components';
-import { useAppDispatch } from '@features/hooks';
-import { setIsArtist as setIamArtist } from '@features/user/userSlice';
+
 interface JoinSelectProps {
   type: string;
   label?: string;

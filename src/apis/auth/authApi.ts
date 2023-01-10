@@ -1,6 +1,6 @@
 import authInstance from '@apis/_axios/authInstance';
 import instance from '@apis/_axios/instance';
-import axios, { AxiosInstance } from 'axios';
+import { AxiosInstance } from 'axios';
 
 import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
 
@@ -32,13 +32,19 @@ export class AuthApi {
     }
   }
 
-  async postLogin(body: AuthDTOType): Promise<AuthDTOType> {
-    const { data } = await this.axios({
-      method: 'POST',
-      url: `/members/login`,
-      data: body,
-    });
-    return data;
+  async postLogin(body: AuthDTOType) {
+    try {
+      const res = await this.axios({
+        method: 'POST',
+        url: `/members/login`,
+        data: body,
+      });
+      return res;
+    } catch (error: any) {
+      if (error) {
+        return error.response;
+      }
+    }
   }
 
   async postAccessToken(body: AuthDTOType): Promise<AuthDTOType> {
@@ -89,19 +95,26 @@ export class AuthApi {
   }
 
   async getCheckEmail(email): Promise<DoubleCheckDTOType> {
-    const { data } = await this.axios({
-      method: 'GET',
-      url: `/members/check-email?email=${email}`,
-    });
-    return data;
+    try {
+      const { data } = await this.axios.get(
+        `/members/check-email?email=${email}`,
+      );
+      return data;
+    } catch (err) {
+      return err.response;
+    }
   }
 
   async getCheckId(userId): Promise<DoubleCheckDTOType> {
-    const { data } = await this.axios({
-      method: 'GET',
-      url: `/members/check-id?userId=${userId}`,
-    });
-    return data;
+    try {
+      const { data } = await this.axios.get(
+        `/members/check-id?userId=${userId}`,
+      );
+      console.log(data);
+      return data;
+    } catch (err) {
+      return err.response;
+    }
   }
 }
 

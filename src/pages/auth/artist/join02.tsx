@@ -1,16 +1,16 @@
+import authApi from '@apis/auth/authApi';
+import Button from '@components/common/Button';
+import Input from '@components/common/Input';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
-import Input from '@components/common/Input';
+import { useAppDispatch, useAppSelector } from '@features/hooks';
+import { setArtistInfo } from '@features/user/userSlice';
 import camera from '@public/svg/icons/icon_camera.svg';
 import Image from 'next/image';
-import tw from 'tailwind-styled-components';
-import Button from '@components/common/Button';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import authApi from '@apis/auth/authApi';
-import { useAppDispatch, useAppSelector } from '@features/hooks';
-import { setArtistInfo } from '@features/user/userSlice';
+import tw from 'tailwind-styled-components';
 
 interface DefaultProps {
   [key: string]: any;

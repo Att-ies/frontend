@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import Layout from '@components/common/Layout';
-import Input from '@components/common/Input';
+import authApi from '@apis/auth/authApi';
 import Button from '@components/common/Button';
-import Navigate from '@components/common/Navigate';
-import ErrorMessage from '@components/common/ErrorMessage';
 import DoubleCheckButton from '@components/common/DoubleCheckButton';
-import { useRouter } from 'next/router';
+import ErrorMessage from '@components/common/ErrorMessage';
+import Input from '@components/common/Input';
+import Layout from '@components/common/Layout';
+import Navigate from '@components/common/Navigate';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { setUserInfo } from '@features/user/userSlice';
-import authApi from '@apis/auth/authApi';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface JoinForm {
   userId: string;
@@ -44,7 +44,7 @@ export default function Join02() {
 
   const router = useRouter();
   const handleLeftButton = () => {
-    router.push('/auth/join01');
+    router.back();
   };
   const handleRightButton = () => {
     router.push('/auth/login');
@@ -52,6 +52,7 @@ export default function Join02() {
 
   const dispatch = useAppDispatch();
   const userState = useAppSelector((state) => state.user);
+
   const onSubmit = async (form: JoinForm) => {
     const { userId, nickname, password, telephone, email } = form;
     if (!idValidation) {
@@ -76,8 +77,7 @@ export default function Join02() {
         email,
       }),
     );
-    if (userState.isArtist) router.push('/auth/artist/join01');
-    else router.push('/auth/user/join01');
+    router.push('/auth/join03');
   };
 
   const handleDoubleCheckID = async () => {
@@ -88,9 +88,9 @@ export default function Join02() {
       });
       return;
     }
-
     const data = await authApi.getCheckId(id);
-    if (data.duplicate) {
+    console.log(data);
+    if (data?.status === 409) {
       setError('userId', {
         type: 'id duplicate',
         message: '이미 사용중인 아이디 입니다.',
@@ -112,7 +112,7 @@ export default function Join02() {
     }
 
     const data = await authApi.getCheckEmail(email);
-    if (data.duplicate) {
+    if (data?.status === 409) {
       setError('email', {
         type: 'email duplicate',
         message: '이미 가입된 이메일 입니다.',
