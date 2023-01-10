@@ -13,9 +13,10 @@ export class AuthApi {
     await instance.post('/members/join', body);
   }
 
-  async getUserProfile() {
+  async getUserProfile(): Promise<AuthDTOType> {
     return await instance('/members/me');
   }
+
   async postArtistAuth(body: AuthDTOType) {
     try {
       const res = await this.axios({
@@ -73,12 +74,10 @@ export class AuthApi {
     }
   }
 
-
   async postPassword(password: string) {
     try {
       return await this.axios.patch(`/members/password`, {
         password,
-
       });
     } catch (error: any) {
       if (error) {
@@ -109,7 +108,7 @@ export class AuthApi {
     }
   }
 
-  async getCheckEmail(email): Promise<DoubleCheckDTOType> {
+  async getCheckEmail(email) {
     try {
       const { data } = await this.axios.get(
         `/members/check-email?email=${email}`,
@@ -131,7 +130,7 @@ export class AuthApi {
     }
   }
 
-  async getCheckNickname(nickname): Promise<DoubleCheckDTOType> {
+  async getCheckNickname(nickname) {
     try {
       const { data } = await this.axios.get(
         `/members/check-nickname?nickname=${nickname}`,
