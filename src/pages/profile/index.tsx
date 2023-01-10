@@ -3,6 +3,7 @@ import Navigate from '@components/common/Navigate';
 import Activity from '@components/mypage/Activity';
 import SettingItem from '@components/mypage/SettingItem';
 import Tab from '@components/common/Tab';
+import ArtItem from '@components/profile/ArtItem';
 import notification from '@public/svg/icons/icon_notification.svg';
 import user from '@public/svg/icons/icon_user.svg';
 import usergray from '@public/svg/icons/icon_user_gray.svg';
@@ -11,11 +12,10 @@ import arrow from '@public/svg/icons/icon_arrow_black.svg';
 import plus from '@public/svg/icons/icon_plus_pink.svg';
 import tw from 'tailwind-styled-components';
 import Image from 'next/image';
-import 'swiper/css';
 import { useAppSelector } from '@features/hooks';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import ArtItem from '@components/profile/ArtItem';
+import { getToken } from '@utils/localStorage/token';
 
 interface defaultProps {
   [key: string]: any;
@@ -62,7 +62,7 @@ const SettingLists: SettingListForm[] = [
   {
     id: '1',
     text: '개인/보안',
-    path: 'profile/security',
+    path: '/profile/security',
   },
   {
     id: '2',
@@ -72,12 +72,12 @@ const SettingLists: SettingListForm[] = [
   {
     id: '3',
     text: '구매/판매내역',
-    path: 'profile/history',
+    path: '/profile/history',
   },
   {
     id: '4',
     text: '로그아웃',
-    path: 'profile/logout',
+    path: '/profile/logout',
   },
 ];
 
@@ -93,10 +93,9 @@ const DUMP_ARTLIST: ArtListForm[] = [
   { image: '', title: '퓨처리즘 자연과 공생하는 미래', state: '입찰중' },
 ];
 
-const role = 'artist';
-
 export default function Profile() {
   const [artList, setArtList] = useState(DUMP_ARTLIST);
+  const [role, setRole] = useState('');
   const router = useRouter();
   const handleRightButton = () => {
     router.push('/notice');
@@ -106,21 +105,25 @@ export default function Profile() {
     router.push('/auth/user/join02');
   };
   const handleSetting = () => {
-    // 설정 페이지 이동
+    router.push('/profile/security');
   };
   const handleArt = () => {
     // 작품목록 전체보기 이동
     router.push('/');
   };
-  const handleProfile = () => {
+  const handleAddProfile = () => {
     router.push('/profile/edit');
   };
 
   const { keywords, nickname } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    // 작품목록 불러오기 API
-    // setArtList()
+    const token = getToken();
+    const role = token.role;
+    if (role) {
+      setRole(role);
+      // 작품목록 불러오기 API
+    }
   }, [artList]);
 
   return (
@@ -155,9 +158,9 @@ export default function Profile() {
             />
           </div>
         </WelcomeBox>
-        {role === 'artist' && (
+        {role === 'ROLE_ARTIST' && (
           <div
-            onClick={handleProfile}
+            onClick={handleAddProfile}
             className="flex justify-between border-[1px] rounded border-[#F5535D] p-4 cursor-pointer mt-4"
           >
             <div className="flex">
@@ -180,7 +183,7 @@ export default function Profile() {
           ></Activity>
         ))}
       </section>
-      {role === 'artist' && (
+      {role === 'ROLE_ARTIST' && (
         <section>
           <div className="my-4 flex justify-between border-t-[12px] border-[#F8F8FA] pt-4">
             <span className="text-14 text-[#191919] font-bold">작품 목록</span>
