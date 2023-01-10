@@ -102,14 +102,11 @@ export class AuthApi {
     return data;
   }
 
-  async deleteUser(token) {
+  async deleteUser() {
     try {
       const res = await this.axios({
         method: 'DELETE',
         url: `/members`,
-        headers: {
-          Authorization: token,
-        },
       });
       return res;
     } catch (error: any) {
