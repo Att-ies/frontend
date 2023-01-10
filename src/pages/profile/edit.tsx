@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { isUser } from '@utils/isUser';
 import { useQuery } from 'react-query';
+import { Member } from 'types/user';
 
 interface EditForm {
   nickname: string;
@@ -23,16 +24,11 @@ interface EditForm {
   image?: FileList;
 }
 
-interface User {
-  nickname: string;
-  email: string;
-}
-
 export default function Edit() {
   const [nickNameValidation, setNickNameValidation] = useState<boolean>(false);
   const [emailValidation, setEmailValidation] = useState<boolean>(false);
 
-  const { isLoading, error, data } = useQuery<User>(
+  const { isLoading, error, data } = useQuery<Member>(
     'user',
     () => authApi.getUserProfile(),
     {
@@ -97,6 +93,8 @@ export default function Edit() {
   const { education, history, description, instagram, behance } =
     useAppSelector((state) => state.user);
 
+  if (isLoading) return <div>로딩중</div>;
+
   return (
     <Layout>
       <Navigate
@@ -154,6 +152,7 @@ export default function Edit() {
           type="text"
           label="닉네임"
           placeholder="닉네임을 입력해 주세요."
+          defaultValue={data?.nickname}
           $error={errors.nickname ? true : false}
           register={register('nickname', {
             required: true,
@@ -178,6 +177,7 @@ export default function Edit() {
         <Input
           type="text"
           label="이메일"
+          defaultValue={data?.email}
           placeholder="이메일을 입력해 주세요."
           $error={errors.email ? true : false}
           register={register('email', {
@@ -197,11 +197,12 @@ export default function Edit() {
         {errors.email ? <ErrorMessage message={errors.email.message} /> : ''}
       </section>
 
-      {!isUser && (
+      {isUser && (
         <section>
           <Input
             type="text"
             label="학력"
+            defaultValue={data?.education}
             placeholder="학교와 학위, 전공 등을 입력해 주세요."
             value={education}
             $error={errors.education ? true : false}
