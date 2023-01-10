@@ -12,7 +12,6 @@ import setting from '@public/svg/icons/icon_setting.svg';
 import user from '@public/svg/icons/icon_user.svg';
 import usergray from '@public/svg/icons/icon_user_gray.svg';
 import { isUser } from '@utils/isUser';
-import { getToken } from '@utils/localStorage/token';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -120,7 +119,6 @@ export default function Profile() {
 
   const getProfile = async () => {
     const response = await authApi.getUserProfile();
-    console.log(response);
     if (response?.status === 200) {
       setNickname(response?.data.nickname);
       // setKeywords(response.data.keywords)
@@ -128,14 +126,7 @@ export default function Profile() {
   };
 
   useEffect(() => {
-    const token = getToken();
-    const role = token.role;
     getProfile();
-    if (role === 'ROLE_USER') {
-      // 취향 목록 불러오기 API
-    } else {
-      // 취향 목록 & 작품 목록 불러오기 API
-    }
   }, [artList]);
 
   return (
