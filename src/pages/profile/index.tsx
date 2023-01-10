@@ -1,21 +1,21 @@
+import authApi from '@apis/auth/authApi';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
+import Tab from '@components/common/Tab';
 import Activity from '@components/mypage/Activity';
 import SettingItem from '@components/mypage/SettingItem';
-import Tab from '@components/common/Tab';
 import ArtItem from '@components/profile/ArtItem';
+import arrow from '@public/svg/icons/icon_arrow_black.svg';
 import notification from '@public/svg/icons/icon_notification.svg';
+import plus from '@public/svg/icons/icon_plus_pink.svg';
+import setting from '@public/svg/icons/icon_setting.svg';
 import user from '@public/svg/icons/icon_user.svg';
 import usergray from '@public/svg/icons/icon_user_gray.svg';
-import setting from '@public/svg/icons/icon_setting.svg';
-import arrow from '@public/svg/icons/icon_arrow_black.svg';
-import plus from '@public/svg/icons/icon_plus_pink.svg';
-import tw from 'tailwind-styled-components';
+import { isUser } from '@utils/isUser';
 import Image from 'next/image';
-import { useAppSelector } from '@features/hooks';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { isUser } from '@utils/isUser';
+import tw from 'tailwind-styled-components';
 
 interface defaultProps {
   [key: string]: any;
@@ -94,8 +94,10 @@ const DUMP_ARTLIST: ArtListForm[] = [
 ];
 
 export default function Profile() {
-  const [artList, setArtList] = useState(DUMP_ARTLIST);
-  const [role, setRole] = useState('');
+  const [artList, setArtList] = useState<ArtListForm[]>(DUMP_ARTLIST);
+  const [role, setRole] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
+  const [keywords, setKeywords] = useState<string[]>([]);
   const router = useRouter();
   const handleRightButton = () => {
     router.push('/notice');
@@ -115,10 +117,16 @@ export default function Profile() {
     router.push('/profile/edit');
   };
 
-  const { keywords, nickname } = useAppSelector((state) => state.user);
+  const getProfile = async () => {
+    const response = await authApi.getUserProfile();
+    if (response?.status === 200) {
+      setNickname(response?.data.nickname);
+      // setKeywords(response.data.keywords)
+    }
+  };
 
   useEffect(() => {
-    console.log(isUser);
+    getProfile();
   }, [artList]);
 
   return (

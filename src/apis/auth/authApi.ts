@@ -1,4 +1,3 @@
-import authInstance from '@apis/_axios/authInstance';
 import instance from '@apis/_axios/instance';
 import { AxiosInstance } from 'axios';
 
@@ -10,18 +9,13 @@ export class AuthApi {
     if (axios) this.axios = axios;
   }
 
-  async getUserProfile() {
-    const { data } = await this.axios({
-      method: 'GET',
-      url: `/members/me`,
-    });
-    return data;
-  }
-
   async postUserAuth(body: AuthDTOType) {
-    await authInstance.post(`/members/join`, body);
+    await instance.post('/members/join', body);
   }
 
+  async getUserProfile() {
+    return await instance('/members/me');
+  }
   async postArtistAuth(body: AuthDTOType) {
     try {
       const res = await this.axios({
@@ -79,14 +73,11 @@ export class AuthApi {
     }
   }
 
-  async postNewPassword(body: AuthDTOType) {
+  async postPassword(password: string) {
     try {
-      const res = await this.axios({
-        method: 'POST',
-        url: `/members/new-password`,
-        data: body,
+      return await this.axios.patch(`/members/password`, {
+        password,
       });
-      return res;
     } catch (error: any) {
       if (error) {
         return error.response;
