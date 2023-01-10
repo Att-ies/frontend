@@ -73,10 +73,12 @@ export class AuthApi {
     }
   }
 
+
   async postPassword(password: string) {
     try {
       return await this.axios.patch(`/members/password`, {
         password,
+
       });
     } catch (error: any) {
       if (error) {

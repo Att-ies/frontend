@@ -5,6 +5,7 @@ import Tab from '@components/common/Tab';
 import Activity from '@components/mypage/Activity';
 import SettingItem from '@components/mypage/SettingItem';
 import ArtItem from '@components/profile/ArtItem';
+import { useAppSelector } from '@features/hooks';
 import arrow from '@public/svg/icons/icon_arrow_black.svg';
 import notification from '@public/svg/icons/icon_notification.svg';
 import plus from '@public/svg/icons/icon_plus_pink.svg';
@@ -104,7 +105,7 @@ export default function Profile() {
   };
 
   const handleTaste = () => {
-    router.push('/auth/user/join02');
+    router.push('/auth/join04');
   };
   const handleSetting = () => {
     router.push('/profile/security');
