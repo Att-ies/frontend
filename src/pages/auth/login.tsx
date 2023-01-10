@@ -36,33 +36,31 @@ function Login() {
   const router = useRouter();
 
   const onSubmit = async ({ userId, password }: LoginForm) => {
-    if (userId && password) {
-      const res = await authApi.postLogin({
-        userId,
-        password,
+    const res = await authApi.postLogin({
+      userId,
+      password,
+    });
+    if (res.status === 200) {
+      const token: Token = {
+        access: res.data.accessToken,
+        refresh: res.data.refreshToken,
+        role: res.data.roles,
+      };
+      if (token) setToken(token);
+      router.push('/home');
+    } else if (res.status === 401 && res.data.code === 'UNAUTHORIZED_ID') {
+      setError('userId', {
+        type: 'unauthorized',
+        message: '존재하지 않는 아이디입니다.',
       });
-      if (res.status === 200) {
-        const token: Token = {
-          access: res.data.accessToken,
-          refresh: res.data.refreshToken,
-          role: res.data.roles,
-        };
-        if (token) setToken(token);
-        router.push('/home');
-      } else if (res.status === 401 && res.data.code === 'UNAUTHORIZED_ID') {
-        setError('userId', {
-          type: 'unauthorized',
-          message: '존재하지 않는 아이디입니다.',
-        });
-      } else if (
-        res.status === 401 &&
-        res.data.code === 'UNAUTHORIZED_PASSWORD'
-      ) {
-        setError('password', {
-          type: 'unauthorized',
-          message: '비밀번호가 일치하지 않습니다.',
-        });
-      }
+    } else if (
+      res.status === 401 &&
+      res.data.code === 'UNAUTHORIZED_PASSWORD'
+    ) {
+      setError('password', {
+        type: 'unauthorized',
+        message: '비밀번호가 일치하지 않습니다.',
+      });
     }
   };
 
