@@ -119,8 +119,9 @@ export default function Profile() {
 
   const getProfile = async () => {
     const response = await authApi.getUserProfile();
-    if (response.status === 200) {
-      setNickname(response.data.nickname);
+    console.log(response);
+    if (response?.status === 200) {
+      setNickname(response?.data.nickname);
       // setKeywords(response.data.keywords)
     }
   };
