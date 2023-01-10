@@ -13,7 +13,7 @@ interface DefaultProps {
 }
 
 const ActivityBox = tw.div<DefaultProps>`
-bg-[#F8F8FA] rounded-lg w-[98px] h-[90px] mt-8 flex flex-col justify-center items-center cursor-pointer
+bg-[#F8F8FA] rounded-lg w-[98px] h-[90px] mt-4 flex flex-col justify-center items-center cursor-pointer
 `;
 
 export default function Activity({ text, path, icon }: ActivityBoxProps) {
