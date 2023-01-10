@@ -15,7 +15,7 @@ import Image from 'next/image';
 import { useAppSelector } from '@features/hooks';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { getToken } from '@utils/localStorage/token';
+import { isUser } from '@utils/isUser';
 
 interface defaultProps {
   [key: string]: any;
@@ -118,12 +118,7 @@ export default function Profile() {
   const { keywords, nickname } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    const token = getToken();
-    const role = token.role;
-    if (role) {
-      setRole(role);
-      // 작품목록 불러오기 API
-    }
+    console.log(isUser);
   }, [artList]);
 
   return (
@@ -158,7 +153,7 @@ export default function Profile() {
             />
           </div>
         </WelcomeBox>
-        {role === 'ROLE_ARTIST' && (
+        {isUser && (
           <div
             onClick={handleAddProfile}
             className="flex justify-between border-[1px] rounded border-[#F5535D] p-4 cursor-pointer mt-4"
@@ -183,7 +178,7 @@ export default function Profile() {
           ></Activity>
         ))}
       </section>
-      {role === 'ROLE_ARTIST' && (
+      {!isUser && (
         <section>
           <div className="my-4 flex justify-between border-t-[12px] border-[#F8F8FA] pt-4">
             <span className="text-14 text-[#191919] font-bold">작품 목록</span>
