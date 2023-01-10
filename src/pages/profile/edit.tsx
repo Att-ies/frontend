@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { isUser } from '@utils/isUser';
+import { useQuery } from 'react-query';
 
 interface EditForm {
   nickname: string;
@@ -22,9 +23,27 @@ interface EditForm {
   image?: FileList;
 }
 
+interface User {
+  nickname: string;
+  email: string;
+}
+
 export default function Edit() {
   const [nickNameValidation, setNickNameValidation] = useState<boolean>(false);
   const [emailValidation, setEmailValidation] = useState<boolean>(false);
+
+  const { isLoading, error, data } = useQuery<User>(
+    'user',
+    () => authApi.getUserProfile(),
+    {
+      onSuccess: (data) => {
+        console.log('data : ', data);
+      },
+      onError: (error) => {
+        console.log('error : ', error);
+      },
+    },
+  );
 
   const {
     register,
