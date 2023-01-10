@@ -1,21 +1,21 @@
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
+import Tab from '@components/common/Tab';
 import Activity from '@components/mypage/Activity';
 import SettingItem from '@components/mypage/SettingItem';
-import Tab from '@components/common/Tab';
 import ArtItem from '@components/profile/ArtItem';
+import { useAppSelector } from '@features/hooks';
+import arrow from '@public/svg/icons/icon_arrow_black.svg';
 import notification from '@public/svg/icons/icon_notification.svg';
+import plus from '@public/svg/icons/icon_plus_pink.svg';
+import setting from '@public/svg/icons/icon_setting.svg';
 import user from '@public/svg/icons/icon_user.svg';
 import usergray from '@public/svg/icons/icon_user_gray.svg';
-import setting from '@public/svg/icons/icon_setting.svg';
-import arrow from '@public/svg/icons/icon_arrow_black.svg';
-import plus from '@public/svg/icons/icon_plus_pink.svg';
-import tw from 'tailwind-styled-components';
+import { getToken } from '@utils/localStorage/token';
 import Image from 'next/image';
-import { useAppSelector } from '@features/hooks';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { getToken } from '@utils/localStorage/token';
+import tw from 'tailwind-styled-components';
 
 interface defaultProps {
   [key: string]: any;
@@ -102,7 +102,7 @@ export default function Profile() {
   };
 
   const handleTaste = () => {
-    router.push('/auth/user/join02');
+    router.push('/auth/join04');
   };
   const handleSetting = () => {
     router.push('/profile/security');

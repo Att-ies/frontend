@@ -38,7 +38,6 @@ export default function Password() {
       );
       return;
     }
-    // 비밀번호 변경 API
     console.log(watch('password'));
     const response = await authApi.postPassword(watch('password'));
     console.log(response);
