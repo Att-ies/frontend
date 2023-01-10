@@ -21,7 +21,7 @@ const refreshToken = async () => {
   // refresh token api 호출
   const token = await instance
     .post('/members/token', {
-      refresh: refresh,
+      refreshToken: refresh,
     })
     .then((res) => res.data);
   return token;
@@ -49,7 +49,7 @@ instance.interceptors.response.use(
     const isUnAuthError = status === 401;
     const isNotFoundError = status === 404;
     const isDuplicateError = status === 409;
-    const isExpiredToken = status === 444;
+    const isExpiredToken = status === 403;
 
     if (isNotFoundError) {
       return Promise.reject(error);
@@ -67,10 +67,13 @@ instance.interceptors.response.use(
 
     if (isExpiredToken) {
       const token = await refreshToken();
+      token['role'] = getToken().role;
       if (token?.access) {
         setToken(token);
         setAuthorHeader(token.access);
-        reqData.headers.Authorization = `Bearer ${token?.access}`;
+
+        // 이전 요청 재시도
+        reqData.headers.Authorization = `${token?.access}`;
         return instance(reqData);
       }
     }
