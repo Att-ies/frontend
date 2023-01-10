@@ -9,8 +9,7 @@ const instance = axios.create({
 });
 
 const setAuthorHeader = (token: string) => {
-  if (token)
-    instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  if (token) instance.defaults.headers.common['Authorization'] = token;
 };
 const unsetAuthorHeader = () => {
   delete instance.defaults.headers.common['Authorization'];
