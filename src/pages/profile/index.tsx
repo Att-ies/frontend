@@ -1,3 +1,4 @@
+import authApi from '@apis/auth/authApi';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import Tab from '@components/common/Tab';
@@ -94,8 +95,10 @@ const DUMP_ARTLIST: ArtListForm[] = [
 ];
 
 export default function Profile() {
-  const [artList, setArtList] = useState(DUMP_ARTLIST);
-  const [role, setRole] = useState('');
+  const [artList, setArtList] = useState<ArtListForm[]>(DUMP_ARTLIST);
+  const [role, setRole] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
+  const [keywords, setKeywords] = useState<string[]>([]);
   const router = useRouter();
   const handleRightButton = () => {
     router.push('/notice');
@@ -115,10 +118,16 @@ export default function Profile() {
     router.push('/profile/edit');
   };
 
-  const { keywords, nickname } = useAppSelector((state) => state.user);
+  const getProfile = async () => {
+    const response = await authApi.getUserProfile();
+    if (response?.status === 200) {
+      setNickname(response?.data.nickname);
+      // setKeywords(response.data.keywords)
+    }
+  };
 
   useEffect(() => {
-    console.log(isUser);
+    getProfile();
   }, [artList]);
 
   return (
