@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Modal from '@components/common/Modal';
+import authApi from '@apis/auth/authApi';
+import { getToken, deleteToken } from '@utils/localStorage/token';
 
 export default function Security() {
   const [isModal, setIsModal] = useState(false);
@@ -21,8 +23,13 @@ export default function Security() {
   const handleCloseModal = () => {
     setIsModal(false);
   };
-  const handleAcceptWithdrawal = () => {
-    console.log('회원 탈퇴 진행');
+  const handleAcceptWithdrawal = async () => {
+    const { access } = getToken();
+    const res = await authApi.deleteUser(access);
+    if (res?.status === 200) {
+      deleteToken();
+      router.push('/auth/login');
+    }
   };
 
   return (
