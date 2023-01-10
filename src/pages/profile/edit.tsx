@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import { isUser } from '@utils/isUser';
 import { useQuery } from 'react-query';
 import { Member } from 'types/user';
+import Loader from '@components/common/Loader';
 
 interface EditForm {
   nickname: string;
@@ -50,13 +51,32 @@ export default function Edit() {
     clearErrors,
   } = useForm<EditForm>();
 
+  const nickname = watch('nickname');
+  const email = watch('email');
+
+  useEffect(() => {
+    setEmailValidation(false);
+  }, [email]);
+  useEffect(() => {
+    setNickNameValidation(false);
+  }, [nickname]);
+
   const handleDoubleCheckNickName = async () => {
-    // 닉네임 중복확인 API
+    const data = await authApi.getCheckNickname(nickname);
+    if (data?.status === 409) {
+      setError('nickname', {
+        type: 'nickname duplicate',
+        message: '중복되는 닉네임 입니다.',
+      });
+      return;
+    } else {
+      setNickNameValidation(true);
+      clearErrors('nickname');
+    }
   };
 
   const handleDoubleCheckEmail = async () => {
-    const data = await authApi.getCheckEmail(watch('email'));
-    console.log('Email 중복이면 true 아니면 false : ', data.duplicate);
+    const data = await authApi.getCheckEmail(email);
     if (data.duplicate) {
       setError('email', {
         type: 'email duplicate',
@@ -93,7 +113,7 @@ export default function Edit() {
   const { education, history, description, instagram, behance } =
     useAppSelector((state) => state.user);
 
-  if (isLoading) return <div>로딩중</div>;
+  if (isLoading) return <Loader />;
 
   return (
     <Layout>
@@ -197,7 +217,7 @@ export default function Edit() {
         {errors.email ? <ErrorMessage message={errors.email.message} /> : ''}
       </section>
 
-      {isUser && (
+      {!isUser && (
         <section>
           <Input
             type="text"
