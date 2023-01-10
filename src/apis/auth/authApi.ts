@@ -14,7 +14,11 @@ export class AuthApi {
   }
 
   async getUserProfile(): Promise<AuthDTOType> {
-    return await instance('/members/me');
+    const { data } = await instance({
+      method: 'GET',
+      url: `/members/me`,
+    });
+    return data;
   }
 
   async postArtistAuth(body: AuthDTOType) {
