@@ -24,8 +24,8 @@ export default function Security() {
     setIsModal(false);
   };
   const handleAcceptWithdrawal = async () => {
-    const { access } = getToken();
-    const res = await authApi.deleteUser(access);
+    const res = await authApi.deleteUser();
+    console.log(res);
     if (res?.status === 200) {
       deleteToken();
       router.push('/auth/login');
