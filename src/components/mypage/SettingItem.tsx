@@ -9,7 +9,7 @@ interface SettingBoxProps {
 export default function SettingItem({ text, path }: SettingBoxProps) {
   const router = useRouter();
   const handleNavigate = () => {
-    router.push(`${path}`);
+    router.push(path);
   };
   return (
     <div
