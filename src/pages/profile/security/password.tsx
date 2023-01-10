@@ -1,11 +1,12 @@
+import authApi from '@apis/auth/authApi';
+import ErrorMessage from '@components/common/ErrorMessage';
 import Input from '@components/common/Input';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
-import React, { useState } from 'react';
 import Image from 'next/image';
-import { useForm } from 'react-hook-form';
-import ErrorMessage from '@components/common/ErrorMessage';
 import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface passwordForm {
   password: string;
@@ -25,7 +26,7 @@ export default function Password() {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [showPasswordConfirm, setShowPasswordConfirm] =
     useState<boolean>(false);
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (watch('password') !== watch('passwordConfirm')) {
       setError(
         'passwordConfirm',
@@ -35,9 +36,11 @@ export default function Password() {
         },
         { shouldFocus: true },
       );
+      return;
     }
-    // 비밀번호 변경 API
     console.log(watch('password'));
+    const response = await authApi.postPassword(watch('password'));
+    console.log(response);
   };
   const handleLeftButton = () => {
     router.push('/profile');
