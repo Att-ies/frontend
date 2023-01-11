@@ -118,9 +118,7 @@ export class AuthApi {
 
   async getCheckId(userId): Promise<DoubleCheckDTOType> {
     try {
-      const { data } = await this.axios.get(
-        `/members/check-id?userId=${userId}`,
-      );
+      const { data } = await this.axios(`/members/check-id?userId=${userId}`);
       return data;
     } catch (error: any) {
       return error.response;
@@ -129,7 +127,7 @@ export class AuthApi {
 
   async getCheckNickname(nickname) {
     try {
-      const { data } = await this.axios.get(
+      const { data } = await this.axios(
         `/members/check-nickname?nickname=${nickname}`,
       );
       return data;
