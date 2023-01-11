@@ -10,12 +10,17 @@ export class AuthApi {
   }
 
   async postUserAuth(body: AuthDTOType) {
-    await instance.post('/members/join', body);
+    await this.axios.post('/members/join', body);
   }
 
-  async getUserProfile() {
-    return await instance('/members/me');
+  async getUserProfile(): Promise<AuthDTOType> {
+    const { data } = await this.axios({
+      method: 'GET',
+      url: `/members/me`,
+    });
+    return data;
   }
+
   async postArtistAuth(body: AuthDTOType) {
     try {
       const res = await this.axios({
@@ -73,12 +78,10 @@ export class AuthApi {
     }
   }
 
-
   async postPassword(password: string) {
     try {
       return await this.axios.patch(`/members/password`, {
         password,
-
       });
     } catch (error: any) {
       if (error) {
@@ -109,7 +112,7 @@ export class AuthApi {
     }
   }
 
-  async getCheckEmail(email): Promise<DoubleCheckDTOType> {
+  async getCheckEmail(email) {
     try {
       const { data } = await this.axios.get(
         `/members/check-email?email=${email}`,
@@ -131,7 +134,7 @@ export class AuthApi {
     }
   }
 
-  async getCheckNickname(nickname): Promise<DoubleCheckDTOType> {
+  async getCheckNickname(nickname) {
     try {
       const { data } = await this.axios.get(
         `/members/check-nickname?nickname=${nickname}`,
