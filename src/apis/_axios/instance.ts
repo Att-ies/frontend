@@ -73,7 +73,7 @@ instance.interceptors.response.use(
         setAuthorHeader(token.access);
 
         // 이전 요청 재시도
-        reqData.headers.Authorization = `${token?.access}`;
+        reqData.headers.Authorization = token?.access;
         return instance(reqData);
       }
     }
