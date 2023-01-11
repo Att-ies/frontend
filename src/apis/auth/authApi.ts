@@ -14,7 +14,7 @@ export class AuthApi {
   }
 
   async getUserProfile(): Promise<AuthDTOType> {
-    const { data } = await this.axios({
+    const data = await this.axios({
       method: 'GET',
       url: `/members/me`,
     });
@@ -90,12 +90,8 @@ export class AuthApi {
     }
   }
 
-  async patchLogout(): Promise<AuthDTOType> {
-    const { data } = await this.axios({
-      method: 'PATCH',
-      url: `/members/logout`,
-    });
-    return data;
+  async postLogout() {
+    await this.axios.post('/members/logout');
   }
 
   async deleteUser() {
