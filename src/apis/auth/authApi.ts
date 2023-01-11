@@ -1,8 +1,6 @@
 import instance from '@apis/_axios/instance';
 import { AxiosInstance } from 'axios';
-
 import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
-import { getToken } from '@utils/localStorage/token';
 
 export class AuthApi {
   axios: AxiosInstance = instance;
