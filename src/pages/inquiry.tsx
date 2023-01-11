@@ -7,7 +7,8 @@ import { useRouter } from 'next/router';
 import { Tab, Disclosure } from '@headlessui/react';
 import { useForm } from 'react-hook-form';
 import ErrorMessage from '@components/common/ErrorMessage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import FileItem from '@components/inquiry/FileItem';
 
 interface InquiryForm {
   title: string;
@@ -48,22 +49,51 @@ const DUMP_INQUIRY_LISTS: DumpInquiryListsForm[] = [
 ];
 
 export default function Inquiry() {
-  const [Inquiry, setInquiry] = useState(DUMP_INQUIRY_LISTS);
+  const [Inquiry, setInquiry] =
+    useState<DumpInquiryListsForm[]>(DUMP_INQUIRY_LISTS);
+  const [fileImages, setFileImages] = useState<string[]>([]);
+  const [fileSize, setFileSize] = useState<number>(0);
 
   const router = useRouter();
   const handleLeftButton = () => {
     router.back();
   };
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm<InquiryForm>({ mode: 'onTouched' });
+  const { register, handleSubmit, watch } = useForm<InquiryForm>({
+    mode: 'onTouched',
+  });
 
-  const onSubmit = () => {
+  const onRemove = (targetId: string): void => {
+    const newFileImages = fileImages.filter((fileImages) => {
+      return fileImages !== targetId;
+    });
+    setFileImages(newFileImages);
+  };
+
+  const uploadFiles = (e) => {
+    console.log(e);
+    if (e.target.files?.length <= 5 && fileImages?.length < 5) {
+      const fileArray: any = Array.from(e.target.files).map((file: any) =>
+        URL.createObjectURL(file),
+      );
+      setFileImages((prevImages) => prevImages.concat(fileArray));
+      for (const file of e.target.files) {
+        setFileSize((prevFileSize) => prevFileSize + file.size);
+      }
+      console.log(fileArray);
+    } else {
+      return;
+    }
+  };
+
+  const onSubmit = async (form: InquiryForm) => {
     // 문의 API
+    // const { title, content } = form;
+    // const formData = new FormData()
+    // formData.append('title', title)
+    // formData.append('content', content)
+    // formData.append('image', fileImages)
+    console.log(fileImages);
   };
 
   return (
@@ -93,23 +123,27 @@ export default function Inquiry() {
                   >
                     제목
                   </label>
-                  <span className="text-14 leading-8 text-[#999999]">
-                    {watch('title') ? watch('title').length : '0'}/20
-                  </span>
+                  <div className="text-14 leading-8 text-[#999999]">
+                    <span
+                      className={`${
+                        watch('title') ? 'text-[#191919]' : 'text-[#999999]'
+                      }`}
+                    >
+                      {watch('title') ? watch('title').length : '0'}
+                    </span>
+                    <span>/20</span>
+                  </div>
                 </div>
                 <input
                   id="title"
                   type="text"
+                  maxLength={20}
                   placeholder="문의 제목을 입력해주세요."
                   className="w-full h-[52px] placeholder-[#999999] text-[13px] rounded-[4px] border-[#D8D8D8] appearance-none"
                   {...register('title', {
                     required: true,
-                    maxLength: 20,
                   })}
                 />
-                {errors.title && (
-                  <ErrorMessage message="제목은 최대 20글자 입니다." />
-                )}
               </section>
               <section>
                 <div className="flex justify-between mb-3">
@@ -119,48 +153,94 @@ export default function Inquiry() {
                   >
                     문의 사항
                   </label>
-                  <span className="text-14 leading-8 text-[#999999]">
-                    {watch('content') ? watch('content').length : '0'}/1000
-                  </span>
+                  <div className="text-14 leading-8 text-[#999999]">
+                    <span
+                      className={`${
+                        watch('content') ? 'text-[#191919]' : 'text-[#999999]'
+                      }`}
+                    >
+                      {watch('content') ? watch('content').length : '0'}
+                    </span>
+                    <span>/1000</span>
+                  </div>
                 </div>
                 <textarea
                   id="content"
+                  maxLength={1000}
                   placeholder="정확한 상담을 위하여 자세한 문의사항을&#10;작성 부탁드립니다."
                   className="w-full h-[150px] placeholder:absolute placeholder:text-14 overflow-hidden resize-none placeholder-[#999999] text-[13px] rounded-[4px] border-[#D8D8D8]"
                   {...register('content', {
                     required: true,
-                    maxLength: 1000,
                   })}
                 ></textarea>
-                {errors.content && (
-                  <ErrorMessage message="내용은 최대 1000글자 입니다." />
-                )}
               </section>
-              <section>
-                <div className="flex justify-between mb-3">
-                  <label className="text-14 leading-8 font-bold">
-                    첨부파일
-                  </label>
-                  <span className="text-14 leading-8 text-[#999999]">
-                    0/15MB
-                  </span>
+              <section className="mt-4">
+                <div>
+                  <div className="flex">
+                    <label htmlFor="fileImage">
+                      <div className="w-[60px] h-[60px] border-[1px] border-[#DBDBDB] rounded flex flex-col justify-center items-center mr-0">
+                        <Image
+                          src="/svg/icons/icon_camera_black.svg"
+                          alt="camera"
+                          width={22}
+                          height={18}
+                        />
+                        {fileImages.length ? (
+                          <div className="text-12">
+                            <span className="text-[#F5535D]">
+                              {fileImages.length}
+                            </span>
+                            /5
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                      </div>
+                      <div className="text-center text-12">
+                        <span className="text-[#58A4FF]">{}</span>
+                        /15MB
+                      </div>
+                    </label>
+                    {fileImages.length ? (
+                      <div className="flex flex-wrap">
+                        {fileImages.map((img) => (
+                          <FileItem handler={onRemove} key={img} img={img} />
+                        ))}
+                      </div>
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                  <div className="mt-3 text-12 text-[#999999]">
+                    <ol className="list-disc pl-3">
+                      <li>
+                        동영상 등 크기 제한을 초과하는 대용량 파일을 전송하려면
+                        구글 드라이브 링크를 첨부 바랍니다.
+                      </li>
+                      <li>사진은 최대 5장까지 등록가능합니다.</li>
+                      <li>답변이 완료되면 삭제, 수정이 불가합니다.</li>
+                    </ol>
+                  </div>
                 </div>
-                <Button text="+ 파일추가" className="h-10" />
-                <div className="mt-3 text-12 text-[#999999] mb-[120px]">
-                  동영상 등 크기 제한을 초과하는 대용량 파일을 전송하려면 구글
-                  드라이브 링크를 첨부 바랍니다.
-                </div>
+                <input
+                  multiple
+                  type="file"
+                  id="fileImage"
+                  className="hidden"
+                  {...register('image')}
+                  onChange={uploadFiles}
+                />
               </section>
-              <section className="w-full flex justify-between">
+              <section className="w-full flex justify-between mt-[120px]">
                 <Button
                   kind="outlined"
                   text="취소"
-                  className="w-[150px] h-[40px]"
+                  className="w-[150px] h-[48px]"
                 />
                 <Button
                   type="submit"
                   text="문의접수"
-                  className="w-[150px] h-[40px]"
+                  className="w-[150px] h-[48px]"
                 />
               </section>
             </form>
