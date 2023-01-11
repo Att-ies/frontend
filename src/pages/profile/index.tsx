@@ -5,14 +5,8 @@ import Tab from '@components/common/Tab';
 import Activity from '@components/mypage/Activity';
 import SettingItem from '@components/mypage/SettingItem';
 import ArtItem from '@components/profile/ArtItem';
-import { useAppSelector } from '@features/hooks';
-import arrow from '@public/svg/icons/icon_arrow_black.svg';
-import notification from '@public/svg/icons/icon_notification.svg';
-import plus from '@public/svg/icons/icon_plus_pink.svg';
-import setting from '@public/svg/icons/icon_setting.svg';
-import user from '@public/svg/icons/icon_user.svg';
-import usergray from '@public/svg/icons/icon_user_gray.svg';
 import { isUser } from '@utils/isUser';
+import { deleteToken } from '@utils/localStorage/token';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -57,13 +51,13 @@ const ActivityLists: ActivityListForm[] = [
 interface SettingListForm {
   id: string;
   text: string;
-  path: string;
+  path?: string;
 }
 const SettingLists: SettingListForm[] = [
   {
     id: '1',
-    text: '개인/보안',
-    path: '/profile/security',
+    text: '구매/판매내역',
+    path: '/profile/history',
   },
   {
     id: '2',
@@ -72,13 +66,13 @@ const SettingLists: SettingListForm[] = [
   },
   {
     id: '3',
-    text: '구매/판매내역',
-    path: '/profile/history',
+    text: '개인/보안',
+    path: '/profile/security',
   },
   {
     id: '4',
     text: '로그아웃',
-    path: '/profile/logout',
+    path: '/auth/login',
   },
 ];
 
@@ -96,14 +90,13 @@ const DUMP_ARTLIST: ArtListForm[] = [
 
 export default function Profile() {
   const [artList, setArtList] = useState<ArtListForm[]>(DUMP_ARTLIST);
-  const [role, setRole] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
   const [keywords, setKeywords] = useState<string[]>([]);
   const router = useRouter();
   const handleRightButton = () => {
     router.push('/notice');
   };
-
+  // console.log(isUser);
   const handleTaste = () => {
     router.push('/auth/join04');
   };
@@ -122,7 +115,7 @@ export default function Profile() {
     const response = await authApi.getUserProfile();
     if (response?.status === 200) {
       setNickname(response?.data.nickname);
-      // setKeywords(response.data.keywords)
+      // setKeywords(response?.data?.keywords); //아직 API 구현 x
     }
   };
 
@@ -135,17 +128,24 @@ export default function Profile() {
       <Navigate
         left_message=" "
         message="프로필"
-        right_message={<Image src={notification} alt="notification" />}
+        right_message={
+          <Image
+            src="/svg/icons/icon_notification.svg"
+            alt="notification"
+            width="20"
+            height="0"
+          />
+        }
         handleRightButton={handleRightButton}
       />
       <section>
         <WelcomeBox>
           <div className="w-[54px] h-[54px] rounded-full bg-[#EDEDED] flex items-center">
             <Image
-              src={usergray}
+              src="/svg/icons/icon_user_gray.svg"
               alt="user"
-              width={12}
-              height={12}
+              width="12"
+              height="0"
               className="w-[27px] h-[27px] m-auto rounded-full bg-[#EDEDED]"
             />
           </div>
@@ -155,10 +155,12 @@ export default function Profile() {
           </div>
           <div className="mr-3">
             <Image
-              src={setting}
+              src="/svg/icons/icon_pencel.svg"
               alt="setting"
               className="cursor-pointer"
               onClick={handleSetting}
+              width="23"
+              height="0"
             />
           </div>
         </WelcomeBox>
@@ -168,12 +170,22 @@ export default function Profile() {
             className="flex justify-between border-[1px] rounded border-[#F5535D] p-4 cursor-pointer mt-4"
           >
             <div className="flex">
-              <Image src={user} alt="avatar" />
+              <Image
+                src="/svg/icons/icon_user.svg"
+                alt="avatar"
+                width="23"
+                height="0"
+              />
               <span className="text-14 leading-6 ml-3">
-                작가 프로필 추가하기
+                작가 프로필 전환하기
               </span>
             </div>
-            <Image src={arrow} alt="arrow" />
+            <Image
+              src="/svg/icons/icon_arrow_black.svg"
+              alt="arrow"
+              width="25"
+              height="0"
+            />
           </div>
         )}
       </section>
@@ -209,21 +221,26 @@ export default function Profile() {
         <div className="my-4">
           <span className="text-14 text-[#191919] font-bold">취향 목록</span>
         </div>
-        {keywords.length === 0 ? (
+        {keywords?.length === 0 ? (
           <div className="mt-6 text-center mb-12 flex justify-center">
             <button
               onClick={handleTaste}
               className="w-[100px] h-[36px] border-[1px] border-[#F5535D] rounded-[19px] text-xs text-[#F5535D] flex items-center justify-center"
             >
               <div>
-                <Image src={plus} alt="plus" />
+                <Image
+                  src="/svg/icons/icon_plus_pink.svg"
+                  alt="plus"
+                  width="10"
+                  height="0"
+                />
               </div>
               <div>취향분석</div>
             </button>
           </div>
         ) : (
           <div className="flex flex-wrap mb-8">
-            {keywords.map((keyword) => (
+            {keywords?.map((keyword) => (
               <span
                 className="border-[1px] border-[#F4F4F4] rounded-[19px] px-3 py-1 mr-2 mb-1 last:mr-0 text-14 text-[#767676] "
                 key={keyword}
@@ -240,6 +257,7 @@ export default function Profile() {
             key={settingItem.id}
             text={settingItem.text}
             path={settingItem.path}
+            action={settingItem.action}
           />
         ))}
       </section>
