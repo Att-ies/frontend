@@ -5,14 +5,8 @@ import Tab from '@components/common/Tab';
 import Activity from '@components/mypage/Activity';
 import SettingItem from '@components/mypage/SettingItem';
 import ArtItem from '@components/profile/ArtItem';
-import { useAppSelector } from '@features/hooks';
-import arrow from '@public/svg/icons/icon_arrow_black.svg';
-import notification from '@public/svg/icons/icon_notification.svg';
-import plus from '@public/svg/icons/icon_plus_pink.svg';
-import setting from '@public/svg/icons/icon_setting.svg';
-import user from '@public/svg/icons/icon_user.svg';
-import usergray from '@public/svg/icons/icon_user_gray.svg';
 import { isUser } from '@utils/isUser';
+import { deleteToken, getToken } from '@utils/localStorage/token';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -42,7 +36,7 @@ const ActivityLists: ActivityListForm[] = [
   },
   {
     id: '2',
-    text: '나의 픽 작가',
+    text: '픽 큐레이터',
     icon: '/svg/icons/icon_book.svg',
     path: '/profile/pick',
   },
@@ -62,8 +56,8 @@ interface SettingListForm {
 const SettingLists: SettingListForm[] = [
   {
     id: '1',
-    text: '개인/보안',
-    path: '/profile/security',
+    text: '구매/판매내역',
+    path: '/profile/history',
   },
   {
     id: '2',
@@ -72,80 +66,68 @@ const SettingLists: SettingListForm[] = [
   },
   {
     id: '3',
-    text: '구매/판매내역',
-    path: '/profile/history',
+    text: '개인/보안',
+    path: '/profile/security',
   },
   {
     id: '4',
     text: '로그아웃',
-    path: '/profile/logout',
+    path: '/auth/login',
   },
 ];
 
-interface ArtListForm {
-  image: string;
-  title: string;
-  state: string;
-}
-
-const DUMP_ARTLIST: ArtListForm[] = [
-  { image: '', title: '퓨처리즘 자연과 공생하는 미래', state: '입찰중' },
-  { image: '', title: '퓨처리즘 자연과 공생하는 미래', state: '입찰중' },
-  { image: '', title: '퓨처리즘 자연과 공생하는 미래', state: '입찰중' },
-];
+const DUMMY_KEYWORDS_LIST: string[] = ['사진', '소묘', '파스텔', '추상화'];
 
 export default function Profile() {
-  const [artList, setArtList] = useState<ArtListForm[]>(DUMP_ARTLIST);
-  const [role, setRole] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
-  const [keywords, setKeywords] = useState<string[]>([]);
+  const [keywords, setKeywords] = useState<string[]>(DUMMY_KEYWORDS_LIST);
   const router = useRouter();
   const handleRightButton = () => {
     router.push('/notice');
   };
-
   const handleTaste = () => {
     router.push('/auth/join04');
   };
-  const handleSetting = () => {
-    router.push('/profile/security');
-  };
-  const handleArt = () => {
-    // 작품목록 전체보기 이동
-    router.push('/');
-  };
-  const handleAddProfile = () => {
+  const handleEdit = () => {
     router.push('/profile/edit');
+  };
+  const handleConvert = () => {
+    router.push('/profile/convert');
   };
 
   const getProfile = async () => {
     const response = await authApi.getUserProfile();
     if (response?.status === 200) {
       setNickname(response?.data.nickname);
-      // setKeywords(response.data.keywords)
+      // setKeywords(response?.data?.keywords); //아직 API 구현 x
     }
   };
-
   useEffect(() => {
     getProfile();
-  }, [artList]);
-
+  }, []);
   return (
     <Layout>
       <Navigate
         left_message=" "
         message="프로필"
-        right_message={<Image src={notification} alt="notification" />}
+        right_message={
+          <Image
+            src="/svg/icons/icon_notification.svg"
+            alt="notification"
+            width="20"
+            height="0"
+          />
+        }
         handleRightButton={handleRightButton}
       />
       <section>
         <WelcomeBox>
           <div className="w-[54px] h-[54px] rounded-full bg-[#EDEDED] flex items-center">
             <Image
-              src={usergray}
+              src="/svg/icons/icon_user_gray.svg"
               alt="user"
-              width={12}
-              height={12}
+              width="12"
+              height="0"
               className="w-[27px] h-[27px] m-auto rounded-full bg-[#EDEDED]"
             />
           </div>
@@ -155,29 +137,41 @@ export default function Profile() {
           </div>
           <div className="mr-3">
             <Image
-              src={setting}
+              src="/svg/icons/icon_pencil.svg"
               alt="setting"
               className="cursor-pointer"
-              onClick={handleSetting}
+              onClick={handleEdit}
+              width="23"
+              height="0"
             />
           </div>
         </WelcomeBox>
         {isUser && (
           <div
-            onClick={handleAddProfile}
+            onClick={handleConvert}
             className="flex justify-between border-[1px] rounded border-[#F5535D] p-4 cursor-pointer mt-4"
           >
             <div className="flex">
-              <Image src={user} alt="avatar" />
+              <Image
+                src="/svg/icons/icon_user.svg"
+                alt="avatar"
+                width="23"
+                height="0"
+              />
               <span className="text-14 leading-6 ml-3">
-                작가 프로필 추가하기
+                작가 프로필 전환하기
               </span>
             </div>
-            <Image src={arrow} alt="arrow" />
+            <Image
+              src="/svg/icons/icon_arrow_black.svg"
+              alt="arrow"
+              width="25"
+              height="0"
+            />
           </div>
         )}
       </section>
-      <section className="flex justify-between">
+      <section className="flex justify-between ">
         {ActivityLists.map((activity: ActivityListForm) => (
           <Activity
             key={activity.id}
@@ -187,36 +181,34 @@ export default function Profile() {
           ></Activity>
         ))}
       </section>
-      {!isUser && (
-        <section>
-          <div className="my-4 flex justify-between border-t-[12px] border-[#F8F8FA] pt-4">
-            <span className="text-14 text-[#191919] font-bold">작품 목록</span>
-            <span
-              onClick={handleArt}
-              className="text-14 text-[#767676] font-semibold cursor-pointer"
-            >
-              전체보기
-            </span>
-          </div>
-          {artList.map((art, idx) => (
-            <div className="flex items-center pb-5 last:pb-0" key={idx}>
-              <ArtItem art={art} />
-            </div>
-          ))}
-        </section>
-      )}
-      <section className="my-8 border-y-[12px] border-[#F8F8FA]">
-        <div className="my-4">
-          <span className="text-14 text-[#191919] font-bold">취향 목록</span>
+      <section className="my-4 border-y-[12px] border-[#F8F8FA] ">
+        <div className="my-4 relative">
+          <span className="text-14 text-[#191919] font-bold">
+            취향 목록
+            {keywords.length && (
+              <Image
+                src="/svg/icons/icon_pencil_black.svg"
+                alt="notification"
+                width="18"
+                height="0"
+                className="absolute left-[4rem] top-1"
+              />
+            )}
+          </span>
         </div>
-        {keywords.length === 0 ? (
+        {!keywords.length ? (
           <div className="mt-6 text-center mb-12 flex justify-center">
             <button
               onClick={handleTaste}
               className="w-[100px] h-[36px] border-[1px] border-[#F5535D] rounded-[19px] text-xs text-[#F5535D] flex items-center justify-center"
             >
               <div>
-                <Image src={plus} alt="plus" />
+                <Image
+                  src="/svg/icons/icon_plus_pink.svg"
+                  alt="plus"
+                  width="10"
+                  height="0"
+                />
               </div>
               <div>취향분석</div>
             </button>
@@ -225,7 +217,7 @@ export default function Profile() {
           <div className="flex flex-wrap mb-8">
             {keywords.map((keyword) => (
               <span
-                className="border-[1px] border-[#F4F4F4] rounded-[19px] px-3 py-1 mr-2 mb-1 last:mr-0 text-14 text-[#767676] "
+                className="border-[1px] border-[#DBDBDB] rounded-[19px] px-3 py-1 mr-2 mb-1 last:mr-0 text-14 text-[#767676] "
                 key={keyword}
               >
                 {keyword}
@@ -235,7 +227,7 @@ export default function Profile() {
         )}
       </section>
       <section className="">
-        {SettingLists.map((settingItem) => (
+        {SettingLists.map((settingItem): SettingListForm[] => (
           <SettingItem
             key={settingItem.id}
             text={settingItem.text}

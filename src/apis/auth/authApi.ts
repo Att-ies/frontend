@@ -2,6 +2,7 @@ import instance from '@apis/_axios/instance';
 import { AxiosInstance } from 'axios';
 
 import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
+import { getToken } from '@utils/localStorage/token';
 
 export class AuthApi {
   axios: AxiosInstance = instance;
@@ -13,12 +14,8 @@ export class AuthApi {
     await this.axios.post('/members/join', body);
   }
 
-  async getUserProfile(): Promise<AuthDTOType> {
-    const { data } = await this.axios({
-      method: 'GET',
-      url: `/members/me`,
-    });
-    return data;
+  async getUserProfile() {
+    return await this.axios(`/members/me`);
   }
 
   async postArtistAuth(body: AuthDTOType) {
@@ -90,12 +87,8 @@ export class AuthApi {
     }
   }
 
-  async patchLogout(): Promise<AuthDTOType> {
-    const { data } = await this.axios({
-      method: 'PATCH',
-      url: `/members/logout`,
-    });
-    return data;
+  async postLogout() {
+    await this.axios.post('/members/logout');
   }
 
   async deleteUser() {
@@ -125,9 +118,7 @@ export class AuthApi {
 
   async getCheckId(userId): Promise<DoubleCheckDTOType> {
     try {
-      const { data } = await this.axios.get(
-        `/members/check-id?userId=${userId}`,
-      );
+      const { data } = await this.axios(`/members/check-id?userId=${userId}`);
       return data;
     } catch (error: any) {
       return error.response;
@@ -136,7 +127,7 @@ export class AuthApi {
 
   async getCheckNickname(nickname) {
     try {
-      const { data } = await this.axios.get(
+      const { data } = await this.axios(
         `/members/check-nickname?nickname=${nickname}`,
       );
       return data;
