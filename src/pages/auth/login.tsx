@@ -42,8 +42,8 @@ function Login() {
     });
     if (res.status === 200) {
       const token: Token = {
-        access: res.data.accessToken,
-        refresh: res.data.refreshToken,
+        accessToken: res.data.accessToken,
+        refreshToken: res.data.refreshToken,
         role: res.data.roles,
       };
       if (token) setToken(token);

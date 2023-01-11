@@ -13,7 +13,7 @@ const unsetAuthorHeader = () => {
 };
 
 const refreshToken = async () => {
-  const refresh = getToken().refresh;
+  const refresh = getToken().refreshToken;
   // refresh token api 호출
   const token = await instance
     .post('/members/token', {
@@ -26,11 +26,11 @@ const refreshToken = async () => {
 instance.interceptors.request.use(
   (config) => {
     const token = getToken();
-    const isAccess = !!token && !!token.access;
+    const isAccess = !!token && !!token.accessToken;
     if (isAccess) {
       config.headers = {
         'Content-Type': 'application/json',
-        Authorization: token.access,
+        Authorization: token.accessToken,
       };
     }
     return config;
