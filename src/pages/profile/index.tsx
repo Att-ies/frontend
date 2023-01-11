@@ -76,44 +76,27 @@ const SettingLists: SettingListForm[] = [
   },
 ];
 
-interface ArtListForm {
-  image: string;
-  title: string;
-  state: string;
-}
-
-const DUMP_ARTLIST: ArtListForm[] = [
-  { image: '', title: '퓨처리즘 자연과 공생하는 미래', state: '입찰중' },
-  { image: '', title: '퓨처리즘 자연과 공생하는 미래', state: '입찰중' },
-  { image: '', title: '퓨처리즘 자연과 공생하는 미래', state: '입찰중' },
-];
+const DUMMY_KEYWORDS_LIST: string[] = ['사진', '소묘', '파스텔', '추상화'];
 
 export default function Profile() {
-  const [artList, setArtList] = useState<ArtListForm[]>(DUMP_ARTLIST);
   const [nickname, setNickname] = useState<string>('');
-  const [keywords, setKeywords] = useState<string[]>([]);
+  const [keywords, setKeywords] = useState<string[]>(DUMMY_KEYWORDS_LIST);
   const router = useRouter();
   const handleRightButton = () => {
     router.push('/notice');
   };
-  // console.log(isUser);
   const handleTaste = () => {
     router.push('/auth/join04');
   };
   const handleEdit = () => {
     router.push('/profile/edit');
   };
-  const handleArt = () => {
-    // 작품목록 전체보기 이동
-    router.push('/');
-  };
-  const handleAddProfile = () => {
-    router.push('/profile/edit');
+  const handleConvert = () => {
+    router.push('/profile/convert');
   };
 
   const getProfile = async () => {
     const response = await authApi.getUserProfile();
-    console.log(response);
     if (response?.status === 200) {
       setNickname(response?.data.nickname);
       // setKeywords(response?.data?.keywords); //아직 API 구현 x
@@ -121,8 +104,7 @@ export default function Profile() {
   };
   useEffect(() => {
     getProfile();
-  }, [artList]);
-  // console.log(getToken().access);
+  }, []);
   return (
     <Layout>
       <Navigate
@@ -166,7 +148,7 @@ export default function Profile() {
         </WelcomeBox>
         {isUser && (
           <div
-            onClick={handleAddProfile}
+            onClick={handleConvert}
             className="flex justify-between border-[1px] rounded border-[#F5535D] p-4 cursor-pointer mt-4"
           >
             <div className="flex">
@@ -199,29 +181,22 @@ export default function Profile() {
           ></Activity>
         ))}
       </section>
-      {!isUser && (
-        <section>
-          <div className="my-4 flex justify-between border-t-[12px] border-[#F8F8FA] pt-4">
-            <span className="text-14 text-[#191919] font-bold">작품 목록</span>
-            <span
-              onClick={handleArt}
-              className="text-14 text-[#767676] font-semibold cursor-pointer"
-            >
-              전체보기
-            </span>
-          </div>
-          {artList.map((art, idx) => (
-            <div className="flex items-center pb-5 last:pb-0" key={idx}>
-              <ArtItem art={art} />
-            </div>
-          ))}
-        </section>
-      )}
       <section className="my-4 border-y-[12px] border-[#F8F8FA] ">
-        <div className="my-4">
-          <span className="text-14 text-[#191919] font-bold">취향 목록</span>
+        <div className="my-4 relative">
+          <span className="text-14 text-[#191919] font-bold">
+            취향 목록
+            {keywords.length && (
+              <Image
+                src="/svg/icons/icon_pencil_black.svg"
+                alt="notification"
+                width="18"
+                height="0"
+                className="absolute left-[4rem] top-1"
+              />
+            )}
+          </span>
         </div>
-        {keywords?.length === 0 ? (
+        {!keywords.length ? (
           <div className="mt-6 text-center mb-12 flex justify-center">
             <button
               onClick={handleTaste}
@@ -240,9 +215,9 @@ export default function Profile() {
           </div>
         ) : (
           <div className="flex flex-wrap mb-8">
-            {keywords?.map((keyword) => (
+            {keywords.map((keyword) => (
               <span
-                className="border-[1px] border-[#F4F4F4] rounded-[19px] px-3 py-1 mr-2 mb-1 last:mr-0 text-14 text-[#767676] "
+                className="border-[1px] border-[#DBDBDB] rounded-[19px] px-3 py-1 mr-2 mb-1 last:mr-0 text-14 text-[#767676] "
                 key={keyword}
               >
                 {keyword}
