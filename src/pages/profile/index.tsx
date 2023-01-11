@@ -6,7 +6,7 @@ import Activity from '@components/mypage/Activity';
 import SettingItem from '@components/mypage/SettingItem';
 import ArtItem from '@components/profile/ArtItem';
 import { isUser } from '@utils/isUser';
-import { deleteToken } from '@utils/localStorage/token';
+import { deleteToken, getToken } from '@utils/localStorage/token';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -36,7 +36,7 @@ const ActivityLists: ActivityListForm[] = [
   },
   {
     id: '2',
-    text: '나의 픽 작가',
+    text: '픽 큐레이터',
     icon: '/svg/icons/icon_book.svg',
     path: '/profile/pick',
   },
@@ -51,7 +51,7 @@ const ActivityLists: ActivityListForm[] = [
 interface SettingListForm {
   id: string;
   text: string;
-  path?: string;
+  path: string;
 }
 const SettingLists: SettingListForm[] = [
   {
@@ -100,8 +100,8 @@ export default function Profile() {
   const handleTaste = () => {
     router.push('/auth/join04');
   };
-  const handleSetting = () => {
-    router.push('/profile/security');
+  const handleEdit = () => {
+    router.push('/profile/edit');
   };
   const handleArt = () => {
     // 작품목록 전체보기 이동
@@ -113,16 +113,16 @@ export default function Profile() {
 
   const getProfile = async () => {
     const response = await authApi.getUserProfile();
+    console.log(response);
     if (response?.status === 200) {
       setNickname(response?.data.nickname);
       // setKeywords(response?.data?.keywords); //아직 API 구현 x
     }
   };
-
   useEffect(() => {
     getProfile();
   }, [artList]);
-
+  // console.log(getToken().access);
   return (
     <Layout>
       <Navigate
@@ -158,7 +158,7 @@ export default function Profile() {
               src="/svg/icons/icon_pencil.svg"
               alt="setting"
               className="cursor-pointer"
-              onClick={handleSetting}
+              onClick={handleEdit}
               width="23"
               height="0"
             />
@@ -189,7 +189,7 @@ export default function Profile() {
           </div>
         )}
       </section>
-      <section className="flex justify-between">
+      <section className="flex justify-between ">
         {ActivityLists.map((activity: ActivityListForm) => (
           <Activity
             key={activity.id}
@@ -217,7 +217,7 @@ export default function Profile() {
           ))}
         </section>
       )}
-      <section className="my-8 border-y-[12px] border-[#F8F8FA]">
+      <section className="my-4 border-y-[12px] border-[#F8F8FA] ">
         <div className="my-4">
           <span className="text-14 text-[#191919] font-bold">취향 목록</span>
         </div>
@@ -252,12 +252,11 @@ export default function Profile() {
         )}
       </section>
       <section className="">
-        {SettingLists.map((settingItem) => (
+        {SettingLists.map((settingItem): SettingListForm[] => (
           <SettingItem
             key={settingItem.id}
             text={settingItem.text}
             path={settingItem.path}
-            action={settingItem.action}
           />
         ))}
       </section>

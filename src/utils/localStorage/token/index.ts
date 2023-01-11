@@ -6,6 +6,7 @@ import {
 } from '../helper';
 
 const TOKEN_KEY = CONFIG.AUTH_TOKEN_KEY || '@token';
+// const TOKEN_KEY = '@token';
 
 export type Token = {
   access: string | null;

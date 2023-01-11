@@ -3,10 +3,6 @@ import { getToken, setToken, deleteToken } from '@utils/localStorage/token';
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: getToken().access,
-  },
 });
 
 const setAuthorHeader = (token: string) => {
@@ -28,10 +24,15 @@ const refreshToken = async () => {
 };
 
 instance.interceptors.request.use(
-  async (config) => {
+  (config) => {
     const token = getToken();
     const isAccess = !!token && !!token.access;
-    if (isAccess) setAuthorHeader(token.access as string);
+    if (isAccess) {
+      config.headers = {
+        'Content-Type': 'application/json',
+        Authorization: token.access,
+      };
+    }
     return config;
   },
   (error) => {
@@ -71,7 +72,6 @@ instance.interceptors.response.use(
       if (token?.access) {
         setToken(token);
         setAuthorHeader(token.access);
-
         // 이전 요청 재시도
         reqData.headers.Authorization = token?.access;
         return instance(reqData);
