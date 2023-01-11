@@ -10,11 +10,11 @@ export class AuthApi {
   }
 
   async postUserAuth(body: AuthDTOType) {
-    await instance.post('/members/join', body);
+    await this.axios.post('/members/join', body);
   }
 
   async getUserProfile(): Promise<AuthDTOType> {
-    const { data } = await instance({
+    const { data } = await this.axios({
       method: 'GET',
       url: `/members/me`,
     });
