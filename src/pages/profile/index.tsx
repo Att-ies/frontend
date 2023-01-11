@@ -155,7 +155,7 @@ export default function Profile() {
           </div>
           <div className="mr-3">
             <Image
-              src="/svg/icons/icon_pencel.svg"
+              src="/svg/icons/icon_pencil.svg"
               alt="setting"
               className="cursor-pointer"
               onClick={handleSetting}

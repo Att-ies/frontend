@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import arrow from '@public/svg/icons/icon_arrow_light_gray.svg';
 import { useRouter } from 'next/router';
+import { deleteToken } from '@utils/localStorage/token';
+import authApi from '@apis/auth/authApi';
 interface SettingBoxProps {
   text: string;
   path: string;
@@ -8,7 +10,11 @@ interface SettingBoxProps {
 
 export default function SettingItem({ text, path }: SettingBoxProps) {
   const router = useRouter();
-  const handleNavigate = () => {
+  const handleNavigate = async () => {
+    if (text === '로그아웃') {
+      await authApi.postLogout();
+      deleteToken();
+    }
     router.push(path);
   };
   return (
