@@ -13,7 +13,7 @@ import { isUser } from '@utils/isUser';
 import { useQuery } from 'react-query';
 import Loader from '@components/common/Loader';
 import { Member } from 'types/user';
-
+import useCheckDuplicate from '@hooks/queries/useCheckDuplicate';
 interface EditForm {
   nickname: string;
   email: string;
@@ -29,19 +29,6 @@ export default function Edit() {
   const [nickNameValidation, setNickNameValidation] = useState<boolean>(false);
   const [emailValidation, setEmailValidation] = useState<boolean>(false);
 
-  const { isLoading, data } = useQuery<Member>(
-    'user',
-    () => authApi.getUserProfile(),
-    {
-      onSuccess: (data) => {
-        console.log('data : ', data);
-      },
-      onError: (error) => {
-        console.log('error : ', error);
-      },
-    },
-  );
-
   const {
     register,
     handleSubmit,
@@ -49,7 +36,22 @@ export default function Edit() {
     watch,
     setError,
     clearErrors,
+    setValue,
   } = useForm<EditForm>();
+
+  const { isLoading, data: profileInfo } = useQuery<Member>(
+    'user',
+    () => authApi.getUserProfile(),
+    {
+      onSuccess: (res: any) => {
+        setValue('nickname', res.data.nickname);
+        setValue('email', res.data.email);
+      },
+      onError: (err) => {
+        console.log(err);
+      },
+    },
+  );
 
   const nickname = watch('nickname');
   const email = watch('email');
@@ -57,11 +59,11 @@ export default function Edit() {
   useEffect(() => {
     setEmailValidation(false);
     clearErrors('email');
-  }, [email, clearErrors]);
+  }, [email]);
   useEffect(() => {
     setNickNameValidation(false);
     clearErrors('nickname');
-  }, [nickname, clearErrors]);
+  }, [nickname]);
 
   const handleDoubleCheckNickName = async () => {
     const data = await authApi.getCheckNickname(nickname);
@@ -79,13 +81,13 @@ export default function Edit() {
 
   const handleDoubleCheckEmail = async () => {
     const data = await authApi.getCheckEmail(email);
-    if (data.duplicate) {
+    if (data?.status === 409) {
       setError('email', {
         type: 'email duplicate',
         message: '이미 가입된 이메일 입니다.',
       });
       return;
-    } else if (!data.duplicate) {
+    } else {
       setEmailValidation(true);
       clearErrors('email');
     }
@@ -106,13 +108,27 @@ export default function Edit() {
     }
   }, [profileImage]);
 
-  const onSubmit = (form: EditForm) => {
-    console.log(form);
-    // 프로필 수정 API전송 (PATCH)
+  const onSubmit = async (form: EditForm) => {
+    if (!nickNameValidation) {
+      setError('nickname', {
+        type: 'need nickname duplicate',
+        message: '닉네임 중복체크를 해주세요',
+      });
+      return;
+    }
+    if (!emailValidation) {
+      setError('email', {
+        type: 'need email duplicate',
+        message: '이메일 중복체크를 해주세요',
+      });
+    }
+    const formData = new FormData();
+    formData.append('email', watch('email'));
+    formData.append('nickname', watch('nickname'));
+    formData.append('image', watch('image'));
+    const response = await authApi.patchUserInfo(formData);
+    console.log(response);
   };
-
-  const { education, history, description, instagram, behance } =
-    useAppSelector((state) => state.user);
 
   if (isLoading) return <Loader />;
 
@@ -173,7 +189,7 @@ export default function Edit() {
           type="text"
           label="닉네임"
           placeholder="닉네임을 입력해 주세요."
-          defaultValue={data?.nickname}
+          defaultValue={profileInfo?.nickname}
           $error={errors.nickname ? true : false}
           register={register('nickname', {
             required: true,
@@ -198,7 +214,7 @@ export default function Edit() {
         <Input
           type="text"
           label="이메일"
-          defaultValue={data?.email}
+          defaultValue={profileInfo?.email}
           placeholder="이메일을 입력해 주세요."
           $error={errors.email ? true : false}
           register={register('email', {
