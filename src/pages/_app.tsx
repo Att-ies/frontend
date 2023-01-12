@@ -19,7 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (router.pathname.includes('auth')) return;
     const token = getToken();
-    if (!token.access) router.replace('/auth/login');
+    if (!token.accessToken) router.replace('/auth/login');
   }, [router]);
 
   return (

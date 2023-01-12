@@ -1,6 +1,5 @@
 import instance from '@apis/_axios/instance';
 import { AxiosInstance } from 'axios';
-
 import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
 
 export class AuthApi {
@@ -13,20 +12,17 @@ export class AuthApi {
     await instance.post('/members/join', body);
   }
 
-  async getUserProfile() {
-    return await instance('/members/me');
+  async getUserProfile(): Promise<AuthDTOType> {
+    return await this.axios(`/members/me`);
   }
+
   async postArtistAuth(body: AuthDTOType) {
     try {
-      const res = await this.axios({
-        method: 'POST',
-        url: `/artists/join`,
-        data: body,
+      return await this.axios.post('/artists/join', body, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      return res;
     } catch (error: any) {
       if (error) {
         return error.response;
@@ -36,12 +32,7 @@ export class AuthApi {
 
   async postLogin(body: AuthDTOType) {
     try {
-      const res = await this.axios({
-        method: 'POST',
-        url: `/members/login`,
-        data: body,
-      });
-      return res;
+      return await this.axios.post('/members/login', body);
     } catch (error: any) {
       if (error) {
         return error.response;
@@ -50,11 +41,7 @@ export class AuthApi {
   }
 
   async postAccessToken(body: AuthDTOType): Promise<AuthDTOType> {
-    const { data } = await this.axios({
-      method: 'POST',
-      url: `/members/token`,
-      data: body,
-    });
+    const { data } = await this.axios.post('/members/token', body);
     return data;
   }
 
@@ -73,12 +60,10 @@ export class AuthApi {
     }
   }
 
-
   async postPassword(password: string) {
     try {
       return await this.axios.patch(`/members/password`, {
         password,
-
       });
     } catch (error: any) {
       if (error) {
@@ -87,20 +72,26 @@ export class AuthApi {
     }
   }
 
-  async patchLogout(): Promise<AuthDTOType> {
-    const { data } = await this.axios({
-      method: 'PATCH',
-      url: `/members/logout`,
-    });
-    return data;
+  async postLogout() {
+    await this.axios.post('/members/logout');
+  }
+
+  async patchUserInfo(data: any) {
+    try {
+      const res = await this.axios.patch('/members', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return res;
+    } catch (err) {
+      return err;
+    }
   }
 
   async deleteUser() {
     try {
-      const res = await this.axios({
-        method: 'DELETE',
-        url: `/members`,
-      });
+      const res = await this.axios.delete('DELETE', '/members');
       return res;
     } catch (error: any) {
       if (error) {
@@ -109,11 +100,9 @@ export class AuthApi {
     }
   }
 
-  async getCheckEmail(email): Promise<DoubleCheckDTOType> {
+  async getCheckEmail(email) {
     try {
-      const { data } = await this.axios.get(
-        `/members/check-email?email=${email}`,
-      );
+      const { data } = await this.axios(`/members/check-email?email=${email}`);
       return data;
     } catch (error: any) {
       return error.response;
@@ -122,18 +111,16 @@ export class AuthApi {
 
   async getCheckId(userId): Promise<DoubleCheckDTOType> {
     try {
-      const { data } = await this.axios.get(
-        `/members/check-id?userId=${userId}`,
-      );
+      const { data } = await this.axios(`/members/check-id?userId=${userId}`);
       return data;
     } catch (error: any) {
       return error.response;
     }
   }
 
-  async getCheckNickname(nickname): Promise<DoubleCheckDTOType> {
+  async getCheckNickname(nickname) {
     try {
-      const { data } = await this.axios.get(
+      const { data } = await this.axios(
         `/members/check-nickname?nickname=${nickname}`,
       );
       return data;

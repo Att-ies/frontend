@@ -4,6 +4,7 @@ import instance from '@apis/_axios/instance';
 import { setToken } from '@utils/localStorage/token';
 import { Token } from '@utils/localStorage/token';
 import { useRouter } from 'next/router';
+import Loader from '@components/common/Loader';
 
 export default function KakaoCallback() {
   const router = useRouter();
@@ -14,8 +15,8 @@ export default function KakaoCallback() {
       .get(`/oauth2/kakao?code=${code}`)
       .then((res) => {
         const token: Token = {
-          access: res.data.accessToken,
-          refresh: res.data.refreshToken,
+          accessToken: res.data.accessToken,
+          refreshToken: res.data.refreshToken,
           role: 'ROLE_USER',
         };
         if (token) setToken(token);
@@ -28,15 +29,7 @@ export default function KakaoCallback() {
 
   return (
     <Layout>
-      <div className="flex justify-center items-center h-screen">
-        <div className="grid gap-2">
-          <div className="flex items-center justify-center space-x-2">
-            <div className="w-3 h-3 bg-[#F5535D] rounded-full animate-bounce1"></div>
-            <div className="w-3 h-3 bg-[#F5535D] rounded-full animate-bounce2"></div>
-            <div className="w-3 h-3 bg-[#F5535D] rounded-full animate-bounce3"></div>
-          </div>
-        </div>
-      </div>
+      <Loader />
     </Layout>
   );
 }

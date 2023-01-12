@@ -77,7 +77,6 @@ export default function Join04() {
       email: userState.email,
       keywords: tasteSelectedArr,
     };
-    console.log(memberInfo);
     mutation.mutate(memberInfo);
     setIsModal(false);
   };

@@ -8,15 +8,15 @@ import {
 const TOKEN_KEY = CONFIG.AUTH_TOKEN_KEY || '@token';
 
 export type Token = {
-  access: string | null;
-  refresh: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
   role: string | null;
 };
 
 export const getToken = () => {
   const token = getLocalStorage<Token>(TOKEN_KEY, {
-    access: null,
-    refresh: null,
+    accessToken: null,
+    refreshToken: null,
     role: null,
   });
   return token;
