@@ -15,8 +15,8 @@ export default function KakaoCallback() {
       .get(`/oauth2/kakao?code=${code}`)
       .then((res) => {
         const token: Token = {
-          access: res.data.accessToken,
-          refresh: res.data.refreshToken,
+          accessToken: res.data.accessToken,
+          refreshToken: res.data.refreshToken,
           role: 'ROLE_USER',
         };
         if (token) setToken(token);

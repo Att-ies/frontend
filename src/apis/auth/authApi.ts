@@ -1,6 +1,5 @@
 import instance from '@apis/_axios/instance';
 import { AxiosInstance } from 'axios';
-
 import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
 
 export class AuthApi {
@@ -13,7 +12,7 @@ export class AuthApi {
     await instance.post('/members/join', body);
   }
 
-  async getUserProfile() {
+  async getUserProfile(): Promise<AuthDTOType> {
     return await this.axios(`/members/me`);
   }
 
