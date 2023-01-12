@@ -5,7 +5,7 @@ import Navigate from '@components/common/Navigate';
 import DoubleCheckButton from '@components/common/DoubleCheckButton';
 import authApi from '@apis/auth/authApi';
 import React, { useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@features/hooks';
+import { useAppSelector } from '@features/hooks';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -111,7 +111,6 @@ export default function Edit() {
     // 프로필 수정 API전송 (PATCH)
   };
 
-  const dispatch = useAppDispatch();
   const { education, history, description, instagram, behance } =
     useAppSelector((state) => state.user);
 

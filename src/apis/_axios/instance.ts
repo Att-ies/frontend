@@ -13,7 +13,7 @@ const unsetAuthorHeader = () => {
 };
 
 const refreshToken = async () => {
-  const refresh = getToken().refresh;
+  const refresh = getToken().refreshToken;
   // refresh token api 호출
   const token = await instance
     .post('/members/token', {
@@ -26,11 +26,11 @@ const refreshToken = async () => {
 instance.interceptors.request.use(
   (config) => {
     const token = getToken();
-    const isAccess = !!token && !!token.access;
+    const isAccess = !!token && !!token.accessToken;
     if (isAccess) {
       config.headers = {
         'Content-Type': 'application/json',
-        Authorization: token.access,
+        Authorization: token.accessToken,
       };
     }
     return config;
@@ -69,9 +69,10 @@ instance.interceptors.response.use(
     if (isExpiredToken) {
       const token = await refreshToken();
       token['role'] = getToken().role;
-      if (token?.access) {
+      token['refreshToken'] = getToken().refreshToken;
+      if (token?.accessToken) {
         setToken(token);
-        setAuthorHeader(token.access);
+        setAuthorHeader(token.accessToken);
         // 이전 요청 재시도
         reqData.headers.Authorization = token?.access;
         return instance(reqData);

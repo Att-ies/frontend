@@ -16,8 +16,8 @@ export default function NaverCallback() {
       .get(`/oauth2/naver?code=${code}&state=${state}`)
       .then((res) => {
         const token: Token = {
-          access: res.data.accessToken,
-          refresh: res.data.refreshToken,
+          accessToken: res.data.accessToken,
+          refreshToken: res.data.refreshToken,
           role: 'ROLE_USER',
         };
         if (token) setToken(token);
