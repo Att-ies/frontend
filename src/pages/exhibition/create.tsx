@@ -53,21 +53,16 @@ export default function Auction() {
       <div className="w-full space-y-6">
         <div className="flex">
           <label htmlFor="fileImage">
-            <div className="w-[60px] h-[60px] border-[1px] border-[#DBDBDB] rounded flex flex-col justify-center items-center mr-0">
+            <div className="cursor-pointer w-[60px] h-[60px] border-[1px] border-[#DBDBDB] rounded flex flex-col justify-center items-center mr-0">
               <Image
                 src="/svg/icons/icon_camera_black.svg"
                 alt="camera"
-                width={24}
-                height={24}
+                width={17}
+                height={17}
               />
-              {fileImages.length ? (
-                <div className="text-12">
-                  <span className="text-[#F5535D]">{fileImages.length}</span>
-                  /5
-                </div>
-              ) : (
-                ''
-              )}
+              <div className="text-12 text-[#999999]">
+                {fileImages.length ? `${fileImages.length}/5` : '0/5'}
+              </div>
             </div>
           </label>
           {fileImages.length ? (
