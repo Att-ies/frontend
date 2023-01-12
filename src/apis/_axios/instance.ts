@@ -14,12 +14,15 @@ const unsetAuthorHeader = () => {
 
 const refreshToken = async () => {
   const refresh = getToken().refreshToken;
-  // refresh token api 호출
   const token = await instance
     .post('/members/token', {
       refreshToken: refresh,
     })
-    .then((res) => res.data);
+    .then((res) => res.data)
+    .catch((err) => {
+      deleteToken();
+      window.location.href = '/auth/login';
+    });
   return token;
 };
 
@@ -50,30 +53,22 @@ instance.interceptors.response.use(
     const isUnAuthError = status === 401;
     const isNotFoundError = status === 404;
     const isDuplicateError = status === 409;
-    const isExpiredToken = status === 403;
 
     if (isNotFoundError) {
-      return Promise.reject(error);
+      return Promise.reject(error.response.data);
     }
 
     if (isDuplicateError) {
-      return Promise.reject(error);
+      return Promise.reject(error.response.data);
     }
 
     if (isUnAuthError) {
-      deleteToken();
-      window.location.href = '/auth/login';
-      return Promise.reject(error);
-    }
-
-    if (isExpiredToken) {
       const token = await refreshToken();
       token['role'] = getToken().role;
       token['refreshToken'] = getToken().refreshToken;
       if (token?.accessToken) {
         setToken(token);
         setAuthorHeader(token.accessToken);
-        // 이전 요청 재시도
         reqData.headers.Authorization = token?.access;
         return instance(reqData);
       }
