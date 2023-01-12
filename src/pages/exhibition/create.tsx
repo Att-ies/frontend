@@ -94,12 +94,10 @@ export default function Auction() {
             label="작품명"
             placeholder="작품명을 입력해주세요"
           />
-          <div className="relative">
-            <Input
-              className="h-[38px] w-[92px]"
-              type="text"
-              placeholder="태크추가"
-            ></Input>
+          <button className="relative">
+            <div className="h-[38px] w-[92px] text-[13px] rounded-[4px] border text-[#999999] border-[#D8D8D8] flex items-center pl-3">
+              태그추가
+            </div>
             <div className="absolute left-[63px] bottom-0 flex items-center h-full">
               <Image
                 src="/svg/icons/icon_plus_gray.svg"
@@ -108,7 +106,7 @@ export default function Auction() {
                 height={20}
               />
             </div>
-          </div>
+          </button>
         </div>
         <div>
           <Input
