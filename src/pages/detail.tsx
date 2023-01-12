@@ -5,7 +5,8 @@ import Button from 'stories/Button';
 
 export default function Detail() {
   useEffect(() => {}, []);
-
+  const handleChat = () => {};
+  const handlePurchase = () => {};
   return (
     <Layout>
       <section>
@@ -78,8 +79,8 @@ export default function Detail() {
           </div>
         </article>
         <article className="flex gap-5">
-          <Button text="채팅하기" kind="outlined" />
-          <Button text="응찰하기" />
+          <Button text="채팅하기" kind="outlined" onClick={handleChat} />
+          <Button text="응찰하기" onClick={handlePurchase} />
         </article>
       </section>
     </Layout>
