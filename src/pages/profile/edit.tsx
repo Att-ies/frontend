@@ -13,7 +13,6 @@ import { isUser } from '@utils/isUser';
 import { useQuery } from 'react-query';
 import Loader from '@components/common/Loader';
 import { Member } from 'types/user';
-import useCheckDuplicate from '@hooks/queries/useCheckDuplicate';
 interface EditForm {
   nickname: string;
   email: string;
@@ -25,10 +24,19 @@ interface EditForm {
   image?: FileList;
 }
 
-export default function Edit() {
-  const [nickNameValidation, setNickNameValidation] = useState<boolean>(false);
-  const [emailValidation, setEmailValidation] = useState<boolean>(false);
+interface initialValueForm {
+  nickname: string;
+  email: string;
+}
 
+export default function Edit() {
+  const [isNicknameValidate, setIsNicknameValidate] = useState<boolean>(true);
+  const [isEmailValidate, setIsEmailValidate] = useState<boolean>(true);
+  const [initialValue, setInitialValue] = useState<initialValueForm>({
+    nickname: '',
+    email: '',
+  });
+  const [imageFile, setImageFile] = useState('');
   const {
     register,
     handleSubmit,
@@ -38,6 +46,9 @@ export default function Edit() {
     clearErrors,
     setValue,
   } = useForm<EditForm>();
+  const nickname = watch('nickname');
+  const email = watch('email');
+  const profileImage = watch('image');
 
   const { isLoading, data: profileInfo } = useQuery<Member>(
     'user',
@@ -46,49 +57,48 @@ export default function Edit() {
       onSuccess: (res: any) => {
         setValue('nickname', res.data.nickname);
         setValue('email', res.data.email);
+        setInitialValue({ nickname: res.data.nickname, email: res.data.email });
+
+        setImageFile(res.data.image);
       },
       onError: (err) => {
         console.log(err);
       },
     },
   );
-
-  const nickname = watch('nickname');
-  const email = watch('email');
-
   useEffect(() => {
-    setEmailValidation(false);
+    setIsEmailValidate(false);
     clearErrors('email');
   }, [email]);
   useEffect(() => {
-    setNickNameValidation(false);
+    setIsNicknameValidate(false);
     clearErrors('nickname');
   }, [nickname]);
 
   const handleDoubleCheckNickName = async () => {
     const data = await authApi.getCheckNickname(nickname);
-    if (data.status === 409) {
+    if (data.status === 409 && nickname !== initialValue.nickname) {
       setError('nickname', {
         type: 'nickname duplicate',
         message: '중복되는 닉네임 입니다.',
       });
       return;
     } else {
-      setNickNameValidation(true);
+      setIsNicknameValidate(true);
       clearErrors('nickname');
     }
   };
 
   const handleDoubleCheckEmail = async () => {
     const response = await authApi.getCheckEmail(email);
-    if (response.status === 409) {
+    if (response.status === 409 && email !== initialValue.email) {
       setError('email', {
         type: 'email duplicate',
         message: '이미 가입된 이메일 입니다.',
       });
       return;
     } else {
-      setEmailValidation(true);
+      setIsEmailValidate(true);
       clearErrors('email');
     }
   };
@@ -98,9 +108,6 @@ export default function Edit() {
     router.push('/profile');
   };
 
-  const [imageFile, setImageFile] = useState('');
-
-  const profileImage = watch('image');
   useEffect(() => {
     if (profileImage && profileImage.length > 0) {
       const file = profileImage[0];
@@ -109,23 +116,23 @@ export default function Edit() {
   }, [profileImage]);
 
   const onSubmit = async (form: EditForm) => {
-    if (!nickNameValidation) {
+    if (!isNicknameValidate && initialValue.nickname !== nickname) {
       setError('nickname', {
         type: 'need nickname duplicate',
         message: '닉네임 중복체크를 해주세요',
       });
       return;
     }
-    if (!emailValidation) {
+    if (!isEmailValidate && initialValue.email !== email) {
       setError('email', {
         type: 'need email duplicate',
         message: '이메일 중복체크를 해주세요',
       });
     }
     const formData = new FormData();
-    formData.append('email', watch('email'));
-    formData.append('nickname', watch('nickname'));
-    formData.append('image', watch('image'));
+    formData.append('email', email);
+    formData.append('nickname', nickname);
+    formData.append('image', profileImage[0]);
     const response = await authApi.patchUserInfo(formData);
     console.log(response);
   };
@@ -200,9 +207,9 @@ export default function Edit() {
           })}
         />
         <DoubleCheckButton
-          $valid={!nickNameValidation}
+          $valid={!isNicknameValidate}
           onClick={handleDoubleCheckNickName}
-          text={nickNameValidation ? '사용가능' : '중복확인'}
+          text={isNicknameValidate ? '사용가능' : '중복확인'}
         />
         {errors.nickname ? (
           <ErrorMessage message={errors.nickname.message} />
@@ -227,9 +234,9 @@ export default function Edit() {
           })}
         />
         <DoubleCheckButton
-          $valid={!emailValidation}
+          $valid={!isEmailValidate}
           onClick={handleDoubleCheckEmail}
-          text={emailValidation ? '사용가능' : '중복확인'}
+          text={isEmailValidate ? '사용가능' : '중복확인'}
         />
         {errors.email ? <ErrorMessage message={errors.email.message} /> : ''}
       </section>
