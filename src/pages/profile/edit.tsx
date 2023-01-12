@@ -67,7 +67,7 @@ export default function Edit() {
 
   const handleDoubleCheckNickName = async () => {
     const data = await authApi.getCheckNickname(nickname);
-    if (data?.status === 409) {
+    if (data.status === 409) {
       setError('nickname', {
         type: 'nickname duplicate',
         message: '중복되는 닉네임 입니다.',
@@ -80,8 +80,8 @@ export default function Edit() {
   };
 
   const handleDoubleCheckEmail = async () => {
-    const data = await authApi.getCheckEmail(email);
-    if (data?.status === 409) {
+    const response = await authApi.getCheckEmail(email);
+    if (response.status === 409) {
       setError('email', {
         type: 'email duplicate',
         message: '이미 가입된 이메일 입니다.',

@@ -16,20 +16,6 @@ export class AuthApi {
     return await this.axios(`/members/me`);
   }
 
-  async postArtistAuth(body: AuthDTOType) {
-    try {
-      return await this.axios.post('/artists/join', body, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-    } catch (error: any) {
-      if (error) {
-        return error.response;
-      }
-    }
-  }
-
   async postLogin(body: AuthDTOType) {
     try {
       return await this.axios.post('/members/login', body);
@@ -59,6 +45,14 @@ export class AuthApi {
       }
     }
   }
+
+  // async patchConvertArtist () {
+  //   try{
+  //     return await this.axios.patch('/artists');
+  //   }catch(err){
+
+  //   }
+  // }
 
   async postPassword(password: string) {
     try {
@@ -100,32 +94,27 @@ export class AuthApi {
     }
   }
 
-  async getCheckEmail(email) {
+  async getCheckEmail(email: string) {
     try {
-      const { data } = await this.axios(`/members/check-email?email=${email}`);
-      return data;
+      return await this.axios(`/members/check-email?email=${email}`);
     } catch (error: any) {
-      return error.response;
+      return error;
     }
   }
 
-  async getCheckId(userId): Promise<DoubleCheckDTOType> {
+  async getCheckId(userId: string) {
     try {
-      const { data } = await this.axios(`/members/check-id?userId=${userId}`);
-      return data;
+      return await this.axios(`/members/check-id?userId=${userId}`);
     } catch (error: any) {
-      return error.response;
+      return error;
     }
   }
 
-  async getCheckNickname(nickname) {
+  async getCheckNickname(nickname: string) {
     try {
-      const { data } = await this.axios(
-        `/members/check-nickname?nickname=${nickname}`,
-      );
-      return data;
+      return await this.axios(`/members/check-nickname?nickname=${nickname}`);
     } catch (error: any) {
-      return error.response;
+      return error;
     }
   }
 }
