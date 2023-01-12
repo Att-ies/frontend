@@ -15,7 +15,7 @@ interface PickArtistForm {
   status: string;
 }
 
-const PICKARTIST_DATA: PickArtistForm[] = [
+const DUMMY_PICKARTIST: PickArtistForm[] = [
   {
     id: '1',
     title: '퓨처리즘 자연과 공생하는 미래',
@@ -33,7 +33,7 @@ interface defaultProps {
 }
 
 const PickDetailContainer = tw.div<defaultProps>`
-w-full flex items-center cursor-pointer mt-5
+w-full flex items-center cursor-pointer mt-5 mb-8
 `;
 
 const PickDetailProfile = tw.div<defaultProps>`
@@ -42,7 +42,7 @@ w-[60px] mr-[10px] aspect-square flex justify-center items-center rounded-full b
 
 export default function PickDetail() {
   const [pickArtistList, setPickArtistList] =
-    useState<PickArtistForm>(PICKARTIST_DATA);
+    useState<PickArtistForm>(DUMMY_PICKARTIST);
   const router = useRouter();
   const handleChat = () => {
     // 채팅하러 가기
@@ -50,6 +50,9 @@ export default function PickDetail() {
   useEffect(() => {
     // 나의 픽 작가 상세정보 API
   }, []);
+  const handleArtistWork = () => {
+    router.push('/detail'); // 추후에 수정 필요
+  };
 
   return (
     <Layout>
@@ -63,17 +66,12 @@ export default function PickDetail() {
         <PickDetailProfile>
           <Image src={avatar} alt="avatar" width={34} height={34} />
         </PickDetailProfile>
-        <div className="flex flex-col">
+        <div className="flex flex-col h-10">
           <span className="text-18 font-semibold">온주</span>
           <span className="text-14">서울예술대학교 디지털 전공</span>
         </div>
       </PickDetailContainer>
-      <Button
-        text="채팅하기"
-        kind="outlined"
-        onClick={handleChat}
-        className="mt-8 mb-5 font-bold"
-      />
+
       <Tab.Group>
         <Tab.List>
           <Tab className="w-1/2 h-[52px] font-bold text-16 ui-selected:border-b-[3px] border-[#191919] ui-selected:text-[#191919] ui-not-selected:border-[#EDEDED] ui-not-selected:border-b ui-not-selected:text-[#999999] ">
@@ -129,9 +127,11 @@ export default function PickDetail() {
           <Tab.Panel className="space-y-6">
             {pickArtistList.map((pickArtist: PickArtistForm) => (
               <PickArtistWork
+                id={pickArtist.id}
                 key={pickArtist.id}
                 title={pickArtist.title}
                 status={pickArtist.status}
+                onClick={handleArtistWork}
               />
             ))}
           </Tab.Panel>
