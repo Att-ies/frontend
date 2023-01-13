@@ -26,7 +26,7 @@ interface DumpInquiryListsForm {
 }
 
 interface FileForm {
-  image: any;
+  file: any;
   size: number;
 }
 
@@ -52,10 +52,19 @@ const DUMP_INQUIRY_LISTS: DumpInquiryListsForm[] = [
   },
 ];
 
+const formatBytes = (bytes, decimals = 1) => {
+  if (!bytes) return '0';
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+};
+
 export default function Inquiry() {
   const [Inquiries, setInquiries] =
     useState<DumpInquiryListsForm[]>(DUMP_INQUIRY_LISTS);
-  const [fileImages, setFileImages] = useState<FileForm[]>([]);
+  const [fileLists, setFileLists] = useState<File[]>([]);
   const [fileSize, setFileSize] = useState<number>(0);
 
   const router = useRouter();
@@ -67,48 +76,39 @@ export default function Inquiry() {
     mode: 'onTouched',
   });
 
-  const formatBytes = (bytes, decimals = 1) => {
-    if (!bytes) return '0';
-    const k = 1024;
-    const dm = decimals < 0 ? 0 : decimals;
-    const sizes = ['Bytes', 'KB', 'MB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
-  };
-
-  const onRemoveFile = (targetId: string, targetSize: number): void => {
-    const newFileImages = fileImages.filter((fileImages) => {
-      return fileImages.image !== targetId;
+  const handleRemoveFile = (targetName: string, targetSize: number): void => {
+    console.log(targetName, targetSize);
+    const newFileLists = fileLists.filter((file) => {
+      return file.name !== targetName;
     });
-    setFileImages(newFileImages);
+    setFileLists(newFileLists);
     setFileSize((prev) => prev - targetSize);
   };
 
-  const onRemoveInquiry = (targetId: number): void => {
+  const handleRemoveInquiry = (targetId: number): void => {
     const newInquiries = Inquiries.filter((inquiry) => {
       return inquiry.id !== targetId;
     });
     setInquiries(newInquiries);
   };
 
-  const uploadFiles = (e) => {
-    const uploadLists: any = [];
-    if (
-      e.target.files?.length <= 5 &&
-      fileImages?.length + e.target.files?.length <= 5
-    ) {
-      Array.from(e.target.files)?.map((file: any) => {
-        uploadLists.push({ image: URL.createObjectURL(file), size: file.size });
-      });
-      setFileImages((prevImages) => prevImages.concat(uploadLists));
-      const sum = uploadLists
+  const file = watch('image');
+
+  useEffect(() => {
+    console.log(file);
+    if (fileLists?.length <= 5 && fileLists?.length + file?.length <= 5) {
+      const newFileList: any = [];
+      for (const i of file) {
+        newFileList.push(i);
+      }
+      const sum = newFileList
         ?.map((file) => file.size)
         ?.reduce((a, b) => a + b);
       setFileSize((prev) => prev + sum);
-    } else {
-      return;
+      setFileLists((prev) => prev.concat(newFileList));
     }
-  };
+    console.log(fileLists);
+  }, [file]);
 
   const onSubmit = async (form: InquiryForm) => {
     // 문의 API
@@ -208,10 +208,10 @@ export default function Inquiry() {
                           width={22}
                           height={18}
                         />
-                        {fileImages.length ? (
+                        {fileLists.length ? (
                           <div className="text-12">
                             <span className="text-[#F5535D]">
-                              {fileImages.length}
+                              {fileLists.length}
                             </span>
                             /5
                           </div>
@@ -226,13 +226,13 @@ export default function Inquiry() {
                         <span className="text-[#999999]">/15MB</span>
                       </div>
                     </label>
-                    {fileImages.length ? (
+                    {fileLists.length ? (
                       <div className="flex flex-wrap">
-                        {fileImages.map((img) => (
+                        {fileLists.map((file, idx) => (
                           <FileItem
-                            handler={onRemoveFile}
-                            key={img.image}
-                            file={img}
+                            handler={handleRemoveFile}
+                            key={idx}
+                            file={file}
                           />
                         ))}
                       </div>
@@ -257,7 +257,6 @@ export default function Inquiry() {
                   id="fileImage"
                   className="hidden"
                   {...register('image')}
-                  onChange={uploadFiles}
                 />
               </section>
               <section className="w-full flex justify-between mt-[120px]">
@@ -281,7 +280,7 @@ export default function Inquiry() {
                   <InquiryItem
                     key={idx}
                     inquiry={inquiry}
-                    handler={onRemoveInquiry}
+                    handler={handleRemoveInquiry}
                   />
                 ))}
                 <div className="mt-[14px] text-[#999999] text-14 text-center">
