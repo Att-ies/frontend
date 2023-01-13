@@ -71,8 +71,6 @@ const SettingLists: SettingListForm[] = [
   },
 ];
 
-const DUMMY_KEYWORDS_LIST: string[] = ['사진', '소묘', '파스텔', '추상화'];
-
 export default function Profile() {
   const [nickname, setNickname] = useState<string>('');
   const [keywords, setKeywords] = useState<string[]>([]);
