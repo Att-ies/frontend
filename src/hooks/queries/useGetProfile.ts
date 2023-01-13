@@ -4,21 +4,17 @@ import { useState } from 'react';
 
 const useGetProfile = () => {
   const [userInfo, setUserInfo] = useState({});
-  const { isLoading, data, isSuccess } = useQuery(
-    'useGetProfile',
-    authApi.getUserProfile,
-    {
-      retry: 0,
-      refetchOnWindowFocus: false,
-      onSuccess: (res: any) => {
-        setUserInfo(res.data);
-      },
-      onError: (error: any) => {
-        return error;
-      },
+  const query = useQuery('useGetProfile', authApi.getUserProfile, {
+    retry: 0,
+    refetchOnWindowFocus: false,
+    onSuccess: (res: any) => {
+      setUserInfo(res?.data);
     },
-  );
-  return { isLoading, data, userInfo, isSuccess, setUserInfo };
+    onError: (error: any) => {
+      console.log(error);
+    },
+  });
+  return { ...query, userInfo, setUserInfo };
 };
 
 export default useGetProfile;
