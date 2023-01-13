@@ -75,7 +75,7 @@ export class AuthApi {
     try {
       const token = getToken();
       const res = await axios.patch(
-        'http://44.193.163.114:8080/members',
+        'process.env.NEXT_PUBLIC_API_BASE_URL/members',
         formData,
         {
           headers: {
@@ -84,11 +84,6 @@ export class AuthApi {
           },
         },
       );
-      // const res = await this.axios.patch('/members', formData, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      // });
       return res;
     } catch (err) {
       return err;
@@ -108,7 +103,8 @@ export class AuthApi {
 
   async getCheckEmail(email: string) {
     try {
-      return await this.axios(`/members/check-email?email=${email}`);
+      const res = await this.axios(`/members/check-email?email=${email}`);
+      return res;
     } catch (error: any) {
       return error;
     }
@@ -116,7 +112,8 @@ export class AuthApi {
 
   async getCheckId(userId: string) {
     try {
-      return await this.axios(`/members/check-id?userId=${userId}`);
+      const res = await this.axios(`/members/check-id?userId=${userId}`);
+      return res;
     } catch (error: any) {
       return error;
     }
@@ -124,7 +121,10 @@ export class AuthApi {
 
   async getCheckNickname(nickname: string) {
     try {
-      return await this.axios(`/members/check-nickname?nickname=${nickname}`);
+      const res = await this.axios(
+        `/members/check-nickname?nickname=${nickname}`,
+      );
+      return res;
     } catch (error: any) {
       return error;
     }
