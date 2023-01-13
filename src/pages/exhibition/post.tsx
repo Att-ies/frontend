@@ -186,32 +186,33 @@ export default function Post() {
             />
           </div>
         </div>
-        <div className="h-[336px]"></div>
-        <div className="w-[375px] h-[376px] left-0 absolute -bottom-0">
-          <div className="h-4 bg-[#F8F8FA]"></div>
-          <div className="px-6 text-12">
-            <p className="font-medium mt-8">
-              다음의 경우 작품등록이 제외될 수 있습니다.
-            </p>
-            <ul className="text-[#767676] mt-3 ml-3 space-y-2 list-disc tracking-tight">
-              <li>
-                작품의 선정성, 유해성이 통신판매업 시행령(2019) 기준에 맞지 아니
-                하다고 판단되는 경우
-              </li>
-              <li>
-                제출된 자료의 내용이 미흡하거나, 허위로 기재된 사실이 밝혀질
-                경우
-              </li>
-              <li>
-                제출된 작품 이미지로 작품의 형태 유무의 대부분을 판단할 수 없는
-                경우
-              </li>
-              <li>
-                과반 이상의 심사위원이 작품이 완성되지 않았다고 판단하거나
-                프로그램의 취지에 맞지 아니하다고 판단될 경우
-              </li>
-              <li>유사 온라인 아트플랫폼에 이미 등록되었거나 확인될 경우</li>
-            </ul>
+        <div className="h-[336px] relative">
+          <div className="w-[375px] h-[376px] absolute -left-6 bottom-0">
+            <div className="mt-12 h-4 bg-[#F8F8FA]"></div>
+            <div className="text-12 px-6">
+              <p className="font-medium mt-8">
+                다음의 경우 작품등록이 제외될 수 있습니다.
+              </p>
+              <ul className="text-[#767676] mt-3 ml-3 space-y-2 list-disc tracking-tight">
+                <li>
+                  작품의 선정성, 유해성이 통신판매업 시행령(2019) 기준에 맞지
+                  아니 하다고 판단되는 경우
+                </li>
+                <li>
+                  제출된 자료의 내용이 미흡하거나, 허위로 기재된 사실이 밝혀질
+                  경우
+                </li>
+                <li>
+                  제출된 작품 이미지로 작품의 형태 유무의 대부분을 판단할 수
+                  없는 경우
+                </li>
+                <li>
+                  과반 이상의 심사위원이 작품이 완성되지 않았다고 판단하거나
+                  프로그램의 취지에 맞지 아니하다고 판단될 경우
+                </li>
+                <li>유사 온라인 아트플랫폼에 이미 등록되었거나 확인될 경우</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
