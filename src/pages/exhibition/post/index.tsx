@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import FileItem from '@components/inquiry/FileItem';
 import { useForm } from 'react-hook-form';
 import Select from '@components/common/Select';
+import { useRouter } from 'next/router';
 
 interface Artwork {
   image: string;
@@ -37,6 +38,7 @@ export default function Post() {
   };
 
   const { register, setValue, watch } = useForm<Artwork>();
+  const router = useRouter();
 
   const uploadFiles = (e) => {
     console.log(e);
@@ -52,6 +54,10 @@ export default function Post() {
     } else {
       return;
     }
+  };
+
+  const handleGuaranteeClick = () => {
+    router.push('/exhibition/post/guarantee');
   };
 
   return (
@@ -172,7 +178,7 @@ export default function Post() {
             })}
           ></textarea>
         </div>
-        <div className="relative">
+        <div className="relative cursor-pointer" onClick={handleGuaranteeClick}>
           <div className="h-[52px] w-full text-[13px] rounded-[4px] border text-[#999999] border-[#D8D8D8] flex items-center pl-3">
             전자 서명이 필요합니다.
           </div>
