@@ -9,7 +9,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { useEffect } from 'react';
 import { getToken } from '@utils/localStorage/token';
 import { useRouter } from 'next/router';
-
+import Head from 'next/head';
 const queryClient = new QueryClient();
 const persistor = persistStore(store);
 
@@ -24,6 +24,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <div className="mx-auto w-full max-w-[375px]">
+      <Head>
+        <link rel="shortcut icon" href="/static/favicon.ico" />
+      </Head>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <PersistGate loading={null} persistor={persistor}>

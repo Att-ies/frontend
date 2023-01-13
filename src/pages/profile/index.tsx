@@ -36,7 +36,7 @@ const ActivityLists: ActivityListForm[] = [
   },
   {
     id: '2',
-    text: '픽 큐레이터',
+    text: '나의 픽 작가',
     icon: '/svg/icons/icon_book.svg',
     path: '/profile/pick',
   },
@@ -80,7 +80,7 @@ const DUMMY_KEYWORDS_LIST: string[] = ['사진', '소묘', '파스텔', '추상�
 
 export default function Profile() {
   const [nickname, setNickname] = useState<string>('');
-  const [keywords, setKeywords] = useState<string[]>(DUMMY_KEYWORDS_LIST);
+  const [keywords, setKeywords] = useState<string[]>([]);
   const router = useRouter();
   const handleRightButton = () => {
     router.push('/notice');
@@ -97,9 +97,9 @@ export default function Profile() {
 
   const getProfile = async () => {
     const response = await authApi.getUserProfile();
-    if (response?.status === 200) {
-      setNickname(response?.data.nickname);
-      // setKeywords(response?.data?.keywords); //아직 API 구현 x
+    if (response.status === 200) {
+      setNickname(response.data.nickname);
+      setKeywords(response.data?.keywords); //아직 API 구현 x
     }
   };
   useEffect(() => {

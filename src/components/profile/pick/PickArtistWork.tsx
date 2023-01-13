@@ -1,11 +1,16 @@
 interface PickArtistWorkProps {
   title: string;
   status: string;
+  onClick: () => void;
 }
 
-export default function PickArtistWork({ title, status }: PickArtistWorkProps) {
+export default function PickArtistWork({
+  title,
+  status,
+  onClick,
+}: PickArtistWorkProps) {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center cursor-pointer" onClick={onClick}>
       <div className="bg-[#D9D9D9] w-[82px] aspect-square"></div>
       <div className="ml-5">
         <p className="text-14 mb-[6px] font-medium">{title} </p>
