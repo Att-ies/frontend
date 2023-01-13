@@ -13,8 +13,9 @@ export class AuthApi {
     await instance.post('/members/join', body);
   }
 
-  async getUserProfile(): Promise<AuthDTOType> {
-    return await this.axios(`/members/me`);
+  async getUserProfile() {
+    const res = await instance(`/members/me`);
+    return res;
   }
 
   async postLogin(body: AuthDTOType) {
