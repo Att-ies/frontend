@@ -27,7 +27,7 @@ export default function FileItem({ file, handler }: FileItemForm) {
       </div>
       <Image
         src={fileToImage(file)}
-        alt="close"
+        alt={file.name}
         width={20}
         height={20}
         className="w-full h-full"
