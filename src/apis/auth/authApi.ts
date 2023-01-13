@@ -1,7 +1,8 @@
 import instance from '@apis/_axios/instance';
 import { AxiosInstance } from 'axios';
 import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
-
+import { getToken } from '@utils/localStorage/token';
+import axios from 'axios';
 export class AuthApi {
   axios: AxiosInstance = instance;
   constructor(axios?: AxiosInstance) {
@@ -14,20 +15,6 @@ export class AuthApi {
 
   async getUserProfile(): Promise<AuthDTOType> {
     return await this.axios(`/members/me`);
-  }
-
-  async postArtistAuth(body: AuthDTOType) {
-    try {
-      return await this.axios.post('/artists/join', body, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-    } catch (error: any) {
-      if (error) {
-        return error.response;
-      }
-    }
   }
 
   async postLogin(body: AuthDTOType) {
@@ -60,6 +47,14 @@ export class AuthApi {
     }
   }
 
+  // async patchConvertArtist () {
+  //   try{
+  //     return await this.axios.patch('/artists');
+  //   }catch(err){
+
+  //   }
+  // }
+
   async postPassword(password: string) {
     try {
       return await this.axios.patch(`/members/password`, {
@@ -76,13 +71,19 @@ export class AuthApi {
     await this.axios.post('/members/logout');
   }
 
-  async patchUserInfo(data: any) {
+  async patchUserInfo(formData: any) {
     try {
-      const res = await this.axios.patch('/members', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      const token = getToken();
+      const res = await axios.patch(
+        'process.env.NEXT_PUBLIC_API_BASE_URL/members',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: token.accessToken,
+          },
         },
-      });
+      );
       return res;
     } catch (err) {
       return err;
@@ -100,32 +101,32 @@ export class AuthApi {
     }
   }
 
-  async getCheckEmail(email) {
+  async getCheckEmail(email: string) {
     try {
-      const { data } = await this.axios(`/members/check-email?email=${email}`);
-      return data;
+      const res = await this.axios(`/members/check-email?email=${email}`);
+      return res;
     } catch (error: any) {
-      return error.response;
+      return error;
     }
   }
 
-  async getCheckId(userId): Promise<DoubleCheckDTOType> {
+  async getCheckId(userId: string) {
     try {
-      const { data } = await this.axios(`/members/check-id?userId=${userId}`);
-      return data;
+      const res = await this.axios(`/members/check-id?userId=${userId}`);
+      return res;
     } catch (error: any) {
-      return error.response;
+      return error;
     }
   }
 
-  async getCheckNickname(nickname) {
+  async getCheckNickname(nickname: string) {
     try {
-      const { data } = await this.axios(
+      const res = await this.axios(
         `/members/check-nickname?nickname=${nickname}`,
       );
-      return data;
+      return res;
     } catch (error: any) {
-      return error.response;
+      return error;
     }
   }
 }
