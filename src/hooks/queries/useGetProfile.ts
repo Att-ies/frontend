@@ -1,11 +1,10 @@
 import { useQuery } from 'react-query';
-import { useRouter } from 'next/router';
 import authApi from '@apis/auth/authApi';
 import { useState } from 'react';
 
 const useGetProfile = () => {
   const [userInfo, setUserInfo] = useState({});
-  const { isLoading, data } = useQuery(
+  const { isLoading, data, isSuccess } = useQuery(
     'useGetProfile',
     authApi.getUserProfile,
     {
@@ -19,7 +18,7 @@ const useGetProfile = () => {
       },
     },
   );
-  return { isLoading, data, userInfo };
+  return { isLoading, data, userInfo, isSuccess, setUserInfo };
 };
 
 export default useGetProfile;
