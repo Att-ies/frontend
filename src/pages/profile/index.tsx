@@ -5,13 +5,10 @@ import Navigate from '@components/common/Navigate';
 import Tab from '@components/common/Tab';
 import Activity from '@components/mypage/Activity';
 import SettingItem from '@components/mypage/SettingItem';
-import ArtItem from '@components/profile/ArtItem';
 import useGetProfile from '@hooks/queries/useGetProfile';
 import { isUser } from '@utils/isUser';
-import { deleteToken, getToken } from '@utils/localStorage/token';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import tw from 'tailwind-styled-components';
 
 interface defaultProps {
@@ -89,7 +86,6 @@ export default function Profile() {
   };
 
   const { isLoading, userInfo } = useGetProfile();
-
   if (isLoading) return <Loader />;
   return (
     <Layout>
