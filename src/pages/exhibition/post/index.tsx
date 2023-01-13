@@ -103,7 +103,7 @@ export default function Post() {
             <div className="absolute left-[63px] bottom-0 flex items-center h-full">
               <Image
                 src="/svg/icons/icon_plus_gray.svg"
-                alt="camera"
+                alt="tag"
                 width={20}
                 height={20}
               />
