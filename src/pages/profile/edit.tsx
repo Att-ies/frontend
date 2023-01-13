@@ -13,8 +13,7 @@ import { Member } from 'types/user';
 import useGetProfile from '@hooks/queries/useGetProfile';
 import Loader from '@components/common/Loader';
 import { makeBlob } from '@utils/makeBlob';
-
-let initialValue: Member;
+import useDuplicateCheck from '@hooks/queries/useDuplicateCheck';
 
 export default function Edit() {
   const [isNicknameValidate, setIsNicknameValidate] = useState<boolean>(true);
@@ -40,10 +39,6 @@ export default function Edit() {
   };
 
   useEffect(() => {
-    initialValue = userInfo;
-  }, [isSuccess]);
-
-  useEffect(() => {
     setIsEmailValidate(false);
     clearErrors('email');
   }, [email]);
@@ -54,7 +49,7 @@ export default function Edit() {
 
   const handleDoubleCheckNickName = async () => {
     const data = await authApi.getCheckNickname(nickname);
-    if (data.status === 409 && nickname !== initialValue.nickname) {
+    if (data.status === 409 && nickname !== userInfo.nickname) {
       setError('nickname', {
         type: 'nickname duplicate',
         message: '중복되는 닉네임 입니다.',
@@ -66,38 +61,59 @@ export default function Edit() {
     }
   };
 
+  const {
+    data,
+    refetch: emailCheckRefetch,
+    error,
+    isDuplicate,
+  } = useDuplicateCheck('email', email);
+
   const handleDoubleCheckEmail = async () => {
-    const response = await authApi.getCheckEmail(email);
-    if (response.status === 409 && email !== initialValue.email) {
-      setError('email', {
-        type: 'email duplicate',
-        message: '이미 가입된 이메일 입니다.',
-      });
-      return;
-    } else {
-      setIsEmailValidate(true);
-      clearErrors('email');
-    }
+    const response = await emailCheckRefetch();
+    console.log(isDuplicate);
+    // if(response.status===error && email !== userInfo.email){
+    //   setError('email', {
+    //     type: 'email duplicate',
+    //     message: '이미 가입된 이메일 입니다.',
+    //   });
+    // }
+    // if(response.status==='success'){
+
+    // }
+    // if (isSuccessCheckEmail === 'success') {
+    // }
+    // console.log(response);
+    // const response = await authApi.getCheckEmail(email);
+    // if (response.status === 409 && email !== userInfo.email) {
+    //   setError('email', {
+    //     type: 'email duplicate',
+    //     message: '이미 가입된 이메일 입니다.',
+    //   });
+    //   return;
+    // } else {
+    //   setIsEmailValidate(true);
+    //   clearErrors('email');
+    // }
   };
 
   useEffect(() => {
     if (typeof profile !== 'string' && profile?.length > 0) {
-      console.log(profile);
       setUserInfo({
         ...userInfo,
         image: makeBlob(profile[0]),
       });
     }
   }, [profile]);
+
   const onSubmit = async () => {
-    if (!isNicknameValidate && initialValue.nickname !== nickname) {
+    if (!isNicknameValidate && userInfo.nickname !== nickname) {
       setError('nickname', {
         type: 'need nickname duplicate',
         message: '닉네임 중복체크를 해주세요',
       });
       return;
     }
-    if (!isEmailValidate && initialValue.email !== email) {
+    if (!isEmailValidate && userInfo.email !== email) {
       setError('email', {
         type: 'need email duplicate',
         message: '이메일 중복체크를 해주세요',
@@ -108,6 +124,7 @@ export default function Edit() {
     formData.append('nickname', nickname);
     formData.append('image', profile[0]);
     const response = await authApi.patchUserInfo(formData);
+    console.log(response);
   };
 
   if (isLoading) return <Loader />;
