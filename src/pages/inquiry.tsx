@@ -103,7 +103,7 @@ export default function Inquiry() {
       }
       const sum = newFileList
         ?.map((file) => file.size)
-        ?.reduce((a, b) => a + b);
+        ?.reduce((a, b) => a + b, 0);
       setFileSize((prev) => prev + sum);
       setFileLists((prev) => prev.concat(newFileList));
     }
