@@ -1,16 +1,22 @@
 import Image from 'next/image';
 
 interface FileItemForm {
-  img: string;
-  handler: (img: string) => void;
+  file: any;
+  handler: (name: string, size: number) => void;
 }
 
-export default function FileItem({ img, handler }: FileItemForm) {
+const fileToImage = (file) => {
+  const fileURL = URL.createObjectURL(file);
+  return fileURL;
+};
+
+export default function FileItem({ file, handler }: FileItemForm) {
+  console.log(file);
   return (
-    <div className="w-[60px] h-[60px] border-[1px] border-[#DBDBDB] rounded ml-3 relative">
+    <div className="w-[60px] h-[60px] border-[1px] border-[#DBDBDB] rounded ml-3 relative mb-2">
       <div
-        onClick={() => handler(img)}
-        className="w-[14px] h-[14px] bg-[#999999] rounded-full flex justify-center items-center absolute right-[-5px] top-[-5px]"
+        onClick={() => handler(file.name, file.size)}
+        className="w-[14px] h-[14px] bg-[#999999] rounded-full flex justify-center items-center absolute right-[-5px] top-[-5px] cursor-pointer"
       >
         <Image
           src="/svg/icons/icon_close_white.svg"
@@ -20,8 +26,8 @@ export default function FileItem({ img, handler }: FileItemForm) {
         />
       </div>
       <Image
-        src={img}
-        alt={img}
+        src={fileToImage(file)}
+        alt={file.name}
         width={20}
         height={20}
         className="w-full h-full"

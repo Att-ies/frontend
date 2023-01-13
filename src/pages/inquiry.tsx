@@ -1,12 +1,11 @@
 import Navigate from '@components/common/Navigate';
 import Layout from '@components/common/Layout';
 import Button from '@components/common/Button';
-import arrow from '@public/svg/icons/icon_arrow_down.svg';
+import InquiryItem from '@components/inquiry/InquiryItem';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Tab, Disclosure } from '@headlessui/react';
+import { Tab } from '@headlessui/react';
 import { useForm } from 'react-hook-form';
-import ErrorMessage from '@components/common/ErrorMessage';
 import { useEffect, useState } from 'react';
 import FileItem from '@components/inquiry/FileItem';
 
@@ -22,6 +21,13 @@ interface DumpInquiryListsForm {
   title: string;
   content: string;
   status: string;
+  answer: string;
+  id: number;
+}
+
+interface FileForm {
+  file: any;
+  size: number;
 }
 
 const DUMP_INQUIRY_LISTS: DumpInquiryListsForm[] = [
@@ -30,28 +36,35 @@ const DUMP_INQUIRY_LISTS: DumpInquiryListsForm[] = [
     time: '18:40',
     title: '[녹아내리는 고드름] 작품 관련 질문입니다.',
     content: '얼마인가요?',
-    status: '답변중',
+    status: '대기중',
+    answer: '',
+    id: 1,
   },
   {
     date: '2023.01.02',
     time: '18:40',
     title: '[녹아내리는 고드름] 작품 관련 질문입니다.',
-    content: '얼마인가요?',
+    content:
+      '안녕하세요. 다음 경매 시작일을 알고 싶습니다.안녕하세요다음 경매 시작일을 알고 싶습니다.안녕하세요. 다음 경매 시작일을 알고 싶습니다.안녕하세요. 다음 경매 시작일을 알고 싶습니다.',
     status: '답변완료',
-  },
-  {
-    date: '2023.01.01',
-    time: '12:40',
-    title: '[녹아내리는 고드름] 작품 관련 질문입니다.',
-    content: '얼마인가요?',
-    status: '답변완료',
+    answer: '안녕하세요. 아띠즈입니다. 다음 경매는 1주 내로 진행될 예정입니다.',
+    id: 2,
   },
 ];
 
+const formatBytes = (bytes, decimals = 1) => {
+  if (!bytes) return '0';
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+};
+
 export default function Inquiry() {
-  const [Inquiry, setInquiry] =
+  const [inquiries, setInquiries] =
     useState<DumpInquiryListsForm[]>(DUMP_INQUIRY_LISTS);
-  const [fileImages, setFileImages] = useState<string[]>([]);
+  const [fileLists, setFileLists] = useState<File[]>([]);
   const [fileSize, setFileSize] = useState<number>(0);
 
   const router = useRouter();
@@ -63,28 +76,39 @@ export default function Inquiry() {
     mode: 'onTouched',
   });
 
-  const onRemove = (targetId: string): void => {
-    const newFileImages = fileImages.filter((fileImages) => {
-      return fileImages !== targetId;
+  const handleRemoveFile = (targetName: string, targetSize: number): void => {
+    console.log(targetName, targetSize);
+    const newFileLists = fileLists.filter((file) => {
+      return file.name !== targetName;
     });
-    setFileImages(newFileImages);
+    setFileLists(newFileLists);
+    setFileSize((prev) => prev - targetSize);
   };
 
-  const uploadFiles = (e) => {
-    console.log(e);
-    if (e.target.files?.length <= 5 && fileImages?.length < 5) {
-      const fileArray: any = Array.from(e.target.files).map((file: any) =>
-        URL.createObjectURL(file),
-      );
-      setFileImages((prevImages) => prevImages.concat(fileArray));
-      for (const file of e.target.files) {
-        setFileSize((prevFileSize) => prevFileSize + file.size);
-      }
-      console.log(fileArray);
-    } else {
-      return;
-    }
+  const handleRemoveInquiry = (targetId: number): void => {
+    const newInquiries = inquiries.filter((inquiry) => {
+      return inquiry.id !== targetId;
+    });
+    setInquiries(newInquiries);
   };
+
+  const file = watch('image');
+
+  useEffect(() => {
+    console.log(file);
+    if (fileLists?.length <= 5 && fileLists?.length + file?.length <= 5) {
+      const newFileList: any = [];
+      for (const i of file) {
+        newFileList.push(i);
+      }
+      const sum = newFileList
+        ?.map((file) => file.size)
+        ?.reduce((a, b) => a + b, 0);
+      setFileSize((prev) => prev + sum);
+      setFileLists((prev) => prev.concat(newFileList));
+    }
+    console.log(fileLists);
+  }, [file]);
 
   const onSubmit = async (form: InquiryForm) => {
     // 문의 API
@@ -93,7 +117,6 @@ export default function Inquiry() {
     // formData.append('title', title)
     // formData.append('content', content)
     // formData.append('image', fileImages)
-    console.log(fileImages);
   };
 
   return (
@@ -185,10 +208,10 @@ export default function Inquiry() {
                           width={22}
                           height={18}
                         />
-                        {fileImages.length ? (
+                        {fileLists.length ? (
                           <div className="text-12">
                             <span className="text-[#F5535D]">
-                              {fileImages.length}
+                              {fileLists.length}
                             </span>
                             /5
                           </div>
@@ -196,15 +219,21 @@ export default function Inquiry() {
                           ''
                         )}
                       </div>
-                      <div className="text-center text-12">
-                        <span className="text-[#58A4FF]">{}</span>
-                        /15MB
+                      <div className="text-center text-10">
+                        <span className="text-[#58A4FF]">
+                          {formatBytes(fileSize)}
+                        </span>
+                        <span className="text-[#999999]">/15MB</span>
                       </div>
                     </label>
-                    {fileImages.length ? (
+                    {fileLists.length ? (
                       <div className="flex flex-wrap">
-                        {fileImages.map((img) => (
-                          <FileItem handler={onRemove} key={img} img={img} />
+                        {fileLists.map((file, idx) => (
+                          <FileItem
+                            handler={handleRemoveFile}
+                            key={idx}
+                            file={file}
+                          />
                         ))}
                       </div>
                     ) : (
@@ -228,7 +257,6 @@ export default function Inquiry() {
                   id="fileImage"
                   className="hidden"
                   {...register('image')}
-                  onChange={uploadFiles}
                 />
               </section>
               <section className="w-full flex justify-between mt-[120px]">
@@ -246,30 +274,14 @@ export default function Inquiry() {
             </form>
           </Tab.Panel>
           <Tab.Panel>
-            {Inquiry ? (
+            {inquiries ? (
               <div>
-                {Inquiry.map((item, idx) => (
-                  <div key={idx} className="border-b-[1px] pb-6">
-                    <Disclosure>
-                      <div className="flex justify-start mt-5">
-                        <span className="w-[70px] mr-2 border-[1px] border-[#DBDBDB] rounded-[39px] text-14 text-[#767676] text-center font-semibold py-[1px]">
-                          {item.status}
-                        </span>
-                        <span className="text-[#999999] text-14">
-                          {item.date} {item.time}
-                        </span>
-                      </div>
-                      <div className="flex justify-between mt-2 text-[#767676] ">
-                        <span className="font-bold text-14">{item.title}</span>
-                        <Disclosure.Button>
-                          <Image src={arrow} alt={arrow} />
-                        </Disclosure.Button>
-                      </div>
-                      <Disclosure.Panel className="text-gray-500 pt-5 text-14">
-                        {item.content}
-                      </Disclosure.Panel>
-                    </Disclosure>
-                  </div>
+                {inquiries.map((inquiry, idx) => (
+                  <InquiryItem
+                    key={idx}
+                    inquiry={inquiry}
+                    handler={handleRemoveInquiry}
+                  />
                 ))}
                 <div className="mt-[14px] text-[#999999] text-14 text-center">
                   최근 1년간 문의내역만 조회 가능합니다.
