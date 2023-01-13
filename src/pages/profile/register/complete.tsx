@@ -6,7 +6,7 @@ import Navigate from '@components/common/Navigate';
 export default function Complete() {
   const router = useRouter();
   const handleRightButton = () => {
-    router.push('/profile');
+    router.push('/profile/edit');
   };
   return (
     <Layout>
