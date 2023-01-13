@@ -5,12 +5,8 @@ import Button from 'stories/Button';
 
 export default function Detail() {
   useEffect(() => {}, []);
-  const handleChat = () => {
-    // 채팅방 만들기 API
-  };
-  const handlePurchase = () => {
-    // 응찰 페이지로 이동
-  };
+  const handleChat = () => {};
+  const handlePurchase = () => {};
   return (
     <>
       <Layout>
