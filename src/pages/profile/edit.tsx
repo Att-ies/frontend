@@ -5,38 +5,21 @@ import Navigate from '@components/common/Navigate';
 import DoubleCheckButton from '@components/common/DoubleCheckButton';
 import authApi from '@apis/auth/authApi';
 import React, { useState, useEffect } from 'react';
-import { useAppSelector } from '@features/hooks';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { isUser } from '@utils/isUser';
-import { useQuery } from 'react-query';
-import Loader from '@components/common/Loader';
 import { Member } from 'types/user';
-interface EditForm {
-  nickname: string;
-  email: string;
-  education: string;
-  history: string;
-  description: string;
-  instagram: string;
-  behance: string;
-  image?: FileList;
-}
+import useGetProfile from '@hooks/queries/useGetProfile';
+import Loader from '@components/common/Loader';
+import { makeBlob } from '@utils/makeBlob';
 
-interface initialValueForm {
-  nickname: string;
-  email: string;
-}
+let initialValue: Member;
 
 export default function Edit() {
   const [isNicknameValidate, setIsNicknameValidate] = useState<boolean>(true);
   const [isEmailValidate, setIsEmailValidate] = useState<boolean>(true);
-  const [initialValue, setInitialValue] = useState<initialValueForm>({
-    nickname: '',
-    email: '',
-  });
-  const [imageFile, setImageFile] = useState('');
+
   const {
     register,
     handleSubmit,
@@ -45,27 +28,21 @@ export default function Edit() {
     setError,
     clearErrors,
     setValue,
-  } = useForm<EditForm>();
+  } = useForm<Member>();
   const nickname = watch('nickname');
   const email = watch('email');
-  const profileImage = watch('image');
+  const profile = watch('profile');
+  const router = useRouter();
+  const { isLoading, userInfo, setUserInfo, isSuccess } = useGetProfile();
 
-  const { isLoading, data: profileInfo } = useQuery<Member>(
-    'user',
-    () => authApi.getUserProfile(),
-    {
-      onSuccess: (res: any) => {
-        setValue('nickname', res.data.nickname);
-        setValue('email', res.data.email);
-        setValue('image', res.data.image);
-        setInitialValue({ nickname: res.data.nickname, email: res.data.email });
-        setImageFile(res.data.image);
-      },
-      onError: (err) => {
-        console.log(err);
-      },
-    },
-  );
+  const handleLeftButton = () => {
+    router.push('/profile');
+  };
+
+  useEffect(() => {
+    initialValue = userInfo;
+  }, [isSuccess]);
+
   useEffect(() => {
     setIsEmailValidate(false);
     clearErrors('email');
@@ -103,22 +80,15 @@ export default function Edit() {
     }
   };
 
-  const router = useRouter();
-  const onLeftButton = () => {
-    router.push('/profile');
-  };
-  console.log(profileImage);
   useEffect(() => {
-    if (
-      typeof profileImage !== 'string' &&
-      profileImage &&
-      profileImage.length > 0
-    ) {
-      const file = profileImage[0];
-      setImageFile(URL.createObjectURL(file));
+    if (typeof profile !== 'string' && profile?.length > 0) {
+      console.log(profile);
+      setUserInfo({
+        ...userInfo,
+        image: makeBlob(profile[0]),
+      });
     }
-  }, [profileImage]);
-
+  }, [profile]);
   const onSubmit = async () => {
     if (!isNicknameValidate && initialValue.nickname !== nickname) {
       setError('nickname', {
@@ -136,14 +106,11 @@ export default function Edit() {
     const formData = new FormData();
     formData.append('email', email);
     formData.append('nickname', nickname);
-
-    formData.append('image', profileImage[0]);
+    formData.append('image', profile[0]);
     const response = await authApi.patchUserInfo(formData);
-    console.log(response);
   };
 
   if (isLoading) return <Loader />;
-
   return (
     <Layout>
       <Navigate
@@ -156,13 +123,13 @@ export default function Edit() {
             height="0"
           />
         }
-        handleLeftButton={onLeftButton}
+        handleLeftButton={handleLeftButton}
         handleRightButton={handleSubmit(onSubmit)}
       />
-      <label className="flex justify-center h-[150px]" htmlFor="profileImage">
-        {imageFile ? (
+      <label className="flex justify-center h-[150px]" htmlFor="profile">
+        {userInfo?.image ? (
           <img
-            src={imageFile}
+            src={userInfo?.image}
             width="120"
             height="0"
             className="rounded-full w-[120px] h-[120px]"
@@ -191,9 +158,9 @@ export default function Edit() {
       <input
         type="file"
         accept="image/*"
-        id="profileImage"
+        id="profile"
         className="hidden"
-        {...register('image')}
+        {...register('profile')}
       />
 
       <section className="relative">
@@ -201,7 +168,7 @@ export default function Edit() {
           type="text"
           label="닉네임"
           placeholder="닉네임을 입력해 주세요."
-          defaultValue={profileInfo?.nickname}
+          defaultValue={userInfo?.nickname}
           $error={errors.nickname ? true : false}
           register={register('nickname', {
             required: true,
@@ -226,7 +193,7 @@ export default function Edit() {
         <Input
           type="text"
           label="이메일"
-          defaultValue={profileInfo?.email}
+          defaultValue={userInfo?.email}
           placeholder="이메일을 입력해 주세요."
           $error={errors.email ? true : false}
           register={register('email', {
@@ -253,7 +220,6 @@ export default function Edit() {
             label="학력"
             defaultValue={data?.education}
             placeholder="학교와 학위, 전공 등을 입력해 주세요."
-            value={education}
             $error={errors.education ? true : false}
             register={register('education', {
               required: true,
@@ -267,7 +233,7 @@ export default function Edit() {
             type="text"
             label="이력"
             placeholder="이력을 작성해 주세요."
-            value={history}
+            // value={history}
             $error={errors.history ? true : false}
             register={register('history', {
               required: true,
@@ -278,7 +244,7 @@ export default function Edit() {
             type="text"
             label="작가소개"
             placeholder="소개를 작성해 주세요."
-            value={description}
+            // value={description}
             $error={errors.description ? true : false}
             register={register('description', {
               required: true,
