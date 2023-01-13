@@ -24,18 +24,18 @@ interface RightButtonProps extends DefaultProps {
 }
 
 const NavigateBox = tw.header<DefaultProps>`
-flex justify-between items-center font-semibold relative h-[64px] 
+flex items-center font-semibold relative h-[64px] 
 `;
 
-const LeftButton = tw.button<LeftButtonProps>`cursor-pointer z-10
+const LeftButton = tw.button<LeftButtonProps>`cursor-pointer z-10 absolute left-0
 `;
 
 const CenterMessage = tw.div`
-text-font-1 text-18 absolute left-0 right-0 m-auto text-center
+text-font-1 text-18 absolute left-0 right-0 m-auto text-center 
 `;
 
 const RightButton = tw.div<RightButtonProps>`
-text-14 z-10 cursor-pointer 
+text-14 z-10 cursor-pointer absolute right-0
 `;
 const SideMessage = tw.p`
     cursor-pointer z-10  text-14 text-[#999999]
