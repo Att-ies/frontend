@@ -10460,6 +10460,7 @@ __metadata:
     react-query: ^3.39.2
     react-redux: ^8.0.5
     redux-persist: ^6.0.0
+    signature_pad: ^4.1.4
     styled-components: ^5.3.6
     swiper: ^8.4.5
     tailwind-styled-components: ^2.2.0
@@ -14368,6 +14369,13 @@ __metadata:
   version: 3.0.7
   resolution: "signal-exit@npm:3.0.7"
   checksum: a2f098f247adc367dffc27845853e9959b9e88b01cb301658cfe4194352d8d2bb32e18467c786a7fe15f1d44b233ea35633d076d5e737870b7139949d1ab6318
+  languageName: node
+  linkType: hard
+
+"signature_pad@npm:^4.1.4":
+  version: 4.1.4
+  resolution: "signature_pad@npm:4.1.4"
+  checksum: d836a3fe502a3f035164b326cc2b15314d09d9daa542ca104f39638ca1df8e45048dc583b27cc59ab4988294ab415b58f06adae3cca2946e52add604bde458a8
   languageName: node
   linkType: hard
 
