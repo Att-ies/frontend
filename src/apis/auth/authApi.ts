@@ -1,7 +1,8 @@
 import instance from '@apis/_axios/instance';
 import { AxiosInstance } from 'axios';
 import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
-
+import { getToken } from '@utils/localStorage/token';
+import axios from 'axios';
 export class AuthApi {
   axios: AxiosInstance = instance;
   constructor(axios?: AxiosInstance) {
@@ -70,13 +71,24 @@ export class AuthApi {
     await this.axios.post('/members/logout');
   }
 
-  async patchUserInfo(data: any) {
+  async patchUserInfo(formData: any) {
     try {
-      const res = await this.axios.patch('/members', data, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      const token = getToken();
+      const res = await axios.patch(
+        'http://44.193.163.114:8080/members',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: token.accessToken,
+          },
         },
-      });
+      );
+      // const res = await this.axios.patch('/members', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      // });
       return res;
     } catch (err) {
       return err;

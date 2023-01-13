@@ -72,17 +72,34 @@ export default function Detail() {
           </div>
           <div className="w-[5rem] text-center">아라</div>
         </article>
-        <article className="mt-4 mb-3">
+        <article className="py-5 border-b">
           <div className="text-18 font-bold">작품 설명</div>
-          <div className="text-[#F5535D] text-10">
+          <div className="text-[#F5535D] text-12 py-2">
             세부 사항 등 궁금한 점은 채팅으로 작가와 소통 할 수 있어요.
           </div>
+          <div className="py-5">
+            <p className="text-14">
+              대자연을 자신만의 시각적 언어로 표현한다. 작가는 언어보다 시각적
+              언어로 표현한다. 언어보다 시각적으로 사물을 관찰하고 이해한 바를
+              캔버스로 옮긴다. 먼저 속에 떠오르는 형태, 색 그리고 공간의 질서를
+              만들어간다.
+            </p>
+            <div></div>
+          </div>
         </article>
-        <article className="flex gap-5">
-          <Button text="채팅하기" kind="outlined" onClick={handleChat} />
-          <Button text="응찰하기" onClick={handlePurchase} />
-        </article>
+
+        <Image
+          alt="guarantee"
+          src="/svg/example/guarantee.svg"
+          width="0"
+          height="0"
+          className="w-full py-5"
+        />
       </section>
+      <article className="flex gap-5 absolute bottom-0 inset-x-0 w-[20rem] m-auto">
+        <Button text="채팅하기" kind="outlined" onClick={handleChat} />
+        <Button text="응찰하기" onClick={handlePurchase} />
+      </article>
     </Layout>
   );
 }
