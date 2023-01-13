@@ -189,11 +189,11 @@ export default function Post() {
         <div className="h-[336px]"></div>
         <div className="w-[375px] h-[376px] left-0 absolute -bottom-0">
           <div className="h-4 bg-[#F8F8FA]"></div>
-          <div className="px-4 text-12">
+          <div className="px-6 text-12">
             <p className="font-medium mt-8">
               다음의 경우 작품등록이 제외될 수 있습니다.
             </p>
-            <ul className="text-[#767676] mt-3 -ml-1 space-y-2 list-disc px-4">
+            <ul className="text-[#767676] mt-3 ml-3 space-y-2 list-disc tracking-tight">
               <li>
                 작품의 선정성, 유해성이 통신판매업 시행령(2019) 기준에 맞지 아니
                 하다고 판단되는 경우
