@@ -57,8 +57,8 @@ export default function Edit() {
       onSuccess: (res: any) => {
         setValue('nickname', res.data.nickname);
         setValue('email', res.data.email);
+        setValue('image', res.data.image);
         setInitialValue({ nickname: res.data.nickname, email: res.data.email });
-
         setImageFile(res.data.image);
       },
       onError: (err) => {
@@ -107,15 +107,19 @@ export default function Edit() {
   const onLeftButton = () => {
     router.push('/profile');
   };
-
+  console.log(profileImage);
   useEffect(() => {
-    if (profileImage && profileImage.length > 0) {
+    if (
+      typeof profileImage !== 'string' &&
+      profileImage &&
+      profileImage.length > 0
+    ) {
       const file = profileImage[0];
       setImageFile(URL.createObjectURL(file));
     }
   }, [profileImage]);
 
-  const onSubmit = async (form: EditForm) => {
+  const onSubmit = async () => {
     if (!isNicknameValidate && initialValue.nickname !== nickname) {
       setError('nickname', {
         type: 'need nickname duplicate',
@@ -132,6 +136,7 @@ export default function Edit() {
     const formData = new FormData();
     formData.append('email', email);
     formData.append('nickname', nickname);
+
     formData.append('image', profileImage[0]);
     const response = await authApi.patchUserInfo(formData);
     console.log(response);
@@ -156,7 +161,7 @@ export default function Edit() {
       />
       <label className="flex justify-center h-[150px]" htmlFor="profileImage">
         {imageFile ? (
-          <Image
+          <img
             src={imageFile}
             width="120"
             height="0"

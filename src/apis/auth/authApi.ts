@@ -47,14 +47,6 @@ export class AuthApi {
     }
   }
 
-  // async patchConvertArtist () {
-  //   try{
-  //     return await this.axios.patch('/artists');
-  //   }catch(err){
-
-  //   }
-  // }
-
   async postPassword(password: string) {
     try {
       return await this.axios.patch(`/members/password`, {
@@ -75,7 +67,7 @@ export class AuthApi {
     try {
       const token = getToken();
       const res = await axios.patch(
-        'process.env.NEXT_PUBLIC_API_BASE_URL/members',
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/members`,
         formData,
         {
           headers: {

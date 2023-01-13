@@ -33,10 +33,12 @@ export default function Register() {
     router.back();
   };
   const handleRightButton = () => {
-    //API 전송
+    if (fileState.file) {
+      console.log('API 전송');
+    }
+    router.push('/profile/register/complete');
   };
   const file = watch('file');
-  console.log(fileState);
   useEffect(() => {
     if (file?.length > 0) {
       setFileState({
@@ -55,6 +57,7 @@ export default function Register() {
         right_message="다음"
         handleLeftButton={handleLeftButton}
         handleRightButton={handleRightButton}
+        message="작가 등록"
       />
       <section className="flex items-start absolute inset-x-0 px-4 py-6 bg-[#F8F8FA]">
         <Image

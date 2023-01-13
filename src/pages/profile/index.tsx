@@ -56,27 +56,20 @@ interface SettingListForm {
 const SettingLists: SettingListForm[] = [
   {
     id: '1',
-    text: '구매/판매내역',
-    path: '/profile/history',
-  },
-  {
-    id: '2',
     text: '1:1문의',
     path: '/inquiry',
   },
   {
-    id: '3',
+    id: '2',
     text: '개인/보안',
     path: '/profile/security',
   },
   {
-    id: '4',
+    id: '3',
     text: '로그아웃',
     path: '/auth/login',
   },
 ];
-
-const DUMMY_KEYWORDS_LIST: string[] = ['사진', '소묘', '파스텔', '추상화'];
 
 export default function Profile() {
   const [nickname, setNickname] = useState<string>('');
