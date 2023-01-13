@@ -62,7 +62,7 @@ const formatBytes = (bytes, decimals = 1) => {
 };
 
 export default function Inquiry() {
-  const [Inquiries, setInquiries] =
+  const [inquiries, setInquiries] =
     useState<DumpInquiryListsForm[]>(DUMP_INQUIRY_LISTS);
   const [fileLists, setFileLists] = useState<File[]>([]);
   const [fileSize, setFileSize] = useState<number>(0);
@@ -86,7 +86,7 @@ export default function Inquiry() {
   };
 
   const handleRemoveInquiry = (targetId: number): void => {
-    const newInquiries = Inquiries.filter((inquiry) => {
+    const newInquiries = inquiries.filter((inquiry) => {
       return inquiry.id !== targetId;
     });
     setInquiries(newInquiries);
@@ -274,9 +274,9 @@ export default function Inquiry() {
             </form>
           </Tab.Panel>
           <Tab.Panel>
-            {Inquiries ? (
+            {inquiries ? (
               <div>
-                {Inquiries.map((inquiry, idx) => (
+                {inquiries.map((inquiry, idx) => (
                   <InquiryItem
                     key={idx}
                     inquiry={inquiry}
