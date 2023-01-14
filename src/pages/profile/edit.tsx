@@ -13,12 +13,12 @@ import { Member } from 'types/user';
 import useGetProfile from '@hooks/queries/useGetProfile';
 import Loader from '@components/common/Loader';
 import { makeBlob } from '@utils/makeBlob';
-import useDuplicateCheck from '@hooks/queries/useDuplicateCheck';
 
 export default function Edit() {
   const [isNicknameValidate, setIsNicknameValidate] = useState<boolean>(true);
   const [isEmailValidate, setIsEmailValidate] = useState<boolean>(true);
 
+  const { isLoading, userInfo, setUserInfo, isSuccess } = useGetProfile();
   const {
     register,
     handleSubmit,
@@ -26,13 +26,11 @@ export default function Edit() {
     watch,
     setError,
     clearErrors,
-    setValue,
   } = useForm<Member>();
   const nickname = watch('nickname');
   const email = watch('email');
   const profile = watch('profile');
   const router = useRouter();
-  const { isLoading, userInfo, setUserInfo, isSuccess } = useGetProfile();
 
   const handleLeftButton = () => {
     router.push('/profile');
@@ -61,39 +59,18 @@ export default function Edit() {
     }
   };
 
-  const {
-    data,
-    refetch: emailCheckRefetch,
-    error,
-    isDuplicate,
-  } = useDuplicateCheck('email', email);
-
   const handleDoubleCheckEmail = async () => {
-    const response = await emailCheckRefetch();
-    console.log(isDuplicate);
-    // if(response.status===error && email !== userInfo.email){
-    //   setError('email', {
-    //     type: 'email duplicate',
-    //     message: '이미 가입된 이메일 입니다.',
-    //   });
-    // }
-    // if(response.status==='success'){
-
-    // }
-    // if (isSuccessCheckEmail === 'success') {
-    // }
-    // console.log(response);
-    // const response = await authApi.getCheckEmail(email);
-    // if (response.status === 409 && email !== userInfo.email) {
-    //   setError('email', {
-    //     type: 'email duplicate',
-    //     message: '이미 가입된 이메일 입니다.',
-    //   });
-    //   return;
-    // } else {
-    //   setIsEmailValidate(true);
-    //   clearErrors('email');
-    // }
+    const response = await authApi.getCheckEmail(email);
+    if (response.status === 409 && email !== userInfo.email) {
+      setError('email', {
+        type: 'email duplicate',
+        message: '이미 가입된 이메일 입니다.',
+      });
+      return;
+    } else {
+      setIsEmailValidate(true);
+      clearErrors('email');
+    }
   };
 
   useEffect(() => {
@@ -105,24 +82,24 @@ export default function Edit() {
     }
   }, [profile]);
 
-  const onSubmit = async () => {
-    if (!isNicknameValidate && userInfo.nickname !== nickname) {
+  const onSubmit = async (form: any) => {
+    if (!isNicknameValidate && userInfo.nickname !== form.nickname) {
       setError('nickname', {
         type: 'need nickname duplicate',
         message: '닉네임 중복체크를 해주세요',
       });
       return;
     }
-    if (!isEmailValidate && userInfo.email !== email) {
+    if (!isEmailValidate && userInfo.email !== form.email) {
       setError('email', {
         type: 'need email duplicate',
         message: '이메일 중복체크를 해주세요',
       });
     }
     const formData = new FormData();
-    formData.append('email', email);
-    formData.append('nickname', nickname);
-    formData.append('image', profile[0]);
+    formData.append('email', form.email);
+    formData.append('nickname', form.nickname);
+    formData.append('image', profile[0] || '');
     const response = await authApi.patchUserInfo(formData);
     console.log(response);
   };
@@ -166,7 +143,6 @@ export default function Edit() {
                 width="15"
                 height="0"
                 alt="profile"
-                className=""
               />
             </div>
           </div>
@@ -186,7 +162,7 @@ export default function Edit() {
           label="닉네임"
           placeholder="닉네임을 입력해 주세요."
           defaultValue={userInfo?.nickname}
-          $error={errors.nickname ? true : false}
+          $error={errors.nickname}
           register={register('nickname', {
             required: true,
             pattern: {
@@ -200,11 +176,7 @@ export default function Edit() {
           onClick={handleDoubleCheckNickName}
           text={isNicknameValidate ? '사용가능' : '중복확인'}
         />
-        {errors.nickname ? (
-          <ErrorMessage message={errors.nickname.message} />
-        ) : (
-          ''
-        )}
+        {errors.nickname && <ErrorMessage message={errors.nickname.message} />}
       </section>
       <section className="relative">
         <Input
@@ -212,7 +184,7 @@ export default function Edit() {
           label="이메일"
           defaultValue={userInfo?.email}
           placeholder="이메일을 입력해 주세요."
-          $error={errors.email ? true : false}
+          $error={errors.email}
           register={register('email', {
             required: true,
             pattern: {
@@ -230,14 +202,14 @@ export default function Edit() {
         {errors.email ? <ErrorMessage message={errors.email.message} /> : ''}
       </section>
 
-      {!isUser && (
+      {isUser && (
         <section>
           <Input
             type="text"
             label="학력"
-            defaultValue={data?.education}
+            defaultValue={userInfo?.education}
             placeholder="학교와 학위, 전공 등을 입력해 주세요."
-            $error={errors.education ? true : false}
+            $error={errors.education}
             register={register('education', {
               required: true,
             })}
@@ -249,9 +221,9 @@ export default function Edit() {
           <Input
             type="text"
             label="이력"
+            defaultValue={userInfo?.history}
             placeholder="이력을 작성해 주세요."
-            // value={history}
-            $error={errors.history ? true : false}
+            $error={errors.history}
             register={register('history', {
               required: true,
             })}
@@ -261,8 +233,8 @@ export default function Edit() {
             type="text"
             label="작가소개"
             placeholder="소개를 작성해 주세요."
-            // value={description}
-            $error={errors.description ? true : false}
+            defaultValue={userInfo?.description}
+            $error={errors.description}
             register={register('description', {
               required: true,
             })}
@@ -283,9 +255,9 @@ export default function Edit() {
             </label>
             <input
               placeholder="인스타그램 추가하기"
-              value={instagram}
               {...register('instagram')}
               id="instagram"
+              defaultValue={userInfo?.instagram}
               className="h-[30px] placeholder:text-[#999] text-12 indent-1 "
             />
 
@@ -300,9 +272,9 @@ export default function Edit() {
             </label>
             <input
               placeholder="비헨스 추가하기"
-              value={behance}
               {...register('behance')}
               id="behance"
+              defaultValue={userInfo?.behance}
               className="h-[30px] placeholder:text-[#999] text-12 indent-1"
             />
           </article>
