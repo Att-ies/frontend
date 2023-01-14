@@ -9,7 +9,7 @@ interface ErrorForm {
 }
 
 const useDuplicateCheck = (type: string, data: string) => {
-  const [error, setError] = useState<ErrorForm>({});
+  const [errorMessage, setErrorMessage] = useState<ErrorForm>({});
   const [isDuplicate, setIsDuplicate] = useState<boolean>(false);
   const query = useQuery([type, data], authApi.getDuplicateCheck, {
     retry: 0,
@@ -21,12 +21,12 @@ const useDuplicateCheck = (type: string, data: string) => {
     },
     onError: (error: any) => {
       if (error.status === 409) {
-        setIsDuplicate(true);
+        setErrorMessage();
         return error;
       }
     },
   });
-  return { ...query, isDuplicate };
+  return { ...query, isDuplicate, errorMessage };
 };
 
 export default useDuplicateCheck;
