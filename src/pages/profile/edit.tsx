@@ -99,7 +99,11 @@ export default function Edit() {
     const formData = new FormData();
     formData.append('email', form.email);
     formData.append('nickname', form.nickname);
-    formData.append('image', profile[0] || '');
+    if (profile) {
+      formData.append('image', profile[0] || '');
+    } else {
+      formData.append('image', '');
+    }
     const response = await authApi.patchUserInfo(formData);
     console.log(response);
   };
@@ -202,7 +206,7 @@ export default function Edit() {
         {errors.email ? <ErrorMessage message={errors.email.message} /> : ''}
       </section>
 
-      {isUser && (
+      {!isUser && (
         <section>
           <Input
             type="text"
