@@ -33,7 +33,7 @@ export class AuthApi {
     return data;
   }
 
-  async postFindId(body: AuthDTOType) {
+  async postFindId(body: string) {
     try {
       const res = await this.axios({
         method: 'POST',
@@ -98,7 +98,7 @@ export class AuthApi {
     const type = params.queryKey[0];
     const data = params.queryKey[1];
     console.log(type, data);
-    let uri: string = '';
+    let uri = '';
     if (type === 'email') {
       uri = '/members/check-email?email=';
     } else if (type === 'id') {
