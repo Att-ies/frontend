@@ -6,19 +6,9 @@ import React, { useState } from 'react';
 import FileItem from '@components/inquiry/FileItem';
 import { useForm } from 'react-hook-form';
 import Select from '@components/common/Select';
+import { ArtworkForm } from 'types/ArtworkForm';
 
-interface Artwork {
-  image: string;
-  title: string;
-  tags: string[];
-  year: string;
-  material: string;
-  size: string;
-  price: string;
-  status: string;
-  statusDetail: string;
-  certificate: string;
-}
+
 
 const ARTWORK_STATUS = [
   { value: '매우 좋음' },
@@ -36,7 +26,7 @@ export default function Post() {
     setFileImages(newFileImages);
   };
 
-  const { register, setValue, watch } = useForm<Artwork>();
+  const { register, setValue, watch } = useForm<ArtworkForm>();
 
   const uploadFiles = (e) => {
     console.log(e);
@@ -187,7 +177,7 @@ export default function Post() {
           </div>
         </div>
         <div className="h-[336px]"></div>
-        <div className="w-[375px] h-[376px] left-0 absolute -bottom-0">
+        <div className="w-[375px] h-[376px] left-0 absolute bottom-0">
           <div className="h-4 bg-[#F8F8FA]"></div>
           <div className="px-6 text-12">
             <p className="font-medium mt-8">
