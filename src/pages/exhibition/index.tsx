@@ -160,8 +160,9 @@ export default function Exhibition() {
                   <Image
                     src="/svg/example/exhibition.svg"
                     alt="image"
-                    width={10000}
-                    height={10000}
+                    width={1000}
+                    height={0}
+                    quality={100}
                   />
                 </div>
                 <div className="absolute top-[95px] right-[15px]">
@@ -169,7 +170,7 @@ export default function Exhibition() {
                     src="/svg/icons/icon_maximize.svg"
                     alt="image"
                     width={25}
-                    height={25}
+                    height={0}
                     className="cursor-pointer"
                     onClick={handleExpansion}
                   />
@@ -181,8 +182,9 @@ export default function Exhibition() {
                   <Image
                     src="/svg/example/exhibition.svg"
                     alt="image"
-                    width={10000}
-                    height={10000}
+                    width={1000}
+                    height={0}
+                    quality={100}
                   />
                 </div>
                 <div className="absolute top-[45px] right-[55px]">
@@ -190,7 +192,7 @@ export default function Exhibition() {
                     src="/svg/icons/icon_maximize.svg"
                     alt="image"
                     width={25}
-                    height={25}
+                    height={0}
                     className="cursor-pointer"
                     onClick={handleExpansion}
                   />
