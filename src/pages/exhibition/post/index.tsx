@@ -9,6 +9,19 @@ import Select from '@components/common/Select';
 import { useRouter } from 'next/router';
 import { useAppSelector } from '@features/hooks';
 
+interface Artwork {
+  image: string;
+  title: string;
+  tags: string[];
+  year: string;
+  material: string;
+  size: string;
+  price: string;
+  status: string;
+  statusDetail: string;
+  certificate: string;
+}
+
 const ARTWORK_STATUS = [
   { value: '매우 좋음' },
   { value: '좋음' },
