@@ -134,6 +134,15 @@ export class AuthApi {
       return error;
     }
   }
+
+  async patchRole() {
+    try {
+      const res = await this.axios.patch('/members/roles');
+      return res;
+    } catch (error: any) {
+      return error;
+    }
+  }
 }
 
 const authApi = new AuthApi();

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
+import authApi from '@apis/auth/authApi';
 
 interface FileForm {
   file: any;
@@ -24,7 +25,6 @@ export default function Register() {
   const router = useRouter();
   const {
     register,
-    handleSubmit,
     formState: { errors },
     watch,
   } = useForm<FileForm>();
@@ -32,11 +32,10 @@ export default function Register() {
   const handleLeftButton = () => {
     router.back();
   };
-  const handleRightButton = () => {
-    if (fileState.file) {
-      console.log('API 전송');
-    }
-    router.push('/profile/register/complete');
+  const handleRightButton = async () => {
+    if (!fileState.file) return;
+    const res = await authApi.patchRole();
+    if (res.status === 200) router.push('/profile/register/complete');
   };
   const file = watch('file');
   useEffect(() => {
@@ -51,6 +50,7 @@ export default function Register() {
   const handleDelete = () => {
     setFileState([]);
   };
+  console.log(localStorage.getItem('@token'));
   return (
     <Layout>
       <Navigate
