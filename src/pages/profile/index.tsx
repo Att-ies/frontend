@@ -1,15 +1,14 @@
 import authApi from '@apis/auth/authApi';
 import Layout from '@components/common/Layout';
+import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
 import Tab from '@components/common/Tab';
 import Activity from '@components/mypage/Activity';
 import SettingItem from '@components/mypage/SettingItem';
-import ArtItem from '@components/profile/ArtItem';
+import useGetProfile from '@hooks/queries/useGetProfile';
 import { isUser } from '@utils/isUser';
-import { deleteToken, getToken } from '@utils/localStorage/token';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import tw from 'tailwind-styled-components';
 
 interface defaultProps {
@@ -72,8 +71,6 @@ const SettingLists: SettingListForm[] = [
 ];
 
 export default function Profile() {
-  const [nickname, setNickname] = useState<string>('');
-  const [keywords, setKeywords] = useState<string[]>([]);
   const router = useRouter();
   const handleRightButton = () => {
     router.push('/notice');
@@ -88,16 +85,8 @@ export default function Profile() {
     router.push('/profile/convert');
   };
 
-  const getProfile = async () => {
-    const response = await authApi.getUserProfile();
-    if (response.status === 200) {
-      setNickname(response.data.nickname);
-      setKeywords(response.data?.keywords); //아직 API 구현 x
-    }
-  };
-  useEffect(() => {
-    getProfile();
-  }, []);
+  const { isLoading, userInfo } = useGetProfile();
+  if (isLoading) return <Loader />;
   return (
     <Layout>
       <Navigate
@@ -125,7 +114,7 @@ export default function Profile() {
             />
           </div>
           <div className="flex flex-col text-[#FFFFFF] mr-3">
-            <span className="font-medium">{nickname}님,</span>
+            <span className="font-medium">{userInfo?.nickname}님,</span>
             <span className="text-xs">아띠즈에 오신 걸 환영합니다.</span>
           </div>
           <div className="mr-3">
@@ -178,7 +167,7 @@ export default function Profile() {
         <div className="my-4 relative">
           <span className="text-14 text-[#191919] font-bold">
             취향 목록
-            {keywords.length && (
+            {userInfo?.keywords?.length && (
               <Image
                 src="/svg/icons/icon_pencil_black.svg"
                 alt="notification"
@@ -189,7 +178,18 @@ export default function Profile() {
             )}
           </span>
         </div>
-        {!keywords.length ? (
+        {userInfo?.keywords?.length ? (
+          <div className="flex flex-wrap mb-8">
+            {userInfo?.keywords?.map((keyword) => (
+              <span
+                className="border-[1px] border-[#DBDBDB] rounded-[19px] px-3 py-1 mr-2 mb-1 last:mr-0 text-14 text-[#767676] "
+                key={keyword}
+              >
+                {keyword}
+              </span>
+            ))}
+          </div>
+        ) : (
           <div className="mt-6 text-center mb-12 flex justify-center">
             <button
               onClick={handleTaste}
@@ -205,17 +205,6 @@ export default function Profile() {
               </div>
               <div>취향분석</div>
             </button>
-          </div>
-        ) : (
-          <div className="flex flex-wrap mb-8">
-            {keywords.map((keyword) => (
-              <span
-                className="border-[1px] border-[#DBDBDB] rounded-[19px] px-3 py-1 mr-2 mb-1 last:mr-0 text-14 text-[#767676] "
-                key={keyword}
-              >
-                {keyword}
-              </span>
-            ))}
           </div>
         )}
       </section>
