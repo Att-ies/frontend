@@ -18,6 +18,7 @@ interface ChatRoomForm {
 
 interface MessageForm {
   message: string;
+  image: FileList;
 }
 
 const DUMP_CHATLIST: ChatRoomForm[] = [
@@ -85,7 +86,7 @@ export default function ChatRoom({ params }: ChatRoomProps) {
         denyMessage="나가기"
         onAccept={onAccept}
       />
-      <header className="absolute top-0 inset-x-0 w-full h-[145px] bg-[#F5535D]">
+      <header className="absolute top-0 inset-x-0 w-full h-[145px] bg-[#FC6554]">
         <article className="relative flex w-full mt-[70px] px-5 text-white">
           <Image
             src="/svg/icons/icon_back_white.svg"
@@ -123,12 +124,12 @@ export default function ChatRoom({ params }: ChatRoomProps) {
         </article>
       </section>
       <form
-        className="absolute w-[327px] h-[50px] rounded-[24.5px] bg-[#EDEDED] bottom-[30px] flex items-center px-[10px]"
+        className="absolute w-[327px] h-[50px] rounded-[24.5px] bg-[#F8F8FA] bottom-[30px] flex items-center px-[10px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <input
           type="text"
-          className="border-none bg-[#EDEDED] w-[200px] h-[23px] placeholder:text-[#999999] text-14 font-semibold "
+          className="border-none bg-[#F8F8FA] w-[200px] h-[23px] placeholder:text-[#999999] text-14 font-semibold "
           placeholder="메세지를 입력해주세요."
           {...register('message', { required: true })}
         />
