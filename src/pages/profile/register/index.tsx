@@ -50,7 +50,6 @@ export default function Register() {
   const handleDelete = () => {
     setFileState([]);
   };
-  console.log(localStorage.getItem('@token'));
   return (
     <Layout>
       <Navigate
