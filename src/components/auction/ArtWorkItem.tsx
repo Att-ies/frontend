@@ -6,13 +6,13 @@ interface ArtWorkItemProps {
 }
 
 const ArtWorkItemTag = tw.div`
-w-full h-[16rem] bg-[#FFFFFF] rounded-xl relative shadow-lg shadow-slate-100 mb-5
+w-full h-[264px] bg-[#FFFFFF] rounded-xl relative shadow-lg shadow-slate-100 mb-5
 `;
 export default function ArtWorkItem({ ...rest }: ArtWorkItemProps) {
   return (
     <ArtWorkItemTag {...rest}>
-      <section className="h-[12rem] overflow-hidden">
-        <article className="absolute left-2.5 top-2.5 bg-[#FFC961] text-white px-2 py-0.5 text-12 rounded-[0.3rem] flex gap-1 ">
+      <section className="h-[200px] overflow-hidden">
+        <article className="absolute left-2.5 top-2.5 bg-[#FFC961] text-white px-2 py-0.5 text-12 rounded-[8px] flex gap-1 ">
           <Image alt="" src="/svg/icons/icon_clock.svg" width="10" height="0" />
           <span className="">D-4</span>
         </article>
