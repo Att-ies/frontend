@@ -7,6 +7,7 @@ import FileItem from '@components/inquiry/FileItem';
 import { useForm } from 'react-hook-form';
 import Select from '@components/common/Select';
 import { useRouter } from 'next/router';
+import { useAppSelector } from '@features/hooks';
 
 interface Artwork {
   image: string;
@@ -36,6 +37,10 @@ export default function Post() {
     });
     setFileImages(newFileImages);
   };
+
+  const signatureState = useAppSelector((state) => state.signature);
+
+  console.log(signatureState);
 
   const { register, setValue, watch } = useForm<Artwork>();
   const router = useRouter();
@@ -191,6 +196,14 @@ export default function Post() {
               height="0"
             />
           </div>
+        </div>
+        <div>
+          <Image
+            src={signatureState.signature}
+            width={327}
+            height={183}
+            alt="guarantee"
+          />
         </div>
         <div className="h-[336px] relative">
           <div className="w-[375px] h-[376px] absolute -left-6 bottom-0">
