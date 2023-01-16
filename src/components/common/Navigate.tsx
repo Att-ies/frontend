@@ -1,6 +1,8 @@
 import tw from 'tailwind-styled-components';
 import Image from 'next/image';
 import React from 'react';
+import Router from 'next/router';
+
 interface NavigateProps {
   left_message?: React.ReactNode;
   message?: string;
@@ -47,7 +49,9 @@ export default function Navigate({
   right_message,
   isRightButton = true,
   isLeftButton = true,
-  handleLeftButton,
+  handleLeftButton = () => {
+    Router.back();
+  },
   handleRightButton,
 }: NavigateProps) {
   return (
