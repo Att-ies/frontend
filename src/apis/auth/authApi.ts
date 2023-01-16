@@ -94,13 +94,25 @@ export class AuthApi {
     }
   }
 
-  async getCheckEmail(email: string) {
-    try {
-      const res = await this.axios(`/members/check-email?email=${email}`);
-      return res;
-    } catch (error: any) {
-      return error;
+  async getDuplicateCheck(params) {
+    const type = params.queryKey[0];
+    const data = params.queryKey[1];
+    console.log(type, data);
+    let uri: string = '';
+    if (type === 'email') {
+      uri = '/members/check-email?email=';
+    } else if (type === 'id') {
+      uri = '/members/check-id?userId=';
+    } else if (type === 'nickname') {
+      uri = '/members/check-nickname?nickname=';
     }
+    const res = await instance(`${uri}${data}`);
+    return res;
+  }
+
+  async getCheckEmail(email: string) {
+    const res = await this.axios(`/members/check-email?email=${email}`);
+    return res;
   }
 
   async getCheckId(userId: string) {

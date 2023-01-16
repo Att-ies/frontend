@@ -14,12 +14,11 @@ import useGetProfile from '@hooks/queries/useGetProfile';
 import Loader from '@components/common/Loader';
 import { makeBlob } from '@utils/makeBlob';
 
-let initialValue: Member;
-
 export default function Edit() {
   const [isNicknameValidate, setIsNicknameValidate] = useState<boolean>(true);
   const [isEmailValidate, setIsEmailValidate] = useState<boolean>(true);
 
+  const { isLoading, userInfo, setUserInfo, isSuccess } = useGetProfile();
   const {
     register,
     handleSubmit,
@@ -27,21 +26,15 @@ export default function Edit() {
     watch,
     setError,
     clearErrors,
-    setValue,
   } = useForm<Member>();
   const nickname = watch('nickname');
   const email = watch('email');
   const profile = watch('profile');
   const router = useRouter();
-  const { isLoading, userInfo, setUserInfo, isSuccess } = useGetProfile();
 
   const handleLeftButton = () => {
     router.push('/profile');
   };
-
-  useEffect(() => {
-    initialValue = userInfo;
-  }, [isSuccess]);
 
   useEffect(() => {
     setIsEmailValidate(false);
@@ -54,7 +47,7 @@ export default function Edit() {
 
   const handleDoubleCheckNickName = async () => {
     const data = await authApi.getCheckNickname(nickname);
-    if (data.status === 409 && nickname !== initialValue.nickname) {
+    if (data.status === 409 && nickname !== userInfo.nickname) {
       setError('nickname', {
         type: 'nickname duplicate',
         message: '중복되는 닉네임 입니다.',
@@ -68,7 +61,7 @@ export default function Edit() {
 
   const handleDoubleCheckEmail = async () => {
     const response = await authApi.getCheckEmail(email);
-    if (response.status === 409 && email !== initialValue.email) {
+    if (response.status === 409 && email !== userInfo.email) {
       setError('email', {
         type: 'email duplicate',
         message: '이미 가입된 이메일 입니다.',
@@ -82,32 +75,37 @@ export default function Edit() {
 
   useEffect(() => {
     if (typeof profile !== 'string' && profile?.length > 0) {
-      console.log(profile);
       setUserInfo({
         ...userInfo,
         image: makeBlob(profile[0]),
       });
     }
   }, [profile]);
-  const onSubmit = async () => {
-    if (!isNicknameValidate && initialValue.nickname !== nickname) {
+
+  const onSubmit = async (form: any) => {
+    if (!isNicknameValidate && userInfo.nickname !== form.nickname) {
       setError('nickname', {
         type: 'need nickname duplicate',
         message: '닉네임 중복체크를 해주세요',
       });
       return;
     }
-    if (!isEmailValidate && initialValue.email !== email) {
+    if (!isEmailValidate && userInfo.email !== form.email) {
       setError('email', {
         type: 'need email duplicate',
         message: '이메일 중복체크를 해주세요',
       });
     }
     const formData = new FormData();
-    formData.append('email', email);
-    formData.append('nickname', nickname);
-    formData.append('image', profile[0]);
+    formData.append('email', form.email);
+    formData.append('nickname', form.nickname);
+    if (profile) {
+      formData.append('image', profile[0] || '');
+    } else {
+      formData.append('image', '');
+    }
     const response = await authApi.patchUserInfo(formData);
+    console.log(response);
   };
 
   if (isLoading) return <Loader />;
@@ -149,7 +147,6 @@ export default function Edit() {
                 width="15"
                 height="0"
                 alt="profile"
-                className=""
               />
             </div>
           </div>
@@ -183,11 +180,7 @@ export default function Edit() {
           onClick={handleDoubleCheckNickName}
           text={isNicknameValidate ? '사용가능' : '중복확인'}
         />
-        {errors.nickname ? (
-          <ErrorMessage message={errors.nickname.message} />
-        ) : (
-          ''
-        )}
+        {errors.nickname && <ErrorMessage message={errors.nickname.message} />}
       </section>
       <section className="relative">
         <Input
@@ -218,7 +211,7 @@ export default function Edit() {
           <Input
             type="text"
             label="학력"
-            defaultValue={data?.education}
+            defaultValue={userInfo?.education}
             placeholder="학교와 학위, 전공 등을 입력해 주세요."
             $error={errors.education}
             register={register('education', {
@@ -232,8 +225,8 @@ export default function Edit() {
           <Input
             type="text"
             label="이력"
+            defaultValue={userInfo?.history}
             placeholder="이력을 작성해 주세요."
-            // value={history}
             $error={errors.history}
             register={register('history', {
               required: true,
@@ -244,7 +237,7 @@ export default function Edit() {
             type="text"
             label="작가소개"
             placeholder="소개를 작성해 주세요."
-            // value={description}
+            defaultValue={userInfo?.description}
             $error={errors.description}
             register={register('description', {
               required: true,
@@ -266,9 +259,9 @@ export default function Edit() {
             </label>
             <input
               placeholder="인스타그램 추가하기"
-              value={instagram}
               {...register('instagram')}
               id="instagram"
+              defaultValue={userInfo?.instagram}
               className="h-[30px] placeholder:text-[#999] text-12 indent-1 "
             />
 
@@ -283,9 +276,9 @@ export default function Edit() {
             </label>
             <input
               placeholder="비헨스 추가하기"
-              value={behance}
               {...register('behance')}
               id="behance"
+              defaultValue={userInfo?.behance}
               className="h-[30px] placeholder:text-[#999] text-12 indent-1"
             />
           </article>
