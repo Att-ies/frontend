@@ -40,8 +40,6 @@ export default function Post() {
 
   const signatureState = useAppSelector((state) => state.signature);
 
-  console.log(signatureState);
-
   const { register, setValue, watch } = useForm<Artwork>();
   const router = useRouter();
 
@@ -61,7 +59,7 @@ export default function Post() {
     }
   };
 
-  const handleGuaranteeClick = () => {
+  const handleSignatureClick = () => {
     router.push('/exhibition/post/guarantee');
   };
 
@@ -183,28 +181,43 @@ export default function Post() {
             })}
           ></textarea>
         </div>
-        <div className="relative cursor-pointer" onClick={handleGuaranteeClick}>
-          <div className="h-[52px] w-full text-[13px] rounded-[4px] border text-[#999999] border-[#D8D8D8] flex items-center pl-3">
-            전자 서명이 필요합니다.
-          </div>
-          <div className="absolute right-4 bottom-0 flex items-center h-[52px]">
-            <Image
-              src="/svg/icons/icon_pencil_gray.svg"
-              alt="setting"
-              className="cursor-pointer"
-              width="23"
-              height="0"
-            />
-          </div>
+        <div className="w-full">
+          <label htmlFor="statusDeatil" className="text-14 leading-8">
+            작품 보증서
+          </label>
+          {signatureState.signature ? (
+            <div
+              className="w-full h-[128px] cursor-pointer overflow-hidden border rounded border-[#DBDBDB] p-4 flex justify-center items-center"
+              onClick={handleSignatureClick}
+            >
+              <Image
+                src={signatureState.signature}
+                width={163}
+                height={91}
+                alt="guarantee"
+              />
+            </div>
+          ) : (
+            <div
+              className="relative cursor-pointer"
+              onClick={handleSignatureClick}
+            >
+              <div className="h-[52px] w-full text-[13px] rounded-[4px] border text-[#999999] border-[#D8D8D8] flex items-center pl-3">
+                전자 서명이 필요합니다.
+              </div>
+              <div className="absolute right-4 bottom-0 flex items-center h-[52px]">
+                <Image
+                  src="/svg/icons/icon_pencil_gray.svg"
+                  alt="setting"
+                  className="cursor-pointer"
+                  width="23"
+                  height="0"
+                />
+              </div>
+            </div>
+          )}
         </div>
-        <div>
-          <Image
-            src={signatureState.signature}
-            width={327}
-            height={183}
-            alt="guarantee"
-          />
-        </div>
+
         <div className="h-[336px] relative">
           <div className="w-[375px] h-[376px] absolute -left-6 bottom-0">
             <div className="mt-12 h-4 bg-[#F8F8FA]"></div>

@@ -17,7 +17,10 @@ export default function Guarantee() {
         <div className="flex justify-between text-14 mt-6">
           <span className="font-medium">서명을 입력하세요</span>
           <button
-            onClick={() => canvasRef.current.clear()}
+            onClick={() => {
+              canvasRef.current.clear();
+              dispatch(setSignature(''));
+            }}
             className="text-[#767676] flex"
           >
             <Image
@@ -29,10 +32,9 @@ export default function Guarantee() {
             <span className="ml-1">다시쓰기</span>
           </button>
         </div>
-        <div className="mt-2">
+        <div className="mt-2 bg-[#F8F8FA]">
           <SignatureCanvas
             ref={canvasRef}
-            backgroundColor="#F8F8FA"
             canvasProps={{
               width: 327,
               height: 183,
