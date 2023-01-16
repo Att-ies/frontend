@@ -10,9 +10,11 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
+import signatureSlice from './signature/signatureSlice';
 
 const rootReducer = combineReducers({
   user: userSlice,
+  signature: signatureSlice,
 });
 
 const persistConfig = {
