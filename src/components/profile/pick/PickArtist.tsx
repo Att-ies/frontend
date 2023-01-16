@@ -16,7 +16,7 @@ const PickArtistContainer = tw.div<DefaultProps>`
 w-full text-14 h-[98px] flex items-center cursor-pointer
 `;
 
-const PickAritstProfile = tw.div<DefaultProps>`
+const PickArtistProfile = tw.div<DefaultProps>`
 w-[50px] mr-[10px] aspect-square flex justify-center items-center rounded-full border-[1px] border-[#999999]
 `;
 
@@ -24,9 +24,9 @@ export default function PickArtist({ id, name, information }: PickArtistProps) {
   const router = useRouter();
   return (
     <PickArtistContainer onClick={() => router.push(`/profile/pick/${id}`)}>
-      <PickAritstProfile>
+      <PickArtistProfile>
         <Image src={avatar} alt="avatar" width={28} height={28} />
-      </PickAritstProfile>
+      </PickArtistProfile>
       <span>{name}</span>
       <span className="pl-1">{information}</span>
     </PickArtistContainer>

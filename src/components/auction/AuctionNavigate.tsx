@@ -46,9 +46,9 @@ export default function AuctionNavigate({ ...rest }: AuctionNavigateProps) {
         }
         handleLeftButton={handleLeftButton}
       />
-      <div className="relative">
-        <div className="absolute left-0 text-12">작품 17,029</div>
-        <div className="absolute right-0 text-12 flex cursor-pointer">
+      <div className="relative flex justify-between mb-3">
+        <div className=" left-0 text-12 ">작품 17,029</div>
+        <div className=" right-0 text-12 flex cursor-pointer ">
           인기순
           <Image
             alt=""
