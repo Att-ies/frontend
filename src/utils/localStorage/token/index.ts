@@ -11,7 +11,7 @@ export type Token = {
   accessToken: string | null;
   refreshToken: string | null;
   role: string | null;
-};
+}; 
 
 export const getToken = () => {
   const token = getLocalStorage<Token>(TOKEN_KEY, {

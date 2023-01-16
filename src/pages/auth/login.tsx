@@ -6,10 +6,11 @@ import Input from '@components/common/Input';
 import Layout from '@components/common/Layout';
 import SocialLoginButton from '@components/login/SocialLoginButton';
 import { setToken, Token } from '@utils/localStorage/token';
+import { setLocalStorage, getLocalStorage } from '@utils/localStorage/helper';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface LoginForm {
@@ -23,8 +24,25 @@ function Login() {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<LoginForm>();
+  } = useForm<LoginForm>({
+    defaultValues: {
+      userId: getLocalStorage('savedId'),
+    },
+  });
   const [checkedTerm, setCheckedTerm] = useState<string[]>([]);
+  useEffect(() => {
+    if (getLocalStorage('idSave') === 'true') {
+      setCheckedTerm(['idSave']);
+    }
+  }, []);
+  useEffect(() => {
+    if (checkedTerm.includes('idSave')) {
+      setLocalStorage('idSave', 'true');
+    } else {
+      setLocalStorage('idSave', 'false');
+    }
+  }, [checkedTerm]);
+
   const onChecked = (checked: boolean, id: string): void => {
     if (checked) {
       setCheckedTerm([...checkedTerm, id]);
@@ -32,14 +50,16 @@ function Login() {
       setCheckedTerm(checkedTerm.filter((el: string) => el !== id));
     }
   };
-
   const router = useRouter();
-
   const onSubmit = async ({ userId, password }: LoginForm) => {
+    if (checkedTerm.includes('idSave')) {
+      setLocalStorage('savedId', userId);
+    }
     const res = await authApi.postLogin({
       userId,
       password,
     });
+
     if (res.status === 200) {
       const token: Token = {
         accessToken: res.data.accessToken,
@@ -94,16 +114,16 @@ function Login() {
           <div className="flex space-x-[22px] mt-[14px]">
             <CheckBox
               kind="radio"
-              id="term1"
+              id="autoSave"
               label="자동 로그인"
-              isChecked={checkedTerm.includes('term1')}
+              isChecked={checkedTerm.includes('autoSave')}
               handler={(e) => onChecked(e.target.checked, e.target.id)}
             />
             <CheckBox
               kind="radio"
               label="아이디 저장"
-              id="term2"
-              isChecked={checkedTerm.includes('term2')}
+              id="idSave"
+              isChecked={checkedTerm.includes('idSave')}
               handler={(e) => onChecked(e.target.checked, e.target.id)}
             />
           </div>
