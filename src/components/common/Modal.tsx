@@ -6,7 +6,7 @@ interface ModalProps {
   isMain?: boolean;
   denyMessage?: string;
   onCloseModal: () => void;
-  onAccept?: () => void;
+  onAccept?: (e) => void;
 }
 
 interface DefaultProps {

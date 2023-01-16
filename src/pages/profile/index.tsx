@@ -26,7 +26,7 @@ interface ActivityListForm {
   path: string;
 }
 
-const ActivityLists: ActivityListForm[] = [
+let ActivityLists: ActivityListForm[] = [
   {
     id: '1',
     text: '관심목록',
@@ -39,19 +39,40 @@ const ActivityLists: ActivityListForm[] = [
     icon: '/svg/icons/icon_book.svg',
     path: '/profile/pick',
   },
-  {
-    id: '3',
-    text: '진행 경매',
-    icon: '/svg/icons/icon_dollar.svg',
-    path: '/auction',
-  },
 ];
+
+ActivityLists = isUser
+  ? [
+      ...ActivityLists,
+      {
+        id: '3',
+        text: '작품 목록',
+        icon: '/svg/icons/icon_picture_black.svg',
+        path: '/auction',
+      },
+    ]
+  : [
+      ...ActivityLists,
+      {
+        id: '3',
+        text: '판매작품',
+        icon: '/svg/icons/icon_selling.svg',
+        path: '/auction',
+      },
+      {
+        id: '4',
+        text: '구매작품',
+        icon: '/svg/icons/icon_buying.svg',
+        path: '/auction',
+      },
+    ];
 
 interface SettingListForm {
   id: string;
   text: string;
   path: string;
 }
+
 const SettingLists: SettingListForm[] = [
   {
     id: '1',
@@ -75,14 +96,14 @@ export default function Profile() {
   const handleRightButton = () => {
     router.push('/notice');
   };
-  const handleTaste = () => {
-    router.push('/auth/join04');
+  const handleKeywords = () => {
+    router.push('/profile/keyword');
   };
   const handleEdit = () => {
     router.push('/profile/edit');
   };
-  const handleConvert = () => {
-    router.push('/profile/convert');
+  const handleRegister = () => {
+    router.push('/profile/register');
   };
 
   const { isLoading, userInfo } = useGetProfile();
@@ -130,7 +151,7 @@ export default function Profile() {
         </WelcomeBox>
         {isUser && (
           <div
-            onClick={handleConvert}
+            onClick={handleRegister}
             className="flex justify-between border-[1px] rounded border-[#F5535D] p-4 cursor-pointer mt-4"
           >
             <div className="flex">
@@ -153,7 +174,7 @@ export default function Profile() {
           </div>
         )}
       </section>
-      <section className="flex justify-between ">
+      <section className="flex justify-between gap-2">
         {ActivityLists.map((activity: ActivityListForm) => (
           <Activity
             key={activity.id}
@@ -167,10 +188,10 @@ export default function Profile() {
         <div className="my-4 relative">
           <span className="text-14 text-[#191919] font-bold">
             취향 목록
-            {userInfo?.keywords?.length && (
+            {userInfo?.keywords?.length > 0 && (
               <Image
                 src="/svg/icons/icon_pencil_black.svg"
-                alt="notification"
+                alt="edit_keywords"
                 width="18"
                 height="0"
                 className="absolute left-[4rem] top-1"
@@ -178,7 +199,8 @@ export default function Profile() {
             )}
           </span>
         </div>
-        {userInfo?.keywords?.length ? (
+
+        {userInfo?.keywords?.length > 0 ? (
           <div className="flex flex-wrap mb-8">
             {userInfo?.keywords?.map((keyword) => (
               <span
@@ -192,7 +214,7 @@ export default function Profile() {
         ) : (
           <div className="mt-6 text-center mb-12 flex justify-center">
             <button
-              onClick={handleTaste}
+              onClick={handleKeywords}
               className="w-[100px] h-[36px] border-[1px] border-[#F5535D] rounded-[19px] text-xs text-[#F5535D] flex items-center justify-center"
             >
               <div>
