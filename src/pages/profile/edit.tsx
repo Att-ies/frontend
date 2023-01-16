@@ -169,7 +169,7 @@ export default function Edit() {
           label="닉네임"
           placeholder="닉네임을 입력해 주세요."
           defaultValue={userInfo?.nickname}
-          $error={errors.nickname ? true : false}
+          $error={errors.nickname}
           register={register('nickname', {
             required: true,
             pattern: {
@@ -195,7 +195,7 @@ export default function Edit() {
           label="이메일"
           defaultValue={userInfo?.email}
           placeholder="이메일을 입력해 주세요."
-          $error={errors.email ? true : false}
+          $error={errors.email}
           register={register('email', {
             required: true,
             pattern: {
@@ -220,7 +220,7 @@ export default function Edit() {
             label="학력"
             defaultValue={data?.education}
             placeholder="학교와 학위, 전공 등을 입력해 주세요."
-            $error={errors.education ? true : false}
+            $error={errors.education}
             register={register('education', {
               required: true,
             })}
@@ -234,7 +234,7 @@ export default function Edit() {
             label="이력"
             placeholder="이력을 작성해 주세요."
             // value={history}
-            $error={errors.history ? true : false}
+            $error={errors.history}
             register={register('history', {
               required: true,
             })}
@@ -245,7 +245,7 @@ export default function Edit() {
             label="작가소개"
             placeholder="소개를 작성해 주세요."
             // value={description}
-            $error={errors.description ? true : false}
+            $error={errors.description}
             register={register('description', {
               required: true,
             })}
