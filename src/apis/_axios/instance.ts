@@ -48,6 +48,7 @@ instance.interceptors.response.use(
     return res;
   },
   async (error) => {
+    const originalRequest = error.config;
     const { response: res, config: reqData } = error || {};
     const { status } = res || {};
     const isUnAuthError = status === 401;
@@ -63,14 +64,19 @@ instance.interceptors.response.use(
     }
 
     if (isUnAuthError) {
-      const token = await refreshToken();
-      token['role'] = getToken().role;
-      token['refreshToken'] = getToken().refreshToken;
-      if (token?.accessToken) {
-        setToken(token);
-        setAuthorHeader(token.accessToken);
-        reqData.headers.Authorization = token?.access;
-        return instance(reqData);
+      try {
+        const token = await refreshToken();
+        token['role'] = getToken().role;
+        token['refreshToken'] = getToken().refreshToken;
+        if (token?.accessToken) {
+          setToken(token);
+          setAuthorHeader(token.accessToken);
+          reqData.headers.Authorization = token?.access;
+          return instance(reqData);
+        }
+        return instance.request(originalRequest);
+      } catch (error) {
+        alert('세션이 만료되었습니다. 다시 로그인해 주시기 바랍니다.');
       }
     }
   },

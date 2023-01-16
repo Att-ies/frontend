@@ -1,15 +1,14 @@
 import authApi from '@apis/auth/authApi';
 import Layout from '@components/common/Layout';
+import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
 import Tab from '@components/common/Tab';
 import Activity from '@components/mypage/Activity';
 import SettingItem from '@components/mypage/SettingItem';
-import ArtItem from '@components/profile/ArtItem';
+import useGetProfile from '@hooks/queries/useGetProfile';
 import { isUser } from '@utils/isUser';
-import { deleteToken, getToken } from '@utils/localStorage/token';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import tw from 'tailwind-styled-components';
 
 interface defaultProps {
@@ -27,7 +26,7 @@ interface ActivityListForm {
   path: string;
 }
 
-const ActivityLists: ActivityListForm[] = [
+let ActivityLists: ActivityListForm[] = [
   {
     id: '1',
     text: '관심목록',
@@ -40,19 +39,40 @@ const ActivityLists: ActivityListForm[] = [
     icon: '/svg/icons/icon_book.svg',
     path: '/profile/pick',
   },
-  {
-    id: '3',
-    text: '진행 경매',
-    icon: '/svg/icons/icon_dollar.svg',
-    path: '/auction',
-  },
 ];
+
+ActivityLists = isUser
+  ? [
+      ...ActivityLists,
+      {
+        id: '3',
+        text: '작품 목록',
+        icon: '/svg/icons/icon_picture_black.svg',
+        path: '/auction',
+      },
+    ]
+  : [
+      ...ActivityLists,
+      {
+        id: '3',
+        text: '판매작품',
+        icon: '/svg/icons/icon_selling.svg',
+        path: '/auction',
+      },
+      {
+        id: '4',
+        text: '구매작품',
+        icon: '/svg/icons/icon_buying.svg',
+        path: '/auction',
+      },
+    ];
 
 interface SettingListForm {
   id: string;
   text: string;
   path: string;
 }
+
 const SettingLists: SettingListForm[] = [
   {
     id: '1',
@@ -72,32 +92,22 @@ const SettingLists: SettingListForm[] = [
 ];
 
 export default function Profile() {
-  const [nickname, setNickname] = useState<string>('');
-  const [keywords, setKeywords] = useState<string[]>([]);
   const router = useRouter();
   const handleRightButton = () => {
     router.push('/notice');
   };
-  const handleTaste = () => {
-    router.push('/auth/join04');
+  const handleKeywords = () => {
+    router.push('/profile/keyword');
   };
   const handleEdit = () => {
     router.push('/profile/edit');
   };
-  const handleConvert = () => {
-    router.push('/profile/convert');
+  const handleRegister = () => {
+    router.push('/profile/register');
   };
 
-  const getProfile = async () => {
-    const response = await authApi.getUserProfile();
-    if (response.status === 200) {
-      setNickname(response.data.nickname);
-      setKeywords(response.data?.keywords); //아직 API 구현 x
-    }
-  };
-  useEffect(() => {
-    getProfile();
-  }, []);
+  const { isLoading, userInfo } = useGetProfile();
+  if (isLoading) return <Loader />;
   return (
     <Layout>
       <Navigate
@@ -125,7 +135,7 @@ export default function Profile() {
             />
           </div>
           <div className="flex flex-col text-[#FFFFFF] mr-3">
-            <span className="font-medium">{nickname}님,</span>
+            <span className="font-medium">{userInfo?.nickname}님,</span>
             <span className="text-xs">아띠즈에 오신 걸 환영합니다.</span>
           </div>
           <div className="mr-3">
@@ -141,7 +151,7 @@ export default function Profile() {
         </WelcomeBox>
         {isUser && (
           <div
-            onClick={handleConvert}
+            onClick={handleRegister}
             className="flex justify-between border-[1px] rounded border-[#F5535D] p-4 cursor-pointer mt-4"
           >
             <div className="flex">
@@ -164,7 +174,7 @@ export default function Profile() {
           </div>
         )}
       </section>
-      <section className="flex justify-between ">
+      <section className="flex justify-between gap-2">
         {ActivityLists.map((activity: ActivityListForm) => (
           <Activity
             key={activity.id}
@@ -178,10 +188,10 @@ export default function Profile() {
         <div className="my-4 relative">
           <span className="text-14 text-[#191919] font-bold">
             취향 목록
-            {keywords.length && (
+            {userInfo?.keywords?.length > 0 && (
               <Image
                 src="/svg/icons/icon_pencil_black.svg"
-                alt="notification"
+                alt="edit_keywords"
                 width="18"
                 height="0"
                 className="absolute left-[4rem] top-1"
@@ -189,10 +199,22 @@ export default function Profile() {
             )}
           </span>
         </div>
-        {!keywords.length ? (
+
+        {userInfo?.keywords?.length > 0 ? (
+          <div className="flex flex-wrap mb-8">
+            {userInfo?.keywords?.map((keyword) => (
+              <span
+                className="border-[1px] border-[#DBDBDB] rounded-[19px] px-3 py-1 mr-2 mb-1 last:mr-0 text-14 text-[#767676] "
+                key={keyword}
+              >
+                {keyword}
+              </span>
+            ))}
+          </div>
+        ) : (
           <div className="mt-6 text-center mb-12 flex justify-center">
             <button
-              onClick={handleTaste}
+              onClick={handleKeywords}
               className="w-[100px] h-[36px] border-[1px] border-[#F5535D] rounded-[19px] text-xs text-[#F5535D] flex items-center justify-center"
             >
               <div>
@@ -205,17 +227,6 @@ export default function Profile() {
               </div>
               <div>취향분석</div>
             </button>
-          </div>
-        ) : (
-          <div className="flex flex-wrap mb-8">
-            {keywords.map((keyword) => (
-              <span
-                className="border-[1px] border-[#DBDBDB] rounded-[19px] px-3 py-1 mr-2 mb-1 last:mr-0 text-14 text-[#767676] "
-                key={keyword}
-              >
-                {keyword}
-              </span>
-            ))}
           </div>
         )}
       </section>
