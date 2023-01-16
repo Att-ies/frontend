@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import SignatureCanvas from 'react-signature-canvas';
 
 export default function Guarantee() {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef() as React.MutableRefObject<SignatureCanvas>;
   const dispatch = useDispatch();
 
   return (
