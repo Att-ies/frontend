@@ -7,6 +7,7 @@ interface ModalProps {
   denyMessage?: string;
   onCloseModal: () => void;
   onAccept?: (e) => void;
+  [key: string]: any;
 }
 
 interface DefaultProps {
@@ -32,7 +33,7 @@ const MainModalBackground = tw.div`
   absolute inset-0 bg-[#767676] opacity-60 backdrop-blur-3xl z-10
 `;
 const MainModalInner = tw.div<DefaultProps>`
-absolute z-10 w-[327px] h-[156px] bg-[#fff] inset-0 m-auto rounded-[4px]
+absolute z-10 w-[327px] h-[156px] bg-[#fff] inset-0 m-auto rounded-[4px] 
 `;
 const MainModalMessage = tw.div`
 h-[104px] text-[#191919] text-14 rounded-t-[4px] flex items-center justify-center font-bold p-5 text-14
@@ -52,10 +53,11 @@ export default function Modal({
   onCloseModal,
   denyMessage,
   onAccept,
+  ...rest
 }: ModalProps) {
   return isModal ? (
     isMain ? (
-      <ModalTag>
+      <ModalTag {...rest}>
         <MainModalBackground onClick={onCloseModal}></MainModalBackground>
         <MainModalInner>
           <MainModalMessage>{message}</MainModalMessage>
@@ -66,7 +68,7 @@ export default function Modal({
         </MainModalInner>
       </ModalTag>
     ) : (
-      <ModalTag>
+      <ModalTag {...rest}>
         <ModalBackground onClick={onCloseModal}></ModalBackground>
         <ModalInner>
           <ModalMessage>{message}</ModalMessage>
