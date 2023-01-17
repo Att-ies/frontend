@@ -1,17 +1,12 @@
+import { makeBlob } from '@utils/makeBlob';
 import Image from 'next/image';
-
+import React, { useState } from 'react';
 interface FileItemForm {
   file: any;
   handler: (name: string, size: number) => void;
 }
 
-const fileToImage = (file) => {
-  const fileURL = URL.createObjectURL(file);
-  return fileURL;
-};
-
 export default function FileItem({ file, handler }: FileItemForm) {
-  console.log(file);
   return (
     <div className="w-[60px] h-[60px] border-[1px] border-[#DBDBDB] rounded ml-3 relative mb-2">
       <div
@@ -26,7 +21,7 @@ export default function FileItem({ file, handler }: FileItemForm) {
         />
       </div>
       <Image
-        src={fileToImage(file)}
+        src={makeBlob(file)}
         alt={file.name}
         width={20}
         height={20}
