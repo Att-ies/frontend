@@ -29,7 +29,7 @@ const NavigateBox = tw.header<DefaultProps>`
 flex items-center font-semibold relative h-[64px] 
 `;
 
-const LeftButton = tw.button<LeftButtonProps>`cursor-pointer z-10 absolute left-0
+const LeftButton = tw.div<LeftButtonProps>`cursor-pointer z-10 absolute left-0
 `;
 
 const CenterMessage = tw.div`
@@ -39,7 +39,7 @@ text-font-1 text-18 absolute left-0 right-0 m-auto text-center
 const RightButton = tw.div<RightButtonProps>`
 text-14 z-10 cursor-pointer absolute right-0
 `;
-const SideMessage = tw.div`
+const SideMessage = tw.button`
     cursor-pointer z-10  text-14 text-[#999999]
 `;
 
