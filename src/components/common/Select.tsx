@@ -47,21 +47,19 @@ export default function Select<T extends FieldValues>({
                   key={optionIdx}
                   className={({ active }) =>
                     `first:rounded-t-[4px] last:rounded-b-[4px] relative flex items-center p-3 border h-[52px] bg-white border-[#DBDBDB] ${
-                      active ? 'font-semibold' : ''
+                      active && 'font-semibold'
                     }`
                   }
                   value={option}
                 >
                   {({ selected }) => (
-                    <>
-                      <span
-                        className={`block truncate ${
-                          selected ? 'font-medium' : 'font-normal'
-                        }`}
-                      >
-                        {option.value}
-                      </span>
-                    </>
+                    <span
+                      className={`block truncate ${
+                        selected ? 'font-medium' : 'font-normal'
+                      }`}
+                    >
+                      {option.value}
+                    </span>
                   )}
                 </Listbox.Option>
               ))}
