@@ -49,7 +49,11 @@ interface SelectKeywordProps {
   [key: string]: any;
 }
 
-const SelectKeywordTag = tw.div``;
+interface SelectKeyWordTagProps {
+  [key: string]: any;
+}
+
+const SelectKeywordTag = tw.div<SelectKeyWordTagProps>``;
 
 export default function SelectKeyword({
   handleSubmit,
