@@ -1,5 +1,5 @@
 import Layout from '@components/common/Layout';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import ChattingMessage from '@components/chat/ChatMessage';
@@ -43,13 +43,8 @@ export default function ChatRoom({ params }: ChatRoomProps) {
   const router = useRouter();
   const { register, handleSubmit, watch } = useForm<MessageForm>();
   const { id } = router.query;
-  const [isModal, setIsModal] = useState();
-  const [chatList, setChatList] = useState<ChatRoomForm>(DUMP_CHATLIST);
-
-  const onSubmit = (form: MessageForm) => {
-    console.log(form.message);
-    // 채팅 API전송
-  };
+  const [isModal, setIsModal] = useState(false);
+  const [chatList, setChatList] = useState<ChatRoomForm[]>(DUMP_CHATLIST);
 
   const handleBack = () => {
     router.push('/chat');
@@ -65,6 +60,10 @@ export default function ChatRoom({ params }: ChatRoomProps) {
   const onAccept = () => {
     console.log('채팅방 나가기');
     // 채팅방 나가기 API
+  };
+
+  const onSubmit = (form: MessageForm) => {
+    // publish(form.message);
   };
 
   const image = watch('image');
@@ -93,7 +92,7 @@ export default function ChatRoom({ params }: ChatRoomProps) {
             alt="back"
             width="11"
             height="0"
-            onClick={handleBack}
+            onClick={() => router.back()}
             className="cursor-pointer"
           />
           <div className="text-16 px-5 ">온주</div>
