@@ -60,7 +60,7 @@ function Login() {
       password,
     });
 
-    if (res.status === 200) {
+    if (res?.status === 200) {
       const token: Token = {
         accessToken: res.data.accessToken,
         refreshToken: res.data.refreshToken,

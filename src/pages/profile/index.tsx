@@ -1,4 +1,5 @@
 import authApi from '@apis/auth/authApi';
+import DivisionBar from '@components/common/DivisionBar';
 import Layout from '@components/common/Layout';
 import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
@@ -55,15 +56,15 @@ ActivityLists = isUser
       ...ActivityLists,
       {
         id: '3',
-        text: '판매작품',
-        icon: '/svg/icons/icon_selling.svg',
-        path: '/auction',
+        text: '구매작품',
+        icon: '/svg/icons/icon_buying.svg',
+        path: '/profile/buying',
       },
       {
         id: '4',
-        text: '구매작품',
-        icon: '/svg/icons/icon_buying.svg',
-        path: '/auction',
+        text: '판매활동',
+        icon: '/svg/icons/icon_selling.svg',
+        path: '/profile/selling',
       },
     ];
 
@@ -184,7 +185,8 @@ export default function Profile() {
           ></Activity>
         ))}
       </section>
-      <section className="my-4 border-y-[12px] border-[#F8F8FA] ">
+      <DivisionBar className="my-5" />
+      <section className="my-4">
         <div className="my-4 relative">
           <span className="text-14 text-[#191919] font-bold">
             취향 목록
@@ -199,7 +201,7 @@ export default function Profile() {
             )}
           </span>
         </div>
-
+        <DivisionBar className="my-5" />
         {userInfo?.keywords?.length > 0 ? (
           <div className="flex flex-wrap mb-8">
             {userInfo?.keywords?.map((keyword) => (
