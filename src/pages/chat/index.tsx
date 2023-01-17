@@ -3,10 +3,9 @@ import Tab from '@components/common/Tab';
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Chatroom from '@components/chat/ChatRoom';
-import { getToken } from '@utils/localStorage/token';
 import * as StompJs from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
 import { useRouter } from 'next/router';
+import { createClient } from '@apis/chat/socketConnect';
 interface ChatRoomListForm {
   id: string;
   profileImage: string;
@@ -51,33 +50,7 @@ export default function Chat() {
   const router = useRouter();
 
   const connect = () => {
-    const access = getToken().accessToken;
-    if (!access) return;
-    const headers = { Authorization: access };
-
-    // const sock = new SockJS('http://44.193.163.114:8080/ws-connection');
-    // const stomp = Stomp.over(sock);
-    // stomp.connect(headers, () => {
-    //   console.log('connected');
-    // });
-
-    client.current = new StompJs.Client({
-      brokerURL: 'ws://44.193.163.114:8080/ws-connection',
-      connectHeaders: headers,
-      onStompError: (frame) => {
-        console.log(frame);
-      },
-      onConnect: () => {
-        console.log('connected');
-        subscribe();
-      },
-      debug: (str) => {
-        console.log(str);
-      },
-      reconnectDelay: 5000,
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
-    });
+    client.current = createClient('/ws-connection');
     client.current.activate();
   };
 
@@ -90,34 +63,6 @@ export default function Chat() {
 
   const disconnect = () => {
     client.current.deactivate();
-  };
-
-  const publish = (msg) => {
-    if (!client.current.connected) {
-      console.log('not connected');
-      return;
-    }
-    client.current.publish({
-      destination: '/app/send',
-      body: msg,
-    });
-  };
-
-  const subscribe = () => {
-    if (!client.current.connected) {
-      console.log('not connected');
-      return;
-    }
-    client.current.subscribe(
-      `/queue/chat-rooms/${router.query.id}`,
-      (message) => {
-        if (message.body) {
-          console.log('Received: ' + message.body);
-        } else {
-          console.log('Received empty message');
-        }
-      },
-    );
   };
 
   useEffect(() => {
