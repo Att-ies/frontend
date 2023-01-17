@@ -12,9 +12,42 @@ export default function Buying() {
       <p className="text-14">
         <span className="text-[#F5535D] ">2건</span>의 구매작품이 있습니다.
       </p>
-      <ArtWorkItem />
-      <ArtWorkItem />
-      <ArtWorkItem />
+      <ArtWorkItem
+        lastChild={
+          <p>
+            <span className="text-10 text-[#FFF] bg-[#767676] px-1 py-0.5 rounded">
+              배송완료
+            </span>
+            <span className="text-14 text-[#F5535D] font-bold ml-1">
+              450,000원
+            </span>
+          </p>
+        }
+      />
+      <ArtWorkItem
+        lastChild={
+          <p>
+            <span className="text-10 text-[#FFF] bg-[#767676] px-1 py-0.5 rounded">
+              배송완료
+            </span>
+            <span className="text-14 text-[#F5535D] font-bold ml-1">
+              450,000원
+            </span>
+          </p>
+        }
+      />
+      <ArtWorkItem
+        lastChild={
+          <p>
+            <span className="text-10 text-[#FFF] bg-[#767676] px-1 py-0.5 rounded">
+              배송완료
+            </span>
+            <span className="text-14 text-[#F5535D] font-bold ml-1">
+              450,000원
+            </span>
+          </p>
+        }
+      />
     </Layout>
   );
 }
