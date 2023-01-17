@@ -31,9 +31,7 @@ export default function Post() {
   const { register, setValue, watch, handleSubmit } = useForm<Artwork>();
 
   const file = watch('image');
-
   useEffect(() => {
-    console.log(file);
     if (fileLists?.length <= 5 && fileLists?.length + file?.length <= 5) {
       const newFileList: any = [];
       for (const i of file) {
@@ -41,10 +39,10 @@ export default function Post() {
       }
       setFileLists((prev) => prev.concat(newFileList));
     }
-    console.log(fileLists);
-  }, [file, fileLists]);
+  }, [file]);
 
   const onSubmit = (form: Artwork) => {
+    console.log(form);
     const {
       title,
       productionYear,
@@ -65,7 +63,7 @@ export default function Post() {
     formData.append('productionYear', productionYear + '');
     formData.append('description', description);
     formData.append('material', material);
-    if (frame) {
+    if (frame + '' === '있음') {
       formData.append('frame', 'true');
     } else {
       formData.append('frame', 'false');
@@ -77,6 +75,8 @@ export default function Post() {
     formData.append('productionYear', price + '');
     formData.append('productionYear', status);
     formData.append('productionYear', statusDescription);
+
+    console.log(formData);
   };
 
   return (
@@ -168,7 +168,7 @@ export default function Post() {
                 maxLength={1000}
                 placeholder="작품에 대해 자세히 기입해주세요."
                 className="w-full h-[150px] placeholder:text-14 overflow-hidden resize-none placeholder-[#999999] text-[13px] rounded-[4px] border-[#D8D8D8]  "
-                {...register('statusDescription')}
+                {...register('description')}
               />
             </section>
             <Input
