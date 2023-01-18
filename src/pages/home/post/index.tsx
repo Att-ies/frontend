@@ -80,8 +80,6 @@ export default function Post() {
     formData.append('productionYear', price + '');
     formData.append('productionYear', status);
     formData.append('productionYear', statusDescription);
-
-    console.log(formData);
   };
 
   if (isGuaranteeModal)
@@ -150,7 +148,7 @@ export default function Post() {
             type="text"
             label="작품명"
             placeholder="작품명을 입력해주세요"
-            register={register('title')}
+            register={register('title', { required: true })}
           />
           <button onClick={() => setIsKeywordModal(true)} className="relative">
             <div className="h-[38px] w-[92px] text-[13px] rounded-[4px] border text-[#999999] border-[#D8D8D8] flex items-center pl-3">
@@ -182,7 +180,7 @@ export default function Post() {
           label="제작연도"
           min={2010}
           placeholder="숫자만 입력해주세요. ex)2022"
-          register={register('productionYear')}
+          register={register('productionYear', { required: true })}
         />
         <div>
           <div className="flex justify-between">
@@ -205,14 +203,14 @@ export default function Post() {
             maxLength={1000}
             placeholder="작품에 대해 자세히 기입해주세요."
             className="w-full h-[150px] placeholder:text-14 overflow-hidden resize-none placeholder-[#999999] text-[13px] rounded-[4px] border-[#D8D8D8]"
-            {...register('description')}
+            {...register('description', { required: true })}
           />
         </div>
         <Input
           type="text"
           label="재료"
           placeholder="사용한 재료를 입력해주세요."
-          register={register('material')}
+          register={register('material', { required: true })}
         />
         <div onClick={() => setIsGenreModal(true)}>
           <label className="text-14 leading-8">장르</label>
@@ -238,7 +236,7 @@ export default function Post() {
               min={0}
               placeholder="가로"
               className=""
-              register={register('width')}
+              register={register('width', { required: true })}
               unit="cm"
             />
             <Input
@@ -246,7 +244,7 @@ export default function Post() {
               min={0}
               placeholder="세로"
               className=""
-              register={register('length')}
+              register={register('length', { required: true })}
               unit="cm"
             />
             <Input
@@ -254,25 +252,19 @@ export default function Post() {
               min={0}
               placeholder="높이"
               className=""
-              register={register('height')}
+              register={register('height', { required: true })}
               unit="cm"
             />
           </article>
           <article className="w-[calc((100%-2rem)/3)]">
-            <Input
-              type="number"
-              placeholder="10"
-              className=""
-              register={register('size')}
-              unit="호"
-            />
+            <Input type="number" placeholder="10" className="" unit="호" />
           </article>
         </div>
         <Input
           type="text"
           label="작품 판매가"
           placeholder="작품 최소 가격을 설정해주세요."
-          register={register('price')}
+          register={register('price', { required: true })}
         />
         <Select
           name="status"
@@ -285,7 +277,7 @@ export default function Post() {
           maxLength={1000}
           placeholder="작품상태에 대해 자세히 기입해주세요."
           className="w-full h-[150px] placeholder:text-14 overflow-hidden resize-none placeholder-[#999999] text-[13px] rounded-[4px] border-[#D8D8D8]  "
-          {...register('statusDescription')}
+          {...register('statusDescription', { required: true })}
         />
         <div
           className="w-full cursor-pointer"
