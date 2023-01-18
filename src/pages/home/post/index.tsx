@@ -9,6 +9,7 @@ import { Artwork } from 'types/artwork';
 import FileItem from '@components/inquiry/FileItem';
 import GuaranteeModal from '@components/home/post/GuaranteeModal';
 import KeywordModal from '@components/home/post/KeywordModal.tsx';
+import GenreModal from '@components/home/post/GenreModal';
 
 const ARTWORK_STATUS = [
   { value: '매우 좋음' },
@@ -21,8 +22,10 @@ const IS_FRAME = [{ value: '있음' }, { value: '없음' }];
 export default function Post() {
   const [isGuaranteeModal, setIsGuaranteeModal] = useState<Boolean>(false);
   const [isKeywordModal, setIsKeywordModal] = useState<Boolean>(false);
+  const [isGenreModal, setIsGenreModal] = useState<Boolean>(false);
   const [signature, setSignature] = useState<string>('');
   const [keywordList, setKeywordList] = useState<string[]>([]);
+  const [genre, setGenre] = useState<string>('');
   const [fileLists, setFileLists] = useState<File[]>([]);
   const handleRemoveFile = (targetName: string): void => {
     const newFileLists = fileLists.filter((file) => {
@@ -98,11 +101,20 @@ export default function Post() {
       />
     );
 
+  if (isGenreModal)
+    return (
+      <GenreModal
+        genre={genre}
+        setGenre={setGenre}
+        onCloseModal={() => setIsGenreModal(false)}
+      />
+    );
+
   return (
     <Layout>
       <form className="w-full space-y-3" onSubmit={handleSubmit(onSubmit)}>
         <Navigate right_message="완료" />
-        <section className="flex ">
+        <div className="flex">
           <label htmlFor="fileImage">
             <div className="cursor-pointer w-[60px] h-[60px] border-[1px] border-[#DBDBDB] rounded flex flex-col justify-center items-center mr-0">
               <Image
@@ -132,8 +144,8 @@ export default function Post() {
             className="hidden"
             {...register('image')}
           />
-        </section>
-        <section>
+        </div>
+        <div>
           <Input
             type="text"
             label="작품명"
@@ -164,7 +176,7 @@ export default function Post() {
               </div>
             ))}
           </div>
-        </section>
+        </div>
         <Input
           type="number"
           label="제작연도"
@@ -172,7 +184,7 @@ export default function Post() {
           placeholder="숫자만 입력해주세요. ex)2022"
           register={register('productionYear')}
         />
-        <section>
+        <div>
           <div className="flex justify-between">
             <label htmlFor="description" className="text-14 leading-8">
               작품설명
@@ -192,23 +204,29 @@ export default function Post() {
             id="content"
             maxLength={1000}
             placeholder="작품에 대해 자세히 기입해주세요."
-            className="w-full h-[150px] placeholder:text-14 overflow-hidden resize-none placeholder-[#999999] text-[13px] rounded-[4px] border-[#D8D8D8]  "
+            className="w-full h-[150px] placeholder:text-14 overflow-hidden resize-none placeholder-[#999999] text-[13px] rounded-[4px] border-[#D8D8D8]"
             {...register('description')}
           />
-        </section>
+        </div>
         <Input
           type="text"
           label="재료"
           placeholder="사용한 재료를 입력해주세요."
           register={register('material')}
         />
+        <div onClick={() => setIsGenreModal(true)}>
+          <label className="text-14 leading-8">장르</label>
+          <div className="w-full cursor-pointer h-[52px] border flex items-center pl-3 border-[#D8D8D8] text-[#999999] text-[13px] rounded-[4px]">
+            {genre ? genre : '선택하기'}
+          </div>
+        </div>
         <Select
           name="frame"
           setValue={setValue}
           options={IS_FRAME}
           label="액자"
         />
-        <section>
+        <div>
           <span className="text-14">크기/호수</span>
           <article className="flex gap-4">
             <Input
@@ -245,7 +263,7 @@ export default function Post() {
               unit="호"
             />
           </article>
-        </section>
+        </div>
         <Input
           type="text"
           label="작품 판매가"
