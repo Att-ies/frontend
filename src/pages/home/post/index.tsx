@@ -10,6 +10,7 @@ import FileItem from '@components/inquiry/FileItem';
 import GuaranteeModal from '@components/home/post/GuaranteeModal';
 import KeywordModal from '@components/home/post/KeywordModal.tsx';
 import GenreModal from '@components/home/post/GenreModal';
+import ErrorMessage from '@components/common/ErrorMessage';
 
 const ARTWORK_STATUS = [
   { value: '매우 좋음' },
@@ -61,7 +62,13 @@ export default function Post() {
     setFileLists(newFileLists);
   };
 
-  const { register, setValue, watch, handleSubmit } = useForm<Artwork>();
+  const {
+    register,
+    setValue,
+    watch,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Artwork>();
 
   const file = watch('image');
   useEffect(() => {
@@ -296,7 +303,16 @@ export default function Post() {
             />
           </article>
           <article className="w-[calc((100%-2rem)/3)]">
-            <Input type="number" placeholder="10" unit="호" />
+            <Input
+              type="number"
+              placeholder="10"
+              unit="호"
+              register={register('size', {
+                validate: (value) =>
+                  CANVAS_SIZE.includes(value) || '호수를 확인해주세요.',
+              })}
+            />
+            {errors.size && <ErrorMessage message={errors.size.message} />}
           </article>
         </div>
         <Input
