@@ -1,7 +1,7 @@
 import Layout from '@components/common/Layout';
 import React from 'react';
 import { useRouter } from 'next/router';
-import Navigate from './../components/common/Navigate';
+import Navigate from '../components/common/Navigate';
 import Button from '@components/common/Button';
 import { useState } from 'react';
 import { Navigation } from 'swiper';
@@ -17,7 +17,7 @@ text-20 font-bold mt-16
 const Content = tw.p`text-10 text-[#767676] mt-2 leading-4`;
 const Line = tw.span``;
 
-export default function Start() {
+export default function Begin() {
   const [swiper, setSwiper] = useState(null);
   const router = useRouter();
   const handleRightButton = () => {
@@ -41,8 +41,8 @@ export default function Start() {
           <SwiperSlide>
             <ImageWrapper>
               <Image
-                alt="start"
-                src="/svg/start/start_01.svg"
+                alt="begin"
+                src="/svg/begin/begin_01.svg"
                 width="375"
                 height="0"
               />
@@ -65,8 +65,8 @@ export default function Start() {
           <SwiperSlide>
             <ImageWrapper>
               <Image
-                alt="start"
-                src="/svg/start/start_02.svg"
+                alt="begin"
+                src="/svg/begin/begin_02.svg"
                 width="375"
                 height="0"
               />
@@ -87,8 +87,8 @@ export default function Start() {
           <SwiperSlide>
             <ImageWrapper>
               <Image
-                alt="start"
-                src="/svg/start/start_03.svg"
+                alt="begin"
+                src="/svg/begin/begin_03.svg"
                 width="280"
                 height="0"
                 className="mb-[100px] "
