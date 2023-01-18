@@ -17,7 +17,6 @@ import { makeBlob } from '@utils/makeBlob';
 export default function Edit() {
   const [isNicknameValidate, setIsNicknameValidate] = useState<boolean>(true);
   const [isEmailValidate, setIsEmailValidate] = useState<boolean>(true);
-  const [isChanged, setIsChanged] = useState<boolean>(false);
   const { isLoading, userInfo, setUserInfo, isSuccess } = useGetProfile();
   const {
     register,
@@ -27,9 +26,9 @@ export default function Edit() {
     setError,
     clearErrors,
   } = useForm<Member>();
-  const nickname = watch('nickname');
-  const email = watch('email');
-  const profile = watch('profile');
+  const nickname: string | undefined = watch('nickname');
+  const email: string | undefined = watch('email');
+  const profile: any = watch('profile');
   const router = useRouter();
 
   const handleLeftButton = () => {
@@ -81,7 +80,6 @@ export default function Edit() {
       });
     }
   }, [profile]);
-
   const onSubmit = async (form: any) => {
     if (!isNicknameValidate && userInfo.nickname !== form.nickname) {
       setError('nickname', {
@@ -97,15 +95,18 @@ export default function Edit() {
       });
     }
     const formData = new FormData();
-    formData.append('email', form.email);
     formData.append('nickname', form.nickname);
-    formData.append('isChanged', isChanged);
-    formData.append('address', 'a');
+    formData.append('email', form.email);
+    formData.append('address', '');
     formData.append('keywords', userInfo?.keywords);
-    if (profile) {
-      formData.append('image', profile[0] || null);
+    if (profile.length) {
+      //유저가 프로필을 변환하였다면
+      formData.append('isChanged', 'true');
+      formData.append('image', profile[0]);
     } else {
-      formData.append('image', null);
+      // 유저가 프로필을 변경하지 않았다면
+      formData.append('isChanged', 'false');
+      formData.append('image', new File([''], ''));
     }
     const response = await authApi.patchUserInfo(formData);
     console.log(response);
