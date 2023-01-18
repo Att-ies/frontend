@@ -68,7 +68,7 @@ function Login() {
       };
       if (token) setToken(token);
       router.push('/home');
-    } else if (res.status === 401 && res.data.code === 'UNAUTHORIZED_ID') {
+    } else if (res?.status === 401 && res?.data.code === 'UNAUTHORIZED_ID') {
       setError('userId', {
         type: 'unauthorized',
         message: '존재하지 않는 아이디입니다.',
