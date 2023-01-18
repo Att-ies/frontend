@@ -5,7 +5,7 @@ import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 interface passwordForm {
@@ -22,10 +22,13 @@ export default function Password() {
     watch,
     setError,
   } = useForm<passwordForm>({ mode: 'onTouched' });
-
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] =
-    useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string>('');
+  const [isShow, setIsShow] = useState<boolean>(false);
+  const password: string = watch('password');
+  useEffect(() => {
+    setSuccessMessage('');
+  }, [password]);
+  const [isShowConfirm, setIsShowConfirm] = useState<boolean>(false);
   const onSubmit = async () => {
     if (watch('password') !== watch('passwordConfirm')) {
       setError(
@@ -38,26 +41,29 @@ export default function Password() {
       );
       return;
     }
-    console.log(watch('password'));
-    const response = await authApi.postPassword(watch('password'));
-    console.log(response);
+    const res = await authApi.postPassword(watch('password'));
+    if (res.status === 409) {
+      setError('passwordConfirm', {
+        type: 'password same',
+        message: res.detail,
+      });
+    } else {
+      setSuccessMessage('비밀번호 변경이 완료되었습니다.');
+    }
   };
-  const handleLeftButton = () => {
-    router.push('/profile');
-  };
+
   return (
     <Layout>
       <Navigate
         message="비밀번호 변경"
         right_message="완료"
         handleRightButton={handleSubmit(onSubmit)}
-        handleLeftButton={handleLeftButton}
       />
       <div className="relative   ">
         <Input
           label="비밀번호"
           placeholder="비밀번호"
-          type={showPassword ? 'text' : 'password'}
+          type={isShow ? 'text' : 'password'}
           register={register('password', {
             required: true,
             pattern: {
@@ -69,12 +75,12 @@ export default function Password() {
         {errors.password && <ErrorMessage message={errors.password.message} />}
         <Image
           alt="eye"
-          src={`/svg/icons/icon_eye${showPassword ? '_on' : ''}.svg`}
+          src={`/svg/icons/icon_eye${isShow ? '_on' : ''}.svg`}
           width="25"
           height="0"
           className="absolute right-2 top-12"
           onClick={() => {
-            setShowPassword(!showPassword);
+            setIsShow(!isShow);
           }}
         />
       </div>
@@ -82,7 +88,7 @@ export default function Password() {
         <Input
           label="비밀번호 확인"
           placeholder="비밀번호 확인"
-          type={showPasswordConfirm ? 'text' : 'password'}
+          type={isShowConfirm ? 'text' : 'password'}
           register={register('passwordConfirm', {
             required: true,
             pattern: {
@@ -96,15 +102,18 @@ export default function Password() {
         )}
         <Image
           alt="eye"
-          src={`/svg/icons/icon_eye${showPasswordConfirm ? '_on' : ''}.svg`}
+          src={`/svg/icons/icon_eye${isShowConfirm ? '_on' : ''}.svg`}
           width="25"
           height="0"
           className="absolute right-2 top-12"
           onClick={() => {
-            setShowPasswordConfirm(!showPasswordConfirm);
+            setIsShowConfirm(!isShowConfirm);
           }}
         />
       </div>
+      {successMessage && (
+        <p className="text-[#5a82f1] text-14">비밀번호 변경 성공</p>
+      )}
     </Layout>
   );
 }
