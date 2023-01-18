@@ -17,7 +17,6 @@ import { makeBlob } from '@utils/makeBlob';
 export default function Edit() {
   const [isNicknameValidate, setIsNicknameValidate] = useState<boolean>(true);
   const [isEmailValidate, setIsEmailValidate] = useState<boolean>(true);
-
   const { isLoading, userInfo, setUserInfo, isSuccess } = useGetProfile();
   const {
     register,
@@ -27,9 +26,9 @@ export default function Edit() {
     setError,
     clearErrors,
   } = useForm<Member>();
-  const nickname = watch('nickname');
-  const email = watch('email');
-  const profile = watch('profile');
+  const nickname: string | undefined = watch('nickname');
+  const email: string | undefined = watch('email');
+  const profile: any = watch('profile');
   const router = useRouter();
 
   const handleLeftButton = () => {
@@ -81,7 +80,6 @@ export default function Edit() {
       });
     }
   }, [profile]);
-
   const onSubmit = async (form: any) => {
     if (!isNicknameValidate && userInfo.nickname !== form.nickname) {
       setError('nickname', {
@@ -97,12 +95,18 @@ export default function Edit() {
       });
     }
     const formData = new FormData();
-    formData.append('email', form.email);
     formData.append('nickname', form.nickname);
-    if (profile) {
-      formData.append('image', profile[0] || '');
+    formData.append('email', form.email);
+    formData.append('address', '');
+    formData.append('keywords', userInfo?.keywords);
+    if (profile.length) {
+      //유저가 프로필을 변환하였다면
+      formData.append('isChanged', 'true');
+      formData.append('image', profile[0]);
     } else {
-      formData.append('image', '');
+      // 유저가 프로필을 변경하지 않았다면
+      formData.append('isChanged', 'false');
+      formData.append('image', new File([''], ''));
     }
     const response = await authApi.patchUserInfo(formData);
     console.log(response);
@@ -166,7 +170,7 @@ export default function Edit() {
           label="닉네임"
           placeholder="닉네임을 입력해 주세요."
           defaultValue={userInfo?.nickname}
-          $error={errors.nickname}
+          $error={!!errors.nickname}
           register={register('nickname', {
             required: true,
             pattern: {
@@ -188,7 +192,7 @@ export default function Edit() {
           label="이메일"
           defaultValue={userInfo?.email}
           placeholder="이메일을 입력해 주세요."
-          $error={errors.email}
+          $error={!!errors.email}
           register={register('email', {
             required: true,
             pattern: {
@@ -213,7 +217,7 @@ export default function Edit() {
             label="학력"
             defaultValue={userInfo?.education}
             placeholder="학교와 학위, 전공 등을 입력해 주세요."
-            $error={errors.education}
+            $error={!!errors.education}
             register={register('education', {
               required: true,
             })}
@@ -227,7 +231,7 @@ export default function Edit() {
             label="이력"
             defaultValue={userInfo?.history}
             placeholder="이력을 작성해 주세요."
-            $error={errors.history}
+            $error={!!errors.history}
             register={register('history', {
               required: true,
             })}
@@ -238,7 +242,7 @@ export default function Edit() {
             label="작가소개"
             placeholder="소개를 작성해 주세요."
             defaultValue={userInfo?.description}
-            $error={errors.description}
+            $error={!!errors.description}
             register={register('description', {
               required: true,
             })}
