@@ -104,18 +104,17 @@ export default function SelectKeyword({
           </div>
         ))}
       </div>
-      <div className="h-[200px]"></div>
       <Button
         text="완료"
         onClick={() => {
           setIsModal(true);
         }}
         disabled={keywordList?.length === 0}
+        className="absolute bottom-[100px] inset-x-0 m-auto w-[327px]"
       />
       <button
-        className="w-full transition h-[52px] text-xs underline border border-transparent hover:[#F5535D]-2 px-0 text-[#999999] leading-3 font-normal"
+        className="w-full transition text-xs underline  hover:[#F5535D]-2 px-0 text-[#999999] font-normal absolute bottom-[60px] inset-x-0 m-auto"
         onClick={handleSubmit}
-        id="skip"
       >
         다음에 할래요
       </button>
