@@ -216,7 +216,11 @@ export default function Post() {
         />
         <div onClick={() => setIsGenreModal(true)}>
           <label className="text-14 leading-8">장르</label>
-          <div className="w-full cursor-pointer h-[52px] border flex items-center pl-3 border-[#D8D8D8] text-[#999999] text-[13px] rounded-[4px]">
+          <div
+            className={`w-full cursor-pointer h-[52px] border flex items-center pl-3 border-[#D8D8D8] text-[13px] rounded-[4px] ${
+              genre ? 'text-[#191919]' : 'text-[#999999]'
+            }`}
+          >
             {genre ? genre : '선택하기'}
           </div>
         </div>
