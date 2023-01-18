@@ -26,7 +26,7 @@ const ModalMessage = tw.div`
 h-[104px] bg-white text-[#191919] text-14 rounded-t-[4px] flex items-center justify-center font-bold 
 `;
 const ModalAccept = tw.div`
-bg-[#F5535D] h-[52px] rounded-b-[4px] text-white flex items-center justify-center cursor-pointer
+bg-[#FC6554] h-[52px] rounded-b-[4px] text-white flex items-center justify-center cursor-pointer
 `;
 
 const MainModalBackground = tw.div`
@@ -43,7 +43,7 @@ const MainModalDeny = tw.div`
 w-[126px] h-[34px] border border-[#DBDBDB] rounded-[4px] flex items-center justify-center cursor-pointer
 `;
 const MainModalAccept = tw.div`
-w-[126px] h-[34px]  bg-[#F5535D] rounded-[4px] text-[#FFF] flex items-center justify-center cursor-pointer
+w-[126px] h-[34px]  bg-[#FC6554] rounded-[4px] text-[#FFF] flex items-center justify-center cursor-pointer
 `;
 
 export default function Modal({

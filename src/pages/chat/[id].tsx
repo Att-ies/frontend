@@ -1,5 +1,5 @@
 import Layout from '@components/common/Layout';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import ChattingMessage from '@components/chat/ChatMessage';
@@ -18,6 +18,7 @@ interface ChatRoomForm {
 
 interface MessageForm {
   message: string;
+  image: FileList;
 }
 
 const DUMP_CHATLIST: ChatRoomForm[] = [
@@ -42,13 +43,8 @@ export default function ChatRoom({ params }: ChatRoomProps) {
   const router = useRouter();
   const { register, handleSubmit, watch } = useForm<MessageForm>();
   const { id } = router.query;
-  const [isModal, setIsModal] = useState();
-  const [chatList, setChatList] = useState<ChatRoomForm>(DUMP_CHATLIST);
-
-  const onSubmit = (form: MessageForm) => {
-    console.log(form.message);
-    // 채팅 API전송
-  };
+  const [isModal, setIsModal] = useState(false);
+  const [chatList, setChatList] = useState<ChatRoomForm[]>(DUMP_CHATLIST);
 
   const handleBack = () => {
     router.push('/chat');
@@ -64,6 +60,10 @@ export default function ChatRoom({ params }: ChatRoomProps) {
   const onAccept = () => {
     console.log('채팅방 나가기');
     // 채팅방 나가기 API
+  };
+
+  const onSubmit = (form: MessageForm) => {
+    // publish(form.message);
   };
 
   const image = watch('image');
@@ -85,14 +85,14 @@ export default function ChatRoom({ params }: ChatRoomProps) {
         denyMessage="나가기"
         onAccept={onAccept}
       />
-      <header className="absolute top-0 inset-x-0 w-full h-[145px] bg-[#F5535D]">
+      <header className="absolute top-0 inset-x-0 w-full h-[145px] bg-[#FC6554]">
         <article className="relative flex w-full mt-[70px] px-5 text-white">
           <Image
             src="/svg/icons/icon_back_white.svg"
             alt="back"
             width="11"
             height="0"
-            onClick={handleBack}
+            onClick={() => router.back()}
             className="cursor-pointer"
           />
           <div className="text-16 px-5 ">온주</div>
@@ -123,12 +123,12 @@ export default function ChatRoom({ params }: ChatRoomProps) {
         </article>
       </section>
       <form
-        className="absolute w-[327px] h-[50px] rounded-[24.5px] bg-[#EDEDED] bottom-[30px] flex items-center px-[10px]"
+        className="absolute w-[327px] h-[50px] rounded-[24.5px] bg-[#F8F8FA] bottom-[30px] flex items-center px-[10px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <input
           type="text"
-          className="border-none bg-[#EDEDED] w-[200px] h-[23px] placeholder:text-[#999999] text-14 font-semibold "
+          className="border-none bg-[#F8F8FA] w-[200px] h-[23px] placeholder:text-[#999999] text-14 font-semibold "
           placeholder="메세지를 입력해주세요."
           {...register('message', { required: true })}
         />

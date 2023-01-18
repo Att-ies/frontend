@@ -50,7 +50,7 @@ export default function Chatroom({ chatRoom }: ChatRoomProps) {
         </p>
       </article>
       {!!chatRoom.notifyCnt && (
-        <article className="absolute right-5 bg-[#F5535D] w-[20px] h-[20px] flex justify-center items-center text-[#FFF] text-12 rounded-full">
+        <article className="absolute right-5 bg-[#FC6554] w-[20px] h-[20px] flex justify-center items-center text-[#FFF] text-12 rounded-full">
           {chatRoom.notifyCnt}
         </article>
       )}
