@@ -103,9 +103,9 @@ export default function Edit() {
     formData.append('address', 'a');
     formData.append('keywords', userInfo?.keywords);
     if (profile) {
-      formData.append('image', profile[0] || 'a');
+      formData.append('image', profile[0] || null);
     } else {
-      formData.append('image', '');
+      formData.append('image', null);
     }
     const response = await authApi.patchUserInfo(formData);
     console.log(response);
