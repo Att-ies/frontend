@@ -20,7 +20,10 @@ export class AuthApi {
 
   async postLogin(body: AuthDTOType) {
     try {
-      return await this.axios.post('/members/login', body);
+      return await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/members/login`,
+        body,
+      );
     } catch (error: any) {
       if (error) {
         return error.response;
