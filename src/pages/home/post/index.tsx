@@ -159,7 +159,8 @@ export default function Post() {
                       watch('description') ? 'text-[#191919]' : 'text-[#999999]'
                     }`}
                   >
-                    {watch('description')?.length}/1000
+                    {watch('description')?.length || 0}
+                    /1000
                   </span>
                 </div>
               </div>
