@@ -1,7 +1,7 @@
 import tw from 'tailwind-styled-components';
 import type { UseFormRegisterReturn } from 'react-hook-form';
 
-interface InputProps {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   type: string;
   label?: string;
   placeholder?: string;
@@ -25,9 +25,9 @@ text-14 leading-8
 
 const InputTag = tw.input<InputProps>`
 w-full h-[52px] placeholder-[#999999] text-[13px] rounded-[4px] ${(p) =>
-  p.$error ? 'border-[#FF3120]' : 'border-[#D8D8D8]'} appearance-none
+  p.$error ? 'border-[#FF3120]' : 'border-[#D8D8D8]'} ${(p) =>
+  p.$unit && 'pr-10'} appearance-none
   `;
-
 export default function Input({
   type = 'text',
   label,
@@ -39,8 +39,14 @@ export default function Input({
   return (
     <InputBox className="my-1">
       <Label>{label}</Label>
-      <InputTag type={type} placeholder={placeholder} {...register} {...rest} />
-      {unit && <span className="absolute right-1 top-3">{unit}</span>}
+      <InputTag
+        type={type}
+        placeholder={placeholder}
+        $unit={unit}
+        {...register}
+        {...rest}
+      />
+      {unit && <span className="absolute right-4 top-3">{unit}</span>}
     </InputBox>
   );
 }

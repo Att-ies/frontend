@@ -24,7 +24,7 @@ export default function Select<T extends FieldValues>({
 
   useEffect(() => {
     if (selected !== undefined)
-      setValue(name, selected as FieldPathValue<T, FieldPath<T>>);
+      setValue(name, selected.value as FieldPathValue<T, FieldPath<T>>);
   }, [selected, name, setValue]);
 
   return (

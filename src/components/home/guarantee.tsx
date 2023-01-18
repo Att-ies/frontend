@@ -1,20 +1,25 @@
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
-import { setSignature } from '@features/signature/signatureSlice';
 import Image from 'next/image';
 import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import SignatureCanvas from 'react-signature-canvas';
 
-export default function Guarantee(onCloseGuarantee) {
+interface GuaranteeProps {
+  onCloseGuarantee: () => void;
+  setSignature: (signature: string) => void;
+}
+
+export default function Guarantee({
+  onCloseGuarantee,
+  setSignature,
+}: GuaranteeProps) {
   const canvasRef = useRef() as React.MutableRefObject<SignatureCanvas>;
-  const dispatch = useDispatch();
   return (
     <Layout>
       <Navigate
         isRightButton={false}
         message="작품 보증서"
-        // handleLeftButton={onCloseGuarantee}
+        handleLeftButton={onCloseGuarantee}
       />
       <div className="w-full">
         <div className="flex justify-between text-14 mt-6">
@@ -22,7 +27,7 @@ export default function Guarantee(onCloseGuarantee) {
           <button
             onClick={() => {
               canvasRef.current.clear();
-              dispatch(setSignature(''));
+              setSignature('');
             }}
             className="text-[#767676] flex"
           >
@@ -44,7 +49,7 @@ export default function Guarantee(onCloseGuarantee) {
             }}
             onEnd={() => {
               const dataURL = canvasRef.current.getTrimmedCanvas().toDataURL();
-              dispatch(setSignature(dataURL));
+              setSignature(dataURL);
             }}
           />
         </div>

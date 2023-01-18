@@ -2,27 +2,12 @@ import Input from '@components/common/Input';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import Image from 'next/image';
-import React, { useState } from 'react';
-import FileItem from '@components/inquiry/FileItem';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Select from '@components/common/Select';
-import { useRouter } from 'next/router';
-import { useAppSelector } from '@features/hooks';
-import { makeBlob } from '@utils/makeBlob';
-import Guarantee from './guarantee';
-
-interface Artwork {
-  image: string;
-  title: string;
-  tags: string[];
-  year: string;
-  material: string;
-  size: string;
-  price: string;
-  status: string;
-  statusDetail: string;
-  certificate: string;
-}
+import { Artwork } from 'types/artwork';
+import FileItem from '@components/inquiry/FileItem';
+import Guarantee from '@components/home/guarantee';
 
 const ARTWORK_STATUS = [
   { value: '매우 좋음' },
@@ -33,48 +18,37 @@ const ARTWORK_STATUS = [
 const IS_FRAME = [{ value: '있음' }, { value: '없음' }];
 
 export default function Post() {
-  const [isGuarantee, setIsGuarantee] = useState<Boolean>(false);
-  const [fileImages, setFileImages] = useState([]);
-  const onRemove = (targetId: string): void => {
-    const newFileImages = fileImages.filter((fileImages) => {
-      return fileImages !== targetId;
+  const [isGuaranteeModal, setIsGuaranteeModal] = useState<Boolean>(false);
+  const [signature, setSignature] = useState<string>('');
+  const [fileLists, setFileLists] = useState<File[]>([]);
+  const handleRemoveFile = (targetName: string): void => {
+    const newFileLists = fileLists.filter((file) => {
+      return file.name !== targetName;
     });
-    setFileImages(newFileImages);
+    setFileLists(newFileLists);
   };
 
-  const signatureState = useAppSelector((state) => state.signature);
-  const {
-    register,
-    setValue,
-    watch,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Artwork>();
-  const router = useRouter();
+  const { register, setValue, watch, handleSubmit } = useForm<Artwork>();
 
-  const uploadFiles = (e: { target: { files: any } }) => {
-    const arr = fileImages;
-    const files = e.target.files;
-    for (let i = 0; i < files.length; i++) {
-      if (arr.length >= 5) return;
-      arr.push(files[i]);
+  const file = watch('image');
+  useEffect(() => {
+    if (fileLists?.length <= 5 && fileLists?.length + file?.length <= 5) {
+      const newFileList: any = [];
+      for (const i of file) {
+        newFileList.push(i);
+      }
+      setFileLists((prev) => prev.concat(newFileList));
     }
-    setFileImages(arr);
-  };
+  }, [file]);
 
-  const handleGuarantee = () => {
-    setIsGuarantee(true);
-    // router.push('/exhibition/post/guarantee');
-  };
-
-  const onSubmit = (form) => {
-    const formData = new FormData();
-
+  const onSubmit = (form: Artwork) => {
+    console.log(form);
     const {
       title,
       productionYear,
       description,
       material,
+      frame,
       width,
       length,
       height,
@@ -83,43 +57,35 @@ export default function Post() {
       status,
       statusDescription,
     } = form;
-    console.log(form);
+    const formData = new FormData();
 
-    console.log(form);
-    formData.append('title', watch('title'));
-    formData.append('productionYear', watch('productionYear'));
-    formData.append('productionYear', watch('description'));
-    formData.append('productionYear', watch('material'));
-    if (watch('isFrame')?.value === '있음') {
-      formData.append('productionYear', 'true');
+    formData.append('title', title);
+    formData.append('productionYear', productionYear + '');
+    formData.append('description', description);
+    formData.append('material', material);
+    if (frame + '' === '있음') {
+      formData.append('frame', 'true');
     } else {
-      formData.append('productionYear', 'true');
+      formData.append('frame', 'false');
     }
+    formData.append('width', width + '');
+    formData.append('length', length + '');
+    formData.append('height', height + '');
+    formData.append('productionYear', size);
+    formData.append('productionYear', price + '');
+    formData.append('productionYear', status);
+    formData.append('productionYear', statusDescription);
 
-    formData.append('productionYear', watch('width'));
-    formData.append('productionYear', watch('length'));
-    formData.append('productionYear', watch('height'));
-    formData.append('productionYear', watch('size'));
-
-    formData.append('productionYear', watch('price'));
-    formData.append('productionYear', watch('status'));
-    formData.append('productionYear', watch('statusDescription'));
-    console.log(
-      watch('title'),
-      watch('productionYear'),
-      watch('description'),
-      watch('material'),
-      watch('isFrame'),
-    );
+    console.log(formData);
   };
 
   return (
     <>
-      {!isGuarantee ? (
+      {!isGuaranteeModal ? (
         <Layout>
           <form className="w-full space-y-3" onSubmit={handleSubmit(onSubmit)}>
             <Navigate right_message="완료" />
-            <div className="flex ">
+            <section className="flex ">
               <label htmlFor="fileImage">
                 <div className="cursor-pointer w-[60px] h-[60px] border-[1px] border-[#DBDBDB] rounded flex flex-col justify-center items-center mr-0">
                   <Image
@@ -129,51 +95,32 @@ export default function Post() {
                     height={17}
                   />
                   <div className="text-12 text-[#999999]">
-                    {fileImages.length ? `${fileImages.length}/5` : '0/5'}
+                    {fileLists.length ? `${fileLists.length}/5` : '0/5'}
                   </div>
                 </div>
               </label>
-              {
+              {fileLists.length ? (
                 <div className="flex flex-wrap">
-                  {fileImages.map((file) => (
-                    <div
-                      className="w-[60px] h-[60px] border-[1px] border-[#DBDBDB] rounded ml-3 relative mb-2"
-                      key={file}
-                    >
-                      {/* <div
-                    onClick={() => onRemove(file.name, file.size)}
-                    className="w-[14px] h-[14px] bg-[#999999] rounded-full flex justify-center items-center absolute right-[-5px] top-[-5px] cursor-pointer"
-                  >
-                    <Image
-                      src="/svg/icons/icon_close_white.svg"
-                      alt="close"
-                      width={15}
-                      height={15}
+                  {fileLists.map((file, idx) => (
+                    <FileItem
+                      handler={handleRemoveFile}
+                      key={idx}
+                      file={file}
                     />
-                  </div> */}
-                      <Image
-                        src={makeBlob(file)}
-                        alt={file.name}
-                        width={20}
-                        height={20}
-                        className="w-full h-full"
-                      />
-                    </div>
-
-                    // <FileItem handler={onRemove} key={img} file={img} />
                   ))}
                 </div>
-              }
+              ) : (
+                ''
+              )}
               <input
                 multiple
                 type="file"
                 id="fileImage"
                 className="hidden"
-                // {...register('image')}
-                onChange={uploadFiles}
+                {...register('image')}
               />
-            </div>
-            <div>
+            </section>
+            <section>
               <Input
                 type="text"
                 label="작품명"
@@ -193,34 +140,37 @@ export default function Post() {
                   />
                 </div>
               </button>
-            </div>
+            </section>
             <Input
               type="number"
               label="제작연도"
+              min={2010}
               placeholder="숫자만 입력해주세요. ex)2022"
               register={register('productionYear')}
             />
-            <div className="flex justify-between">
-              <label htmlFor="description" className="text-14">
-                작품설명
-              </label>
-              <div className="text-14 text-[#999999]">
-                <span
-                  className={`${
-                    watch('description') ? 'text-[#191919]' : 'text-[#999999]'
-                  }`}
-                >
-                  {watch('description')?.length}/1000
-                </span>
+            <section>
+              <div className="flex justify-between">
+                <label htmlFor="description" className="text-14 leading-8">
+                  작품설명
+                </label>
+                <div className="text-14 text-[#999999]">
+                  <span
+                    className={`${
+                      watch('description') ? 'text-[#191919]' : 'text-[#999999]'
+                    }`}
+                  >
+                    {watch('description')?.length}/1000
+                  </span>
+                </div>
               </div>
-            </div>
-            <textarea
-              id="content"
-              maxLength={1000}
-              placeholder="작품에 대해 자세히 기입해주세요."
-              className="w-full h-[150px] placeholder:text-14 overflow-hidden resize-none placeholder-[#999999] text-[13px] rounded-[4px] border-[#D8D8D8]  "
-              {...register('description')}
-            />
+              <textarea
+                id="content"
+                maxLength={1000}
+                placeholder="작품에 대해 자세히 기입해주세요."
+                className="w-full h-[150px] placeholder:text-14 overflow-hidden resize-none placeholder-[#999999] text-[13px] rounded-[4px] border-[#D8D8D8]  "
+                {...register('description')}
+              />
+            </section>
             <Input
               type="text"
               label="재료"
@@ -228,38 +178,42 @@ export default function Post() {
               register={register('material')}
             />
             <Select
-              name="isFrame"
+              name="frame"
               setValue={setValue}
               options={IS_FRAME}
               label="액자"
             />
             <section>
-              <span className="text-14 ">크기/호수</span>
-              <article className="flex gap-5">
+              <span className="text-14">크기/호수</span>
+              <article className="flex gap-4">
                 <Input
-                  type="text"
+                  type="number"
+                  min={0}
                   placeholder="가로"
                   className=""
                   register={register('width')}
                   unit="cm"
                 />
-
                 <Input
-                  type="text"
+                  type="number"
+                  min={0}
                   placeholder="세로"
                   className=""
                   register={register('length')}
                   unit="cm"
                 />
                 <Input
-                  type="text"
+                  type="number"
+                  min={0}
                   placeholder="높이"
                   className=""
                   register={register('height')}
                   unit="cm"
                 />
+              </article>
+              <article className="w-[calc((100%-2rem)/3)]">
                 <Input
-                  type="text"
+                  type="number"
                   placeholder="10"
                   className=""
                   register={register('size')}
@@ -279,36 +233,41 @@ export default function Post() {
               options={ARTWORK_STATUS}
               label="작품 상태"
             />
-            <Input
-              type="text"
-              placeholder="작품 상태에 대해 자세히 기입해주세요."
-              register={register('status')}
+            <textarea
+              id="content"
+              maxLength={1000}
+              placeholder="작품상태에 대해 자세히 기입해주세요."
+              className="w-full h-[150px] placeholder:text-14 overflow-hidden resize-none placeholder-[#999999] text-[13px] rounded-[4px] border-[#D8D8D8]  "
+              {...register('statusDescription')}
             />
-            <div className="w-full">
+            <div
+              className="w-full cursor-pointer"
+              onClick={() => setIsGuaranteeModal(true)}
+            >
               <label htmlFor="statusDetail" className="text-14 leading-8">
                 작품 보증서
               </label>
-              {signatureState.signature ? (
+              {signature ? (
                 <div
                   className="w-full h-[128px] cursor-pointer overflow-hidden border rounded border-[#DBDBDB] p-4 flex justify-center items-center"
-                  onClick={handleGuarantee}
+                  onClick={() => setIsGuaranteeModal(true)}
                 >
                   <Image
-                    src={signatureState.signature}
+                    src={signature}
                     width={163}
                     height={91}
                     alt="guarantee"
                   />
                 </div>
               ) : (
-                <div
-                  className="relative cursor-pointer"
-                  onClick={handleGuarantee}
-                >
+                <div className="relative">
                   <div className="h-[52px] w-full text-[13px] rounded-[4px] border text-[#999999] border-[#D8D8D8] flex items-center pl-3">
                     전자 서명이 필요합니다.
                   </div>
-                  <div className="absolute right-4 bottom-0 flex items-center h-[52px]">
+                  <div
+                    onClick={() => setIsGuaranteeModal(true)}
+                    className="cursor-pointer absolute right-4 bottom-0 flex items-center h-[52px]"
+                  >
                     <Image
                       src="/svg/icons/icon_pencil_gray.svg"
                       alt="setting"
@@ -355,8 +314,9 @@ export default function Post() {
         </Layout>
       ) : (
         <Guarantee
+          setSignature={setSignature}
           onCloseGuarantee={() => {
-            setIsGuarantee(false);
+            setIsGuaranteeModal(false);
           }}
         />
       )}
