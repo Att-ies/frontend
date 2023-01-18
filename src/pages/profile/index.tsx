@@ -78,7 +78,7 @@ const SettingLists: SettingListForm[] = [
   {
     id: '1',
     text: '1:1문의',
-    path: '/inquiry',
+    path: '/profile/inquiry',
   },
   {
     id: '2',
