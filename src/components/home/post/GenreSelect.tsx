@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import tw from 'tailwind-styled-components';
 interface Genre {
   id: string;
@@ -33,24 +34,32 @@ export default function GenreSelect({
   const onGenreClick = (name: string) => {
     setGenre(name);
   };
-
   return (
     <SelectGenreTag {...rest}>
-      <div className="flex flex-wrap py-4 text-[#767676]">
+      <div className="grid grid-cols-2 gap-3">
         {GERNELIST.map((genreObject) => (
           <div
             key={genreObject.id}
             id={genreObject.id}
             className={`${
               genre === genreObject.name
-                ? 'border-[#F5535D] text-[#767676]'
-                : 'border-[#CECECE] text-[#767676]'
-            } w rounded-full flex justify-center items-center px-3 py-1 border mr-2 mb-2.5 cursor-pointer text-14 text-[#767676]`}
+                ? 'border-[#F5535D]'
+                : 'border-[#CECECE]'
+            } w rounded flex-col text-black leading-5 px-3 py-[11px] justify-center items-center border cursor-pointer text-14 `}
             onClick={() => onGenreClick(genreObject.name)}
           >
-            {genreObject.name}
+            <p>{genreObject.name}</p>
+            <p className="text-[#767676]">{genreObject.english}</p>
           </div>
         ))}
+        <div
+          className={`${
+            genre === '기타' ? 'border-[#F5535D]' : 'border-[#CECECE]'
+          }  rounded flex text-black  px-3 py-[11px] justify-start items-center border cursor-pointer text-14 `}
+          onClick={() => onGenreClick('기타')}
+        >
+          기타
+        </div>
       </div>
     </SelectGenreTag>
   );
