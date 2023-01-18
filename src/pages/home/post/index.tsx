@@ -153,6 +153,17 @@ export default function Post() {
               />
             </div>
           </button>
+          <div className="flex flex-wrap mt-3">
+            {keywordList?.map((name) => (
+              <div
+                key={name}
+                id={name}
+                className="border-[#F5535D]  text-[#767676] w rounded-full flex justify-center items-center px-3 py-1 border mr-2 mb-2.5 cursor-pointer text-14"
+              >
+                {name}
+              </div>
+            ))}
+          </div>
         </section>
         <Input
           type="number"
