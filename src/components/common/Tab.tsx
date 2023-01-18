@@ -30,7 +30,7 @@ interface DefaultProps {
 }
 
 const TabBox = tw.footer<DefaultProps>`
-  absolute top-[47rem] bg-white inset-x-0 m-auto flex justify-center h-[4rem]
+  absolute top-[47rem] bg-white inset-x-0 m-auto flex justify-center h-[4rem] z-50
 `;
 
 const TabList = tw.div<DefaultProps>`flex w-[327px]`;
