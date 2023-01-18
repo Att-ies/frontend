@@ -19,6 +19,33 @@ const ARTWORK_STATUS = [
 
 const IS_FRAME = [{ value: '있음' }, { value: '없음' }];
 
+const CANVAS_SIZE = [
+  '0',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '8',
+  '10',
+  '12',
+  '15',
+  '20',
+  '25',
+  '30',
+  '40',
+  '50',
+  '60',
+  '80',
+  '100',
+  '120',
+  '150',
+  '200',
+  '300',
+  '500',
+];
+
 export default function Post() {
   const [isGuaranteeModal, setIsGuaranteeModal] = useState<Boolean>(false);
   const [isKeywordModal, setIsKeywordModal] = useState<Boolean>(false);
@@ -46,6 +73,18 @@ export default function Post() {
       setFileLists((prev) => prev.concat(newFileList));
     }
   }, [file]);
+
+  useEffect(() => {
+    if (keywordList.length > 0) {
+      setValue('keywords', keywordList);
+    }
+    if (genre) {
+      setValue('genre', genre);
+    }
+    if (signature) {
+      setValue('guaranteeImage', signature);
+    }
+  }, [keywordList, setValue, genre, signature]);
 
   const onSubmit = (form: Artwork) => {
     const {
@@ -257,7 +296,7 @@ export default function Post() {
             />
           </article>
           <article className="w-[calc((100%-2rem)/3)]">
-            <Input type="number" placeholder="10" className="" unit="호" />
+            <Input type="number" placeholder="10" unit="호" />
           </article>
         </div>
         <Input
