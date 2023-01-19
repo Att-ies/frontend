@@ -3,10 +3,10 @@ import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import { useAppDispatch } from '@features/hooks';
 import { setIsArtist as setIamArtist } from '@features/user/userSlice';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import tw from 'tailwind-styled-components';
+import { Image } from 'next/image';
 
 interface JoinSelectProps {
   type: string;
@@ -23,8 +23,8 @@ ${(p) => (p.$isArtist ? 'border-[#F5535D]' : 'border-[#D8D8D8]')}
 w-full pl-3 h-[52px] cursor-pointer font-medium placeholder-[#999999] text-14 rounded-[4px] flex items-center border-[1px]`;
 
 function Join() {
-  const [isUser, setIsUser] = useState(false);
-  const [isArtist, setIsArtist] = useState(false);
+  const [isUser, setIsUser] = useState<boolean>(false);
+  const [isArtist, setIsArtist] = useState<boolean>(false);
   const router = useRouter();
   const handleLeftButton = () => {
     router.back();
