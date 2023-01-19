@@ -304,6 +304,7 @@ export default function Post() {
           </article>
           <article className="w-[calc((100%-2rem)/3)]">
             <Input
+              defaultChec
               type="number"
               placeholder="10"
               unit="호"
@@ -320,6 +321,7 @@ export default function Post() {
           label="작품 판매가"
           placeholder="작품 최소 가격을 설정해주세요."
           register={register('price', { required: true })}
+          unit="원"
         />
         <Select
           name="status"
