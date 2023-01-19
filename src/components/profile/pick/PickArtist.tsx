@@ -7,6 +7,7 @@ interface DefaultProps {
   [key: string]: any;
 }
 interface PickArtistProps {
+  key: string;
   id: string;
   name: string;
   information: string;
@@ -20,7 +21,12 @@ const PickArtistProfile = tw.div<DefaultProps>`
 w-[50px] mr-[10px] aspect-square flex justify-center items-center rounded-full border-[1px] border-[#999999]
 `;
 
-export default function PickArtist({ id, name, information }: PickArtistProps) {
+export default function PickArtist({
+  key,
+  id,
+  name,
+  information,
+}: PickArtistProps) {
   const router = useRouter();
   return (
     <PickArtistContainer onClick={() => router.push(`/profile/pick/${id}`)}>
