@@ -2,24 +2,24 @@ import { useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import instance from '@apis/_axios/instance';
+import { Member } from 'types/user';
 
 const useUserJoin = () => {
   const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string>('');
   const mutation = useMutation(
-    async () => {
+    async (body: Member) => {
       await instance.post('/members/join', body);
     },
     {
-      onSuccess: (res) => {
+      onSuccess: () => {
         router.push('/auth/login');
       },
       onError: (error: any) => {
-        const response = error.response;
-        if (response.status === 200) {
+        if (error.status === 200) {
           router.push('/auth/login');
-        } else if (response.status === 409) {
-          switch (response.data.code) {
+        } else if (error.status === 409) {
+          switch (error.code) {
             case 'EXIST_USER_ID':
               setErrorMessage('존재하는 아이디입니다.');
               break;
@@ -31,6 +31,7 @@ const useUserJoin = () => {
               break;
           }
         }
+        console.log(errorMessage);
       },
     },
   );

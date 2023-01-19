@@ -98,8 +98,8 @@ export default function Join02() {
     router.push('/auth/join03');
   };
 
-  const handleValidateCheck = async (e) => {
-    let data;
+  const handleValidateCheck = async (e: { target: { id: any } }) => {
+    let data: { status: number };
     switch (e.target.id) {
       case 'id':
         if (!id || id === '') {
@@ -165,6 +165,7 @@ export default function Join02() {
         }
         break;
     }
+    return;
   };
 
   return (

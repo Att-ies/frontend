@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 interface AuctionItemForm {
+  key?: string;
   src: string;
   date: string;
   artRegister: number;
