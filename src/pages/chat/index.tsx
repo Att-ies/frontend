@@ -50,8 +50,8 @@ export default function Chat() {
   const router = useRouter();
 
   const connect = () => {
-    client.current = createClient('/ws-connection');
-    client.current.activate();
+    // client.current = createClient('/ws-connection');
+    // client.current.activate();
   };
 
   useEffect(() => {

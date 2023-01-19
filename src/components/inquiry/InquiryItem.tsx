@@ -2,6 +2,7 @@ import { Disclosure } from '@headlessui/react';
 import Image from 'next/image';
 
 interface InquiryItemForm {
+  key: string;
   inquiry: {
     id: number;
     date: string;
@@ -27,7 +28,7 @@ export default function InquiryItem({ inquiry, handler }: InquiryItemForm) {
               {inquiry.date} {inquiry.time}
             </span>
           </div>
-          {inquiry.status === '대기중' ? (
+          {inquiry.status === '대기중' && (
             <div className="text-[#999999] text-12">
               <span className="cursor-pointer">수정</span>
               <span className="mx-2 text-[#DBDBDB]">|</span>
@@ -38,8 +39,6 @@ export default function InquiryItem({ inquiry, handler }: InquiryItemForm) {
                 삭제
               </span>
             </div>
-          ) : (
-            ''
           )}
         </div>
         <div className="flex justify-between mt-2 text-[#767676] ">
@@ -66,7 +65,7 @@ export default function InquiryItem({ inquiry, handler }: InquiryItemForm) {
               </div>
               <div className="w-[270px]">{inquiry.content}</div>
             </section>
-            {inquiry.answer ? (
+            {inquiry.answer && (
               <section className="flex">
                 <div className="w-6 h-6 bg-[#F5535D] rounded-full flex items-center justify-center mr-2">
                   <Image
@@ -78,8 +77,6 @@ export default function InquiryItem({ inquiry, handler }: InquiryItemForm) {
                 </div>
                 <div className="w-[270px]">{inquiry.answer}</div>
               </section>
-            ) : (
-              ''
             )}
           </div>
         </Disclosure.Panel>

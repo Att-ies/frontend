@@ -9,7 +9,7 @@ export class AuthApi {
     if (axios) this.axios = axios;
   }
 
-  async postLogin(body: string) {
+  async postLogin(body: { userId: string; password: string }) {
     try {
       return await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/members/login`,

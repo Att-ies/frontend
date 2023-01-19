@@ -3,6 +3,7 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 interface FileItemForm {
   file: any;
+  key: string;
   handler: (name: string, size: number) => void;
 }
 

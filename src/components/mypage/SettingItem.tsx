@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { deleteToken } from '@utils/localStorage/token';
 import authApi from '@apis/auth/authApi';
 interface SettingBoxProps {
+  key: string;
   text: string;
   path: string;
 }
