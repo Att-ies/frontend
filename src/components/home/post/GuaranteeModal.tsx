@@ -4,22 +4,22 @@ import Image from 'next/image';
 import React, { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 
-interface GuaranteeProps {
-  onCloseGuarantee: () => void;
+interface GuaranteeModalProps {
+  onCloseModal: () => void;
   setSignature: (signature: string) => void;
 }
 
-export default function Guarantee({
-  onCloseGuarantee,
+export default function GuaranteeModal({
+  onCloseModal,
   setSignature,
-}: GuaranteeProps) {
+}: GuaranteeModalProps) {
   const canvasRef = useRef() as React.MutableRefObject<SignatureCanvas>;
   return (
     <Layout>
       <Navigate
         isRightButton={false}
         message="작품 보증서"
-        handleLeftButton={onCloseGuarantee}
+        handleLeftButton={onCloseModal}
       />
       <div className="w-full">
         <div className="flex justify-between text-14 mt-6">
