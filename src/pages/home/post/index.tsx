@@ -11,12 +11,21 @@ import GuaranteeModal from '@components/home/post/GuaranteeModal';
 import KeywordModal from '@components/home/post/KeywordModal.tsx';
 import GenreModal from '@components/home/post/GenreModal';
 import ErrorMessage from '@components/common/ErrorMessage';
+import artworkApi from '@apis/artwork/artworkApi';
+import { useMutation } from 'react-query';
 
 const ARTWORK_STATUS = [
   { value: '매우 좋음' },
   { value: '좋음' },
   { value: '보통' },
 ];
+
+const dataURLtoFile = (dataurl: string, name: string) => {
+  const decodedURL = dataurl.replace(/^data:image\/\w+;base64,/, '');
+  const buf = Buffer.from(decodedURL, 'base64');
+  const blob = new Blob([buf], { type: 'image/png' });
+  return new File([blob], `${name}.png`, { type: 'image/png' });
+};
 
 const IS_FRAME = [{ value: '있음' }, { value: '없음' }];
 
@@ -55,6 +64,13 @@ export default function Post() {
   const [keywordList, setKeywordList] = useState<string[]>([]);
   const [genre, setGenre] = useState<string>('');
   const [fileLists, setFileLists] = useState<File[]>([]);
+
+  const mutation = useMutation(artworkApi.postArtwork, {
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
+
   const handleRemoveFile = (targetName: string): void => {
     const newFileLists = fileLists.filter((file) => {
       return file.name !== targetName;
@@ -108,8 +124,8 @@ export default function Post() {
       status,
       statusDescription,
     } = form;
+    console.log(form);
     const formData = new FormData();
-
     formData.append('title', title);
     formData.append('productionYear', productionYear + '');
     formData.append('description', description);
@@ -122,10 +138,32 @@ export default function Post() {
     formData.append('width', width + '');
     formData.append('length', length + '');
     formData.append('height', height + '');
-    formData.append('productionYear', size);
-    formData.append('productionYear', price + '');
-    formData.append('productionYear', status);
-    formData.append('productionYear', statusDescription);
+    formData.append('size', size);
+    formData.append('price', price + '');
+    formData.append('status', status);
+    formData.append('statusDescription', statusDescription);
+
+    if (fileLists.length > 0) {
+      for (const file of fileLists) {
+        formData.append('image', file);
+      }
+    }
+
+    if (keywordList.length > 0) {
+      for (const keyword of keywordList) {
+        formData.append('keywords', keyword);
+      }
+    }
+
+    if (genre) {
+      formData.append('genre', genre);
+    }
+
+    if (signature) {
+      const file = dataURLtoFile(signature, 'guaranteeImage');
+      formData.append('guaranteeImage', file);
+    }
+    mutation.mutate(formData as any);
   };
 
   if (isGuaranteeModal)
