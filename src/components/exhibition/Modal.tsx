@@ -24,7 +24,7 @@ absolute w-[327px] h-[280px] m-auto rounded-[8px] backdrop-blur-[25.5px] p-5 tra
 ) =>
   p.$open
     ? 'bg-gradient-to-r from-[#FFFFFF]/[.16] to-[#FFFFFF]/[.46] translate-y-[-250px]'
-    : 'bg-gradient-to-b from-[#FFFFFF]/[.16] to-[#FFFFFF]/[.46] translate-y-[120px] opacity-60'}
+    : 'bg-gradient-to-b from-[#FFFFFF]/[.16] to-[#FFFFFF]/[.46] translate-y-[120px] text-[#191919]/40'}
 `;
 const ModalHeader = tw.div<DefaultProps>`
 text-[#424242] text-20 flex justify-between font-bold`;
