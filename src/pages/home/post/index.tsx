@@ -11,8 +11,9 @@ import GuaranteeModal from '@components/home/post/GuaranteeModal';
 import KeywordModal from '@components/home/post/KeywordModal.tsx';
 import GenreModal from '@components/home/post/GenreModal';
 import ErrorMessage from '@components/common/ErrorMessage';
+import { useRouter } from 'next/router';
+import Modal from '@components/common/Modal';
 import artworkApi from '@apis/artwork/artworkApi';
-import { useMutation } from 'react-query';
 
 const ARTWORK_STATUS = [
   { value: '매우 좋음' },
@@ -57,19 +58,16 @@ const CANVAS_SIZE = [
 ];
 
 export default function Post() {
-  const [isGuaranteeModal, setIsGuaranteeModal] = useState<Boolean>(false);
-  const [isKeywordModal, setIsKeywordModal] = useState<Boolean>(false);
-  const [isGenreModal, setIsGenreModal] = useState<Boolean>(false);
+  const [isGuaranteeModal, setIsGuaranteeModal] = useState<boolean>(false);
+  const [isKeywordModal, setIsKeywordModal] = useState<boolean>(false);
+  const [isGenreModal, setIsGenreModal] = useState<boolean>(false);
+  const [isModal, setIsModal] = useState<boolean>(false);
   const [signature, setSignature] = useState<string>('');
   const [keywordList, setKeywordList] = useState<string[]>([]);
   const [genre, setGenre] = useState<string>('');
   const [fileLists, setFileLists] = useState<File[]>([]);
 
-  const mutation = useMutation(artworkApi.postArtwork, {
-    onSuccess: (data) => {
-      console.log(data);
-    },
-  });
+  const router = useRouter();
 
   const handleRemoveFile = (targetName: string): void => {
     const newFileLists = fileLists.filter((file) => {
@@ -109,7 +107,7 @@ export default function Post() {
     }
   }, [keywordList, setValue, genre, signature]);
 
-  const onSubmit = (form: Artwork) => {
+  const onSubmit = async (form: Artwork) => {
     const {
       title,
       productionYear,
@@ -124,35 +122,33 @@ export default function Post() {
       status,
       statusDescription,
     } = form;
-    console.log(form);
     const formData = new FormData();
     formData.append('title', title);
     formData.append('productionYear', productionYear + '');
     formData.append('description', description);
     formData.append('material', material);
     if (frame + '' === '있음') {
-      formData.append('frame', 'true');
+      formData.append('frame', true);
     } else {
-      formData.append('frame', 'false');
+      formData.append('frame', false);
     }
-    formData.append('width', width + '');
-    formData.append('length', length + '');
-    formData.append('height', height + '');
+    formData.append('width', width);
+    formData.append('length', length);
+    formData.append('height', height);
     formData.append('size', size);
-    formData.append('price', price + '');
+    formData.append('price', price);
     formData.append('status', status);
     formData.append('statusDescription', statusDescription);
+    formData.append('keywords', keywordList as any);
 
-    if (fileLists.length > 0) {
-      for (const file of fileLists) {
-        formData.append('image', file);
+    if (file.length == 1) {
+      formData.append('image', file[0]);
+    } else {
+      const fileArray = [];
+      for (const i of file) {
+        fileArray.push(i);
       }
-    }
-
-    if (keywordList.length > 0) {
-      for (const keyword of keywordList) {
-        formData.append('keywords', keyword);
-      }
+      formData.append('image', fileArray as any);
     }
 
     if (genre) {
@@ -163,7 +159,9 @@ export default function Post() {
       const file = dataURLtoFile(signature, 'guaranteeImage');
       formData.append('guaranteeImage', file);
     }
-    mutation.mutate(formData as any);
+
+    const data = await artworkApi.postArtwork(formData);
+    console.log('성공', data);
   };
 
   if (isGuaranteeModal)
@@ -194,6 +192,19 @@ export default function Post() {
 
   return (
     <Layout>
+      <Modal
+        message="등록이 완료되었습니다.
+마이페이지>판매활동>등록된 작품에서 작품내역을 확인해보세요."
+        isModal={isModal}
+        onCloseModal={() => {
+          setIsModal(false);
+          // router.push('/home');
+        }}
+        onAccept={() => {
+          setIsModal(false);
+          // router.push('/home');
+        }}
+      />
       <form className="w-full space-y-3" onSubmit={handleSubmit(onSubmit)}>
         <Navigate right_message="완료" />
         <div className="flex">
