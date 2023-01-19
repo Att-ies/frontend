@@ -2,7 +2,7 @@ import 'swiper/css';
 import tw from 'tailwind-styled-components';
 import Modal from '@components/exhibition/Modal';
 import Navigate from '@components/common/Navigate';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import React from 'react';
 import { Navigation } from 'swiper';
@@ -41,25 +41,19 @@ const ExhibitionLayout = tw.div<DefaultProps>`
 font-Pretendard w-full px-6 pt-[45px] border h-[812px] relative overflow-y-hidden overflow-x-hidden
 `;
 
-const NextSlide = ({ children }) => {
-  const swiper = useSwiper();
-  return <button onClick={() => swiper.slideNext()}>{children}</button>;
-};
-
-const PrevSlide = ({ children }) => {
-  const swiper = useSwiper();
-  return <button onClick={() => swiper.slidePrev()}>{children}</button>;
-};
+const SwiperButtonDiv = tw.div<DefaultProps>`
+bg-[rgba(153,153,153,0.24)] rounded-[10px] w-8 h-8 flex justify-center cursor-pointer
+`;
 
 export default function Exhibition() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(true);
   const [isExpansion, setExpansion] = useState<boolean>(false);
+
+  const swiperRef = useRef<any>(null);
+
   const router = useRouter();
 
-  const onCloseModal = () => {
-    setIsOpen(false);
-  };
   const handleLeftButton = () => {
     // 작품 더보기 페이지로 이동
     router.push('/');
@@ -68,6 +62,10 @@ export default function Exhibition() {
   const handleRightButton = () => {
     // 해당 작품 작가 프로필로 이동
     router.push('/');
+  };
+
+  const onCloseModal = () => {
+    setIsOpen(false);
   };
 
   const handleSwipeArrow = () => {
@@ -92,66 +90,83 @@ export default function Exhibition() {
 
   return (
     <ExhibitionLayout>
-      <Image
-        alt="exhibition_bg"
-        src="/svg/icons/bg_exhibition.jpg"
-        quality={100}
-        fill
-        sizes="100vh"
-        style={{
-          objectFit: 'cover',
-        }}
-      />
       {isExpansion ? (
-        <Image
-          alt="canvas"
-          src="/svg/icons/bg_canvas.svg"
-          quality={100}
-          width={400}
-          height={0}
-          sizes="100vh"
-          style={{
-            objectFit: 'contain',
-          }}
-          className="scale-[1.8] top-[240px] right-[-3px] absolute"
-        />
+        <>
+          <Image
+            alt="exhibition_bg"
+            src="/svg/icons/bg_exhibition.jpg"
+            quality={100}
+            width={400}
+            height={0}
+            sizes="100vh"
+            style={{
+              objectFit: 'contain',
+            }}
+            className="scale-[1.8] top-[240px] right-[-3px] absolute"
+          />
+          <Image
+            alt="canvas"
+            src="/svg/icons/bg_canvas.svg"
+            quality={100}
+            width={400}
+            height={0}
+            sizes="100vh"
+            style={{
+              objectFit: 'contain',
+            }}
+            className="scale-[1.8] top-[240px] right-[-3px] absolute"
+          />
+        </>
       ) : (
-        <Image
-          alt="canvas"
-          src="/svg/icons/bg_canvas.svg"
-          quality={100}
-          fill
-          sizes="100vh"
-          style={{
-            objectFit: 'cover',
-          }}
-        />
+        <>
+          <Image
+            alt="exhibition_bg"
+            src="/svg/icons/bg_exhibition.jpg"
+            quality={100}
+            fill
+            sizes="100vh"
+            style={{
+              objectFit: 'cover',
+            }}
+          />
+          <Image
+            alt="canvas"
+            src="/svg/icons/bg_canvas.svg"
+            quality={100}
+            fill
+            sizes="100vh"
+            style={{
+              objectFit: 'cover',
+            }}
+          />
+        </>
       )}
       <Navigate message="전시회" isRightButton={false} />
-      <Swiper
-        className="h-full"
-        modules={[Navigation]}
-        navigation
-        spaceBetween={50}
-      >
-        <div className="flex justify-between absolute w-[351px] top-[300px] ml-[-15px] z-50">
-          <PrevSlide>
-            <Image
-              src="/svg/icons/icon_back_white.svg"
-              alt="back"
-              width={10}
-              height={10}
-            />
-          </PrevSlide>
-          <NextSlide>
-            <Image
-              src="/svg/icons/icon_arrow_white.svg"
-              alt="back"
-              width={10}
-              height={10}
-            />
-          </NextSlide>
-        </div>
+      <Swiper className="h-full" ref={swiperRef} spaceBetween={50}>
+        {!isExpansion && !isOpen && (
+          <div className="flex justify-between w-[99%] absolute top-[180px] z-50">
+            <SwiperButtonDiv
+              onClick={() => swiperRef.current.swiper.slidePrev()}
+            >
+              <Image
+                src="/svg/icons/icon_back_white.svg"
+                alt="back"
+                width={10}
+                height={0}
+              />
+            </SwiperButtonDiv>
+            <SwiperButtonDiv
+              onClick={() => swiperRef.current.swiper.slideNext()}
+            >
+              <Image
+                src="/svg/icons/icon_arrow_white.svg"
+                alt="back"
+                width={10}
+                height={0}
+              />
+            </SwiperButtonDiv>
+          </div>
+        )}
         {DUMP_ART_LISTS.map((art, idx) => (
           <SwiperSlide key={idx}>
             {isExpansion ? (
