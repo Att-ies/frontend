@@ -20,8 +20,14 @@ interface JoinForm {
   email: string;
 }
 
+interface checkForm {
+  id: boolean;
+  nickname: boolean;
+  email: boolean;
+}
+
 export default function Join02() {
-  const [isValidate, setIsValidate] = useState<boolean[]>({
+  const [isValidate, setIsValidate] = useState<checkForm>({
     id: false,
     nickname: false,
     email: false,
@@ -118,7 +124,7 @@ export default function Join02() {
         break;
       case 'nickname':
         if (!nickname || nickname === '') {
-          setError('Nickname', {
+          setError('nickname', {
             type: 'nickname is null',
             message: '닉네임을 입력해주세요.',
           });
@@ -139,7 +145,7 @@ export default function Join02() {
         break;
       case 'email':
         if (!email || email === '') {
-          setError('Email', {
+          setError('email', {
             type: 'Email is null',
             message: '이메일을 입력해주세요.',
           });

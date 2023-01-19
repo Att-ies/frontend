@@ -23,9 +23,7 @@ function Id() {
 
   const onSubmit = async ({ email }: FindIdForm) => {
     if (email) {
-      const res = await authApi.postFindId({
-        email,
-      });
+      const res = await authApi.postFindId(email);
       if (res.status === 200) {
         setIsModal(true);
       } else if (res.status === 404 && res.data.code === 'NOT_FOUND_EMAIL') {

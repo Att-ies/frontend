@@ -1,6 +1,6 @@
 import instance from '@apis/_axios/instance';
 import { AxiosInstance } from 'axios';
-import { AuthDTOType, DoubleCheckDTOType } from './authApi.type';
+import { AuthDTOType } from './authApi.type';
 import { getToken } from '@utils/localStorage/token';
 import axios from 'axios';
 export class AuthApi {
@@ -9,7 +9,7 @@ export class AuthApi {
     if (axios) this.axios = axios;
   }
 
-  async postLogin(body: AuthDTOType) {
+  async postLogin(body: string) {
     try {
       return await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/members/login`,
@@ -79,7 +79,7 @@ export class AuthApi {
 
   async deleteUser() {
     try {
-      const res = await this.axios.delete('DELETE', '/members');
+      const res = await this.axios.delete('/members');
       return res;
     } catch (error: any) {
       if (error) {
