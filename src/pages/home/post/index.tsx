@@ -128,15 +128,15 @@ export default function Post() {
     formData.append('description', description);
     formData.append('material', material);
     if (frame + '' === '있음') {
-      formData.append('frame', true);
+      formData.append('frame', true as any);
     } else {
-      formData.append('frame', false);
+      formData.append('frame', false as any);
     }
-    formData.append('width', width);
-    formData.append('length', length);
-    formData.append('height', height);
+    formData.append('width', width as any);
+    formData.append('length', length as any);
+    formData.append('height', height as any);
     formData.append('size', size);
-    formData.append('price', price);
+    formData.append('price', price as any);
     formData.append('status', status);
     formData.append('statusDescription', statusDescription);
     formData.append('keywords', keywordList as any);
@@ -144,11 +144,15 @@ export default function Post() {
     if (file.length == 1) {
       formData.append('image', file[0]);
     } else {
-      const fileArray = [];
+      const fileArray:string[] = [];
       for (const i of file) {
         fileArray.push(i);
       }
       formData.append('image', fileArray as any);
+
+      for (let i = 0; i < file.length; i++) {
+        formData.append('image', file[i]);
+      }
     }
 
     if (genre) {
