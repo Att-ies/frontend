@@ -98,16 +98,16 @@ export default function Search() {
   const [recentKeywordList, setRecentKeywordList] =
     useState<RecentKeywordForm[]>(DUMP_RECENT_KEYWORD);
 
-  const { register, handleSubmit, watch } = useForm<RecentKeywordForm>();
+  const { register, handleSubmit } = useForm<RecentKeywordForm>();
 
   const handleBackBtn = () => {
     router.back();
   };
   const onSubmit = (form: any) => {
-    console.log(form.searchWord);
+    console.log(form.word);
     // 검색 API
   };
-  const handleRecentKeyword = (e: { target: { id: string } }) => {
+  const handleRecentKeyword = (e: any) => {
     console.log(e.target.id, 'Search');
     // 검색 API
   };
@@ -138,7 +138,7 @@ export default function Search() {
             className="h-[42px] bg-[#F1F1F5] border-none"
             type="text"
             placeholder="검색어를 입력해주세요"
-            register={register('searchWord')}
+            register={register('word')}
           />
         </form>
       </SearchBox>
