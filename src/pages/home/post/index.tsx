@@ -14,6 +14,7 @@ import ErrorMessage from '@components/common/ErrorMessage';
 import { useRouter } from 'next/router';
 import Modal from '@components/common/Modal';
 import artworkApi from '@apis/artwork/artworkApi';
+import { getToken } from '@utils/localStorage/token';
 
 const ARTWORK_STATUS = [
   { value: '매우 좋음' },
@@ -69,11 +70,16 @@ export default function Post() {
 
   const router = useRouter();
 
+  if (getToken().role !== 'ARTIST') {
+    router.push('/home');
+  }
+
   const handleRemoveFile = (targetName: string): void => {
     const newFileLists = fileLists.filter((file) => {
       return file.name !== targetName;
     });
     setFileLists(newFileLists);
+    setValue('image', newFileLists as any);
   };
 
   const {
@@ -144,15 +150,11 @@ export default function Post() {
     if (file.length == 1) {
       formData.append('image', file[0]);
     } else {
-      const fileArray:string[] = [];
+      const fileArray: string[] = [];
       for (const i of file) {
         fileArray.push(i);
       }
       formData.append('image', fileArray as any);
-
-      for (let i = 0; i < file.length; i++) {
-        formData.append('image', file[i]);
-      }
     }
 
     if (genre) {
