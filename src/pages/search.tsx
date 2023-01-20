@@ -103,7 +103,7 @@ export default function Search() {
   const handleBackBtn = () => {
     router.back();
   };
-  const onSubmit = (form: { searchWord: string }) => {
+  const onSubmit = (form: any) => {
     console.log(form.searchWord);
     // 검색 API
   };
@@ -111,7 +111,7 @@ export default function Search() {
     console.log(e.target.id, 'Search');
     // 검색 API
   };
-  const handleDelete = (e: { target: { id: string } }) => {
+  const handleDelete = (e: any) => {
     e.stopPropagation();
     setRecentKeywordList(
       recentKeywordList.filter(
@@ -123,7 +123,7 @@ export default function Search() {
     setRecentKeywordList([]);
   };
   // console.log(recentKeywordList);
-  const handleRecommendKeyword = (e: { target: { id: string } }) => {
+  const handleRecommendKeyword = (e: any) => {
     console.log(e.target.id);
   };
 
