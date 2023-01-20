@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Button from '@components/common/Button';
 import { Tab } from '@headlessui/react';
 import PickArtistWork from '@components/profile/pick/PickArtistWork';
+import useGetPickDetail from '@hooks/queries/useGetPickDetail';
 
 interface PickArtistForm {
   id: string;
@@ -47,12 +48,13 @@ export default function PickDetail() {
   const handleChat = () => {
     // 채팅하러 가기
   };
-  useEffect(() => {
-    // 나의 픽 작가 상세정보 API
-  }, []);
   const handleArtistWork = () => {
     router.push('/detail'); // 추후에 수정 필요
   };
+  const id = 1;
+  const { pickDetail } = useGetPickDetail(id);
+  const members = pickDetail?.members;
+  const artworks = pickDetail?.artworks;
 
   return (
     <Layout>
@@ -64,11 +66,11 @@ export default function PickDetail() {
       />
       <PickDetailContainer>
         <PickDetailProfile>
-          <Image src={avatar} alt="avatar" width={34} height={34} />
+          <Image src={members?.image} alt="avatar" width={34} height={34} />
         </PickDetailProfile>
         <div className="flex flex-col h-10">
-          <span className="text-18 font-semibold">온주</span>
-          <span className="text-14">서울예술대학교 디지털 전공</span>
+          <span className="text-18 font-semibold">{members?.nickname}</span>
+          <span className="text-14">{members?.education}</span>
         </div>
       </PickDetailContainer>
 
@@ -86,15 +88,12 @@ export default function PickDetail() {
             <div className="text-14 space-y-3">
               <p className="font-semibold">소개</p>
               <p className="leading-5 text-12 font-bold">
-                자연과 공생하는 미래를 꿈꾸며, 자연의 모습을 모티브로
-                작업합니다.
+                {members?.description}
               </p>
             </div>
             <div className="text-14 space-y-3">
               <p className="font-semibold">이력</p>
-              <p className="leading-5 text-12 font-bold">
-                2022 조형예술학과 졸업전시
-              </p>
+              <p className="leading-5 text-12 font-bold">{members?.history}</p>
             </div>
             <div className="text-14">
               <p className="font-semibold">SNS</p>
@@ -107,7 +106,7 @@ export default function PickDetail() {
                     alt="instagram"
                   />
                   <p className="leading-5 ml-[6px] text-12 font-bold">
-                    ara__22
+                    {members?.instagram}
                   </p>
                 </div>
                 <div className="w-1/2 flex items-center">
@@ -115,22 +114,22 @@ export default function PickDetail() {
                     src="/svg/icons/icon_behance_black.svg"
                     width={20}
                     height={20}
-                    alt="instagram"
+                    alt="behance"
                   />
                   <p className="leading-5 ml-[6px] text-12 font-bold">
-                    ara__22
+                    {members?.behance}
                   </p>
                 </div>
               </div>
             </div>
           </Tab.Panel>
           <Tab.Panel className="space-y-6">
-            {pickArtistList.map((pickArtist: PickArtistForm) => (
+            {artworks?.map((pickArtist: PickArtistForm) => (
               <PickArtistWork
-                id={pickArtist.id}
-                key={pickArtist.id}
-                title={pickArtist.title}
-                status={pickArtist.status}
+                id={pickArtist?.id}
+                key={pickArtist?.id}
+                title={pickArtist?.title}
+                status={pickArtist?.status}
                 onClick={handleArtistWork}
               />
             ))}
