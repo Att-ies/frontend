@@ -5,15 +5,10 @@ import { useState } from 'react';
 import { Member } from 'types/user';
 import useUserJoin from '../../hooks/queries/useUserJoin';
 import SelectKeyword from '@components/common/Selectkeyword';
-interface KeywordForm {
-  id: string;
-  name: string;
-}
 
 export default function Join04() {
   const [keywordList, setKeywordList] = useState<string[]>([]);
   const userState = useAppSelector((state) => state.user);
-
   const { mutation, errorMessage } = useUserJoin();
   const handleSubmit = async (e: { target: { id: string } }) => {
     let memberInfo: Member = {
@@ -35,7 +30,7 @@ export default function Join04() {
       {errorMessage && (
         <ErrorMessage
           message={errorMessage}
-          className="absolute left-[100px] top-[850px]"
+          className="absolute top-[620px] left-[100px]"
         />
       )}
       <SelectKeyword

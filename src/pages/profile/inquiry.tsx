@@ -190,8 +190,8 @@ export default function Inquiry() {
                 <textarea
                   id="content"
                   maxLength={1000}
-                  placeholder="정확한 상담을 위하여 자세한 문의사항을&#10;작성 부탁드립니다."
-                  className="w-full h-[150px] placeholder:absolute placeholder:text-14 overflow-hidden resize-none placeholder-[#999999] text-[13px] rounded-[4px] border-[#D8D8D8]"
+                  placeholder="정확한 상담을 위하여 자세한 문의사항을 작성 부탁드립니다."
+                  className="w-full h-[150px] placeholder:absolute placeholder:text-14 overflow-hidden resize-none placeholder-[#999999] text-[13px] rounded-[4px] border-[#D8D8D8] "
                   {...register('content', {
                     required: true,
                   })}
@@ -208,15 +208,13 @@ export default function Inquiry() {
                           width={22}
                           height={18}
                         />
-                        {fileLists.length ? (
+                        {fileLists.length > 0 && (
                           <div className="text-12">
                             <span className="text-[#F5535D]">
                               {fileLists.length}
                             </span>
                             /5
                           </div>
-                        ) : (
-                          ''
                         )}
                       </div>
                       <div className="text-center text-10">
@@ -226,18 +224,16 @@ export default function Inquiry() {
                         <span className="text-[#999999]">/15MB</span>
                       </div>
                     </label>
-                    {fileLists.length ? (
+                    {fileLists.length > 0 && (
                       <div className="flex flex-wrap">
                         {fileLists.map((file, idx) => (
                           <FileItem
                             handler={handleRemoveFile}
-                            key={idx}
+                            key={'' + idx}
                             file={file}
                           />
                         ))}
                       </div>
-                    ) : (
-                      ''
                     )}
                   </div>
                   <div className="mt-3 text-12 text-[#999999]">
@@ -278,7 +274,7 @@ export default function Inquiry() {
               <div>
                 {inquiries.map((inquiry, idx) => (
                   <InquiryItem
-                    key={idx}
+                    key={'' + idx}
                     inquiry={inquiry}
                     handler={handleRemoveInquiry}
                   />

@@ -182,7 +182,7 @@ export default function Profile() {
             text={activity.text}
             icon={activity.icon}
             path={activity.path}
-          ></Activity>
+          />
         ))}
       </section>
       <DivisionBar className="my-5" />

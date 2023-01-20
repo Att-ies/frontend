@@ -14,16 +14,15 @@ const unsetAuthorHeader = () => {
 
 const refreshToken = async () => {
   const refresh = getToken().refreshToken;
-  const token = await instance
-    .post('/members/token', {
+  try {
+    const res = await axios.post('/members/token', {
       refreshToken: refresh,
-    })
-    .then((res) => res.data)
-    .catch((err) => {
-      deleteToken();
-      window.location.href = '/auth/login';
     });
-  return token;
+    return res?.data;
+  } catch (error) {
+    deleteToken();
+    window.location.href = '/auth/login';
+  }
 };
 
 instance.interceptors.request.use(

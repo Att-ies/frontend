@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 interface DefaultProps {
   [key: string]: any;
 }
+interface PickArtistProps {
+  key: string;
 
 interface PickArtistForm {
   id: string;

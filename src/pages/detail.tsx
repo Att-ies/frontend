@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Button from 'stories/Button';
 
 export default function Detail() {
-  useEffect(() => {}, []);
   const handleChat = () => {
     // 채팅방 만들기 API
   };

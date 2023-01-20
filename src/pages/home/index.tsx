@@ -1,11 +1,11 @@
 import 'swiper/css';
-
+import { useRouter } from 'next/router';
 import Layout from '@components/common/Layout';
 import Tab from '@components/common/Tab';
 import ExhibitionItem from '@components/home/ExhibitionItem';
 import ScheduleItem from '@components/home/ScheduleItem';
 import Calendar from '@components/home/Calendar';
-import React, { useState } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import { Autoplay, Navigation, Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -60,6 +60,7 @@ const DUMP_PREV_AUCTION_LISTS = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   return (
     <>
       <Layout>
@@ -145,9 +146,7 @@ export default function Home() {
               아띠즈 경매 캘린더
             </span>
           </div>
-          <div>
-            <Calendar />
-          </div>
+          <Calendar />
         </section>
         <section className="mb-12">
           {DUMP_AUCTION_LISTS.map((auction, idx) => (
@@ -171,7 +170,7 @@ export default function Home() {
             <SwiperSlide>
               {DUMP_PREV_AUCTION_LISTS.map((auction, idx) => (
                 <AuctionItem
-                  key={idx}
+                  key={'' + idx}
                   src={auction.src}
                   date={auction.date}
                   artRegister={auction.artRegister}
@@ -188,6 +187,9 @@ export default function Home() {
             alt="register"
             width={80}
             height={0}
+            onClick={() => {
+              router.push('/home/post');
+            }}
           />
         </div>
       </Layout>
