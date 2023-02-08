@@ -1,9 +1,8 @@
 import profileApi from '@apis/profile/profileApi';
-import { IsNoticeForm } from '@apis/profile/profileApi.type';
 import { useQuery } from 'react-query';
 
 const useGetIsNotice = () => {
-  return useQuery<IsNoticeForm, Error>(
+  return useQuery<Notice, Error>(
     'useGetIsNotice',
     () => profileApi.getIsNotice(),
     {
