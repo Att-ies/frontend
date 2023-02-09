@@ -6,14 +6,13 @@ module.exports = {
   images: {
     domains: ['atties-bucket.s3.ap-northeast-2.amazonaws.com'],
   },
-  module.exports = {
-    exportPathMap: function() {
-      return {
-        '/': { page: '/' },
-        '/auction': { page: '/auction' },
-        '/auction/[id]':{page:'auction/[id]'},
-      }
-    }
+
+  exportPathMap: function () {
+    return {
+      '/': { page: '/' },
+      '/auction': { page: '/auction' },
+      '/auction/[id]': { page: 'auction/[id]' },
+    };
   },
   async headers() {
     return [
