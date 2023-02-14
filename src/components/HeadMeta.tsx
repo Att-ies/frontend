@@ -15,6 +15,7 @@ const HeadMeta = () => {
       <meta property="og:url" content="https://attiess.netlify.app/" />
       <meta property="og:image" content="/public/svg/icons/icon_logo.svg" />
       <meta property="og:article:author" content="졸업작품 거래 플랫폼" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </Head>
   );
 };
