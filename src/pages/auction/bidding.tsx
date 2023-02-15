@@ -23,6 +23,7 @@ export default function Bidding() {
   const router = useRouter();
   const artWorkId = Number(router.query.id);
   const { data } = useGetBiddingHistory(artWorkId);
+
   const { artWork, auction, biddingList, totalBiddingCount } = data || {};
   const { mutate } = usePutBiddng(+artWorkId!);
   const { data: userInfo } = useGetProfile();
@@ -31,7 +32,7 @@ export default function Bidding() {
   );
   const remaind = +days + +hours + +minutes + +seconds;
   const [isBlurred, setIsBlurred] = useState(true);
-  const isMine = artWork?.id === userInfo?.id;
+  const isMine = artWork?.artistName === userInfo?.nickname;
 
   const {
     register,
