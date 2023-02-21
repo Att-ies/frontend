@@ -7,54 +7,64 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        Gmarket: ['GmarketSans', 'sans-serif'],
+        Pretendard: ['Pretendard', 'sans-serif'],
       },
       fontSize: {
-        hugeTitle: '60px',
-        largeTitle: '34px',
-        title1: '28px',
-        title2: '22px',
-        title3: '20px',
-        headline: '17px',
-        subHeadline: '15px',
-        footNote: '13px',
-        caption1: '12px',
-        caption2: '11px',
-        caption3: '10px',
+        10: '0.625rem',
+        11: '0.688rem',
+        12: '0.75rem',
+        14: '0.875rem',
+        15: '0.938rem',
+        16: '1rem',
+        18: '1.125rem',
+        20: '1.25rem',
+        24: '1.5rem',
       },
       colors: {
-        sc: {
-          black: '#1A1A1A',
-          white: '#FFFFE5',
-          grays: {
-            1: '#8E8E93',
-            2: '#AEAEB2',
-            3: '#C7C7CC',
-            4: '#D1D1D6',
-            5: '#E5E5EA',
-            6: '#F2F2F7',
+        brand: '#FC6554',
+        font: {
+          400: '#999999',
+          500: '#767676',
+          900: '#191919',
+        },
+        line: {
+          1: '#191919',
+          2: '#DBDBDB',
+          3: '#EDEDED',
+          err: '#FF3120',
+        },
+        bg: {
+          1: '#F1F1F5',
+          2: '#F8F8FA',
+        },
+      },
+      animation: {
+        bounce1: 'bounce 2s ease-in-out infinite ',
+        bounce2: 'bounce 2s 0.5s ease-in-out infinite ',
+        bounce3: 'bounce 2s 1s ease-in-out infinite ',
+        bounce4: 'slider 1s',
+      },
+      keyframes: {
+        bounce: {
+          '0%, 20%': { trasnsform: `translate(0,0)` },
+          '50%': {
+            transform: 'translateY(-150%)',
           },
-          org: {
-            1: '#FF6800',
-            2: '#F07F31',
-            3: '#A94500',
+          '85%, 100%': {
+            trasnsform: `translate(0,0)`,
           },
-          grn: {
-            1: '#84D14E',
-            2: '#64DA07',
-            3: '#40A900',
+        },
+        slider: {
+          '0%': {
+            transform: 'translateY(-30%)',
           },
-          bl: {
-            1: '#5BC7EC',
-            2: '#0FBCE2',
-            3: '#0087B1',
+          '100%': {
+            transform: 'translateY(0)',
           },
-          err: '#BA1E45',
-          info: '#B87503',
-          suc: '#3159B3',
         },
       },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
+
+  plugins: [require('@tailwindcss/forms'), require('@headlessui/tailwindcss')],
 };
