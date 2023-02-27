@@ -18,6 +18,7 @@ interface checkForm {
   nickname: boolean;
   email: boolean;
 }
+
 export default function Edit() {
   const [isValidate, setIsValidate] = useState<checkForm>({
     nickname: false,
@@ -82,6 +83,15 @@ export default function Edit() {
   const handleLeftButton = () => {
     router.push('/profile');
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setToast(false);
+    }, 2000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [setToast]);
 
   useEffect(() => {
     if (!profile) return;
@@ -150,12 +160,16 @@ export default function Edit() {
       });
     }
   };
-
+  useEffect(() => {
+    if (userInfo && !userInfo?.telephone) {
+      setToast(true);
+    }
+  }, [userInfo]);
   if (isPatchUserLoading || isPatchArtistLoading) return <Loader />;
 
   return (
     <Layout>
-      {!userInfo?.telephone && (
+      {toast && (
         <Toast
           text="전화번호 등록을 완료해야 서비스 이용이 가능합니다."
           setToast={setToast}
@@ -247,8 +261,7 @@ export default function Edit() {
             required: true,
             pattern: {
               value: /^[가-힣A-Za-z0-9]{1,5}$/g,
-              message:
-                '한글, 닉네임, 숫자를 포함하여 최대 5자 까지 입력 가능합니다.',
+              message: '한글, 숫자를 포함하여 최대 5자 까지 입력 가능합니다.',
             },
           })}
         />
