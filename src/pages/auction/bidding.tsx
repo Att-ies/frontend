@@ -108,7 +108,7 @@ export default function Bidding() {
                 <p className="leading-5">
                   시작가
                   <span className="ml-2 font-semibold text-[#191919]">
-                    KRW{' '}
+                    KRW
                     {artWork?.beginPrice && priceToString(artWork?.beginPrice)}
                   </span>
                 </p>
