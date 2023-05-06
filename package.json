@@ -1,7 +1,24 @@
 {
-  "name": "jooonis-nextjs-boilerplate",
-  "version": "0.1.0",
-  "private": true,
+  "name": "atties",
+  "version": "1.0.1",
+  "description": "For Artist and Art Lovers",
+  "keywords": [
+    "artist",
+    "art",
+    "art lovers",
+    "art community"
+  ],
+  "homepage": "https://atties.vercel.app/",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Att-ies/frontend/issues",
+    "email": "gueit214@naver.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Att-ies/frontend"
+  },
+  "private":true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -64,7 +81,7 @@
     "prettier": "^2.7.1",
     "tailwind-styled-components": "^2.2.0",
     "tailwindcss": "^3.2.4",
-    "typescript": "4.8.4"
+    "typescript": "^5.0.4"
   },
   "packageManager": "yarn@3.3.0",
   "resolutions": {
