@@ -1,41 +1,6 @@
 {
   "name": "atties",
-  "version": "1.0.1",
-  "main": "src/pages/index.tsx",
-  "description": "For Artist and Art Lovers",
-  "contributors": [
-    {
-      "name": "Guesung Park",
-      "email": "gueit214@naver.com",
-      "url": "https://peter-coding.tistory.com/"
-    },
-    {
-      "name": "Taejoon Park",
-      "email": "xowns3213@naver.com",
-      "url": "https://github.com/joooonis"
-    },
-    {
-      "name": "Geonwoo Shin ",
-      "email": "rjsdnslawkd@naver.com",
-      "url": "https://github.com/GeonwooShin"
-    }
-  ],
-  "keywords": [
-    "artist",
-    "art",
-    "art lovers",
-    "art community"
-  ],
-  "homepage": "https://atties.vercel.app/",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Att-ies/frontend/issues",
-    "email": "gueit214@naver.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Att-ies/frontend"
-  },
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
