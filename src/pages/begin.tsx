@@ -10,9 +10,6 @@ import { useRouter } from 'next/router';
 import { Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import styled from 'styled-components';
-import { getToken, setToken } from '@utils/localStorage/token';
-import { getLocalStorage, setLocalStorage } from '@utils/localStorage/helper';
-
 interface defaultProps {
   [key: string]: any;
 }
