@@ -76,6 +76,7 @@ export default function App({ Component, pageProps }: AppProps) {
       }),
   );
 
+      // 없으면 서비스 워커 등록
   return loading ? (
     <Loader />
   ) : (
