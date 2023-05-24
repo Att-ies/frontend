@@ -1,4 +1,4 @@
-import storage from 'redux-persist/lib/storage';
+// import storage from 'redux-persist/lib/storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
   FLUSH,
@@ -12,6 +12,25 @@ import {
 
 import userSlice from './user/userSlice';
 import noticeSlice from './noticeSlice';
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
+const createNoopStorage = () => {
+  return {
+    getItem(_key) {
+      return Promise.resolve(null);
+    },
+    setItem(_key, value) {
+      return Promise.resolve(value);
+    },
+    removeItem(_key) {
+      return Promise.resolve();
+    },
+  };
+};
+
+const storage =
+  typeof window !== 'undefined'
+    ? createWebStorage('local')
+    : createNoopStorage();
 
 const rootReducer = combineReducers({
   user: userSlice,
