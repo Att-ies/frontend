@@ -11,12 +11,11 @@ class MyDocument extends Document {
       <Html lang="ko">
         <Head>
           <link rel="shortcut icon" href="/static/favicon.ico" />
-          <title>Atties</title>
           <meta name="theme-color" content="#000000" />
-          <meta
+          {/* <meta
             name="viewport"
             content="initial-scale=1.0, width=device-width, maximum-scale=5.0, user-scalable=yes"
-          />
+          /> */}
           <meta
             name="og:description"
             content="졸업작품 거래 플랫폼, 아띠즈:art:"
