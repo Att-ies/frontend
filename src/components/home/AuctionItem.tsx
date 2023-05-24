@@ -33,10 +33,7 @@ export default React.memo(function AuctionItem({
             alert('등록된 작품이 없습니다.');
             return;
           }
-          router.push({
-            pathname: '/exhibition/view',
-            query: { id: auctionItem?.turn },
-          });
+          router.push(`/exhibition/${auctionItem?.turn}`);
         }}
       >
         <span className="text-11 text-[#767676]">

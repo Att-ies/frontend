@@ -27,10 +27,7 @@ export default function ArtWorkItem({
     <ArtWorkItemTag
       {...rest}
       onClick={() => {
-        router.push({
-          pathname: `/auction/view`,
-          query: { id },
-        });
+        router.push(`/auction/${id}`);
       }}
     >
       <section className="relative h-[12.5rem] overflow-hidden">

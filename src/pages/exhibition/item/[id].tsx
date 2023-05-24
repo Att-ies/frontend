@@ -20,7 +20,6 @@ export default function ExhibitionArt() {
   const id = Number(router.query.id);
 
   const { data: art } = useGetExhibitionItem(id);
-
   const { height } = useWindowSize();
 
   const onCloseModal = () => {
@@ -55,7 +54,7 @@ export default function ExhibitionArt() {
           width={400}
           height={0}
           sizes="100vh"
-          className="absolute top-[15rem] right-[-0.1875rem] scale-[2.0] object-contain"
+          className="absolute right-[-0.1875rem] top-[15rem] scale-[2.0] object-contain"
         />
       ) : (
         <Image
@@ -91,7 +90,7 @@ export default function ExhibitionArt() {
                 height={0}
                 quality={100}
               />
-              <div className="absolute top-[0.625rem] right-[0.625rem] z-50">
+              <div className="absolute right-[0.625rem] top-[0.625rem] z-50">
                 <Image
                   src="/svg/icons/maximize.svg"
                   alt="image"
@@ -106,7 +105,7 @@ export default function ExhibitionArt() {
         ) : (
           ''
         )}
-        {art && !isExpansion ? (
+        {!!art && !isExpansion ? (
           <div className="flex h-full w-full justify-center">
             <Image
               alt="canvas"
@@ -125,7 +124,7 @@ export default function ExhibitionArt() {
                 height={0}
                 quality={100}
               />
-              <div className="absolute top-[0.625rem] right-[0.625rem] z-50">
+              <div className="absolute right-[0.625rem] top-[0.625rem] z-50">
                 <Image
                   src="/svg/icons/maximize.svg"
                   alt="image"
@@ -141,7 +140,7 @@ export default function ExhibitionArt() {
           ''
         )}
         {!!art && modal && (
-          <div className="absolute bottom-[-5rem] z-50 flex w-full flex-col justify-center max-[23.75rem]:bottom-[-12.5rem]">
+          <div className="max-[23.75rem]:bottom-[-12.5rem] absolute bottom-[-5rem] z-50 flex w-full flex-col justify-center">
             {!isOpen && (
               <div className="m-auto mb-3 w-[1.375rem]">
                 <Image

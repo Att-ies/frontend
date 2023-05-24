@@ -76,17 +76,11 @@ export default function Modal({
 }: ModalProps) {
   const router = useRouter();
   const handleLeftButton = () => {
-    router.push({
-      pathname: `/auction/view`,
-      query: { id },
-    });
+    router.push(`/auction/${id}`);
   };
 
   const handleRightButton = () => {
-    router.push({
-      pathname: '/profile/detail',
-      query: { id: artistId },
-    });
+    router.push(`/profile/${artistId}`);
   };
   return (
     <>

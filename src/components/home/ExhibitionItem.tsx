@@ -23,14 +23,12 @@ export default React.memo(function ExhibitionItem({
       postPrefer();
     }
   };
+
   return (
     <div
       className="max-[25rem]:h-[10.9375rem] max-[25rem]:w-[9.0625rem] relative h-[12.3125rem] w-[9.875rem] rounded"
       onClick={() => {
-        router.push({
-          pathname: '/exhibition/detail',
-          query: { id },
-        });
+        router.push(`/exhibition/${id}`);
       }}
     >
       <Image
