@@ -1,16 +1,16 @@
-import Layout from '@components/common/Layout';
-import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-import Button from 'stories/Button';
-import { useRouter } from 'next/router';
-import useGetDetail from '@hooks/queries/useGetDetail';
 import chatApi from '@apis/chat/chatApi';
-import usePostPrefer from '@hooks/mutations/usePostPrefer';
-import useDeletePrefer from '@hooks/mutations/useDeletePrefer';
-import { useCountDown } from '@hooks/useCountDown';
-import useGetProfile from '@hooks/queries/useGetProfile';
-import KeywordBox from '@components/common/KeywordBox';
 import Guarantee from '@components/auction/Guarantee';
+import KeywordBox from '@components/common/KeywordBox';
+import Layout from '@components/common/Layout';
+import useDeletePrefer from '@hooks/mutations/useDeletePrefer';
+import usePostPrefer from '@hooks/mutations/usePostPrefer';
+import useGetDetail from '@hooks/queries/useGetDetail';
+import useGetProfile from '@hooks/queries/useGetProfile';
+import { useCountDown } from '@hooks/useCountDown';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import Button from 'stories/Button';
 
 export default function View() {
   const router = useRouter();
@@ -245,8 +245,7 @@ export default function View() {
                     className="object-cover"
                     onClick={() => {
                       router.push({
-                        pathname: '/profile/detail',
-                        query: { id: artist?.id },
+                        pathname: `/profile/${artist?.id}`,
                       });
                     }}
                   />
@@ -258,8 +257,7 @@ export default function View() {
                     height={40}
                     onClick={() => {
                       router.push({
-                        pathname: '/profile/detail',
-                        query: { id: artist?.id },
+                        pathname: `/profile/${artist?.id}`,
                       });
                     }}
                   />
