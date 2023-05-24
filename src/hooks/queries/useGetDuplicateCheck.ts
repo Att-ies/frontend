@@ -2,8 +2,8 @@ import authApi from '@apis/auth/authApi';
 import { useQueries, UseQueryOptions } from '@tanstack/react-query';
 
 const useGetDuplicateCheck = ({ userId, email, nickname }: DuplicateCheck) => {
-  return useQueries(
-    [
+  return useQueries({
+    queries: [
       {
         queryKey: 'useGetCheckId',
         queryFn: () => authApi.getCheckId(userId),
@@ -22,10 +22,9 @@ const useGetDuplicateCheck = ({ userId, email, nickname }: DuplicateCheck) => {
       },
     ].map<UseQueryOptions<any, Error>>((query) => ({
       ...query,
-
       suspense: false,
     })),
-  );
+  });
 };
 
 export { useGetDuplicateCheck };
