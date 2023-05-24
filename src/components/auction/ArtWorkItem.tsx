@@ -57,5 +57,6 @@ export default function ArtWorkItem({
         </section>
       </ArtWorkItemTag>
     </Link>
+
   );
 }

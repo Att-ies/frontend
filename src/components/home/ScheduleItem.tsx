@@ -67,10 +67,7 @@ export default React.memo(function ScheduleItem({
               window.alert('경매가 시작하면 입장하실 수 있습니다.');
               return;
             }
-            router.push({
-              pathname: '/exhibition/view',
-              query: { id: auctionItem?.turn },
-            });
+            router.push('/exhibition/' + auctionItem?.turn);
           }}
         >
           <span className="text-14 font-bold">

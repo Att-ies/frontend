@@ -2,22 +2,21 @@ import '../styles/globals.css';
 
 import store from '@features/store';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-// import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { PersistGate } from 'redux-persist/integration/react';
+import Loader from '@components/common/Loader';
+import GoogleScript from '@components/GoogleScript';
 import {
   Hydrate,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import type { AppProps } from 'next/app';
-import Loader from '@components/common/Loader';
-import React, { Suspense, useEffect, useState } from 'react';
-import { Router, useRouter } from 'next/router';
-import { getToken } from '@utils/localStorage/token';
 import { pageview } from '@utils/gtag';
-import GoogleScript from '@components/GoogleScript';
+import { getToken } from '@utils/localStorage/token';
+import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { Router, useRouter } from 'next/router';
+import React, { Suspense, useEffect, useState } from 'react';
 
 const persistor = persistStore(store);
 
@@ -76,6 +75,7 @@ export default function App({ Component, pageProps }: AppProps) {
       }),
   );
 
+      // 없으면 서비스 워커 등록
   return loading ? (
     <Loader />
   ) : (

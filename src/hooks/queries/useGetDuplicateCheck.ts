@@ -5,17 +5,17 @@ const useGetDuplicateCheck = ({ userId, email, nickname }: DuplicateCheck) => {
   return useQueries({
     queries: [
       {
-        queryKey: 'useGetCheckId',
+        queryKey: ['useGetCheckId'],
         queryFn: () => authApi.getCheckId(userId),
         enabled: !!userId,
       },
       {
-        queryKey: 'useGetCheckNickname',
+        queryKey: ['useGetCheckNickname'],
         queryFn: () => authApi.getCheckNickname(nickname),
         enabled: !!nickname,
       },
       {
-        queryKey: 'useGetCheckEmail',
+        queryKey: ['useGetCheckEmail'],
 
         queryFn: () => authApi.getCheckEmail(email),
         enabled: !!email,
