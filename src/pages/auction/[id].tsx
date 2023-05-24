@@ -324,8 +324,7 @@ export default function View() {
               text="응찰하기"
               onClick={() =>
                 router.push({
-                  pathname: '/auction/bidding',
-                  query: { id: artWorkId },
+                  pathname: '/auction/bidding' + artWorkId,
                 })
               }
               disabled={remaind <= 0}
