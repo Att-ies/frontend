@@ -12,8 +12,7 @@ const usePatchArtwork = (id: number) => {
       useErrorBoundary: false,
       onSuccess: (data) => {
         router.replace({
-          pathname: '/auction/view',
-          query: { id },
+          pathname: '/auction/view' + id,
         });
       },
     },

@@ -25,10 +25,7 @@ const MessageBox = styled.p`
 
 export default function Chatroom({ chatRoom }: ChatRoomProps) {
   const handleChattingRoom = () => {
-    router.push({
-      pathname: '/chat/room',
-      query: { id: chatRoom?.chatRoomId },
-    });
+    router.push(`/chat/${chatRoom?.chatRoomId}`);
   };
   const router = useRouter();
   return (

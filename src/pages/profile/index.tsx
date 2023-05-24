@@ -127,10 +127,7 @@ export default function Profile() {
                       window.alert('작가 전환 후 이용할 수 있는 페이지입니다.');
                     } else {
                       router.push({
-                        pathname: '/profile/detail',
-                        query: {
-                          id: data?.id,
-                        },
+                        pathname: '/profile/detail' + data?.id,
                       });
                     }
                   }}
@@ -147,10 +144,7 @@ export default function Profile() {
                       window.alert('작가 전환 후 이용할 수 있는 페이지입니다.');
                     } else {
                       router.push({
-                        pathname: '/profile/detail',
-                        query: {
-                          id: data?.id,
-                        },
+                        pathname: '/profile/detail' + data?.id,
                       });
                     }
                   }}

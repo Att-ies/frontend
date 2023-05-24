@@ -155,8 +155,7 @@ export default function Edit() {
     } else {
       mutateArtist(formData);
       router.replace({
-        pathname: '/profile/detail',
-        query: { id: userInfo?.id },
+        pathname: '/profile/detail' + userInfo?.id,
       });
     }
   };
@@ -192,7 +191,7 @@ export default function Edit() {
               fill
               alt="profile"
             />
-            <div className="absolute right-0 bottom-0 flex h-[1.625rem] w-[1.625rem] items-center justify-center rounded-full bg-[#575757]">
+            <div className="absolute bottom-0 right-0 flex h-[1.625rem] w-[1.625rem] items-center justify-center rounded-full bg-[#575757]">
               <Image
                 src="/svg/icons/camera.svg"
                 width="15"
@@ -209,7 +208,7 @@ export default function Edit() {
               fill
               alt="profile"
             />
-            <div className="absolute right-0 bottom-0 flex h-[1.625rem] w-[1.625rem] items-center justify-center rounded-full bg-[#575757]">
+            <div className="absolute bottom-0 right-0 flex h-[1.625rem] w-[1.625rem] items-center justify-center rounded-full bg-[#575757]">
               <Image
                 src="/svg/icons/camera.svg"
                 width="15"
@@ -226,7 +225,7 @@ export default function Edit() {
               height="0"
               alt="profile"
             />
-            <div className="absolute right-0 bottom-0 flex h-[1.625rem] w-[1.625rem] items-center justify-center rounded-full bg-[#575757]">
+            <div className="absolute bottom-0 right-0 flex h-[1.625rem] w-[1.625rem] items-center justify-center rounded-full bg-[#575757]">
               <Image
                 src="/svg/icons/camera.svg"
                 width="15"

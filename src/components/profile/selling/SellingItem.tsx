@@ -24,8 +24,7 @@ export default function SellingItem({
         {...rest}
         onClick={() => {
           router.push({
-            pathname: '/auction/view',
-            query: { id: sellingItem.id },
+            pathname: '/auction/view' + sellingItem.id,
           });
         }}
       >
@@ -62,8 +61,7 @@ export default function SellingItem({
         {...rest}
         onClick={() => {
           router.push({
-            pathname: '/auction/view',
-            query: { id: sellingItem.id },
+            pathname: '/auction/view' + sellingItem.id,
           });
         }}
       >
@@ -101,8 +99,7 @@ export default function SellingItem({
         {...rest}
         onClick={() => {
           router.push({
-            pathname: '/auction/view',
-            query: { id: sellingItem.id },
+            pathname: '/auction/view' + sellingItem.id,
           });
         }}
       >
@@ -141,8 +138,7 @@ export default function SellingItem({
         {...rest}
         onClick={() => {
           router.push({
-            pathname: '/auction/view',
-            query: { id: sellingItem.id },
+            pathname: '/auction/view' + sellingItem.id,
           });
         }}
       >

@@ -23,10 +23,7 @@ export default function BidItem({
     <BidItemTag
       {...rest}
       onClick={() => {
-        router.push({
-          pathname: '/auction/view',
-          query: { id: biddingItem.id },
-        });
+        router.push('/auction/view' + biddingItem.id);
       }}
     >
       <article className="relative h-[6.25rem] w-[5.125rem] overflow-hidden rounded">
