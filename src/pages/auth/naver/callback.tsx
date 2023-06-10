@@ -19,7 +19,6 @@ export default function NaverCallback() {
         setCookie('refreshToken', response.data.refreshToken);
         const token: Token = {
           accessToken: response.data.accessToken,
-          refreshToken: response.data.refreshToken,
           roles: response.data.roles,
         };
         if (token) setToken(token);
