@@ -1,26 +1,25 @@
 import '../styles/globals.css';
 
+import Loader from '@components/common/Loader';
+import GoogleScript from '@components/GoogleScript';
 import store from '@features/store';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { persistStore } from 'redux-persist';
 import {
   Hydrate,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import type { AppContext, AppProps } from 'next/app';
-import Loader from '@components/common/Loader';
-import React, { Suspense, useEffect, useState } from 'react';
-import { Router, useRouter } from 'next/router';
-import { getToken } from '@utils/localStorage/token';
 import { pageview } from '@utils/gtag';
-import GoogleScript from '@components/GoogleScript';
-import Head from 'next/head';
-const persistor = persistStore(store);
-import { getCookie } from 'cookies-next';
+import { getToken } from '@utils/localStorage/token';
 import axios from 'axios';
-import { CONFIG } from '@config';
+import { getCookie } from 'cookies-next';
+import type { AppContext, AppProps } from 'next/app';
+import Head from 'next/head';
+import { Router, useRouter } from 'next/router';
+import React, { Suspense, useEffect, useState } from 'react';
+import { Provider } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+const persistor = persistStore(store);
 
 interface AppExtendedProps extends AppProps {
   userData: User;
@@ -31,7 +30,6 @@ export default function App({
   pageProps,
   userData,
 }: AppExtendedProps) {
-  console.log(userData);
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
@@ -99,7 +97,7 @@ export default function App({
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <PersistGate loading={null} persistor={persistor}>
-                <Component {...pageProps} />
+                <Component {...pageProps} userInfo={userData} />
               </PersistGate>
             </Hydrate>
           </QueryClientProvider>
@@ -127,7 +125,6 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
         },
       },
     );
-    // console.log(res.data);
     return { pageProps, userData: res.data };
   } catch (err) {
     console.log(err);
