@@ -31,7 +31,6 @@ export default React.memo(function NoticeIcon({
   if (isArtist === true && getToken().roles !== 'ROLE_ARTIST') {
     setToken({
       accessToken: getToken().accessToken,
-      refreshToken: getCookie('refreshToken'),
       roles: 'ROLE_ARTIST',
     });
   }

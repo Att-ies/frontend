@@ -76,7 +76,6 @@ function Login() {
 
       const token: Token = {
         accessToken: data.accessToken,
-        refreshToken: data.refreshToken,
         roles: data.roles,
       };
       if (token) setToken(token);

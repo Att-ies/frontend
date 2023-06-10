@@ -1,6 +1,9 @@
 import instance from '@apis/_axios/instance';
 import { Token } from '@utils/localStorage/token';
 
+interface LoginResponse extends Token {
+  refreshToken: string;
+}
 export class AuthApi {
   async getMemberProfile(): Promise<Member> {
     const { data } = await instance.get(`/members/me`);
@@ -12,7 +15,7 @@ export class AuthApi {
     return data;
   }
 
-  async postLogin(body: Login): Promise<Token> {
+  async postLogin(body: Login): Promise<LoginResponse> {
     const { data } = await instance.post('/members/login', body);
     return data;
   }
