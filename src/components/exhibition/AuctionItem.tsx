@@ -20,10 +20,9 @@ export default function AuctionItem({ auctionList }: AuctionListProps) {
     <div
       className="mb-5 flex cursor-pointer border-b-[0.0625rem] pb-6 last:mb-0"
       onClick={() =>
-        router.push({
-          pathname: '/exhibition/view',
-          query: { id: auctionList.id },
-        })
+        router.push(
+          `/exhibition/${auctionList.id}`,
+        )
       }
     >
       <div className="relative mr-2 h-[6.1875rem] w-[5.125rem] rounded">

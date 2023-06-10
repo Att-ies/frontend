@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface TabItemProps {
   tabItem: {
@@ -27,12 +28,10 @@ export default function TabItem({ tabItem }: TabItemProps) {
   };
 
   return (
-    <div
+    <Link
+      href={`/${tabItem.name}`}
       className="m-auto cursor-pointer"
       key={tabItem.id}
-      onClick={() => {
-        handleTabItem(tabItem.name);
-      }}
       onMouseEnter={() => {
         handleMouseEnter(tabItem.name);
       }}
@@ -64,6 +63,6 @@ export default function TabItem({ tabItem }: TabItemProps) {
           {tabItem.word}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

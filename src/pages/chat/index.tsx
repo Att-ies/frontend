@@ -1,16 +1,13 @@
-import * as StompJs from '@stomp/stompjs';
+import { createClient, subscribe } from '@apis/chat/socketConnect';
 import Chatroom from '@components/chat/ChatRoom';
 import Layout from '@components/common/Layout';
-import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
-import { createClient, subscribe } from '@apis/chat/socketConnect';
+import None from '@components/common/None';
 import Tab from '@components/common/Tab';
 import useGetChatRoomList from '@hooks/queries/chat/useGetChatRoomList';
-import None from '@components/common/None';
+import * as StompJs from '@stomp/stompjs';
+import React, { useEffect, useRef } from 'react';
 
 export default function Chat() {
-  const router = useRouter();
   const client: any = useRef({}) as React.MutableRefObject<StompJs.Client>;
   const { data: chatRoom, refetch: refetchChatRoomList } = useGetChatRoomList();
   const chatRoomList = chatRoom?.chatRooms || [];

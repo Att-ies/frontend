@@ -3,6 +3,14 @@ import '../styles/globals.css';
 import Loader from '@components/common/Loader';
 import GoogleScript from '@components/GoogleScript';
 import store from '@features/store';
+<<<<<<< HEAD
+=======
+import { Provider } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+import Loader from '@components/common/Loader';
+import GoogleScript from '@components/GoogleScript';
+>>>>>>> dev
 import {
   Hydrate,
   QueryClient,
@@ -10,6 +18,7 @@ import {
 } from '@tanstack/react-query';
 import { pageview } from '@utils/gtag';
 import { getToken } from '@utils/localStorage/token';
+<<<<<<< HEAD
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import type { AppContext, AppProps } from 'next/app';
@@ -19,6 +28,13 @@ import React, { Suspense, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
+=======
+import type { AppProps } from 'next/app';
+import Head from 'next/head';
+import { Router, useRouter } from 'next/router';
+import React, { Suspense, useEffect, useState } from 'react';
+
+>>>>>>> dev
 const persistor = persistStore(store);
 
 interface AppExtendedProps extends AppProps {
@@ -84,6 +100,7 @@ export default function App({
       }),
   );
 
+      // 없으면 서비스 워커 등록
   return loading ? (
     <Loader />
   ) : (

@@ -1,26 +1,24 @@
+import Guarantee from '@components/auction/Guarantee';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Input from '@components/common/Input';
+import KeywordBox from '@components/common/KeywordBox';
 import Layout from '@components/common/Layout';
+import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
 import Select from '@components/common/Select';
 import GenreModal from '@components/home/post/GenreModal';
 import GuaranteeModal from '@components/home/post/GuaranteeModal';
 import KeywordModal from '@components/home/post/KeywordModal.tsx';
 import FileItem from '@components/inquiry/FileItem';
-import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
-import { getToken } from '@utils/localStorage/token';
-import KeywordBox from '@components/common/KeywordBox';
-import usePostArtwork from '@hooks/mutations/usePostArtwork';
-import Loader from '@components/common/Loader';
-import { makeBlob } from '@utils/makeBlob';
+import usePatchArtwork from '@hooks/mutations/usePatchArtwork';
+import useGetEditForm from '@hooks/queries/artwork/useGetEditForm';
 import useGetProfile from '@hooks/queries/useGetProfile';
 import { dataURLtoFile } from '@utils/dataURLtoFile';
-import Guarantee from '@components/auction/Guarantee';
-import useGetEditForm from '@hooks/queries/artwork/useGetEditForm';
-import usePatchArtwork from '@hooks/mutations/usePatchArtwork';
+import { getToken } from '@utils/localStorage/token';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 const ARTWORK_STATUS = [
   { value: '매우 좋음' },

@@ -49,8 +49,6 @@ interface TabItemProps {
 }
 
 export default function Tab() {
-  const router = useRouter();
-
   return (
     <TabBox>
       <TabList>

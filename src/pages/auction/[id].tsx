@@ -5,6 +5,10 @@ import Layout from '@components/common/Layout';
 import useDeletePrefer from '@hooks/mutations/useDeletePrefer';
 import usePostPrefer from '@hooks/mutations/usePostPrefer';
 import useGetDetail from '@hooks/queries/useGetDetail';
+<<<<<<< HEAD:src/pages/auction/view.tsx
+=======
+import useGetProfile from '@hooks/queries/useGetProfile';
+>>>>>>> dev:src/pages/auction/[id].tsx
 import { useCountDown } from '@hooks/useCountDown';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -31,10 +35,7 @@ export default function View({ userInfo }) {
       artistId: artist?.id!,
       artWorkId: artWork?.id!,
     });
-    router.push({
-      pathname: '/chat/room',
-      query: { id: chatData?.chatRoomId },
-    });
+    router.push(`/chat/${chatData?.chatRoomId}`);
   };
 
   const handlePreferButton = () => {
@@ -247,8 +248,7 @@ export default function View({ userInfo }) {
                     className="object-cover"
                     onClick={() => {
                       router.push({
-                        pathname: '/profile/detail',
-                        query: { id: artist?.id },
+                        pathname: `/profile/${artist?.id}`,
                       });
                     }}
                   />
@@ -260,8 +260,7 @@ export default function View({ userInfo }) {
                     height={40}
                     onClick={() => {
                       router.push({
-                        pathname: '/profile/detail',
-                        query: { id: artist?.id },
+                        pathname: `/profile/${artist?.id}`,
                       });
                     }}
                   />
@@ -328,8 +327,7 @@ export default function View({ userInfo }) {
               text="응찰하기"
               onClick={() =>
                 router.push({
-                  pathname: '/auction/bidding',
-                  query: { id: artWorkId },
+                  pathname: '/auction/bidding' + artWorkId,
                 })
               }
               disabled={remaind <= 0}

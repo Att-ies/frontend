@@ -1,6 +1,41 @@
 {
   "name": "jooonis-nextjs-boilerplate",
-  "version": "0.1.0",
+  "version": "1.1.0",
+  "main": "src/pages/index.tsx",
+  "description": "For Artist and Art Lovers",
+  "contributors": [
+    {
+      "name": "Guesung Park",
+      "email": "gueit214@naver.com",
+      "url": "https://peter-coding.tistory.com/"
+    },
+    {
+      "name": "Taejoon Park",
+      "email": "xowns3213@naver.com",
+      "url": "https://github.com/joooonis"
+    },
+    {
+      "name": "Geonwoo Shin ",
+      "email": "rjsdnslawkd@naver.com",
+      "url": "https://github.com/GeonwooShin"
+    }
+  ],
+  "keywords": [
+    "artist",
+    "art",
+    "art lovers",
+    "art community"
+  ],
+  "homepage": "https://atties.vercel.app/",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Att-ies/frontend/issues",
+    "email": "gueit214@naver.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Att-ies/frontend"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,10 +48,10 @@
   "dependencies": {
     "@headlessui/react": "^1.7.4",
     "@headlessui/tailwindcss": "^0.1.2",
-    "@reduxjs/toolkit": "^1.8.6",
+    "@reduxjs/toolkit": "^1.9.5",
     "@stomp/stompjs": "^6.1.2",
     "@tailwindcss/forms": "^0.5.3",
-    "@tanstack/react-query": "^4.28.0",
+    "@tanstack/react-query": "^4.29.7",
     "axios": "^1.1.3",
     "cookies-next": "^2.1.1",
     "html-to-image": "^1.11.11",

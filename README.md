@@ -23,10 +23,13 @@
   - 테스트 계정 ID : test01
   - 테스트 계정 PW : abcd1234
 
+<<<<<<< HEAD
 ## Atties Ver.2.0 업데이트 내역
 
 ✅ 프로젝트 성능 향상 : LCP 17초 -> 12.9초 단축 / lighthouse 성능 점수 47점 -> 62점 상승
 
+=======
+>>>>>>> dev
 ## 프로젝트 성능 향상 보고서 📈
 
 ### 프로젝트 개요
@@ -51,7 +54,11 @@
 
 ### 결론
 
+<<<<<<< HEAD
 이 프로젝트를 통해 기존 코드의 성능을 개선하고, 더욱 효과적인 방식으로 리팩토링하는 방법을 연구하였습니다. 이를 통해 웹 페이지의 로드 시간을 줄이고, 사용자 경험을 개선하는 데 기여하였습니다.
+=======
+이 프로젝트를 통해 기존 코드의 성능을 개선하고, 더욱 효과적인 방식으로 리팩토링하는 방법을 연구하였습니다. 이를 통해 웹 페이지의 로드 시간을 줄이고, 사용자 경험을 개선하는 데 기여하였습니다. 앞으로도 성능 최적화와 코드 품질 개선에 지속적으로 노력할 것입니다.
+>>>>>>> dev
 
 ---
 
@@ -165,42 +172,3 @@ useQuery, useMutation으로 mapping한 query, mutation hook들과 개별 hook들
     │ ├── useInterval.ts
     │ └── ...
     └── ...
-
-## 컨밴션 🌈
-
-[📄 네이밍 컨벤션](https://www.notion.so/guesung/f6bf625c22514d8a8a9793d551935a10?pvs=4)
-
-[📄 타입스크립트 컨밴션](https://www.notion.so/guesung/typescript-convention-e335832c4c0e420f85a9f7de6b5d0db1?pvs=4)
-
-[📄 Git 컨밴션](https://www.notion.so/guesung/PR-59399896b4504c4ea5703b8c3ac2b874)
-
-## 프로젝트 기술스택 🛠
-
-![](https://i.imgur.com/KN4SEfW.png)
-
-- **Language :** [Typescript](https://www.typescriptlang.org/)
-- **Framework :** [Next.js](https://nextjs.org/)
-- **Package Manager :** [yarn-berry](https://yarnpkg.com/)
-- **State Management :** [React Query](https://react-query.tanstack.com/), [Redux Toolkit](https://redux-toolkit.js.org/)
-- **Styling :** [TailwindCSS](https://tailwindcss.com/), [tailwind-styled-components](https://www.npmjs.com/package/tailwind-styled-components), [HeadlessUI](https://headlessui.com/), [Swiper](https://swiperjs.com/react)
-- **Forms :** [React Hook Form](https://react-hook-form.com/)
-- **Formatter :** [ESLint](https://eslint.org/), [Prettier](https://prettier.io/)
-- **Library :** [axios](https://axios-http.com/), [sockJS](https://github.com/sockjs/sockjs-client), [momentJS](https://momentjs.com/)
-
-## 우리의 성장기...
-
-[🗝️ 카카오, 네이버 소셜 로그인](https://www.notion.so/guesung/social-login-4d9321791dec42a6a98590cf18a0dbb5?pvs=4)
-
-[🧿 axios instance로 api 요청 전후 및 error 핸들링](https://www.notion.so/guesung/Axios-instance-53e9a3c00f354b8c92b44728f9987b3c?pvs=4)
-
-[💧 react-query 제대로 알고 사용하기 ](https://www.notion.so/guesung/react-query-e32b280a1b184cd7b5ba699286a20604?pvs=4)
-
-[🐽 Intersection Observer API와 react-query 사용하여 무한스크롤 구현](https://www.notion.so/guesung/Intersection-Observer-API-react-query-7e95dd67a0aa4830be0685e74e8093f0)
-
-[🎨 tailwind-styled-component](https://www.notion.so/guesung/tailwind-styled-components-e8b95344e93d4ca88979b702deb7027e)
-
-[💬 채팅, stompjs, socketjs](https://www.notion.so/guesung/Stomp-Soket-js-51dfc4ba27f94026bec470da0170ea01?pvs=4)
-
-[🧡 스토리북 in nextjs and tailwind](https://www.notion.so/guesung/story-book-with-nextjs-and-tailwind-280f912916084649ad8d73e4e7b75abf?pvs=4)
-
-[👣 @types 폴더에서 전역 type 정의](https://www.notion.so/guesung/types-type-7aeefdf592894c0d9a6f99993ba2a75e?pvs=4)

@@ -12,8 +12,7 @@ const usePostArtwork = () => {
       useErrorBoundary: false,
       onSuccess: (data) => {
         router.replace({
-          pathname: '/auction/view',
-          query: { id: data.artWork.id },
+          pathname: '/auction/view' + data.artWork.id,
         });
       },
     },
