@@ -1,13 +1,14 @@
 import { CONFIG } from '@config';
 import axios from 'axios';
 import { getToken, setToken } from '@utils/localStorage/token';
+import { getCookie } from '@utils/cookies';
 
 const instance = axios.create({
   baseURL: CONFIG.API_BASE_URL,
 });
 
 const refreshToken = async () => {
-  const refreshToken = getToken().refreshToken;
+  const refreshToken = getCookie('refreshToken');
   const response = await axios.post(`${CONFIG.API_BASE_URL}/members/token`, {
     refreshToken,
   });
@@ -15,7 +16,7 @@ const refreshToken = async () => {
 };
 
 instance.interceptors.request.use(
-  (config:any) => {
+  (config: any) => {
     const token = getToken();
     config.headers = {
       ...config.headers,
@@ -62,13 +63,13 @@ instance.interceptors.response.use(
       if (data?.code === 'TOKEN_EXPIRED') {
         setToken({
           accessToken: '',
-          refreshToken: getToken().refreshToken,
+          refreshToken: getCookie('refreshToken'),
           roles: getToken().roles,
         });
         const { accessToken } = await refreshToken();
         setToken({
           accessToken,
-          refreshToken: getToken().refreshToken,
+          refreshToken: getCookie('refreshToken'),
           roles: getToken().roles,
         });
         return instance.request(originalRequest);
