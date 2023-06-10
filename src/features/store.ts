@@ -1,4 +1,3 @@
-// import storage from 'redux-persist/lib/storage';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {
   FLUSH,
@@ -12,6 +11,7 @@ import {
 
 import userSlice from './user/userSlice';
 import noticeSlice from './noticeSlice';
+import tokenSlice from './token/tokenSlice';
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 const createNoopStorage = () => {
   return {
@@ -35,6 +35,7 @@ const storage =
 const rootReducer = combineReducers({
   user: userSlice,
   notice: noticeSlice,
+  token: tokenSlice,
 });
 
 const persistConfig = {

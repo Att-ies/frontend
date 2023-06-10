@@ -17,6 +17,9 @@ import {
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import Loader from '@components/common/Loader';
+import { setCookie } from 'cookies-next';
+import { useDispatch } from 'react-redux';
+import { setAccessToken } from '@features/token/tokenSlice';
 
 function Login() {
   const {
@@ -31,6 +34,8 @@ function Login() {
   });
   const [checkedTerm, setCheckedTerm] = useState<string[]>([]);
   const { mutate, data, error, isLoading: isLoadingLogin } = usePostLogin();
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     deleteToken();
@@ -38,6 +43,7 @@ function Login() {
       setCheckedTerm(['idSave']);
     }
   }, []);
+
   useEffect(() => {
     if (checkedTerm.includes('idSave')) {
       setLocalStorage('idSave', 'true');
@@ -54,20 +60,22 @@ function Login() {
       setCheckedTerm(checkedTerm.filter((el: string) => el !== id));
     }
   };
-  const router = useRouter();
   const onSubmit = async ({ userId, password }: Login) => {
     if (checkedTerm.includes('idSave')) {
       setLocalStorage('savedId', userId);
     }
-
     mutate({ userId, password });
   };
 
   useEffect(() => {
-    if (data) {
+    if (data && data.refreshToken && data.accessToken) {
+      setCookie('refreshToken', data.refreshToken);
+      setCookie('accessToken', data.accessToken);
+
+      dispatch(setAccessToken({ accessToken: data.accessToken }));
+
       const token: Token = {
         accessToken: data.accessToken,
-        refreshToken: data.refreshToken,
         roles: data.roles,
       };
       if (token) setToken(token);
@@ -111,7 +119,7 @@ function Login() {
           />
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col ">
+          <div className="flex flex-col">
             <Input
               type="text"
               id="id"
@@ -172,7 +180,7 @@ function Login() {
               비밀번호 찾기
             </Link>
           </p>
-          <p className="mt-12 mb-9 flex w-full items-center justify-center text-12 ">
+          <p className="mb-9 mt-12 flex w-full items-center justify-center text-12 ">
             <span className="text-[#999999]">아직 회원이 아니신가요?</span>
             <Link className="ml-[0.125rem]" href="/auth/join01">
               회원가입

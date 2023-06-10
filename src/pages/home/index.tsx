@@ -1,30 +1,28 @@
 import 'swiper/css';
 import 'swiper/css/pagination';
 
+import DivisionBar from '@components/common/DivisionBar';
+import KeywordBox from '@components/common/KeywordBox';
 import Layout from '@components/common/Layout';
+import Navigate from '@components/common/Navigate';
+import NoticeIcon from '@components/common/NoticeIcon';
 import Tab from '@components/common/Tab';
 import AuctionItem from '@components/home/AuctionItem';
 import Calendar from '@components/home/Calendar';
 import ExhibitionItem from '@components/home/ExhibitionItem';
 import FloatButton from '@components/home/FloatButton';
-import DivisionBar from '@components/common/DivisionBar';
 import ScheduleItem from '@components/home/ScheduleItem';
-import useGetCustomizedArtWork from '@hooks/queries/useGetCustomizedArtWork';
-import useGetProfile from '@hooks/queries/useGetProfile';
-import Image from 'next/image';
-import React from 'react';
-import { useRouter } from 'next/router';
-import { Autoplay, Navigation, Scrollbar } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { isUser } from '@utils/isUser';
-import { Pagination } from 'swiper';
-import KeywordBox from '@components/common/KeywordBox';
-import Navigate from '@components/common/Navigate';
-import NoticeIcon from '@components/common/NoticeIcon';
+import { useAppSelector } from '@features/hooks';
 import useGetAuction from '@hooks/queries/auction/useGetAuction';
 import useGetPastAuction from '@hooks/queries/auction/useGetPastAuction';
+import useGetCustomizedArtWork from '@hooks/queries/useGetCustomizedArtWork';
+import { isUser } from '@utils/isUser';
 import { makeThreeEach } from '@utils/makeThreeEach';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
+import { Autoplay, Navigation, Pagination, Scrollbar } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 const PastAuction = styled.section`
   .swiper-pagination-bullet-active {
@@ -48,12 +46,14 @@ const KeywordSection = styled.section`
   }
 `;
 
-export default function Home() {
+export default function Home({ userInfo }) {
   const router = useRouter();
   const { data: customizedArtwork } = useGetCustomizedArtWork(1, 5) || {};
-  const { data: userInfo } = useGetProfile() || {};
   const { data: auctionList } = useGetAuction() || {};
   const { data: pastAuctionList } = useGetPastAuction() || {};
+
+  const token = useAppSelector((state) => state.token.accessToken);
+
   return (
     <>
       <Layout>

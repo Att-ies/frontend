@@ -7,6 +7,7 @@ import { getToken, setToken } from '@utils/localStorage/token';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { setNotice } from '@features/noticeSlice';
 import Toast from './Toast';
+import { getCookie } from 'cookies-next';
 
 interface NoticeIconProps {
   isSearch?: boolean;
@@ -30,7 +31,6 @@ export default React.memo(function NoticeIcon({
   if (isArtist === true && getToken().roles !== 'ROLE_ARTIST') {
     setToken({
       accessToken: getToken().accessToken,
-      refreshToken: getToken().refreshToken,
       roles: 'ROLE_ARTIST',
     });
   }

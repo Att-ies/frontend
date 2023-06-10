@@ -1,21 +1,13 @@
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import ExhibitionItem from '@components/home/ExhibitionItem';
-import useGetProfile from '@hooks/queries/useGetProfile';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
 import { useGetInfiniteArtWork } from '@hooks/queries/useGetInfiniteArtWork';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-export default function View() {
+export default function View({ userInfo }) {
   const target = useRef<HTMLDivElement | null>(null);
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
-  const { data: userInfo } = useGetProfile();
   const { data, hasNextPage, fetchNextPage } = useGetInfiniteArtWork();
 
   const artworkLists = useMemo(

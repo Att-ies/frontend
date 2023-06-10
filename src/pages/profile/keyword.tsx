@@ -4,19 +4,18 @@ import Modal from '@components/common/Modal';
 import Navigate from '@components/common/Navigate';
 import SelectKeyword from '@components/profile/Selectkeyword';
 import usePatchKeyword from '@hooks/mutations/usePatchKeyword';
-import useGetProfile from '@hooks/queries/useGetProfile';
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function Keyword() {
+export default function Keyword({ userInfo }) {
   const [keywordList, setKeywordList] = useState<string[]>([]);
-  const { data } = useGetProfile();
+
   const { mutate, data: keywordData } = usePatchKeyword();
   const [isModal, setIsModal] = useState<boolean>(false);
   const router = useRouter();
   useEffect(() => {
-    setKeywordList(data?.keywords || []);
-  }, [data]);
+    setKeywordList(userInfo?.keywords || []);
+  }, [userInfo]);
 
   const handleButtonClick = () => {
     const keywordsObject = {

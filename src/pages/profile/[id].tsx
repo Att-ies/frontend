@@ -1,15 +1,13 @@
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import PickArtistWork from '@components/profile/pick/PickArtistWork';
+import { Tab } from '@headlessui/react';
+import useDeletePick from '@hooks/mutations/useDeletePick';
+import usePostPick from '@hooks/mutations/usePostPick';
 import useGetPickDetail from '@hooks/queries/useGetPickDetail';
 import Image from 'next/image';
-import React from 'react';
-import tw from 'tailwind-styled-components';
 import { useRouter } from 'next/router';
-import { Tab } from '@headlessui/react';
-import usePostPick from '@hooks/mutations/usePostPick';
-import useDeletePick from '@hooks/mutations/useDeletePick';
-import useGetProfile from '@hooks/queries/useGetProfile';
+import tw from 'tailwind-styled-components';
 
 interface defaultProps {
   [key: string]: any;
@@ -23,13 +21,13 @@ const PickDetailProfile = tw.div<defaultProps>`
 w-[3.75rem] mr-[0.625rem] aspect-square flex justify-center items-center rounded-full border-[0.0625rem] border-[#999999] overflow-hidden relative
 `;
 
-export default function PickDetail() {
+export default function PickDetail({ userInfo }) {
   const router = useRouter();
   const artistId = Number(router.query.id);
 
   const { data: pickDetail } = useGetPickDetail(artistId);
   const { member, artworks, pick } = pickDetail || {};
-  const { data: userInfo } = useGetProfile();
+
   const { mutate: postPrefer } = usePostPick(artistId);
   const { mutate: deletePrefer } = useDeletePick(artistId);
   const isMine = userInfo?.id === artistId;
@@ -148,7 +146,8 @@ export default function PickDetail() {
                   saleStatus={artwork?.saleStatus}
                   onClick={() => {
                     router.push({
-                      pathname: '/auction/view' + artwork.id,
+                      pathname: '/auction/view',
+                      query: { id: artwork.id },
                     });
                   }}
                   image={artwork?.image}

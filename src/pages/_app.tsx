@@ -1,11 +1,8 @@
 import '../styles/globals.css';
 
-import store from '@features/store';
-import { Provider } from 'react-redux';
-import { persistStore } from 'redux-persist';
-import { PersistGate } from 'redux-persist/integration/react';
 import Loader from '@components/common/Loader';
 import GoogleScript from '@components/GoogleScript';
+import store from '@features/store';
 import {
   Hydrate,
   QueryClient,
@@ -13,14 +10,26 @@ import {
 } from '@tanstack/react-query';
 import { pageview } from '@utils/gtag';
 import { getToken } from '@utils/localStorage/token';
-import type { AppProps } from 'next/app';
+import axios from 'axios';
+import { getCookie } from 'cookies-next';
+import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import { Router, useRouter } from 'next/router';
 import React, { Suspense, useEffect, useState } from 'react';
-
+import { Provider } from 'react-redux';
+import { persistStore } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
 const persistor = persistStore(store);
 
-export default function App({ Component, pageProps }: AppProps) {
+interface AppExtendedProps extends AppProps {
+  userData: User;
+}
+
+export default function App({
+  Component,
+  pageProps,
+  userData,
+}: AppExtendedProps) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
@@ -75,7 +84,7 @@ export default function App({ Component, pageProps }: AppProps) {
       }),
   );
 
-      // 없으면 서비스 워커 등록
+  // 없으면 서비스 워커 등록
   return loading ? (
     <Loader />
   ) : (
@@ -89,7 +98,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <PersistGate loading={null} persistor={persistor}>
-                <Component {...pageProps} />
+                <Component {...pageProps} userInfo={userData} />
               </PersistGate>
             </Hydrate>
           </QueryClientProvider>
@@ -100,3 +109,26 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 const queryClient = new QueryClient();
 export { queryClient };
+
+App.getInitialProps = async ({ Component, ctx }: AppContext) => {
+  let pageProps = {};
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+  const accessToken = getCookie('accessToken', ctx);
+
+  try {
+    let res = await axios(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/members/me`,
+      {
+        headers: {
+          Authorization: accessToken,
+        },
+      },
+    );
+    return { pageProps, userData: res.data };
+  } catch (err) {
+    console.log(err);
+    return { pageProps };
+  }
+};

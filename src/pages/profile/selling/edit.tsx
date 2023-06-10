@@ -55,7 +55,7 @@ const CANVAS_SIZE = [
   '500',
 ];
 
-export default function Edit() {
+export default function Edit({ userInfo }) {
   const router = useRouter();
   const scrollRef: any = useRef();
   const scrollToElement = () =>
@@ -63,7 +63,6 @@ export default function Edit() {
 
   const artWorkId = Number(router.query.id);
   const { data: editForm } = useGetEditForm(artWorkId);
-  const { data: user } = useGetProfile();
 
   const [isGuaranteeModal, setIsGuaranteeModal] = useState<boolean>(false);
   const [isKeywordModal, setIsKeywordModal] = useState<boolean>(false);
@@ -515,7 +514,7 @@ export default function Edit() {
         {errors.guaranteeImage && (
           <ErrorMessage message={errors.guaranteeImage.message} />
         )}
-        {user &&
+        {userInfo &&
           watch('title') &&
           watch('productionYear') &&
           watch('width') &&
@@ -524,7 +523,7 @@ export default function Edit() {
           watch('genre') &&
           signature && (
             <Guarantee
-              nickname={user.nickname}
+              nickname={userInfo.nickname}
               title={watch('title')}
               productionYear={watch('productionYear')}
               width={watch('width')}

@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { setToken } from '@utils/localStorage/token';
 import { Token } from '@utils/localStorage/token';
 import { useRouter } from 'next/router';
+import { setCookie } from 'cookies-next';
 
 export default function NaverCallback() {
   const router = useRouter();
@@ -15,9 +16,9 @@ export default function NaverCallback() {
     instance
       .get(`/oauth2/naver?code=${code}&state=${state}`)
       .then((response) => {
+        setCookie('refreshToken', response.data.refreshToken);
         const token: Token = {
           accessToken: response.data.accessToken,
-          refreshToken: response.data.refreshToken,
           roles: response.data.roles,
         };
         if (token) setToken(token);

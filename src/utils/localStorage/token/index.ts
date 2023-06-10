@@ -6,7 +6,6 @@ import {
 
 export interface Token {
   accessToken: string | undefined;
-  refreshToken: string | undefined;
   roles: string | undefined;
 }
 
@@ -15,7 +14,6 @@ const TOKEN_KEY = '@token';
 export const getToken = (): Token => {
   const token = getLocalStorage<Token>(TOKEN_KEY, {
     accessToken: undefined,
-    refreshToken: undefined,
     roles: undefined,
   });
   return token;
