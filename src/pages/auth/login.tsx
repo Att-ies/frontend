@@ -17,7 +17,7 @@ import {
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import Loader from '@components/common/Loader';
-import { setCookie } from '@utils/cookies';
+import { setCookie } from 'cookies-next';
 import { useDispatch } from 'react-redux';
 import { setAccessToken } from '@features/token/tokenSlice';
 
@@ -69,11 +69,8 @@ function Login() {
 
   useEffect(() => {
     if (data && data.refreshToken && data.accessToken) {
-      setCookie('refreshTokenk', data.refreshToken, {
-        path: '/',
-        secure: '/',
-        exprires: new Date().getMinutes() + 30,
-      });
+      setCookie('refreshToken', data.refreshToken);
+      setCookie('accessToken', data.accessToken);
 
       dispatch(setAccessToken({ accessToken: data.accessToken }));
 

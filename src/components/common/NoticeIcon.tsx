@@ -7,7 +7,7 @@ import { getToken, setToken } from '@utils/localStorage/token';
 import { useAppDispatch, useAppSelector } from '@features/hooks';
 import { setNotice } from '@features/noticeSlice';
 import Toast from './Toast';
-import { getCookie } from '@utils/cookies';
+import { getCookie } from 'cookies-next';
 
 interface NoticeIconProps {
   isSearch?: boolean;

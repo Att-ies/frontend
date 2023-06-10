@@ -49,7 +49,11 @@ const KeywordSection = styled.section`
   }
 `;
 
-export default function Home() {
+import { NextPageContext } from 'next';
+import { getCookie } from 'cookies-next';
+
+export default function Home({ starts }) {
+  console.log(starts);
   const router = useRouter();
   const { data: customizedArtwork } = useGetCustomizedArtWork(1, 5) || {};
   const { data: userInfo } = useGetProfile() || {};
@@ -57,7 +61,6 @@ export default function Home() {
   const { data: pastAuctionList } = useGetPastAuction() || {};
 
   const token = useAppSelector((state) => state.token.accessToken);
-  console.log(token);
 
   return (
     <>

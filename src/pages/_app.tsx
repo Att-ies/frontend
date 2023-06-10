@@ -9,7 +9,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
-import type { AppProps } from 'next/app';
+import type { AppContext, AppProps } from 'next/app';
 import Loader from '@components/common/Loader';
 import React, { Suspense, useEffect, useState } from 'react';
 import { Router, useRouter } from 'next/router';
@@ -17,11 +17,21 @@ import { getToken } from '@utils/localStorage/token';
 import { pageview } from '@utils/gtag';
 import GoogleScript from '@components/GoogleScript';
 import Head from 'next/head';
-import { CookiesProvider } from 'react-cookie';
-
 const persistor = persistStore(store);
+import { getCookie } from 'cookies-next';
+import axios from 'axios';
+import { CONFIG } from '@config';
 
-export default function App({ Component, pageProps }: AppProps) {
+interface AppExtendedProps extends AppProps {
+  userData: User;
+}
+
+export default function App({
+  Component,
+  pageProps,
+  userData,
+}: AppExtendedProps) {
+  console.log(userData);
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
@@ -86,15 +96,13 @@ export default function App({ Component, pageProps }: AppProps) {
       <GoogleScript />
       <Suspense fallback={<Loader />}>
         <Provider store={store}>
-          <CookiesProvider>
-            <QueryClientProvider client={queryClient}>
-              <Hydrate state={pageProps.dehydratedState}>
-                <PersistGate loading={null} persistor={persistor}>
-                  <Component {...pageProps} />
-                </PersistGate>
-              </Hydrate>
-            </QueryClientProvider>
-          </CookiesProvider>
+          <QueryClientProvider client={queryClient}>
+            <Hydrate state={pageProps.dehydratedState}>
+              <PersistGate loading={null} persistor={persistor}>
+                <Component {...pageProps} />
+              </PersistGate>
+            </Hydrate>
+          </QueryClientProvider>
         </Provider>
       </Suspense>
     </div>
@@ -102,3 +110,27 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 const queryClient = new QueryClient();
 export { queryClient };
+
+App.getInitialProps = async ({ Component, ctx }: AppContext) => {
+  let pageProps = {};
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+  const accessToken = getCookie('accessToken', ctx);
+
+  try {
+    let res = await axios(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/members/me`,
+      {
+        headers: {
+          Authorization: accessToken,
+        },
+      },
+    );
+    // console.log(res.data);
+    return { pageProps, userData: res.data };
+  } catch (err) {
+    console.log(err);
+    return { pageProps };
+  }
+};

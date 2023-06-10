@@ -1,7 +1,7 @@
 import { CONFIG } from '@config';
 import axios from 'axios';
 import { getToken, setToken } from '@utils/localStorage/token';
-import { getCookie } from '@utils/cookies';
+import { getCookie } from 'cookies-next';
 
 const instance = axios.create({
   baseURL: CONFIG.API_BASE_URL,

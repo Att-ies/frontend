@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { setToken } from '@utils/localStorage/token';
 import { Token } from '@utils/localStorage/token';
 import { useRouter } from 'next/router';
-import { setCookie } from '@utils/cookies';
+import { setCookie } from 'cookies-next';
 
 export default function NaverCallback() {
   const router = useRouter();
