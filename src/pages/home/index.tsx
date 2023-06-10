@@ -16,7 +16,6 @@ import { useAppSelector } from '@features/hooks';
 import useGetAuction from '@hooks/queries/auction/useGetAuction';
 import useGetPastAuction from '@hooks/queries/auction/useGetPastAuction';
 import useGetCustomizedArtWork from '@hooks/queries/useGetCustomizedArtWork';
-import useGetProfile from '@hooks/queries/useGetProfile';
 import { isUser } from '@utils/isUser';
 import { makeThreeEach } from '@utils/makeThreeEach';
 import Image from 'next/image';

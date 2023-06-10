@@ -1,31 +1,29 @@
+import AskPriceModal from '@components/auction/AskPriceModal';
 import Button from '@components/common/Button';
 import DivisionBar from '@components/common/DivisionBar';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import AskPriceModal from '@components/auction/AskPriceModal';
+import usePutBiddng from '@hooks/mutations/usePutBidding';
 import useGetBiddingHistory from '@hooks/queries/auction/useGetBiddingHistory';
-import { priceToString } from '@utils/priceToString';
 import { useCountDown } from '@hooks/useCountDown';
 import { leatAskPrice } from '@utils/leastAskPrice';
-import usePutBiddng from '@hooks/mutations/usePutBidding';
-import useGetProfile from '@hooks/queries/useGetProfile';
+import { priceToString } from '@utils/priceToString';
 import moment from 'moment';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 interface inputForm {
   price: string;
 }
 
-export default function Bidding() {
+export default function Bidding({ userInfo }) {
   const router = useRouter();
   const artWorkId = Number(router.query.id);
   const { data } = useGetBiddingHistory(artWorkId);
   const { artWork, auction, biddingList, totalBiddingCount } = data || {};
   const { mutate } = usePutBiddng(+artWorkId!);
-  const { data: userInfo } = useGetProfile();
   const [days, hours, minutes, seconds] = useCountDown?.(
     auction?.endDate || '',
   );

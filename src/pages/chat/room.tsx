@@ -1,25 +1,24 @@
+import chatApi from '@apis/chat/chatApi';
+import { createClient, publish, subscribe } from '@apis/chat/socketConnect';
 import ChattingMessage from '@components/chat/ChatMessage';
 import Layout from '@components/common/Layout';
 import Modal from '@components/common/Modal';
-import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
 import useGetChatRoom from '@hooks/queries/chat/useGetChatRoom';
 import * as StompJs from '@stomp/stompjs';
-import { createClient, publish, subscribe } from '@apis/chat/socketConnect';
-import chatApi from '@apis/chat/chatApi';
-import useGetProfile from '@hooks/queries/useGetProfile';
 import { isUser } from '@utils/isUser';
 import moment from 'moment';
 import 'moment/locale/ko';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import React, { useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface ContentForm {
   message: string;
   image: FileList;
 }
 
-export default function ChatRoom() {
+export default function ChatRoom({ userInfo }) {
   const router = useRouter();
   const client = useRef({}) as React.MutableRefObject<StompJs.Client>;
   const scrollRef: any = useRef();
@@ -29,7 +28,7 @@ export default function ChatRoom() {
   const { register, handleSubmit, watch, reset } = useForm<ContentForm>();
   const { data: chatRoom, refetch: refetchChatRoom } = useGetChatRoom(+id);
   const { artist, member, messages } = chatRoom || {};
-  const { data: userInfo } = useGetProfile();
+
   const userId = userInfo?.id || 0;
 
   const [isModal, setIsModal] = useState(false);

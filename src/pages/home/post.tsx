@@ -1,24 +1,23 @@
+import Guarantee from '@components/auction/Guarantee';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Input from '@components/common/Input';
+import KeywordBox from '@components/common/KeywordBox';
 import Layout from '@components/common/Layout';
+import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
 import Select from '@components/common/Select';
 import GenreModal from '@components/home/post/GenreModal';
 import GuaranteeModal from '@components/home/post/GuaranteeModal';
 import KeywordModal from '@components/home/post/KeywordModal.tsx';
 import FileItem from '@components/inquiry/FileItem';
-import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
-import { getToken } from '@utils/localStorage/token';
-import KeywordBox from '@components/common/KeywordBox';
 import usePostArtwork from '@hooks/mutations/usePostArtwork';
-import Loader from '@components/common/Loader';
-import { makeBlob } from '@utils/makeBlob';
-import useGetProfile from '@hooks/queries/useGetProfile';
 import { dataURLtoFile } from '@utils/dataURLtoFile';
-import Guarantee from '@components/auction/Guarantee';
+import { getToken } from '@utils/localStorage/token';
+import { makeBlob } from '@utils/makeBlob';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 const ARTWORK_STATUS = [
   { value: '매우 좋음' },
@@ -55,7 +54,7 @@ const CANVAS_SIZE = [
   '500',
 ];
 
-export default function Post() {
+export default function Post({ userInfo }) {
   const [isGuaranteeModal, setIsGuaranteeModal] = useState<boolean>(false);
   const [isKeywordModal, setIsKeywordModal] = useState<boolean>(false);
   const [isGenreModal, setIsGenreModal] = useState<boolean>(false);
@@ -63,8 +62,6 @@ export default function Post() {
   const [keywordList, setKeywordList] = useState<string[]>([]);
   const [genre, setGenre] = useState<string>('');
   const [fileList, setFileList] = useState<File[]>([]);
-
-  const { data: user } = useGetProfile();
 
   const router = useRouter();
 
@@ -289,7 +286,7 @@ export default function Post() {
             <div className="flex h-[2.375rem] w-[5.75rem] items-center rounded-[0.25rem] border border-[#D8D8D8] pl-3 text-[0.8125rem] text-[#999999]">
               태그추가
             </div>
-            <div className="absolute left-[3.9375rem] bottom-0 flex h-full items-center">
+            <div className="absolute bottom-0 left-[3.9375rem] flex h-full items-center">
               <Image
                 src="/svg/icons/plus_gray.svg"
                 alt="tag"
@@ -458,7 +455,7 @@ export default function Post() {
               </div>
               <div
                 onClick={() => setIsGuaranteeModal(true)}
-                className="absolute right-4 bottom-0 flex h-[3.25rem] cursor-pointer items-center"
+                className="absolute bottom-0 right-4 flex h-[3.25rem] cursor-pointer items-center"
               >
                 <Image
                   src="/svg/icons/pencil_gray.svg"
@@ -474,7 +471,7 @@ export default function Post() {
         {errors.guaranteeImage && (
           <ErrorMessage message={errors.guaranteeImage.message} />
         )}
-        {user &&
+        {userInfo &&
           watch('title') &&
           watch('productionYear') &&
           watch('width') &&
@@ -483,7 +480,7 @@ export default function Post() {
           watch('genre') &&
           signature && (
             <Guarantee
-              nickname={user.nickname}
+              nickname={userInfo.nickname}
               title={watch('title')}
               productionYear={watch('productionYear')}
               width={watch('width')}
@@ -496,13 +493,13 @@ export default function Post() {
           )}
 
         <div className="relative h-[21rem]">
-          <div className="absolute -left-6 -bottom-10 h-[23.5rem] w-[23.4375rem]">
+          <div className="absolute -bottom-10 -left-6 h-[23.5rem] w-[23.4375rem]">
             <div className="mt-12 h-4 bg-[#F8F8FA]"></div>
             <div className="px-6 text-12">
               <p className="mt-8 font-medium">
                 다음의 경우 작품등록이 제외될 수 있습니다.
               </p>
-              <ul className="mt-3 ml-3 w-fit list-disc space-y-2 tracking-tight text-[#767676]">
+              <ul className="ml-3 mt-3 w-fit list-disc space-y-2 tracking-tight text-[#767676]">
                 <li>
                   작품의 선정성, 유해성이 통신판매업 시행령(2019) 기준에 맞지
                   아니 하다고 판단되는 경우

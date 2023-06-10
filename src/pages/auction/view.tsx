@@ -1,24 +1,23 @@
-import Layout from '@components/common/Layout';
-import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
-import Button from 'stories/Button';
-import { useRouter } from 'next/router';
-import useGetDetail from '@hooks/queries/useGetDetail';
 import chatApi from '@apis/chat/chatApi';
-import usePostPrefer from '@hooks/mutations/usePostPrefer';
-import useDeletePrefer from '@hooks/mutations/useDeletePrefer';
-import { useCountDown } from '@hooks/useCountDown';
-import useGetProfile from '@hooks/queries/useGetProfile';
-import KeywordBox from '@components/common/KeywordBox';
 import Guarantee from '@components/auction/Guarantee';
+import KeywordBox from '@components/common/KeywordBox';
+import Layout from '@components/common/Layout';
+import useDeletePrefer from '@hooks/mutations/useDeletePrefer';
+import usePostPrefer from '@hooks/mutations/usePostPrefer';
+import useGetDetail from '@hooks/queries/useGetDetail';
+import { useCountDown } from '@hooks/useCountDown';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+import Button from 'stories/Button';
 
-export default function View() {
+export default function View({ userInfo }) {
   const router = useRouter();
 
   const artWorkId = Number(router.query.id);
   const { data: detailData } = useGetDetail(artWorkId);
   const { artWork, artist } = detailData || {};
-  const { data: userInfo } = useGetProfile();
+
   const { mutate: postPrefer } = usePostPrefer(artWork?.id!, '/auction');
   const { mutate: deletePrefer } = useDeletePrefer(artWork?.id!, '/auction');
   const [days, hours, minutes, seconds] = useCountDown?.(

@@ -1,16 +1,15 @@
 import DivisionBar from '@components/common/DivisionBar';
+import KeywordBox from '@components/common/KeywordBox';
 import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
+import NoticeIcon from '@components/common/NoticeIcon';
 import Tab from '@components/common/Tab';
 import Activity from '@components/profile/Activity';
 import SettingItem from '@components/profile/SettingItem';
-import useGetProfile from '@hooks/queries/useGetProfile';
-import Image from 'next/image';
-import tw from 'tailwind-styled-components';
 import { isUser } from '@utils/isUser';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
-import NoticeIcon from '@components/common/NoticeIcon';
-import KeywordBox from '@components/common/KeywordBox';
+import tw from 'tailwind-styled-components';
 
 interface defaultProps {
   [key: string]: any;
@@ -92,11 +91,10 @@ const SettingLists: SettingList[] = [
   },
 ];
 
-export default function Profile() {
+export default function Profile({ userInfo }) {
   const router = useRouter();
-  const { data } = useGetProfile();
-  const hasKeyword = !!data?.keywords?.length;
-  const hasImage = !!data?.image;
+  const hasKeyword = !!userInfo?.keywords?.length;
+  const hasImage = !!userInfo?.image;
 
   return (
     <>
@@ -117,7 +115,7 @@ export default function Profile() {
             <div className="relative flex h-[3.375rem] w-[3.375rem] items-center overflow-hidden rounded-full bg-[#EDEDED]">
               {hasImage ? (
                 <Image
-                  src={data.image}
+                  src={userInfo?.image}
                   alt="profile"
                   priority
                   fill
@@ -129,7 +127,7 @@ export default function Profile() {
                       router.push({
                         pathname: '/profile/detail',
                         query: {
-                          id: data?.id,
+                          id: userInfo?.id,
                         },
                       });
                     }
@@ -149,7 +147,7 @@ export default function Profile() {
                       router.push({
                         pathname: '/profile/detail',
                         query: {
-                          id: data?.id,
+                          id: userInfo?.id,
                         },
                       });
                     }
@@ -159,7 +157,7 @@ export default function Profile() {
             </div>
             <div className="ml-3 flex flex-col text-[#FFFFFF]">
               <span className="font-medium">
-                {data?.nickname ? data?.nickname : '회원'}님,
+                {userInfo?.nickname ? userInfo?.nickname : '회원'}님,
               </span>
               <span className="text-xs">아띠즈에 오신 걸 환영합니다.</span>
             </div>
@@ -232,7 +230,7 @@ export default function Profile() {
           </div>
           {hasKeyword ? (
             <div className="mb-8 flex flex-wrap">
-              {data?.keywords?.map((keyword: string, idx: number) => (
+              {userInfo?.keywords?.map((keyword: string, idx: number) => (
                 <KeywordBox text={keyword} key={idx} />
               ))}
             </div>
