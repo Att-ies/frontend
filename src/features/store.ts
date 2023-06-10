@@ -12,9 +12,7 @@ import {
 
 import userSlice from './user/userSlice';
 import noticeSlice from './noticeSlice';
-<<<<<<< HEAD
 import tokenSlice from './token/tokenSlice';
-=======
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 const createNoopStorage = () => {
   return {
@@ -34,7 +32,6 @@ const storage =
   typeof window !== 'undefined'
     ? createWebStorage('local')
     : createNoopStorage();
->>>>>>> dev
 
 const rootReducer = combineReducers({
   user: userSlice,

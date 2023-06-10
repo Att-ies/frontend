@@ -125,14 +125,7 @@ export default function Profile({ userInfo }) {
                       window.alert('작가 전환 후 이용할 수 있는 페이지입니다.');
                     } else {
                       router.push({
-<<<<<<< HEAD
-                        pathname: '/profile/detail',
-                        query: {
-                          id: userInfo?.id,
-                        },
-=======
-                        pathname: '/profile/detail' + data?.id,
->>>>>>> dev
+                        pathname: '/profile/detail' + userInfo?.id,
                       });
                     }
                   }}
@@ -149,14 +142,7 @@ export default function Profile({ userInfo }) {
                       window.alert('작가 전환 후 이용할 수 있는 페이지입니다.');
                     } else {
                       router.push({
-<<<<<<< HEAD
-                        pathname: '/profile/detail',
-                        query: {
-                          id: userInfo?.id,
-                        },
-=======
-                        pathname: '/profile/detail' + data?.id,
->>>>>>> dev
+                        pathname: '/profile/detail' + userInfo?.id,
                       });
                     }
                   }}

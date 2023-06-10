@@ -5,10 +5,6 @@ import Layout from '@components/common/Layout';
 import useDeletePrefer from '@hooks/mutations/useDeletePrefer';
 import usePostPrefer from '@hooks/mutations/usePostPrefer';
 import useGetDetail from '@hooks/queries/useGetDetail';
-<<<<<<< HEAD:src/pages/auction/view.tsx
-=======
-import useGetProfile from '@hooks/queries/useGetProfile';
->>>>>>> dev:src/pages/auction/[id].tsx
 import { useCountDown } from '@hooks/useCountDown';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
