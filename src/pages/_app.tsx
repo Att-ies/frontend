@@ -4,7 +4,6 @@ import store from '@features/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-// import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   Hydrate,
   QueryClient,
@@ -18,6 +17,7 @@ import { getToken } from '@utils/localStorage/token';
 import { pageview } from '@utils/gtag';
 import GoogleScript from '@components/GoogleScript';
 import Head from 'next/head';
+import { CookiesProvider } from 'react-cookie';
 
 const persistor = persistStore(store);
 
@@ -86,13 +86,15 @@ export default function App({ Component, pageProps }: AppProps) {
       <GoogleScript />
       <Suspense fallback={<Loader />}>
         <Provider store={store}>
-          <QueryClientProvider client={queryClient}>
-            <Hydrate state={pageProps.dehydratedState}>
-              <PersistGate loading={null} persistor={persistor}>
-                <Component {...pageProps} />
-              </PersistGate>
-            </Hydrate>
-          </QueryClientProvider>
+          <CookiesProvider>
+            <QueryClientProvider client={queryClient}>
+              <Hydrate state={pageProps.dehydratedState}>
+                <PersistGate loading={null} persistor={persistor}>
+                  <Component {...pageProps} />
+                </PersistGate>
+              </Hydrate>
+            </QueryClientProvider>
+          </CookiesProvider>
         </Provider>
       </Suspense>
     </div>

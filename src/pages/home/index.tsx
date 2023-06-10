@@ -12,7 +12,7 @@ import ScheduleItem from '@components/home/ScheduleItem';
 import useGetCustomizedArtWork from '@hooks/queries/useGetCustomizedArtWork';
 import useGetProfile from '@hooks/queries/useGetProfile';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Autoplay, Navigation, Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -54,6 +54,7 @@ export default function Home() {
   const { data: userInfo } = useGetProfile() || {};
   const { data: auctionList } = useGetAuction() || {};
   const { data: pastAuctionList } = useGetPastAuction() || {};
+
   return (
     <>
       <Layout>
