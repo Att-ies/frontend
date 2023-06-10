@@ -25,6 +25,7 @@ import useGetAuction from '@hooks/queries/auction/useGetAuction';
 import useGetPastAuction from '@hooks/queries/auction/useGetPastAuction';
 import { makeThreeEach } from '@utils/makeThreeEach';
 import styled from 'styled-components';
+import { useAppSelector } from '@features/hooks';
 
 const PastAuction = styled.section`
   .swiper-pagination-bullet-active {
@@ -54,6 +55,9 @@ export default function Home() {
   const { data: userInfo } = useGetProfile() || {};
   const { data: auctionList } = useGetAuction() || {};
   const { data: pastAuctionList } = useGetPastAuction() || {};
+
+  const token = useAppSelector((state) => state.token.accessToken);
+  console.log(token);
 
   return (
     <>

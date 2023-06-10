@@ -18,6 +18,8 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import Loader from '@components/common/Loader';
 import { setCookie } from '@utils/cookies';
+import { useDispatch } from 'react-redux';
+import { setAccessToken } from '@features/token/tokenSlice';
 
 function Login() {
   const {
@@ -33,6 +35,7 @@ function Login() {
   const [checkedTerm, setCheckedTerm] = useState<string[]>([]);
   const { mutate, data, error, isLoading: isLoadingLogin } = usePostLogin();
   const router = useRouter();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     deleteToken();
@@ -65,12 +68,15 @@ function Login() {
   };
 
   useEffect(() => {
-    if (data && data.refreshToken) {
+    if (data && data.refreshToken && data.accessToken) {
       setCookie('refreshTokenk', data.refreshToken, {
         path: '/',
         secure: '/',
         exprires: new Date().getMinutes() + 30,
       });
+
+      dispatch(setAccessToken({ accessToken: data.accessToken }));
+
       const token: Token = {
         accessToken: data.accessToken,
         refreshToken: data.refreshToken,

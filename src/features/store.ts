@@ -12,10 +12,12 @@ import {
 
 import userSlice from './user/userSlice';
 import noticeSlice from './noticeSlice';
+import tokenSlice from './token/tokenSlice';
 
 const rootReducer = combineReducers({
   user: userSlice,
   notice: noticeSlice,
+  token: tokenSlice,
 });
 
 const persistConfig = {
