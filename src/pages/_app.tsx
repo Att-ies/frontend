@@ -15,16 +15,20 @@ import { getCookie } from 'cookies-next';
 import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import { Router, useRouter } from 'next/router';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { PropsWithChildren, Suspense, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
+import { useWindowSize } from '@hooks/common/useWindowSize';
+
+import styled, { StyledComponent } from 'styled-components';
+
 const persistor = persistStore(store);
 
 interface AppExtendedProps extends AppProps {
   userData: User;
 }
-
+let vh = 0;
 export default function App({
   Component,
   pageProps,
@@ -32,6 +36,7 @@ export default function App({
 }: AppExtendedProps) {
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     if (router.pathname.includes('auth') || router.pathname === '/begin')
       return;
@@ -84,7 +89,6 @@ export default function App({
       }),
   );
 
-  // 없으면 서비스 워커 등록
   return loading ? (
     <Loader />
   ) : (
@@ -98,7 +102,9 @@ export default function App({
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <PersistGate loading={null} persistor={persistor}>
-                <Component {...pageProps} userInfo={userData} />
+                <Layout>
+                  <Component {...pageProps} userInfo={userData} />
+                </Layout>
               </PersistGate>
             </Hydrate>
           </QueryClientProvider>
@@ -109,6 +115,29 @@ export default function App({
 }
 const queryClient = new QueryClient();
 export { queryClient };
+
+function Layout({ children }: PropsWithChildren<{}>) {
+  const windowSize = useWindowSize();
+
+  useEffect(() => {
+    vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }, [windowSize.height]);
+
+  return <LayoutCss>{children}</LayoutCss>;
+}
+
+const LayoutCss = styled.div`
+  min-height: calc(var(--var, 1vh) * 200);
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+  max-width: 26.25rem;
+  overflow-y: scroll;
+  background-color: white;
+  padding: 1.5rem;
+`;
 
 App.getInitialProps = async ({ Component, ctx }: AppContext) => {
   let pageProps = {};
