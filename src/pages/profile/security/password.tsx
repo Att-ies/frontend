@@ -51,7 +51,7 @@ export default function Password() {
   };
 
   return (
-    <>
+    <article>
       <Navigate
         message="비밀번호 변경"
         right_message="완료"
@@ -112,6 +112,6 @@ export default function Password() {
       {successMessage && (
         <p className="text-14 text-[#5a82f1]">비밀번호 변경 성공</p>
       )}
-    </>
+    </article>
   );
 }

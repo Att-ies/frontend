@@ -44,7 +44,7 @@ export default function ExhibitionArt() {
   };
 
   return (
-    <>
+    <article>
       {isExpansion ? (
         <Image
           alt="exhibition_bg"
@@ -165,6 +165,6 @@ export default function ExhibitionArt() {
           </div>
         )}
       </Swiper>
-    </>
+    </article>
   );
 }

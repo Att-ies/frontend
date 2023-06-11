@@ -103,7 +103,7 @@ export default function Inquiry() {
   if (isLoading) return <Loader />;
 
   return (
-    <>
+    <article>
       <Navigate
         handleLeftButton={handleLeftButton}
         message="1:1문의"
@@ -270,6 +270,6 @@ export default function Inquiry() {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
-    </>
+    </article>
   );
 }

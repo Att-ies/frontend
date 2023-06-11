@@ -48,7 +48,7 @@ export default function View({ userInfo }) {
   }, [onIntersect]);
 
   return (
-    <>
+    <article>
       <Navigate isRightButton={false} />
       <div>
         <p className="text-[0.875rem] font-semibold text-[#767676]">
@@ -83,6 +83,6 @@ export default function View({ userInfo }) {
           </div>
         )}
       </div>
-    </>
+    </article>
   );
 }

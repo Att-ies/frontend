@@ -41,8 +41,8 @@ export default function Chat() {
     }
   };
   return (
-    <>
-      <>
+    <article>
+      <article>
         <section className="flex h-20 items-center text-16 font-bold">
           채팅
         </section>
@@ -55,8 +55,8 @@ export default function Chat() {
         ) : (
           <None path="chat" message="아직 채팅 목록이 없어요" />
         )}
-      </>
+      </article>
       <Tab />
-    </>
+    </article>
   );
 }

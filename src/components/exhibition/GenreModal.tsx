@@ -48,7 +48,7 @@ export default function GenreModal({
     setGenre(genreSelectedArr);
   };
   return (
-    <>
+    <article>
       <Navigate
         message="필터"
         handleLeftButton={onCloseModal}
@@ -77,6 +77,6 @@ export default function GenreModal({
           관련 작품이 없어요.
         </div>
       )}
-    </>
+    </article>
   );
 }

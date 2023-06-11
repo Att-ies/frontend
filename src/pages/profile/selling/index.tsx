@@ -24,7 +24,7 @@ export default function Selling() {
   } = useGetMyArtWork();
 
   return (
-    <>
+    <article>
       {isModal && (
         <SellingModal
           onCloseModal={handleCloseModal}
@@ -93,6 +93,6 @@ export default function Selling() {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
-    </>
+    </article>
   );
 }

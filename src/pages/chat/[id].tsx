@@ -91,7 +91,7 @@ export default function ChatRoom({ userInfo }) {
   }, [messages]);
 
   return (
-    <>
+    <article>
       <Modal
         message="아직 준비 중인 서비스예요."
         isModal={isPreparingModal}
@@ -189,7 +189,7 @@ export default function ChatRoom({ userInfo }) {
               <Image alt="" src="/svg/icons/send.svg" width="22" height="0" />
             </button>
           ) : (
-            <>
+            <article>
               <label
                 className="flex items-center justify-center"
                 htmlFor="profileImage"
@@ -211,10 +211,10 @@ export default function ChatRoom({ userInfo }) {
                 // onChange={sendImage}
                 onClick={sendImage}
               />
-            </>
+            </article>
           )}
         </form>
       </div>
-    </>
+    </article>
   );
 }

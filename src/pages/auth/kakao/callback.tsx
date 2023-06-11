@@ -30,8 +30,8 @@ export default function KakaoCallback() {
   }, []);
 
   return (
-    <>
+    <article>
       <Loader />
-    </>
+    </article>
   );
 }

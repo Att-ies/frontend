@@ -51,29 +51,24 @@ export default function App({
     const end = () => {
       setLoading(false);
     };
-
-    Router.events.on('routeChangeStart', start);
-    Router.events.on('routeChangeComplete', end);
-    Router.events.on('routeChangeError', end);
-
-    return () => {
-      Router.events.off('routeChangeStart', start);
-      Router.events.off('routeChangeComplete', end);
-      Router.events.off('routeChangeError', end);
-    };
-  }, []);
-
-  useEffect(() => {
     const handleRouteChange = (url) => {
       pageview(url);
     };
+
+    router.events.on('routeChangeStart', start);
+    router.events.on('routeChangeComplete', end);
     router.events.on('routeChangeComplete', handleRouteChange);
     router.events.on('hashChangeComplete', handleRouteChange);
+    router.events.on('routeChangeError', end);
+
     return () => {
+      router.events.off('routeChangeStart', start);
+      router.events.off('routeChangeComplete', end);
       router.events.off('routeChangeComplete', handleRouteChange);
       router.events.off('hashChangeComplete', handleRouteChange);
+      router.events.off('routeChangeError', end);
     };
-  }, [router.events]);
+  }, []);
 
   const [queryClient] = React.useState(
     () =>

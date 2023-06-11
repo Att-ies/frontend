@@ -29,7 +29,7 @@ export default function Keyword({ userInfo }) {
   };
 
   return (
-    <>
+    <article>
       <Navigate isRightButton={false} />
       <div className="text-16 font-semibold">관심있는 키워드를 골라주세요.</div>
       <SelectKeyword
@@ -54,6 +54,6 @@ export default function Keyword({ userInfo }) {
           router.back();
         }}
       />
-    </>
+    </article>
   );
 }

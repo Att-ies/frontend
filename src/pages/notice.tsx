@@ -7,7 +7,7 @@ import Image from 'next/image';
 export default function Notice() {
   const { data: noticeList = [] } = useGetNotice();
   return (
-    <>
+    <article>
       <Navigate isRightButton={false} message="알림" />
 
       {noticeList.length > 0 ? (
@@ -22,6 +22,6 @@ export default function Notice() {
       ) : (
         <None path="notice" message="받은 알림이 없어요." />
       )}
-    </>
+    </article>
   );
 }

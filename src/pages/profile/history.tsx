@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default function history() {
-  return <>history</>;
+  return <article>history</article>;
 }

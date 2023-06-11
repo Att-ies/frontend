@@ -14,7 +14,7 @@ export default function GenreModal({
   setGenre,
 }: GenreModalProps) {
   return (
-    <>
+    <article>
       <Navigate
         message="장르"
         handleLeftButton={onCloseModal}
@@ -22,6 +22,6 @@ export default function GenreModal({
         handleRightButton={onCloseModal}
       />
       <GenreSelect genre={genre} setGenre={setGenre} />
-    </>
+    </article>
   );
 }

@@ -66,15 +66,15 @@ export default function View({ userInfo }) {
   }, [target]);
 
   return (
-    <>
-      <>
+    <article>
+      <article>
         <div
           className={`fixed inset-x-0 top-0 z-50 mx-auto flex h-24 w-full max-w-[26.25rem] items-center justify-between px-5 ${
             isCardOver && 'bg-white'
           }`}
         >
           {isCardOver ? (
-            <>
+            <article>
               <Image
                 onClick={() => router.back()}
                 alt="back"
@@ -103,9 +103,9 @@ export default function View({ userInfo }) {
                   className="cursor-pointer"
                 />
               )}
-            </>
+            </article>
           ) : (
-            <>
+            <article>
               <Image
                 alt="back"
                 src="/svg/icons/auction/arrow_white.svg"
@@ -135,7 +135,7 @@ export default function View({ userInfo }) {
                   className="cursor-pointer"
                 />
               )}
-            </>
+            </article>
           )}
         </div>
 
@@ -308,7 +308,7 @@ export default function View({ userInfo }) {
           )}
           <div className="h-[7rem]" />
         </section>
-      </>
+      </article>
       {
         <article className="absolute inset-x-0 bottom-0 mx-auto max-w-[26.25rem]">
           <div className="to-gray-10 h-[1.125rem] bg-gradient-to-t from-white" />
@@ -331,6 +331,6 @@ export default function View({ userInfo }) {
           </div>
         </article>
       }
-    </>
+    </article>
   );
 }

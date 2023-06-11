@@ -12,7 +12,7 @@ export default function Modal({
   onCloseModal,
 }: TermModalProps) {
   return (
-    <>
+    <article>
       {isModal && term === 1 ? (
         <div className="absolute inset-0 z-20 m-auto h-full w-full bg-white px-[1.5rem]">
           <Navigate
@@ -476,6 +476,6 @@ export default function Modal({
           </div>
         </div>
       )}
-    </>
+    </article>
   );
 }

@@ -227,7 +227,7 @@ export default function Post({ userInfo }) {
     return <Loader />;
   }
   return (
-    <>
+    <article>
       <form className="w-full space-y-3" onSubmit={handleSubmit(onSubmit)}>
         <Navigate right_message="완료" />
         <div className="flex">
@@ -522,6 +522,6 @@ export default function Post({ userInfo }) {
           </div>
         </div>
       </form>
-    </>
+    </article>
   );
 }

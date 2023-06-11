@@ -10,5 +10,5 @@ export default function Home() {
     router.replace('/begin');
   }
 
-  return <></>;
+  return <article></article>;
 }

@@ -86,7 +86,7 @@ export default function Join01() {
   };
 
   return (
-    <>
+    <article>
       <Navigate
         message="회원가입"
         handleLeftButton={handleLeftButton}
@@ -210,6 +210,6 @@ export default function Join01() {
         isModal={isModal}
         onCloseModal={() => setIsModal(false)}
       />
-    </>
+    </article>
   );
 }

@@ -7,7 +7,7 @@ import Link from 'next/link';
 export default function Complete() {
   const router = useRouter();
   return (
-    <>
+    <article>
       <Navigate
         message="작가 등록"
         isLeftButton={false}
@@ -32,6 +32,6 @@ export default function Complete() {
           <Link href="https://www.instagram.com/atties_art/">@atties_art</Link>
         </div>
       </section>
-    </>
+    </article>
   );
 }

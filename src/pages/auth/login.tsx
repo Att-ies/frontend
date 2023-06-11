@@ -108,7 +108,7 @@ function Login() {
   }
 
   return (
-    <>
+    <article>
       <div className="mt-[10%] w-full">
         <div className="flex h-40 items-center justify-center">
           <Image
@@ -194,7 +194,7 @@ function Login() {
           </p>
         </form>
       </div>
-    </>
+    </article>
   );
 }
 

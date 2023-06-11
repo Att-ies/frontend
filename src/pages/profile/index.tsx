@@ -97,8 +97,8 @@ export default function Profile({ userInfo }) {
   const hasImage = !!userInfo?.image;
 
   return (
-    <>
-      <>
+    <article>
+      <article>
         <Navigate
           message="프로필"
           isLeftButton={false}
@@ -259,8 +259,8 @@ export default function Profile({ userInfo }) {
             />
           ))}
         </section>
-      </>
+      </article>
       <Tab />
-    </>
+    </article>
   );
 }

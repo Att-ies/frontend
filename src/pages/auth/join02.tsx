@@ -150,7 +150,7 @@ export default function Join02() {
   }, [idResult.isFetching, nicknameResult.isFetching, emailResult.isFetching]);
 
   return (
-    <>
+    <article>
       <Navigate message="회원가입" handleRightButton={handleRightButton} />
       <section className="mt-8">
         <p className="mb-[0.75rem]">
@@ -300,6 +300,6 @@ export default function Join02() {
 
         <Button text="확인" className="mb-[4.75rem] w-full" />
       </form>
-    </>
+    </article>
   );
 }

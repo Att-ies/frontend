@@ -8,7 +8,7 @@ interface Page404Props {
 export default function Page404Props() {
   const router = useRouter();
   return (
-    <>
+    <article>
       <p className="flex h-full flex-col items-center justify-center gap-10">
         존재하지 않는 페이지입니다.
         <Button
@@ -18,6 +18,6 @@ export default function Page404Props() {
           }}
         />
       </p>
-    </>
+    </article>
   );
 }

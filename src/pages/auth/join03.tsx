@@ -31,7 +31,7 @@ function Join03() {
   };
 
   return (
-    <>
+    <article>
       <Navigate isLeftButton={false} isRightButton={false} />
       {errorMessage && (
         <ErrorMessage
@@ -76,7 +76,7 @@ function Join03() {
         className="mb-[2.125rem] w-full"
         onClick={handleNextButton}
       />
-    </>
+    </article>
   );
 }
 

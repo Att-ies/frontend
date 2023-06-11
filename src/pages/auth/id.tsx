@@ -29,7 +29,7 @@ function Id() {
   }
   const router = useRouter();
   return (
-    <>
+    <article>
       {isModal && (
         <Modal
           isModal={isModal}
@@ -74,7 +74,7 @@ function Id() {
           className="absolute inset-x-0 bottom-[2.125rem] m-auto w-[calc(100%-48px)]"
         />
       </form>
-    </>
+    </article>
   );
 }
 

@@ -32,7 +32,7 @@ export default function Security() {
   };
 
   return (
-    <>
+    <article>
       <Modal
         isModal={isModal}
         isMain
@@ -74,6 +74,6 @@ export default function Security() {
           />
         </article>
       </section>
-    </>
+    </article>
   );
 }

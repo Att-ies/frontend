@@ -269,7 +269,7 @@ export default function Edit({ userInfo }) {
     return <Loader />;
   }
   return (
-    <>
+    <article>
       <form className="w-full space-y-3" onSubmit={handleSubmit(onSubmit)}>
         <Navigate right_message="완료" />
         <div className="flex">
@@ -569,6 +569,6 @@ export default function Edit({ userInfo }) {
           </div>
         </div>
       </form>
-    </>
+    </article>
   );
 }

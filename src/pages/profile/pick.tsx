@@ -19,7 +19,7 @@ export default function Pick() {
   const { data: pickList } = useGetPick();
 
   return (
-    <>
+    <article>
       <Navigate
         message="나의 픽 작가"
         isRightButton={false}
@@ -42,6 +42,6 @@ export default function Pick() {
           <None path="pick" message="나의 픽 작가가 없어요." />
         )}
       </PickContainer>
-    </>
+    </article>
   );
 }

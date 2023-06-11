@@ -103,7 +103,7 @@ export default React.memo(function Calendar({
   };
 
   return (
-    <>
+    <article>
       <div className="m-auto mt-3 flex h-[3.125rem] items-center justify-center bg-[#F8F8FA]">
         <button
           onClick={() => setDate(date.clone().subtract(1, 'month'))}
@@ -131,6 +131,6 @@ export default React.memo(function Calendar({
           {calendarArr()}
         </tbody>
       </table>
-    </>
+    </article>
   );
 });

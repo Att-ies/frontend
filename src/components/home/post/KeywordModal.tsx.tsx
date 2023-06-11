@@ -1,7 +1,7 @@
-import Layout from '@components/common/Layout'
-import Navigate from '@components/common/Navigate'
+import Layout from '@components/common/Layout';
+import Navigate from '@components/common/Navigate';
 
-import KeywordSelect from './KeywordSelect'
+import KeywordSelect from './KeywordSelect';
 
 interface KeywordModalProps {
   onCloseModal: () => void;
@@ -15,7 +15,7 @@ export default function KeywordModal({
   setKeywordList,
 }: KeywordModalProps) {
   return (
-    <>
+    <article>
       <Navigate
         message="태그"
         handleLeftButton={onCloseModal}
@@ -26,6 +26,6 @@ export default function KeywordModal({
         keywordList={keywordList}
         setKeywordList={setKeywordList}
       />
-    </>
+    </article>
   );
 }

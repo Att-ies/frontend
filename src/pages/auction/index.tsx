@@ -30,8 +30,8 @@ export default function Auction() {
   }, [data]);
 
   return (
-    <>
-      <>
+    <article>
+      <article>
         <Navigate
           left_message={
             <Image alt="logo" src="/svg/icons/logo.svg" width="90" height="0" />
@@ -45,7 +45,7 @@ export default function Auction() {
         {error && error.code === 'NOT_FOUND_AUCTION_PROCESSING' ? (
           <None path="auction" message="아직 진행중인 경매가 없어요" />
         ) : (
-          <>
+          <article>
             <section className="relative mb-7 mt-4 flex justify-between">
               {data && (
                 <span className="text-[1.25rem] font-bold">{`제 ${data?.turn}회 아띠즈 경매`}</span>
@@ -95,10 +95,10 @@ export default function Auction() {
                 />
               ))}
             </ArtworkList>
-          </>
+          </article>
         )}
-      </>
+      </article>
       <Tab />
-    </>
+    </article>
   );
 }

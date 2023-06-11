@@ -55,8 +55,8 @@ export default function Home({ userInfo }) {
   const token = useAppSelector((state) => state.token.accessToken);
 
   return (
-    <>
-      <>
+    <article>
+      <article>
         <Navigate
           left_message={
             <Image
@@ -230,8 +230,8 @@ export default function Home({ userInfo }) {
         ) : (
           <FloatButton />
         )}
-      </>
+      </article>
       <Tab />
-    </>
+    </article>
   );
 }

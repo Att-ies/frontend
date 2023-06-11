@@ -99,7 +99,7 @@ export default function Search() {
   }, [page]);
 
   return (
-    <>
+    <article>
       <SearchBox>
         <div
           className="grow-[1]"
@@ -181,6 +181,6 @@ export default function Search() {
           </section>
         </div>
       )}
-    </>
+    </article>
   );
 }

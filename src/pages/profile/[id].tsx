@@ -41,7 +41,7 @@ export default function PickDetail({ userInfo }) {
   member;
 
   return (
-    <>
+    <article>
       <Navigate isRightButton={false} message="작가 프로필" />
       <PickDetailContainer>
         <PickDetailProfile>
@@ -158,6 +158,6 @@ export default function PickDetail({ userInfo }) {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
-    </>
+    </article>
   );
 }

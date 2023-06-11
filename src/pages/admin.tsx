@@ -51,7 +51,7 @@ export default function Admin() {
   };
 
   return (
-    <>
+    <article>
       <form
         onSubmit={handleSubmit(onSubmitRole)}
         className="mt-5 flex items-center"
@@ -144,6 +144,6 @@ export default function Admin() {
             </div>
           ))}
       </section>
-    </>
+    </article>
   );
 }

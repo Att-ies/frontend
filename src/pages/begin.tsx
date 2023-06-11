@@ -36,7 +36,7 @@ export default function Begin() {
   const router = useRouter();
 
   return (
-    <>
+    <article>
       <SwiperWrapper>
         <Swiper
           navigation={true}
@@ -148,6 +148,6 @@ export default function Begin() {
           </SwiperSlide>
         </Swiper>
       </SwiperWrapper>
-    </>
+    </article>
   );
 }

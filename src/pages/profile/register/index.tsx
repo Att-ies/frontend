@@ -47,7 +47,7 @@ export default function Register() {
   if (isLoading) return <Loader />;
 
   return (
-    <>
+    <article>
       <Navigate
         right_message="다음"
         handleRightButton={handleRightButton}
@@ -119,6 +119,6 @@ export default function Register() {
           지워주세요.
         </li>
       </section>
-    </>
+    </article>
   );
 }
