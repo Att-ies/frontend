@@ -12,7 +12,7 @@ import styled from 'styled-components';
 import { useWindowSize } from '@hooks/common/useWindowSize';
 import { getCookie } from 'cookies-next';
 import type { AppContext, AppProps } from 'next/app';
-import Head from 'next/head';
+import NextHead from 'next/head';
 import axios from 'axios';
 import Loader from '@components/common/Loader';
 import GoogleScript from '@components/GoogleScript';
@@ -47,6 +47,41 @@ const persistor = persistStore(store);
 
 interface AppExtendedProps extends AppProps {
   userData: User;
+}
+
+function Head() {
+  return (
+    <NextHead>
+      <title>Atties</title>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0 viewport-fit=cover"
+      />
+      <meta name="theme-color" content="#000000" />
+      <meta
+        name="viewport"
+        content="initial-scale=1.0, width=device-width, maximum-scale=5.0, user-scalable=yes"
+      />
+      <meta property="og:title" content="아띠즈:art:" />
+      <meta name="og:description" content="졸업작품 거래 플랫폼, 아띠즈:art:" />
+      <meta property="og:type" content="website" />
+      <meta
+        name="url"
+        property="og:url"
+        content="https://user-images.githubusercontent.com/62178788/218947618-632d91ec-c4e6-4192-9ff6-66205ad6d635.svg"
+      />
+      <meta
+        name="image"
+        property="og:image"
+        content="https://user-images.githubusercontent.com/62178788/218947618-632d91ec-c4e6-4192-9ff6-66205ad6d635.svg"
+      />
+      <meta
+        name="article"
+        property="og:article:author"
+        content="졸업작품 거래 플랫폼"
+      />
+    </NextHead>
+  );
 }
 
 export default function App({
@@ -88,31 +123,35 @@ export default function App({
       document.documentElement.style.setProperty('--vh', `${vh}px`);
     }, [windowSize.height]);
 
-    return <LayoutCss>{children}</LayoutCss>;
+    return (
+      <div className="flex h-screen w-screen justify-center bg-slate-50 ">
+        <LayoutCss>{children}</LayoutCss>
+      </div>
+    );
   };
 
   if (loading) return <Loader />;
 
   return (
-    <div className="flex h-screen w-screen justify-center bg-slate-50 ">
-      <Head>
-        <title>Atties</title>
-      </Head>
+    <>
+      <Head />
       <GoogleScript />
       <Suspense fallback={<Loader />}>
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <PersistGate loading={null} persistor={persistor}>
-                <Layout>
-                  <Component {...pageProps} userInfo={userData} />
-                </Layout>
+                <div>
+                  <Layout>
+                    <Component {...pageProps} userInfo={userData} />
+                  </Layout>
+                </div>
               </PersistGate>
             </Hydrate>
           </QueryClientProvider>
         </Provider>
       </Suspense>
-    </div>
+    </>
   );
 }
 
