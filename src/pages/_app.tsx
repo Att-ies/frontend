@@ -3,32 +3,41 @@ import '../styles/globals.css';
 import Loader from '@components/common/Loader';
 import GoogleScript from '@components/GoogleScript';
 import store from '@features/store';
+import { useWindowSize } from '@hooks/common/useWindowSize';
 import {
   Hydrate,
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
 import { pageview } from '@utils/gtag';
-import { getToken } from '@utils/localStorage/token';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import type { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
-import { Router, useRouter } from 'next/router';
-import React, { PropsWithChildren, Suspense, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { PropsWithChildren, Suspense, useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
-import { useWindowSize } from '@hooks/common/useWindowSize';
 
-import styled, { StyledComponent } from 'styled-components';
+import styled from 'styled-components';
 
 const persistor = persistStore(store);
-
 interface AppExtendedProps extends AppProps {
   userData: User;
 }
 let vh = 0;
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      suspense: true,
+      useErrorBoundary: true,
+    },
+    mutations: { retry: false, useErrorBoundary: true },
+  },
+});
 export default function App({
   Component,
   pageProps,
@@ -63,20 +72,6 @@ export default function App({
     };
   }, []);
 
-  const [queryClient] = React.useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            retry: false,
-            suspense: true,
-            useErrorBoundary: true,
-          },
-          mutations: { retry: false, useErrorBoundary: true },
-        },
-      }),
-  );
-
   return loading ? (
     <Loader />
   ) : (
@@ -101,7 +96,7 @@ export default function App({
     </div>
   );
 }
-const queryClient = new QueryClient();
+
 export { queryClient };
 
 function Layout({ children }: PropsWithChildren<{}>) {
