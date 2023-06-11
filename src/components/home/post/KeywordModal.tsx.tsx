@@ -1,4 +1,3 @@
-import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 
 import KeywordSelect from './KeywordSelect';
