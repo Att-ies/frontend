@@ -1,4 +1,3 @@
-import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import tw from 'tailwind-styled-components';
 import { Dispatch, SetStateAction } from 'react';
@@ -49,7 +48,7 @@ export default function GenreModal({
     setGenre(genreSelectedArr);
   };
   return (
-    <Layout>
+    <>
       <Navigate
         message="필터"
         handleLeftButton={onCloseModal}
@@ -74,10 +73,10 @@ export default function GenreModal({
         ))}
       </div>
       {isEmpty && (
-        <div className="mt-52 rounded-[0.5rem] bg-[#191919] py-4 px-3 text-12 text-white">
+        <div className="mt-52 rounded-[0.5rem] bg-[#191919] px-3 py-4 text-12 text-white">
           관련 작품이 없어요.
         </div>
       )}
-    </Layout>
+    </>
   );
 }

@@ -2,7 +2,7 @@ import authApi from '@apis/auth/authApi';
 import Button from '@components/common/Button';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Input from '@components/common/Input';
-import Layout from '@components/common/Layout';
+
 import Modal from '@components/common/Modal';
 import Navigate from '@components/common/Navigate';
 import React, { useState } from 'react';
@@ -33,7 +33,7 @@ function Password() {
 
   const router = useRouter();
   return (
-    <Layout>
+    <>
       {isModal && (
         <Modal
           isModal={isModal}
@@ -82,7 +82,7 @@ function Password() {
           className="absolute inset-x-0 bottom-[2.125rem] m-auto w-[calc(100%-48px)]"
         />
       </form>
-    </Layout>
+    </>
   );
 }
 

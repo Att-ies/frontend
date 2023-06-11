@@ -1,7 +1,7 @@
 import chatApi from '@apis/chat/chatApi';
 import { createClient, publish, subscribe } from '@apis/chat/socketConnect';
 import ChattingMessage from '@components/chat/ChatMessage';
-import Layout from '@components/common/Layout';
+
 import Modal from '@components/common/Modal';
 import useGetChatRoom from '@hooks/queries/chat/useGetChatRoom';
 import * as StompJs from '@stomp/stompjs';
@@ -91,7 +91,7 @@ export default function ChatRoom({ userInfo }) {
   }, [messages]);
 
   return (
-    <Layout>
+    <>
       <Modal
         message="아직 준비 중인 서비스예요."
         isModal={isPreparingModal}
@@ -215,6 +215,6 @@ export default function ChatRoom({ userInfo }) {
           )}
         </form>
       </div>
-    </Layout>
+    </>
   );
 }

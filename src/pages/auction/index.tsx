@@ -1,5 +1,5 @@
 import ArtWorkItem from '@components/auction/ArtWorkItem';
-import Layout from '@components/common/Layout';
+
 import Navigate from '@components/common/Navigate';
 import NoticeIcon from '@components/common/NoticeIcon';
 import Tab from '@components/common/Tab';
@@ -31,7 +31,7 @@ export default function Auction() {
 
   return (
     <>
-      <Layout>
+      <>
         <Navigate
           left_message={
             <Image alt="logo" src="/svg/icons/logo.svg" width="90" height="0" />
@@ -97,7 +97,7 @@ export default function Auction() {
             </ArtworkList>
           </>
         )}
-      </Layout>
+      </>
       <Tab />
     </>
   );

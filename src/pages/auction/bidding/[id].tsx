@@ -2,7 +2,7 @@ import AskPriceModal from '@components/auction/AskPriceModal';
 import Button from '@components/common/Button';
 import DivisionBar from '@components/common/DivisionBar';
 import ErrorMessage from '@components/common/ErrorMessage';
-import Layout from '@components/common/Layout';
+
 import Navigate from '@components/common/Navigate';
 import usePutBiddng from '@hooks/mutations/usePutBidding';
 import useGetBiddingHistory from '@hooks/queries/auction/useGetBiddingHistory';
@@ -65,7 +65,7 @@ export default function Bidding({ userInfo }) {
   };
 
   return (
-    <Layout>
+    <>
       <Navigate
         isLeftButton={false}
         className="text-18 font-medium"
@@ -270,6 +270,6 @@ export default function Bidding({ userInfo }) {
         message="gg"
         onCloseModal={() => setIsModal(false)}
       />
-    </Layout>
+    </>
   );
 }

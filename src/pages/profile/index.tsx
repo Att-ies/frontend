@@ -1,6 +1,6 @@
 import DivisionBar from '@components/common/DivisionBar';
 import KeywordBox from '@components/common/KeywordBox';
-import Layout from '@components/common/Layout';
+
 import Navigate from '@components/common/Navigate';
 import NoticeIcon from '@components/common/NoticeIcon';
 import Tab from '@components/common/Tab';
@@ -98,7 +98,7 @@ export default function Profile({ userInfo }) {
 
   return (
     <>
-      <Layout>
+      <>
         <Navigate
           message="프로필"
           isLeftButton={false}
@@ -259,7 +259,7 @@ export default function Profile({ userInfo }) {
             />
           ))}
         </section>
-      </Layout>
+      </>
       <Tab />
     </>
   );

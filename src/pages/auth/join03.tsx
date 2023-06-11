@@ -1,5 +1,5 @@
 import ErrorMessage from '@components/common/ErrorMessage';
-import Layout from '@components/common/Layout';
+
 import Image from 'next/image';
 import { useAppSelector } from '@features/hooks';
 import { useRouter } from 'next/router';
@@ -31,7 +31,7 @@ function Join03() {
   };
 
   return (
-    <Layout>
+    <>
       <Navigate isLeftButton={false} isRightButton={false} />
       {errorMessage && (
         <ErrorMessage
@@ -66,7 +66,7 @@ function Join03() {
       </section>
 
       <button
-        className="hover:brand-2 mt-[4.125rem] mb-3 w-full text-xs font-normal text-[#999999] underline transition"
+        className="hover:brand-2 mb-3 mt-[4.125rem] w-full text-xs font-normal text-[#999999] underline transition"
         onClick={handleSkipButton}
       >
         다음에 할래요
@@ -76,7 +76,7 @@ function Join03() {
         className="mb-[2.125rem] w-full"
         onClick={handleNextButton}
       />
-    </Layout>
+    </>
   );
 }
 

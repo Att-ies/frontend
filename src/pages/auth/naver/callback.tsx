@@ -1,5 +1,5 @@
 import instance from '@apis/_axios/instance';
-import Layout from '@components/common/Layout';
+
 import Loader from '@components/common/Loader';
 import { useEffect } from 'react';
 import { setToken } from '@utils/localStorage/token';
@@ -30,8 +30,8 @@ export default function NaverCallback() {
   }, []);
 
   return (
-    <Layout>
+    <>
       <Loader />
-    </Layout>
+    </>
   );
 }

@@ -15,7 +15,7 @@ export default function KeywordModal({
   setKeywordList,
 }: KeywordModalProps) {
   return (
-    <Layout>
+    <>
       <Navigate
         message="태그"
         handleLeftButton={onCloseModal}
@@ -26,6 +26,6 @@ export default function KeywordModal({
         keywordList={keywordList}
         setKeywordList={setKeywordList}
       />
-    </Layout>
+    </>
   );
 }

@@ -1,4 +1,3 @@
-import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import PickArtist from '@components/profile/pick/PickArtist';
 import useGetPick from '@hooks/queries/useGetPick';
@@ -20,7 +19,7 @@ export default function Pick() {
   const { data: pickList } = useGetPick();
 
   return (
-    <Layout>
+    <>
       <Navigate
         message="나의 픽 작가"
         isRightButton={false}
@@ -43,6 +42,6 @@ export default function Pick() {
           <None path="pick" message="나의 픽 작가가 없어요." />
         )}
       </PickContainer>
-    </Layout>
+    </>
   );
 }

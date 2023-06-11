@@ -1,7 +1,6 @@
-import Layout from '@components/common/Layout'
-import Navigate from '@components/common/Navigate'
+import Navigate from '@components/common/Navigate';
 
-import GenreSelect from './GenreSelect'
+import GenreSelect from './GenreSelect';
 
 interface GenreModalProps {
   onCloseModal: () => void;
@@ -15,7 +14,7 @@ export default function GenreModal({
   setGenre,
 }: GenreModalProps) {
   return (
-    <Layout>
+    <>
       <Navigate
         message="장르"
         handleLeftButton={onCloseModal}
@@ -23,6 +22,6 @@ export default function GenreModal({
         handleRightButton={onCloseModal}
       />
       <GenreSelect genre={genre} setGenre={setGenre} />
-    </Layout>
+    </>
   );
 }
