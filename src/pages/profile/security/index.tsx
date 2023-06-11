@@ -1,5 +1,5 @@
 import authApi from '@apis/auth/authApi';
-import Layout from '@components/common/Layout';
+
 import Modal from '@components/common/Modal';
 import Navigate from '@components/common/Navigate';
 import Image from 'next/image';
@@ -32,7 +32,7 @@ export default function Security() {
   };
 
   return (
-    <Layout>
+    <article>
       <Modal
         isModal={isModal}
         isMain
@@ -74,6 +74,6 @@ export default function Security() {
           />
         </article>
       </section>
-    </Layout>
+    </article>
   );
 }

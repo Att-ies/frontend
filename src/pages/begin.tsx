@@ -1,7 +1,7 @@
 import 'swiper/css';
 import 'swiper/css/pagination';
 import Button from '@components/common/Button';
-import Layout from '@components/common/Layout';
+
 import Navigate from '@components/common/Navigate';
 import Image from 'next/image';
 import tw from 'tailwind-styled-components';
@@ -36,7 +36,7 @@ export default function Begin() {
   const router = useRouter();
 
   return (
-    <Layout>
+    <article>
       <SwiperWrapper>
         <Swiper
           navigation={true}
@@ -148,6 +148,6 @@ export default function Begin() {
           </SwiperSlide>
         </Swiper>
       </SwiperWrapper>
-    </Layout>
+    </article>
   );
 }

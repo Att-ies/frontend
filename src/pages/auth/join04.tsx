@@ -1,4 +1,3 @@
-import Layout from '@components/common/Layout';
 import Modal from '@components/common/Modal';
 import SelectKeyword from '@components/profile/Selectkeyword';
 import { useAppSelector } from '@features/hooks';
@@ -34,7 +33,7 @@ export default function Join04() {
   const router = useRouter();
 
   return (
-    <Layout>
+    <article>
       <div className="mt-16 text-16 font-semibold">
         관심있는 키워드를 골라주세요.
       </div>
@@ -65,6 +64,6 @@ export default function Join04() {
         }}
         onAccept={handleSubmit}
       />
-    </Layout>
+    </article>
   );
 }

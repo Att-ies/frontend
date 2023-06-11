@@ -1,6 +1,5 @@
-import Layout from '@components/common/Layout'
-import React from 'react'
+import React from 'react';
 
 export default function history() {
-  return <Layout>history</Layout>;
+  return <article>history</article>;
 }

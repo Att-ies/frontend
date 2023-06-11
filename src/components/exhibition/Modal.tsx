@@ -83,7 +83,7 @@ export default function Modal({
     router.push(`/profile/${artistId}`);
   };
   return (
-    <>
+    <article>
       <ModalInner {...rest}>
         <ModalHeader>
           <span>{title}</span>
@@ -103,6 +103,6 @@ export default function Modal({
           <ModalButton onClick={handleRightButton}>작가 프로필</ModalButton>
         </div>
       </ModalInner>
-    </>
+    </article>
   );
 }

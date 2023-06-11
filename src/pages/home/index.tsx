@@ -3,7 +3,7 @@ import 'swiper/css/pagination';
 
 import DivisionBar from '@components/common/DivisionBar';
 import KeywordBox from '@components/common/KeywordBox';
-import Layout from '@components/common/Layout';
+
 import Navigate from '@components/common/Navigate';
 import NoticeIcon from '@components/common/NoticeIcon';
 import Tab from '@components/common/Tab';
@@ -55,8 +55,8 @@ export default function Home({ userInfo }) {
   const token = useAppSelector((state) => state.token.accessToken);
 
   return (
-    <>
-      <Layout>
+    <article>
+      <article>
         <Navigate
           left_message={
             <Image
@@ -230,8 +230,8 @@ export default function Home({ userInfo }) {
         ) : (
           <FloatButton />
         )}
-      </Layout>
+      </article>
       <Tab />
-    </>
+    </article>
   );
 }

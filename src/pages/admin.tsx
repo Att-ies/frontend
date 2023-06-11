@@ -1,4 +1,3 @@
-import Layout from '@components/common/Layout';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
@@ -52,7 +51,7 @@ export default function Admin() {
   };
 
   return (
-    <Layout>
+    <article>
       <form
         onSubmit={handleSubmit(onSubmitRole)}
         className="mt-5 flex items-center"
@@ -125,7 +124,7 @@ export default function Admin() {
       <section>
         {!!askList &&
           askList.map((ask) => (
-            <div key={ask.id} className="rounded border py-2 px-3">
+            <div key={ask.id} className="rounded border px-3 py-2">
               <p>제목 : {ask.title}</p>
               <p>내용 : {ask.content}</p>
               <p>날짜 : {ask.date}</p>
@@ -145,6 +144,6 @@ export default function Admin() {
             </div>
           ))}
       </section>
-    </Layout>
+    </article>
   );
 }

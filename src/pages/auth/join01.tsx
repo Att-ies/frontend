@@ -1,7 +1,7 @@
 import Modal from '@components/auth/Modal';
 import Button from '@components/common/Button';
 import CheckBox from '@components/common/Checkbox';
-import Layout from '@components/common/Layout';
+
 import Navigate from '@components/common/Navigate';
 import Image from 'next/image';
 import tw from 'tailwind-styled-components';
@@ -86,7 +86,7 @@ export default function Join01() {
   };
 
   return (
-    <Layout>
+    <article>
       <Navigate
         message="회원가입"
         handleLeftButton={handleLeftButton}
@@ -210,6 +210,6 @@ export default function Join01() {
         isModal={isModal}
         onCloseModal={() => setIsModal(false)}
       />
-    </Layout>
+    </article>
   );
 }

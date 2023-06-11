@@ -2,7 +2,7 @@ import Guarantee from '@components/auction/Guarantee';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Input from '@components/common/Input';
 import KeywordBox from '@components/common/KeywordBox';
-import Layout from '@components/common/Layout';
+
 import Loader from '@components/common/Loader';
 import Navigate from '@components/common/Navigate';
 import Select from '@components/common/Select';
@@ -269,7 +269,7 @@ export default function Edit({ userInfo }) {
     return <Loader />;
   }
   return (
-    <Layout>
+    <article>
       <form className="w-full space-y-3" onSubmit={handleSubmit(onSubmit)}>
         <Navigate right_message="완료" />
         <div className="flex">
@@ -569,6 +569,6 @@ export default function Edit({ userInfo }) {
           </div>
         </div>
       </form>
-    </Layout>
+    </article>
   );
 }

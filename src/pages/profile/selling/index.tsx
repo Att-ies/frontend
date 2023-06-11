@@ -1,4 +1,3 @@
-import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import React, { useState } from 'react';
 import { Tab } from '@headlessui/react';
@@ -25,7 +24,7 @@ export default function Selling() {
   } = useGetMyArtWork();
 
   return (
-    <Layout>
+    <article>
       {isModal && (
         <SellingModal
           onCloseModal={handleCloseModal}
@@ -94,6 +93,6 @@ export default function Selling() {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
-    </Layout>
+    </article>
   );
 }

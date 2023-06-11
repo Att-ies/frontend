@@ -1,5 +1,5 @@
 import Button from '@components/common/Button';
-import Layout from '@components/common/Layout';
+
 import Navigate from '@components/common/Navigate';
 import FileItem from '@components/inquiry/FileItem';
 import InquiryItem from '@components/inquiry/InquiryItem';
@@ -103,7 +103,7 @@ export default function Inquiry() {
   if (isLoading) return <Loader />;
 
   return (
-    <Layout>
+    <article>
       <Navigate
         handleLeftButton={handleLeftButton}
         message="1:1문의"
@@ -238,7 +238,7 @@ export default function Inquiry() {
                   {...register('image')}
                 />
               </section>
-              <section className="mt-[4.6875rem] mb-[2.8125rem] flex w-full justify-between">
+              <section className="mb-[2.8125rem] mt-[4.6875rem] flex w-full justify-between">
                 <Button
                   kind="outlined"
                   text="취소"
@@ -270,6 +270,6 @@ export default function Inquiry() {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
-    </Layout>
+    </article>
   );
 }

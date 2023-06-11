@@ -1,6 +1,5 @@
 import 'swiper/css';
 
-import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import GenreModal from '@components/exhibition/GenreModal';
 import Modal from '@components/exhibition/Modal';
@@ -67,7 +66,7 @@ export default function ExhibitionArts() {
     );
   }
   return (
-    <Layout>
+    <article>
       {isExpansion ? (
         <Image
           alt="exhibition_bg"
@@ -224,6 +223,6 @@ export default function ExhibitionArts() {
           </SwiperSlide>
         ))}
       </Swiper>
-    </Layout>
+    </article>
   );
 }

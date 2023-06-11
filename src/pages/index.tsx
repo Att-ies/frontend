@@ -1,4 +1,3 @@
-import Layout from '@components/common/Layout';
 import { getLocalStorage } from '@utils/localStorage/helper';
 import { useRouter } from 'next/router';
 
@@ -11,5 +10,5 @@ export default function Home() {
     router.replace('/begin');
   }
 
-  return <Layout></Layout>;
+  return <article></article>;
 }

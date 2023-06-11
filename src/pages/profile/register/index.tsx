@@ -1,4 +1,3 @@
-import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
@@ -48,7 +47,7 @@ export default function Register() {
   if (isLoading) return <Loader />;
 
   return (
-    <Layout>
+    <article>
       <Navigate
         right_message="다음"
         handleRightButton={handleRightButton}
@@ -120,6 +119,6 @@ export default function Register() {
           지워주세요.
         </li>
       </section>
-    </Layout>
+    </article>
   );
 }

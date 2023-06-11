@@ -1,4 +1,3 @@
-import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import React from 'react';
 import { useRouter } from 'next/router';
@@ -8,7 +7,7 @@ import Link from 'next/link';
 export default function Complete() {
   const router = useRouter();
   return (
-    <Layout>
+    <article>
       <Navigate
         message="작가 등록"
         isLeftButton={false}
@@ -33,6 +32,6 @@ export default function Complete() {
           <Link href="https://www.instagram.com/atties_art/">@atties_art</Link>
         </div>
       </section>
-    </Layout>
+    </article>
   );
 }

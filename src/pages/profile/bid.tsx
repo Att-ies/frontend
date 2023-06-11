@@ -1,4 +1,3 @@
-import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import SuccessBidItem from '@components/profile/bid/SuccessBidItem';
 import BidItem from '@components/profile/bid/BidItem';
@@ -10,7 +9,7 @@ import None from '@components/common/None';
 export default function bid() {
   const { data: bidList } = useGetBid() || {};
   return (
-    <Layout>
+    <article>
       <Navigate isRightButton={false} message="나의 경매" />
       <Tab.Group>
         <Tab.List>
@@ -47,6 +46,6 @@ export default function bid() {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
-    </Layout>
+    </article>
   );
 }

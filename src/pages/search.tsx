@@ -1,5 +1,5 @@
 import Input from '@components/common/Input';
-import Layout from '@components/common/Layout';
+
 import SearchItem from '@components/search/SearchItem';
 import back from '@public/svg/icons/back.svg';
 import Image from 'next/image';
@@ -99,7 +99,7 @@ export default function Search() {
   }, [page]);
 
   return (
-    <Layout>
+    <article>
       <SearchBox>
         <div
           className="grow-[1]"
@@ -119,7 +119,7 @@ export default function Search() {
             onChange={handleValue}
           />
           <div
-            className="absolute inset-y-0 right-3 top-0 bottom-0 m-auto flex cursor-pointer items-center text-20 font-medium"
+            className="absolute inset-y-0 bottom-0 right-3 top-0 m-auto flex cursor-pointer items-center text-20 font-medium"
             onClick={() => {
               setValue('');
             }}
@@ -181,6 +181,6 @@ export default function Search() {
           </section>
         </div>
       )}
-    </Layout>
+    </article>
   );
 }

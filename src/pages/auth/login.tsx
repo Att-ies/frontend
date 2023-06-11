@@ -2,7 +2,7 @@ import Button from '@components/common/Button';
 import CheckBox from '@components/common/Checkbox';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Input from '@components/common/Input';
-import Layout from '@components/common/Layout';
+
 import SocialLoginButton from '@components/login/SocialLoginButton';
 import usePostLogin from '@hooks/mutations/usePostLogin';
 import Image from 'next/image';
@@ -108,7 +108,7 @@ function Login() {
   }
 
   return (
-    <Layout>
+    <article>
       <div className="mt-[10%] w-full">
         <div className="flex h-40 items-center justify-center">
           <Image
@@ -194,7 +194,7 @@ function Login() {
           </p>
         </form>
       </div>
-    </Layout>
+    </article>
   );
 }
 

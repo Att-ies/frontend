@@ -1,4 +1,3 @@
-import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import Image from 'next/image';
 import SignatureCanvas from 'react-signature-canvas';
@@ -15,7 +14,7 @@ export default function GuaranteeModal({
 }: GuaranteeModalProps) {
   const canvasRef = useRef() as React.MutableRefObject<SignatureCanvas>;
   return (
-    <Layout>
+    <article>
       <Navigate
         right_message="완료"
         handleRightButton={onCloseModal}
@@ -70,6 +69,6 @@ export default function GuaranteeModal({
           />
         </div>
       </div>
-    </Layout>
+    </article>
   );
 }

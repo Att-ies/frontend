@@ -1,4 +1,3 @@
-import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import PickArtistWork from '@components/profile/pick/PickArtistWork';
 import { Tab } from '@headlessui/react';
@@ -42,7 +41,7 @@ export default function PickDetail({ userInfo }) {
   member;
 
   return (
-    <Layout>
+    <article>
       <Navigate isRightButton={false} message="작가 프로필" />
       <PickDetailContainer>
         <PickDetailProfile>
@@ -159,6 +158,6 @@ export default function PickDetail({ userInfo }) {
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>
-    </Layout>
+    </article>
   );
 }

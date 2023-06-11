@@ -40,7 +40,7 @@ export default function FilterDropdown({ setStatus }: FilterDropdownProps) {
             <div className="px-1 py-1 ">
               <Menu.Item>
                 <button
-                  className="flex w-full items-center justify-between border-b-[0.0625rem] py-3 px-2 text-sm"
+                  className="flex w-full items-center justify-between border-b-[0.0625rem] px-2 py-3 text-sm"
                   onClick={() => {
                     setStatus([]);
                     setSelected([]);
@@ -55,13 +55,13 @@ export default function FilterDropdown({ setStatus }: FilterDropdownProps) {
                       height={20}
                     />
                   ) : (
-                    <></>
+                    <article></article>
                   )}
                 </button>
               </Menu.Item>
               <Menu.Item>
                 <button
-                  className="flex w-full items-center justify-between border-b-[0.0625rem] py-3 px-2 text-sm"
+                  className="flex w-full items-center justify-between border-b-[0.0625rem] px-2 py-3 text-sm"
                   onClick={() => handleMenu('processing')}
                 >
                   경매중
@@ -73,13 +73,13 @@ export default function FilterDropdown({ setStatus }: FilterDropdownProps) {
                       height={20}
                     />
                   ) : (
-                    <></>
+                    <article></article>
                   )}
                 </button>
               </Menu.Item>
               <Menu.Item>
                 <button
-                  className="flex w-full items-center justify-between py-3 px-2 text-sm"
+                  className="flex w-full items-center justify-between px-2 py-3 text-sm"
                   onClick={() => handleMenu('sales_success')}
                 >
                   경매완료
@@ -91,7 +91,7 @@ export default function FilterDropdown({ setStatus }: FilterDropdownProps) {
                       height={20}
                     />
                   ) : (
-                    <></>
+                    <article></article>
                   )}
                 </button>
               </Menu.Item>

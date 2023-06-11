@@ -1,7 +1,7 @@
 import authApi from '@apis/auth/authApi';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Input from '@components/common/Input';
-import Layout from '@components/common/Layout';
+
 import Navigate from '@components/common/Navigate';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -51,7 +51,7 @@ export default function Password() {
   };
 
   return (
-    <Layout>
+    <article>
       <Navigate
         message="비밀번호 변경"
         right_message="완료"
@@ -112,6 +112,6 @@ export default function Password() {
       {successMessage && (
         <p className="text-14 text-[#5a82f1]">비밀번호 변경 성공</p>
       )}
-    </Layout>
+    </article>
   );
 }

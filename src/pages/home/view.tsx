@@ -1,4 +1,3 @@
-import Layout from '@components/common/Layout';
 import Navigate from '@components/common/Navigate';
 import ExhibitionItem from '@components/home/ExhibitionItem';
 import { useGetInfiniteArtWork } from '@hooks/queries/useGetInfiniteArtWork';
@@ -49,7 +48,7 @@ export default function View({ userInfo }) {
   }, [onIntersect]);
 
   return (
-    <Layout>
+    <article>
       <Navigate isRightButton={false} />
       <div>
         <p className="text-[0.875rem] font-semibold text-[#767676]">
@@ -84,6 +83,6 @@ export default function View({ userInfo }) {
           </div>
         )}
       </div>
-    </Layout>
+    </article>
   );
 }

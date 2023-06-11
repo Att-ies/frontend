@@ -1,6 +1,6 @@
 import { createClient, subscribe } from '@apis/chat/socketConnect';
 import Chatroom from '@components/chat/ChatRoom';
-import Layout from '@components/common/Layout';
+
 import None from '@components/common/None';
 import Tab from '@components/common/Tab';
 import useGetChatRoomList from '@hooks/queries/chat/useGetChatRoomList';
@@ -41,8 +41,8 @@ export default function Chat() {
     }
   };
   return (
-    <>
-      <Layout>
+    <article>
+      <article>
         <section className="flex h-20 items-center text-16 font-bold">
           채팅
         </section>
@@ -55,8 +55,8 @@ export default function Chat() {
         ) : (
           <None path="chat" message="아직 채팅 목록이 없어요" />
         )}
-      </Layout>
+      </article>
       <Tab />
-    </>
+    </article>
   );
 }

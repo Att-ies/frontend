@@ -2,7 +2,7 @@ import Button from '@components/common/Button';
 import DoubleCheckButton from '@components/common/DoubleCheckButton';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Input from '@components/common/Input';
-import Layout from '@components/common/Layout';
+
 import Navigate from '@components/common/Navigate';
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch } from '@features/hooks';
@@ -150,7 +150,7 @@ export default function Join02() {
   }, [idResult.isFetching, nicknameResult.isFetching, emailResult.isFetching]);
 
   return (
-    <Layout>
+    <article>
       <Navigate message="회원가입" handleRightButton={handleRightButton} />
       <section className="mt-8">
         <p className="mb-[0.75rem]">
@@ -300,6 +300,6 @@ export default function Join02() {
 
         <Button text="확인" className="mb-[4.75rem] w-full" />
       </form>
-    </Layout>
+    </article>
   );
 }

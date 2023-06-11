@@ -1,7 +1,7 @@
 import DoubleCheckButton from '@components/common/DoubleCheckButton';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Input from '@components/common/Input';
-import Layout from '@components/common/Layout';
+
 import Navigate from '@components/common/Navigate';
 import useGetProfile from '@hooks/queries/useGetProfile';
 import Image from 'next/image';
@@ -167,7 +167,7 @@ export default function Edit() {
   if (isPatchUserLoading || isPatchArtistLoading) return <Loader />;
 
   return (
-    <Layout>
+    <article>
       {toast && (
         <Toast
           text="전화번호 등록을 완료해야 서비스 이용이 가능합니다."
@@ -370,6 +370,6 @@ export default function Edit() {
           </article>
         </section>
       )}
-    </Layout>
+    </article>
   );
 }

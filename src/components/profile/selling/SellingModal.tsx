@@ -44,7 +44,7 @@ export default function SellingModal({
   };
 
   return (
-    <>
+    <article>
       {!!modalMessage && (
         <Modal
           isModal={modalMessage !== ''}
@@ -78,6 +78,6 @@ export default function SellingModal({
           <SelectCancel onClick={onCloseModal}>취소</SelectCancel>
         </MainModalInner>
       </ModalTag>
-    </>
+    </article>
   );
 }
