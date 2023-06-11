@@ -38,13 +38,6 @@ export default function App({
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (router.pathname.includes('auth') || router.pathname === '/begin')
-      return;
-    const token = getToken();
-    if (!token.accessToken) router.replace('/auth/login');
-  }, [router]);
-
-  useEffect(() => {
     const start = () => {
       setLoading(true);
     };
