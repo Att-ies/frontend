@@ -32,7 +32,7 @@ const LayoutCss = styled.div`
   padding: 1.5rem;
 `;
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: false,
