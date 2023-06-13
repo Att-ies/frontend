@@ -3,6 +3,7 @@ import { Token } from '@utils/localStorage/token';
 
 interface LoginResponse extends Token {
   refreshToken: string;
+  accessToken: string;
 }
 export class AuthApi {
   async getMemberProfile(): Promise<Member> {

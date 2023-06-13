@@ -3,23 +3,20 @@ import CheckBox from '@components/common/Checkbox';
 import ErrorMessage from '@components/common/ErrorMessage';
 import Input from '@components/common/Input';
 
+import Loader from '@components/common/Loader';
 import SocialLoginButton from '@components/login/SocialLoginButton';
 import usePostLogin from '@hooks/mutations/usePostLogin';
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import { deleteToken, setToken, Token } from '@utils/localStorage/token';
 import {
   getLocalStorage,
   removeLocalStorage,
   setLocalStorage,
 } from '@utils/localStorage/helper';
+import { deleteToken } from '@utils/localStorage/token';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Loader from '@components/common/Loader';
-import { setCookie } from 'cookies-next';
-import { useDispatch } from 'react-redux';
-import { setAccessToken } from '@features/token/tokenSlice';
 
 function Login() {
   const {
@@ -35,7 +32,6 @@ function Login() {
   const [checkedTerm, setCheckedTerm] = useState<string[]>([]);
   const { mutate, data, error, isLoading: isLoadingLogin } = usePostLogin();
   const router = useRouter();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     deleteToken();
@@ -66,26 +62,6 @@ function Login() {
     }
     mutate({ userId, password });
   };
-
-  useEffect(() => {
-    if (data && data.refreshToken && data.accessToken) {
-      setCookie('refreshToken', data.refreshToken);
-      setCookie('accessToken', data.accessToken);
-
-      dispatch(setAccessToken({ accessToken: data.accessToken }));
-
-      const token: Token = {
-        accessToken: data.accessToken,
-        roles: data.roles,
-      };
-      if (token) setToken(token);
-      if (data.roles === 'ROLE_ADMIN') {
-        router.push('/admin');
-      } else {
-        router.push('/home');
-      }
-    }
-  }, [data]);
 
   useEffect(() => {
     if (error) {
