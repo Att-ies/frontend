@@ -5,7 +5,6 @@ import {
 } from '../helper';
 
 export interface Token {
-  accessToken: string | undefined;
   roles: string | undefined;
 }
 
@@ -13,7 +12,6 @@ const TOKEN_KEY = '@token';
 
 export const getToken = (): Token => {
   const token = getLocalStorage<Token>(TOKEN_KEY, {
-    accessToken: undefined,
     roles: undefined,
   });
   return token;
