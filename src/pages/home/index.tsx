@@ -23,6 +23,8 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Autoplay, Navigation, Pagination, Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import homeApi from '@apis/home/homeApi';
+import axios from 'axios';
 
 const PastAuction = styled.section`
   .swiper-pagination-bullet-active {
@@ -51,8 +53,6 @@ export default function Home({ userInfo }) {
   const { data: customizedArtwork } = useGetCustomizedArtWork(1, 5) || {};
   const { data: auctionList } = useGetAuction() || {};
   const { data: pastAuctionList } = useGetPastAuction() || {};
-
-  const token = useAppSelector((state) => state.token.accessToken);
 
   return (
     <article>
