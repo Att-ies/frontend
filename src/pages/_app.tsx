@@ -21,18 +21,6 @@ import { persistStore } from 'redux-persist';
 import { pageview } from '@utils/gtag';
 import { CONFIG } from '@config';
 
-const LayoutCss = styled.div`
-  min-height: calc(var(--var, 1vh) * 200);
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  position: relative;
-  max-width: 26.25rem;
-  overflow-y: scroll;
-  background-color: white;
-  padding: 1.5rem;
-`;
-
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -125,8 +113,10 @@ export default function App({
     }, [windowSize.height]);
 
     return (
-      <div className="flex h-screen w-screen justify-center bg-slate-50 ">
-        <LayoutCss>{children}</LayoutCss>
+      <div className="flex h-screen w-screen justify-center bg-slate-50">
+        <div className="relative h-full w-full max-w-[26.25rem] overflow-y-scroll bg-white px-[1.5rem]">
+          {children}
+        </div>
       </div>
     );
   };
