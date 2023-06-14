@@ -12,6 +12,7 @@ import {
   setLocalStorage,
 } from '@utils/localStorage/helper';
 import { deleteToken } from '@utils/localStorage/token';
+import { deleteCookie, setCookie } from 'cookies-next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -34,7 +35,8 @@ function Login() {
   const router = useRouter();
 
   useEffect(() => {
-    deleteToken();
+    deleteCookie('refreshToken');
+    deleteCookie('accessToken');
     if (getLocalStorage('idSave') === 'true') {
       setCheckedTerm(['idSave']);
     }
