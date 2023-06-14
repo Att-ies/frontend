@@ -165,7 +165,7 @@ export default function Home({
             modules={[Autoplay, Navigation, Scrollbar]}
             navigation
             scrollbar={{ draggable: true }}
-            slidesPerView={2}
+            slidesPerView={Math.min(customizedArtwork?.artworks.length, 2)}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
           >
             {customizedArtwork?.artworks?.map(
