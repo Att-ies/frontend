@@ -3,46 +3,21 @@ import 'swiper/css';
 import Navigate from '@components/common/Navigate';
 import GenreModal from '@components/exhibition/GenreModal';
 import Modal from '@components/exhibition/Modal';
-import Image from 'next/image';
-import React from 'react';
-import tw from 'tailwind-styled-components';
-import { useRef, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { useRouter } from 'next/router';
-import { useGetExhibitionItemList } from '@hooks/queries/useGetExhibition';
-import { EffectCoverflow } from 'swiper';
 import useWindowSize from '@hooks/useWindowSize';
-import { GetStaticPaths, GetStaticProps } from 'next';
 import axios from 'axios';
+import { GetServerSideProps } from 'next';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useRef, useState } from 'react';
+import { EffectCoverflow } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import tw from 'tailwind-styled-components';
 
 const SwiperButtonDiv = tw.div<defaultProps>`
 bg-[rgba(153,153,153,0.24)] rounded-[0.625rem] w-8 h-8 max-[25rem]:w-7 max-[25rem]:h-7 flex justify-center cursor-pointer
 `;
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [
-      {
-        params: {
-          id: '1',
-        },
-      },
-      {
-        params: {
-          id: '2',
-        },
-      },
-      {
-        params: {
-          id: '3',
-        },
-      },
-    ],
-    fallback: true,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params || {};
   const resExhibit = await axios.get(`/exhibit/${id}`);
   return { props: { artList: resExhibit.data } };

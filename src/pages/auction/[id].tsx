@@ -4,39 +4,15 @@ import KeywordBox from '@components/common/KeywordBox';
 
 import useDeletePrefer from '@hooks/mutations/useDeletePrefer';
 import usePostPrefer from '@hooks/mutations/usePostPrefer';
-import useGetDetail from '@hooks/queries/useGetDetail';
 import { useCountDown } from '@hooks/useCountDown';
 import axios from 'axios';
-import { GetStaticPaths, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import Button from 'stories/Button';
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [
-      {
-        params: {
-          id: '1',
-        },
-      },
-      {
-        params: {
-          id: '2',
-        },
-      },
-      {
-        params: {
-          id: '3',
-        },
-      },
-    ],
-    fallback: true,
-  };
-};
-
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params || {};
   const resArtwork = await axios.get(`art-works/${id}`);
   return { props: { detailData: resArtwork.data } };
