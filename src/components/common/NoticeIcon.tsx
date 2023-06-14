@@ -30,7 +30,6 @@ export default React.memo(function NoticeIcon({
   const dispatch = useAppDispatch();
   if (isArtist === true && getToken().roles !== 'ROLE_ARTIST') {
     setToken({
-      accessToken: getToken().accessToken,
       roles: 'ROLE_ARTIST',
     });
   }

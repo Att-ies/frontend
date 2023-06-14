@@ -1,8 +1,11 @@
 import * as SockJS from 'sockjs-client';
 import * as StompJs from '@stomp/stompjs';
 import { getToken } from '@utils/localStorage/token';
+import { getCookie } from 'cookies-next';
 
-const access = getToken().accessToken;
+const access = getCookie(
+  'accessToken',
+);
 
 const createClient = (endpoint) => {
   const client = new StompJs.Client({
