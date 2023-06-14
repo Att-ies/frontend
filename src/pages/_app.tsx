@@ -1,5 +1,5 @@
 import '../styles/globals.css';
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import { useEffect, useState, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import {
@@ -161,38 +161,29 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
     pageProps = await Component.getInitialProps(ctx);
   }
 
-  const refreshToken = getCookie('refreshToken', ctx);
-  if (refreshToken === undefined) return { pageProps, notLogined: true };
+  if (ctx.pathname.includes('/auth')) return { pageProps };
 
+  const refreshToken = getCookie('refreshToken', ctx);
+  if (refreshToken === undefined) return { pageProps };
+
+  axios.defaults.headers.common['Authorization'] = null;
   const getAccessToken = async () => {
     const response = await axios.post(`${CONFIG.API_BASE_URL}/members/token`, {
       refreshToken,
     });
     return response.data;
   };
+
   const response = await getAccessToken();
   const accessToken = response.accessToken;
+
   axios.defaults.headers.common['Authorization'] = accessToken;
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
   setCookie('accessToken', accessToken, ctx);
 
-  const a = await axios.get(
-    process.env.NEXT_PUBLIC_API_BASE_URL +
-      '/members/customized-artworks?page=1&limit=5',
-  );
-
-  const res = await axios(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/members/me`,
-    {
-      headers: {
-        Authorization: accessToken,
-      },
-    },
-  );
-
   try {
-    const res = await axios('/members/me');
-    return { pageProps, userData: res.data, notLogined: false };
+    const resUserData = await axios('/members/me');
+    return { pageProps, userData: resUserData.data };
   } catch (err) {
     return { pageProps, notLogined: true };
   }
