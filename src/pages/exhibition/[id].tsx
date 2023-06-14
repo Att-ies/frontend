@@ -19,11 +19,6 @@ const SwiperButtonDiv = tw.div<defaultProps>`
 bg-[rgba(153,153,153,0.24)] rounded-[0.625rem] w-8 h-8 max-[25rem]:w-7 max-[25rem]:h-7 flex justify-center cursor-pointer
 `;
 
-type Repo = {
-  id: string;
-  stargazers_count: number;
-};
-
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [
@@ -50,7 +45,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   const { id } = params;
   const resExhibit = await axios.get(`/exhibit/${id}`);
-  // const dataExhibit = resExhibit.data.filter(()=>)
   return { props: { artList: resExhibit.data } };
 };
 
@@ -71,7 +65,6 @@ export default function ExhibitionArts({ artList }) {
     setIsOpen(false);
   };
 
-  console.log(artList);
   const handleSwipeArrow = () => {
     if (isOpen) {
       setIsOpen(false);
@@ -164,10 +157,10 @@ export default function ExhibitionArts({ artList }) {
             </SwiperButtonDiv>
           </div>
         )}
-        {artList?.map((art, idx) => (
+        {artList?.map((art, idx: number) => (
           <SwiperSlide key={idx}>
             {isExpansion ? (
-              <div className="flex h-full w-full justify-center">
+              <div className="flex h-[100rem] w-full justify-center">
                 <Image
                   alt="canvas"
                   src="/svg/icons/bg_canvas.svg"
@@ -198,7 +191,7 @@ export default function ExhibitionArts({ artList }) {
                 </div>
               </div>
             ) : (
-              <div className="flex h-full w-full justify-center">
+              <div className="flex h-[100rem] w-full justify-center">
                 <Image
                   alt="canvas"
                   src="/svg/icons/bg_canvas.svg"
