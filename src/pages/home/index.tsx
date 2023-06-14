@@ -21,6 +21,7 @@ import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Autoplay, Navigation, Pagination, Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { GetStaticProps } from 'next';
 
 const PastAuction = styled.section`
   .swiper-pagination-bullet-active {
@@ -44,7 +45,7 @@ const KeywordSection = styled.section`
   }
 `;
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const resAuction = await axios('/auction');
   const resCustomizedArtwork = await axios(
     '/members/customized-artworks?page=1&limit=5',

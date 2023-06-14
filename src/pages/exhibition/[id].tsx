@@ -12,12 +12,51 @@ import { useRouter } from 'next/router';
 import { useGetExhibitionItemList } from '@hooks/queries/useGetExhibition';
 import { EffectCoverflow } from 'swiper';
 import useWindowSize from '@hooks/useWindowSize';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import axios from 'axios';
 
 const SwiperButtonDiv = tw.div<defaultProps>`
 bg-[rgba(153,153,153,0.24)] rounded-[0.625rem] w-8 h-8 max-[25rem]:w-7 max-[25rem]:h-7 flex justify-center cursor-pointer
 `;
 
-export default function ExhibitionArts() {
+type Repo = {
+  id: string;
+  stargazers_count: number;
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [
+      {
+        params: {
+          id: '1',
+        },
+      },
+      {
+        params: {
+          id: '2',
+        },
+      },
+      {
+        params: {
+          id: '3',
+        },
+      },
+    ],
+    fallback: true,
+  };
+};
+
+export const getStaticProps = async ({ params }) => {
+  const { id } = params;
+  const resExhibit = await axios.get(`/exhibit/${id}`);
+  // const dataExhibit = resExhibit.data.filter(()=>)
+  return { props: { artList: resExhibit.data } };
+};
+
+export default function ExhibitionArts({ artList }) {
+  const router = useRouter();
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(true);
   const [isGenreModal, setIsGenreModal] = useState<boolean>(false);
@@ -26,17 +65,13 @@ export default function ExhibitionArts() {
 
   const swiperRef = useRef<any>(null);
 
-  const router = useRouter();
-  const id = Number(router.query.id);
-
   const { height } = useWindowSize();
-
-  const { data: artLists } = useGetExhibitionItemList(id, genre);
 
   const onCloseModal = () => {
     setIsOpen(false);
   };
 
+  console.log(artList);
   const handleSwipeArrow = () => {
     if (isOpen) {
       setIsOpen(false);
@@ -61,7 +96,7 @@ export default function ExhibitionArts() {
         genre={genre}
         setGenre={setGenre}
         onCloseModal={() => setIsGenreModal(false)}
-        isEmpty={artLists && artLists.length === 0}
+        isEmpty={artList && artList.length === 0}
       />
     );
   }
@@ -129,7 +164,7 @@ export default function ExhibitionArts() {
             </SwiperButtonDiv>
           </div>
         )}
-        {artLists?.map((art, idx) => (
+        {artList?.map((art, idx) => (
           <SwiperSlide key={idx}>
             {isExpansion ? (
               <div className="flex h-full w-full justify-center">
