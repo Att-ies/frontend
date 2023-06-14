@@ -6,16 +6,45 @@ import useDeletePrefer from '@hooks/mutations/useDeletePrefer';
 import usePostPrefer from '@hooks/mutations/usePostPrefer';
 import useGetDetail from '@hooks/queries/useGetDetail';
 import { useCountDown } from '@hooks/useCountDown';
+import axios from 'axios';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import Button from 'stories/Button';
 
-export default function View({ userInfo }) {
-  const router = useRouter();
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [
+      {
+        params: {
+          id: '1',
+        },
+      },
+      {
+        params: {
+          id: '2',
+        },
+      },
+      {
+        params: {
+          id: '3',
+        },
+      },
+    ],
+    fallback: true,
+  };
+};
 
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { id } = params || {};
+  const resArtwork = await axios.get(`art-works/${id}`);
+  return { props: { detailData: resArtwork.data } };
+};
+
+export default function View({ userInfo, detailData }) {
+  const router = useRouter();
   const artWorkId = Number(router.query.id);
-  const { data: detailData } = useGetDetail(artWorkId);
   const { artWork, artist } = detailData || {};
 
   const { mutate: postPrefer } = usePostPrefer(artWork?.id!, '/auction');
@@ -55,7 +84,7 @@ export default function View({ userInfo }) {
   };
 
   useEffect(() => {
-    let observer;
+    let observer: IntersectionObserver;
     if (target && target.current) {
       observer = new IntersectionObserver(onIntersect, {
         rootMargin: `0px 0px -${window.innerHeight - 64}px 0px`,

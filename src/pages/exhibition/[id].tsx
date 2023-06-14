@@ -42,8 +42,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = async ({ params }) => {
-  const { id } = params;
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { id } = params || {};
   const resExhibit = await axios.get(`/exhibit/${id}`);
   return { props: { artList: resExhibit.data } };
 };
