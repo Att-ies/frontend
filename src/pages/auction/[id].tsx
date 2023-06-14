@@ -339,7 +339,7 @@ export default function View({ userInfo, detailData }) {
         </section>
       </article>
       {
-        <article className="absolute inset-x-0 bottom-0 mx-auto max-w-[26.25rem]">
+        <article className="fixed inset-x-0 bottom-0 mx-auto max-w-[26.25rem]">
           <div className="to-gray-10 h-[1.125rem] bg-gradient-to-t from-white" />
           <div className="m-auto flex w-full gap-5 bg-white  px-6 pb-3 shadow-lg">
             <Button
