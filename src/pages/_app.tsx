@@ -10,7 +10,7 @@ import {
 import { PersistGate } from 'redux-persist/integration/react';
 import styled from 'styled-components';
 import { useWindowSize } from '@hooks/common/useWindowSize';
-import { getCookie } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
 import type { AppContext, AppProps } from 'next/app';
 import NextHead from 'next/head';
 import axios from 'axios';
@@ -19,6 +19,7 @@ import GoogleScript from '@components/GoogleScript';
 import store from '@features/store';
 import { persistStore } from 'redux-persist';
 import { pageview } from '@utils/gtag';
+import { CONFIG } from '@config';
 
 const LayoutCss = styled.div`
   min-height: calc(var(--var, 1vh) * 200);
@@ -141,11 +142,9 @@ export default function App({
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <PersistGate loading={null} persistor={persistor}>
-                <div>
-                  <Layout>
-                    <Component {...pageProps} userInfo={userData} />
-                  </Layout>
-                </div>
+                <Layout>
+                  <Component {...pageProps} userInfo={userData} />
+                </Layout>
               </PersistGate>
             </Hydrate>
           </QueryClientProvider>
@@ -162,21 +161,39 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
     pageProps = await Component.getInitialProps(ctx);
   }
 
-  const accessToken = getCookie('accessToken', ctx);
+  const refreshToken = getCookie('refreshToken', ctx);
+  if (refreshToken === undefined) return { pageProps, notLogined: true };
+
+  const getAccessToken = async () => {
+    const response = await axios.post(`${CONFIG.API_BASE_URL}/members/token`, {
+      refreshToken,
+    });
+    return response.data;
+  };
+  const response = await getAccessToken();
+  const accessToken = response.accessToken;
+  axios.defaults.headers.common['Authorization'] = accessToken;
+  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  setCookie('accessToken', accessToken, ctx);
+
+  const a = await axios.get(
+    process.env.NEXT_PUBLIC_API_BASE_URL +
+      '/members/customized-artworks?page=1&limit=5',
+  );
+
+  const res = await axios(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/members/me`,
+    {
+      headers: {
+        Authorization: accessToken,
+      },
+    },
+  );
 
   try {
-    const res = await axios(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/members/me`,
-      {
-        headers: {
-          Authorization: accessToken,
-        },
-      },
-    );
-
-    return { pageProps, userData: res.data };
+    const res = await axios('/members/me');
+    return { pageProps, userData: res.data, notLogined: false };
   } catch (err) {
-    console.error('Failed to get user data:', err);
-    return { pageProps };
+    return { pageProps, notLogined: true };
   }
 };
