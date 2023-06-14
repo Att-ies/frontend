@@ -152,10 +152,18 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
     pageProps = await Component.getInitialProps(ctx);
   }
 
-  if (ctx.pathname.includes('/auth')) return { pageProps };
+  if (ctx.pathname.includes('/auth') || ctx.pathname.includes('/begin'))
+    return { pageProps };
 
   const refreshToken = getCookie('refreshToken', ctx);
-  if (refreshToken === undefined) return { pageProps, invalidToken: true };
+  if (refreshToken === undefined) {
+    if (!ctx.res) return;
+    ctx.res.setHeader('Location', '/auth/login');
+    ctx.res.statusCode = 302;
+    ctx.res.end();
+
+    return { pageProps, invalidToken: true };
+  }
 
   axios.defaults.headers.common['Authorization'] = null;
   const getAccessToken = async () => {
