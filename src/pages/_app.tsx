@@ -1,25 +1,24 @@
-import '../styles/globals.css';
-import { Router, useRouter } from 'next/router';
-import { useEffect, useState, Suspense } from 'react';
-import { Provider } from 'react-redux';
+import Loader from '@components/common/Loader';
+import GoogleScript from '@components/GoogleScript';
+import { CONFIG } from '@config';
+import store from '@features/store';
+import { useWindowSize } from '@hooks/common/useWindowSize';
 import {
+  Hydrate,
   QueryClient,
   QueryClientProvider,
-  Hydrate,
 } from '@tanstack/react-query';
-import { PersistGate } from 'redux-persist/integration/react';
-import styled from 'styled-components';
-import { useWindowSize } from '@hooks/common/useWindowSize';
+import { pageview } from '@utils/gtag';
+import axios from 'axios';
 import { getCookie, setCookie } from 'cookies-next';
 import type { AppContext, AppProps } from 'next/app';
 import NextHead from 'next/head';
-import axios from 'axios';
-import Loader from '@components/common/Loader';
-import GoogleScript from '@components/GoogleScript';
-import store from '@features/store';
+import { useRouter } from 'next/router';
+import { Suspense, useEffect, useState } from 'react';
+import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
-import { pageview } from '@utils/gtag';
-import { CONFIG } from '@config';
+import { PersistGate } from 'redux-persist/integration/react';
+import '../styles/globals.css';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,6 +35,7 @@ const persistor = persistStore(store);
 
 interface AppExtendedProps extends AppProps {
   userData: User;
+  invalidToken: boolean;
 }
 
 function Head() {
@@ -77,6 +77,7 @@ export default function App({
   Component,
   pageProps,
   userData,
+  invalidToken,
 }: AppExtendedProps) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -154,7 +155,7 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
   if (ctx.pathname.includes('/auth')) return { pageProps };
 
   const refreshToken = getCookie('refreshToken', ctx);
-  if (refreshToken === undefined) return { pageProps };
+  if (refreshToken === undefined) return { pageProps, invalidToken: true };
 
   axios.defaults.headers.common['Authorization'] = null;
   const getAccessToken = async () => {
@@ -175,6 +176,6 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
     const resUserData = await axios('/members/me');
     return { pageProps, userData: resUserData.data };
   } catch (err) {
-    return { pageProps, notLogined: true };
+    return { pageProps };
   }
 };
