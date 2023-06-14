@@ -35,7 +35,6 @@ const persistor = persistStore(store);
 
 interface AppExtendedProps extends AppProps {
   userData: User;
-  invalidToken: boolean;
 }
 
 function Head() {
@@ -77,7 +76,6 @@ export default function App({
   Component,
   pageProps,
   userData,
-  invalidToken,
 }: AppExtendedProps) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -162,7 +160,7 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
     ctx.res.statusCode = 302;
     ctx.res.end();
 
-    return { pageProps, invalidToken: true };
+    return { pageProps };
   }
 
   axios.defaults.headers.common['Authorization'] = null;
