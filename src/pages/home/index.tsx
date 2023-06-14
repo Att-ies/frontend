@@ -12,19 +12,15 @@ import Calendar from '@components/home/Calendar';
 import ExhibitionItem from '@components/home/ExhibitionItem';
 import FloatButton from '@components/home/FloatButton';
 import ScheduleItem from '@components/home/ScheduleItem';
-import { useAppSelector } from '@features/hooks';
-import useGetAuction from '@hooks/queries/auction/useGetAuction';
-import useGetPastAuction from '@hooks/queries/auction/useGetPastAuction';
-import useGetCustomizedArtWork from '@hooks/queries/useGetCustomizedArtWork';
 import { isUser } from '@utils/isUser';
 import { makeThreeEach } from '@utils/makeThreeEach';
+import axios from 'axios';
+import moment from 'moment';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { Autoplay, Navigation, Pagination, Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import homeApi from '@apis/home/homeApi';
-import axios from 'axios';
 
 const PastAuction = styled.section`
   .swiper-pagination-bullet-active {
@@ -48,11 +44,43 @@ const KeywordSection = styled.section`
   }
 `;
 
-export default function Home({ userInfo }) {
+export const getStaticProps = async () => {
+  const resAuction = await axios('/auction');
+  const resCustomizedArtwork = await axios(
+    '/members/customized-artworks?page=1&limit=5',
+  );
+  const resPastAuction = await axios('/auction/period-over');
+
+  return {
+    props: {
+      auctionList: resAuction.data,
+      customizedArtwork: resCustomizedArtwork.data,
+      pastAuctionList: resPastAuction.data,
+    },
+  };
+};
+
+export default function Home({
+  userInfo,
+  auctionList,
+  customizedArtwork,
+  pastAuctionList,
+}) {
   const router = useRouter();
-  const { data: customizedArtwork } = useGetCustomizedArtWork(1, 5) || {};
-  const { data: auctionList } = useGetAuction() || {};
-  const { data: pastAuctionList } = useGetPastAuction() || {};
+  auctionList = auctionList.map((it: AuctionList) => {
+    return {
+      ...it,
+      startDate: moment(it.startDate, 'YYYY-MM-DD-hh-mm-ss'),
+      endDate: moment(it.endDate, 'YYYY-MM-DD-hh-mm-ss'),
+    };
+  });
+  pastAuctionList = pastAuctionList.map((it: AuctionList) => {
+    return {
+      ...it,
+      startDate: moment(it.startDate, 'YYYY-MM-DD-hh-mm-ss'),
+      endDate: moment(it.endDate, 'YYYY-MM-DD-hh-mm-ss'),
+    };
+  });
 
   return (
     <article>
