@@ -3,21 +3,29 @@ import 'swiper/css';
 import Navigate from '@components/common/Navigate';
 import GenreModal from '@components/exhibition/GenreModal';
 import Modal from '@components/exhibition/Modal';
-import Image from 'next/image';
-import React from 'react';
-import tw from 'tailwind-styled-components';
-import { useRef, useState } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { useRouter } from 'next/router';
-import { useGetExhibitionItemList } from '@hooks/queries/useGetExhibition';
-import { EffectCoverflow } from 'swiper';
 import useWindowSize from '@hooks/useWindowSize';
+import axios from 'axios';
+import { GetServerSideProps } from 'next';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useRef, useState } from 'react';
+import { EffectCoverflow } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import tw from 'tailwind-styled-components';
 
 const SwiperButtonDiv = tw.div<defaultProps>`
 bg-[rgba(153,153,153,0.24)] rounded-[0.625rem] w-8 h-8 max-[25rem]:w-7 max-[25rem]:h-7 flex justify-center cursor-pointer
 `;
 
-export default function ExhibitionArts() {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { id } = params || {};
+  const resExhibit = await axios.get(`/exhibit/${id}`);
+  return { props: { artList: resExhibit.data } };
+};
+
+export default function ExhibitionArts({ artList }) {
+  const router = useRouter();
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(true);
   const [isGenreModal, setIsGenreModal] = useState<boolean>(false);
@@ -26,12 +34,7 @@ export default function ExhibitionArts() {
 
   const swiperRef = useRef<any>(null);
 
-  const router = useRouter();
-  const id = Number(router.query.id);
-
   const { height } = useWindowSize();
-
-  const { data: artLists } = useGetExhibitionItemList(id, genre);
 
   const onCloseModal = () => {
     setIsOpen(false);
@@ -61,7 +64,7 @@ export default function ExhibitionArts() {
         genre={genre}
         setGenre={setGenre}
         onCloseModal={() => setIsGenreModal(false)}
-        isEmpty={artLists && artLists.length === 0}
+        isEmpty={artList && artList.length === 0}
       />
     );
   }
@@ -129,10 +132,10 @@ export default function ExhibitionArts() {
             </SwiperButtonDiv>
           </div>
         )}
-        {artLists?.map((art, idx) => (
+        {artList?.map((art, idx: number) => (
           <SwiperSlide key={idx}>
             {isExpansion ? (
-              <div className="flex h-full w-full justify-center">
+              <div className="flex h-[100rem] w-full justify-center">
                 <Image
                   alt="canvas"
                   src="/svg/icons/bg_canvas.svg"
@@ -163,7 +166,7 @@ export default function ExhibitionArts() {
                 </div>
               </div>
             ) : (
-              <div className="flex h-full w-full justify-center">
+              <div className="flex h-[100rem] w-full justify-center">
                 <Image
                   alt="canvas"
                   src="/svg/icons/bg_canvas.svg"

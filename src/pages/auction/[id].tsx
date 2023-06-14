@@ -4,18 +4,23 @@ import KeywordBox from '@components/common/KeywordBox';
 
 import useDeletePrefer from '@hooks/mutations/useDeletePrefer';
 import usePostPrefer from '@hooks/mutations/usePostPrefer';
-import useGetDetail from '@hooks/queries/useGetDetail';
 import { useCountDown } from '@hooks/useCountDown';
+import axios from 'axios';
+import { GetServerSideProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import Button from 'stories/Button';
 
-export default function View({ userInfo }) {
-  const router = useRouter();
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+  const { id } = params || {};
+  const resArtwork = await axios.get(`art-works/${id}`);
+  return { props: { detailData: resArtwork.data } };
+};
 
+export default function View({ userInfo, detailData }) {
+  const router = useRouter();
   const artWorkId = Number(router.query.id);
-  const { data: detailData } = useGetDetail(artWorkId);
   const { artWork, artist } = detailData || {};
 
   const { mutate: postPrefer } = usePostPrefer(artWork?.id!, '/auction');
@@ -55,7 +60,7 @@ export default function View({ userInfo }) {
   };
 
   useEffect(() => {
-    let observer;
+    let observer: IntersectionObserver;
     if (target && target.current) {
       observer = new IntersectionObserver(onIntersect, {
         rootMargin: `0px 0px -${window.innerHeight - 64}px 0px`,
@@ -310,7 +315,7 @@ export default function View({ userInfo }) {
         </section>
       </article>
       {
-        <article className="absolute inset-x-0 bottom-0 mx-auto max-w-[26.25rem]">
+        <article className="fixed inset-x-0 bottom-0 mx-auto max-w-[26.25rem]">
           <div className="to-gray-10 h-[1.125rem] bg-gradient-to-t from-white" />
           <div className="m-auto flex w-full gap-5 bg-white  px-6 pb-3 shadow-lg">
             <Button

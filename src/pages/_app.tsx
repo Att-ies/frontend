@@ -1,5 +1,5 @@
 import '../styles/globals.css';
-import { useRouter } from 'next/router';
+import { Router, useRouter } from 'next/router';
 import { useEffect, useState, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import {
@@ -10,7 +10,7 @@ import {
 import { PersistGate } from 'redux-persist/integration/react';
 import styled from 'styled-components';
 import { useWindowSize } from '@hooks/common/useWindowSize';
-import { getCookie } from 'cookies-next';
+import { getCookie, setCookie } from 'cookies-next';
 import type { AppContext, AppProps } from 'next/app';
 import NextHead from 'next/head';
 import axios from 'axios';
@@ -19,18 +19,7 @@ import GoogleScript from '@components/GoogleScript';
 import store from '@features/store';
 import { persistStore } from 'redux-persist';
 import { pageview } from '@utils/gtag';
-
-const LayoutCss = styled.div`
-  min-height: calc(var(--var, 1vh) * 200);
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  position: relative;
-  max-width: 26.25rem;
-  overflow-y: scroll;
-  background-color: white;
-  padding: 1.5rem;
-`;
+import { CONFIG } from '@config';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -124,8 +113,10 @@ export default function App({
     }, [windowSize.height]);
 
     return (
-      <div className="flex h-screen w-screen justify-center bg-slate-50 ">
-        <LayoutCss>{children}</LayoutCss>
+      <div className="flex h-screen w-screen justify-center bg-slate-50">
+        <div className="relative h-full w-full max-w-[26.25rem] overflow-y-scroll bg-white px-[1.5rem]">
+          {children}
+        </div>
       </div>
     );
   };
@@ -141,11 +132,9 @@ export default function App({
           <QueryClientProvider client={queryClient}>
             <Hydrate state={pageProps.dehydratedState}>
               <PersistGate loading={null} persistor={persistor}>
-                <div>
-                  <Layout>
-                    <Component {...pageProps} userInfo={userData} />
-                  </Layout>
-                </div>
+                <Layout>
+                  <Component {...pageProps} userInfo={userData} />
+                </Layout>
               </PersistGate>
             </Hydrate>
           </QueryClientProvider>
@@ -162,21 +151,30 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
     pageProps = await Component.getInitialProps(ctx);
   }
 
-  const accessToken = getCookie('accessToken', ctx);
+  if (ctx.pathname.includes('/auth')) return { pageProps };
+
+  const refreshToken = getCookie('refreshToken', ctx);
+  if (refreshToken === undefined) return { pageProps };
+
+  axios.defaults.headers.common['Authorization'] = null;
+  const getAccessToken = async () => {
+    const response = await axios.post(`${CONFIG.API_BASE_URL}/members/token`, {
+      refreshToken,
+    });
+    return response.data;
+  };
+
+  const response = await getAccessToken();
+  const accessToken = response.accessToken;
+
+  axios.defaults.headers.common['Authorization'] = accessToken;
+  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+  setCookie('accessToken', accessToken, ctx);
 
   try {
-    const res = await axios(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/members/me`,
-      {
-        headers: {
-          Authorization: accessToken,
-        },
-      },
-    );
-
-    return { pageProps, userData: res.data };
+    const resUserData = await axios('/members/me');
+    return { pageProps, userData: resUserData.data };
   } catch (err) {
-    console.error('Failed to get user data:', err);
-    return { pageProps };
+    return { pageProps, notLogined: true };
   }
 };

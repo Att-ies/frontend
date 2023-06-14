@@ -2,7 +2,6 @@ import Navigate from '@components/common/Navigate';
 import None from '@components/common/None';
 import AuctionItem from '@components/exhibition/AuctionItem';
 import { useGetExhibition } from '@hooks/queries/useGetExhibition';
-import Image from 'next/image';
 
 export default function Exhibition() {
   const { data } = useGetExhibition();
