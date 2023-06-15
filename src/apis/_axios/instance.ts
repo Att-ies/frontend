@@ -47,16 +47,15 @@ instance.interceptors.response.use(
     }
 
     if (isUnAuthError) {
-      if (data?.code === 'TOKEN_INVALID') {
-        alert('세션이 만료되었습니다. 다시 로그인해 주시기 바랍니다.');
-        window.location.href = `${CONFIG.API_BASE_URL}/auth/login`;
-        return;
-      }
-
       if (data?.code === 'TOKEN_EXPIRED') {
         const { accessToken } = await refreshToken();
         setCookie('accessToken', accessToken);
         return instance.request(originalRequest);
+      }
+      if (data?.code === 'TOKEN_INVALID') {
+        window.location.href = `${CONFIG.LOCAL}/auth/login`;
+        alert('세션이 만료되었습니다. 다시 로그인해 주시기 바랍니다.');
+        return;
       }
 
       return Promise.reject(error.response.data);
