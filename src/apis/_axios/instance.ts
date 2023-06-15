@@ -48,13 +48,8 @@ instance.interceptors.response.use(
 
     if (isUnAuthError) {
       if (data?.code === 'TOKEN_INVALID') {
-        if (CONFIG.ENV === 'development') {
-          alert('세션이 만료되었습니다. 다시 로그인해 주시기 바랍니다.');
-          window.location.href = `${CONFIG.LOCAL}/auth/login`;
-        } else if (CONFIG.ENV === 'production') {
-          alert('세션이 만료되었습니다. 다시 로그인해 주시기 바랍니다.');
-          window.location.href = `${CONFIG.DOMAIN}/auth/login`;
-        }
+        alert('세션이 만료되었습니다. 다시 로그인해 주시기 바랍니다.');
+        window.location.href = `${CONFIG.API_BASE_URL}/auth/login`;
         return;
       }
 
