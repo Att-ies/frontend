@@ -7256,15 +7256,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dom7@npm:^4.0.4":
-  version: 4.0.6
-  resolution: "dom7@npm:4.0.6"
-  dependencies:
-    ssr-window: ^4.0.0
-  checksum: 616a68cbae59eaea2e717ada5855346f0ffa4ac10ab96713bb42b90efabce367213c3c491c4bf5502d177b0865c63d8abd298cc8e12bdda171340c853d6b515a
-  languageName: node
-  linkType: hard
-
 "domain-browser@npm:^1.1.1":
   version: 1.2.0
   resolution: "domain-browser@npm:1.2.0"
@@ -10462,7 +10453,7 @@ __metadata:
     redux-persist: ^6.0.0
     sockjs-client: ^1.6.1
     styled-components: ^5.3.6
-    swiper: ^8.4.5
+    swiper: ^9.4.1
     tailwind-styled-components: ^2.2.0
     tailwindcss: ^3.2.4
     typescript: 4.8.4
@@ -14510,7 +14501,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ssr-window@npm:^4.0.0, ssr-window@npm:^4.0.2":
+"ssr-window@npm:^4.0.2":
   version: 4.0.2
   resolution: "ssr-window@npm:4.0.2"
   checksum: df182600927f4f3225224cf8c02338ea637c9750519505bbfb9a9236741a2a7ec088386fb948bca7b447b8303d9109e7dc7672e3de041c79ac2a0e03665af7d2
@@ -14935,13 +14926,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swiper@npm:^8.4.5":
-  version: 8.4.7
-  resolution: "swiper@npm:8.4.7"
+"swiper@npm:^9.4.1":
+  version: 9.4.1
+  resolution: "swiper@npm:9.4.1"
   dependencies:
-    dom7: ^4.0.4
     ssr-window: ^4.0.2
-  checksum: c52be6105e12984ba024f8cb4c0627919d4069172c0021ed7c5743c3709b5a814dd50d134813ea4f7019048be6ff9dda96db8f1adf38e317c8bb285574fcd006
+  checksum: 1180b3b766f25cbe636fafbb56adbddf8a240077c504a335a62d1773f4452df1bd9ca09bccfe86478c3b9401879c4e8f7ed3824e74299f8b48953e8fc7f08bc3
   languageName: node
   linkType: hard
 
