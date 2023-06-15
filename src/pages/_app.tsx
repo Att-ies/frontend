@@ -145,12 +145,9 @@ export default function App({
 
 const fetchAccessToken = async (refreshToken: string) => {
   try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/members/token`,
-      {
-        refreshToken,
-      },
-    );
+    const response = await axios.post(`${CONFIG.API_BASE_URL}/members/token`, {
+      refreshToken,
+    });
     return response.data.accessToken;
   } catch (error: any) {
     throw new Error(`Fetching access token failed: ${error.message}`);
@@ -160,7 +157,7 @@ const fetchAccessToken = async (refreshToken: string) => {
 const fetchUserData = async (accessToken: string) => {
   try {
     axios.defaults.headers.common['Authorization'] = accessToken;
-    axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+    axios.defaults.baseURL = CONFIG.API_BASE_URL;
     const resUserData = await axios('/members/me');
     return resUserData.data;
   } catch (error: any) {
@@ -194,7 +191,10 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
     const userData = await fetchUserData(accessToken);
     return { pageProps, userData };
   } catch (error) {
-    console.error(error);
+    if (!ctx.res) return;
+    ctx.res.setHeader('Location', '/auth/login');
+    ctx.res.statusCode = 302;
+    ctx.res.end();
     return { pageProps };
   }
 };
