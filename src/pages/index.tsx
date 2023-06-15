@@ -1,9 +1,10 @@
 import { getCookie, setCookie } from 'cookies-next';
 import { GetServerSideProps } from 'next';
+import { Router, useRouter } from 'next/router';
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const refreshToken = getCookie('refreshToken', ctx);
-  const isVisited = getCookie('isVisted', ctx);
+export default function Home() {
+  const refreshToken = getCookie('refreshToken');
+  const isVisited = getCookie('isVisted');
 
   const location = !!refreshToken
     ? '/home'
@@ -11,16 +12,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     ? '/auth/login'
     : '/begin';
 
-  if (location === '/begin') setCookie('isVisted', 'true', ctx);
-  ctx.res.setHeader('Location', location);
-  ctx.res.statusCode = 302;
-  ctx.res.end();
+  const router = useRouter();
+  router.push(location);
 
-  return {
-    props: {},
-  };
-};
-
-export default function Home() {
   return <></>;
 }
