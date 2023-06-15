@@ -143,6 +143,30 @@ export default function App({
   );
 }
 
+// Utils functions or methods inside service class
+const fetchAccessToken = async (refreshToken: string) => {
+  try {
+    const response = await axios.post(`${CONFIG.API_BASE_URL}/members/token`, {
+      refreshToken,
+    });
+    return response.data.accessToken;
+  } catch (error: any) {
+    throw new Error(`Fetching access token failed: ${error.message}`);
+  }
+};
+
+const fetchUserData = async (accessToken: string) => {
+  try {
+    axios.defaults.headers.common['Authorization'] = accessToken;
+    axios.defaults.baseURL = CONFIG.API_BASE_URL;
+    const resUserData = await axios('/members/me');
+    return resUserData.data;
+  } catch (error: any) {
+    throw new Error(`Fetching user data failed: ${error.message}`);
+  }
+};
+
+// The main getInitialProps function
 App.getInitialProps = async ({ Component, ctx }: AppContext) => {
   let pageProps = {};
 
@@ -150,38 +174,26 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
     pageProps = await Component.getInitialProps(ctx);
   }
 
-  if (ctx.pathname.includes('/auth') || ctx.pathname.includes('/begin'))
+  if (ctx.pathname.includes('/auth') || ctx.pathname.includes('/begin')) {
     return { pageProps };
+  }
 
   const refreshToken = getCookie('refreshToken', ctx);
-  if (refreshToken === undefined) {
+  if (!refreshToken) {
     if (!ctx.res) return;
     ctx.res.setHeader('Location', '/auth/login');
     ctx.res.statusCode = 302;
     ctx.res.end();
-
     return { pageProps };
   }
 
-  axios.defaults.headers.common['Authorization'] = null;
-  const getAccessToken = async () => {
-    const response = await axios.post(`${CONFIG.API_BASE_URL}/members/token`, {
-      refreshToken,
-    });
-    return response.data;
-  };
-
-  const response = await getAccessToken();
-  const accessToken = response.accessToken;
-
-  axios.defaults.headers.common['Authorization'] = accessToken;
-  axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-  setCookie('accessToken', accessToken, ctx);
-
   try {
-    const resUserData = await axios('/members/me');
-    return { pageProps, userData: resUserData.data };
-  } catch (err) {
+    const accessToken = await fetchAccessToken(refreshToken + '');
+    setCookie('accessToken', accessToken, ctx);
+    const userData = await fetchUserData(accessToken);
+    return { pageProps, userData };
+  } catch (error) {
+    console.error(error);
     return { pageProps };
   }
 };
