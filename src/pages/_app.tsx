@@ -167,7 +167,6 @@ const fetchUserData = async (accessToken: string) => {
 
 App.getInitialProps = async ({ Component, ctx }: AppContext) => {
   let pageProps = {};
-  if (!ctx.res) return;
 
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx);
@@ -179,6 +178,7 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
 
   const refreshToken = getCookie('refreshToken', ctx);
   if (!refreshToken) {
+    if (!ctx.res) return;
     ctx.res.setHeader('Location', '/auth/login');
     ctx.res.statusCode = 302;
     ctx.res.end();
@@ -191,6 +191,7 @@ App.getInitialProps = async ({ Component, ctx }: AppContext) => {
     const userData = await fetchUserData(accessToken);
     return { pageProps, userData };
   } catch (error) {
+    if (!ctx.res) return;
     ctx.res.setHeader('Location', '/auth/login');
     ctx.res.statusCode = 302;
     ctx.res.end();
