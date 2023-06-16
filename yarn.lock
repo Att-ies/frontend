@@ -1841,15 +1841,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@headlessui/react@npm:^1.7.4":
-  version: 1.7.13
-  resolution: "@headlessui/react@npm:1.7.13"
+"@headlessui/react@npm:^1.7.15":
+  version: 1.7.15
+  resolution: "@headlessui/react@npm:1.7.15"
   dependencies:
     client-only: ^0.0.1
   peerDependencies:
     react: ^16 || ^17 || ^18
     react-dom: ^16 || ^17 || ^18
-  checksum: 132e5fce86978b9a6fd9d669fb556acec783debcd8f510c99226b3b3229dad50a13aeed69fc9af66465fc7029487ecfc46e6226f14218b760d5a309e08c0d059
+  checksum: f2d11d58499ddf1362a40d84d92b7db932adaccc3596f44f1eead642258280f124497f2b329cee6e04801818bb2e66c42d752ee05f40f8b5239c2f692128e568
   languageName: node
   linkType: hard
 
@@ -10771,7 +10771,7 @@ __metadata:
   resolution: "jooonis-nextjs-boilerplate@workspace:."
   dependencies:
     "@babel/core": ^7.20.7
-    "@headlessui/react": ^1.7.4
+    "@headlessui/react": ^1.7.15
     "@headlessui/tailwindcss": ^0.1.2
     "@mdx-js/react": ^1.6.22
     "@reduxjs/toolkit": ^1.9.5
