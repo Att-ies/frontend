@@ -22,6 +22,7 @@ import styled from 'styled-components';
 import { Autoplay, Navigation, Pagination, Scrollbar } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { GetServerSideProps, GetStaticProps } from 'next';
+import useGetCustomizedArtWork from '../../hooks/queries/useGetCustomizedArtWork';
 
 const PastAuction = styled.section`
   .swiper-pagination-bullet-active {
@@ -47,26 +48,17 @@ const KeywordSection = styled.section`
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const resAuction = await axios('/auction');
-  const resCustomizedArtwork = await axios(
-    '/members/customized-artworks?page=1&limit=5',
-  );
   const resPastAuction = await axios('/auction/period-over');
 
   return {
     props: {
       auctionList: resAuction.data,
-      customizedArtwork: resCustomizedArtwork.data,
       pastAuctionList: resPastAuction.data,
     },
   };
 };
 
-export default function Home({
-  userInfo,
-  auctionList,
-  customizedArtwork,
-  pastAuctionList,
-}) {
+export default function Home({ userInfo, auctionList, pastAuctionList }) {
   const router = useRouter();
   auctionList = auctionList.map((it: AuctionList) => {
     return {
@@ -82,6 +74,8 @@ export default function Home({
       endDate: moment(it.endDate, 'YYYY-MM-DD-hh-mm-ss'),
     };
   });
+
+  const { data: customizedArtwork } = useGetCustomizedArtWork(1, 5) as any;
 
   return (
     <article>

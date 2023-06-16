@@ -15,7 +15,8 @@ export default React.memo(function ExhibitionItem({
 
   const { mutate: deletePrefer } = useDeletePrefer(+id, router.asPath);
   const { mutate: postPrefer } = usePostPrefer(+id, router.asPath);
-  const handlePrefer = (e) => {
+
+  const handlePrefer = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (pick) {
       deletePrefer();
