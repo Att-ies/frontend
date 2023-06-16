@@ -12,15 +12,19 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import Button from 'stories/Button';
 
+interface ViewProps {
+  userInfo: User;
+  detailData: ArtworkDetail;
+  id: number;
+}
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params || {};
   const resArtwork = await axios.get(`art-works/${id}`);
-  return { props: { detailData: resArtwork.data } };
+  return { props: { detailData: resArtwork.data, id } };
 };
 
-export default function View({ userInfo, detailData }) {
+export default function View({ userInfo, detailData, id }: ViewProps) {
   const router = useRouter();
-  const artWorkId = Number(router.query.id);
   const { artWork, artist } = detailData || {};
 
   const { mutate: postPrefer } = usePostPrefer(artWork?.id!, '/auction');
@@ -34,7 +38,7 @@ export default function View({ userInfo, detailData }) {
   const handleChat = async () => {
     const chatData = await chatApi.postChatRoom({
       artistId: artist?.id!,
-      artWorkId: artWork?.id!,
+      artWorkId: id,
     });
     router.push(`/chat/${chatData?.chatRoomId}`);
   };
@@ -72,14 +76,14 @@ export default function View({ userInfo, detailData }) {
 
   return (
     <article>
-      <article>
+      <section>
         <div
           className={`fixed inset-x-0 top-0 z-50 mx-auto flex h-24 w-full max-w-[26.25rem] items-center justify-between px-5 ${
             isCardOver && 'bg-white'
           }`}
         >
           {isCardOver ? (
-            <article>
+            <section>
               <Image
                 onClick={() => router.back()}
                 alt="back"
@@ -108,9 +112,9 @@ export default function View({ userInfo, detailData }) {
                   className="cursor-pointer"
                 />
               )}
-            </article>
+            </section>
           ) : (
-            <article>
+            <section>
               <Image
                 alt="back"
                 src="/svg/icons/auction/arrow_white.svg"
@@ -140,7 +144,7 @@ export default function View({ userInfo, detailData }) {
                   className="cursor-pointer"
                 />
               )}
-            </article>
+            </section>
           )}
         </div>
 
@@ -157,7 +161,7 @@ export default function View({ userInfo, detailData }) {
           ref={target}
           className="absolute inset-x-0 top-[13rem] h-full rounded-2xl bg-white px-6 py-8"
         >
-          <article>
+          <section>
             <div>
               <div className="flex items-center justify-between">
                 <span className="max-w-[12rem] text-18 font-semibold">
@@ -200,8 +204,8 @@ export default function View({ userInfo, detailData }) {
               </div>
               <div className="mt-3 text-14">{artist?.artistEducation}</div>
             </div>
-          </article>
-          <article className="space-y-3 py-8 text-14 leading-[0.875rem]">
+          </section>
+          <section className="space-y-3 py-8 text-14 leading-[0.875rem]">
             <p>
               <span className="inline-block w-[6rem] text-[#767676]">
                 작가명
@@ -235,7 +239,7 @@ export default function View({ userInfo, detailData }) {
                 {artWork?.artWorkSize?.height} | {artWork?.artWorkSize?.size}호
               </span>
             </p>
-          </article>
+          </section>
           <div className="mt-8 border-y border-y-[#EDEDED] py-8">
             <div className="flex w-[4.625rem] flex-col items-center justify-center">
               <p className="w-full text-center font-medium">작가프로필</p>
@@ -271,7 +275,7 @@ export default function View({ userInfo, detailData }) {
             </div>
           </div>
 
-          <article className="border-b py-8 font-medium">
+          <section className="border-b py-8 font-medium">
             <div className="text-16">작품 설명</div>
             <div className="mt-2 text-10 text-brand">
               세부 사항 등 궁금한 점은 채팅으로 작가와 소통 할 수 있어요.
@@ -284,8 +288,8 @@ export default function View({ userInfo, detailData }) {
                 ))}
               </div>
             </div>
-          </article>
-          <article>
+          </section>
+          <section>
             {artWork?.images.slice(1).map((image: string, idx: number) => (
               <div key={idx} className="relative mt-8 aspect-square w-full">
                 <Image
@@ -297,7 +301,7 @@ export default function View({ userInfo, detailData }) {
                 />
               </div>
             ))}
-          </article>
+          </section>
           {artWork && artist && (
             <Guarantee
               mainImage={artWork?.images[0]}
@@ -313,9 +317,9 @@ export default function View({ userInfo, detailData }) {
           )}
           <div className="h-[7rem]" />
         </section>
-      </article>
+      </section>
       {
-        <article className="fixed inset-x-0 bottom-0 mx-auto max-w-[26.25rem]">
+        <section className="fixed inset-x-0 bottom-0 mx-auto max-w-[26.25rem]">
           <div className="to-gray-10 h-[1.125rem] bg-gradient-to-t from-white" />
           <div className="m-auto flex w-full gap-5 bg-white  px-6 pb-3 shadow-lg">
             <Button
@@ -328,13 +332,13 @@ export default function View({ userInfo, detailData }) {
               text="응찰하기"
               onClick={() =>
                 router.push({
-                  pathname: '/auction/bidding/' + artWorkId,
+                  pathname: '/auction/bidding/' + id,
                 })
               }
               disabled={remaind <= 0}
             />
           </div>
-        </article>
+        </section>
       }
     </article>
   );
