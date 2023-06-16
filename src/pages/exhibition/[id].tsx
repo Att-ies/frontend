@@ -24,8 +24,6 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 };
 
 export default function ExhibitionArts({ artList }) {
-  const router = useRouter();
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [modal, setModal] = useState<boolean>(true);
   const [isGenreModal, setIsGenreModal] = useState<boolean>(false);
