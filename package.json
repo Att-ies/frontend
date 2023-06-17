@@ -67,7 +67,7 @@
     "redux-persist": "^6.0.0",
     "sockjs-client": "^1.6.1",
     "styled-components": "^5.3.6",
-    "swiper": "^9.4.1"
+    "swiper": "8"
   },
   "devDependencies": {
     "@babel/core": "^7.20.7",
