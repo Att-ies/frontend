@@ -81,6 +81,10 @@ function Login() {
     }
   }, [error]);
 
+  const handleTestButton = () => {
+    mutate({ userId: 'test01', password: 'abcd1234' });
+  };
+
   if (isLoadingLogin) {
     return <Loader />;
   }
@@ -137,6 +141,16 @@ function Login() {
               handler={(e) => onChecked(e.target.checked, e.target.id)}
             />
           </div>
+          <div className="mt-[2.125rem]">
+            <Button
+              text="테스트 계정으로 로그인"
+              className="w-full"
+              kind="outlined"
+              type="button"
+              onClick={handleTestButton}
+            />
+          </div>
+
           <div className="mt-[2.125rem]">
             <Button text="로그인" className="w-full" />
           </div>
